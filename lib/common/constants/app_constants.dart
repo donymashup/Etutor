@@ -29,3 +29,4 @@ class AppColor {
   final blackColor = Color(0xFF000000);
   final whiteColor = Color(0xFFFFFFFF);
 }
+
