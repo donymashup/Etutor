@@ -1,5 +1,6 @@
 
 import 'package:etutor/common/widgets/bottom_navigation_bar.dart';
+import 'package:etutor/features/home/screen/home_screen.dart';
 import 'package:etutor/features/subscribed_course.dart/screens/subscribed_course_overview.dart';
 
 import 'package:flutter/material.dart';
@@ -18,10 +19,11 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
+        fontFamily: 'Poppins',
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: SubscribedCourseOverview(),
+      home: HomePage(),
 
     );
   }
