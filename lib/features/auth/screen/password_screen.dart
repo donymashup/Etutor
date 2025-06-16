@@ -1,11 +1,10 @@
 import 'package:etutor/common/constants/app_constants.dart';
-import 'package:etutor/features/auth/screen/password_screen.dart';
 import 'package:etutor/features/auth/widgets/white_button.dart';
 import 'package:etutor/features/auth/widgets/whitestroke_textfield.dart';
 import 'package:flutter/material.dart';
 
-class PhoneNumberAuth extends StatelessWidget {
-  const PhoneNumberAuth({super.key});
+class PasswordScreen extends StatelessWidget {
+  const PasswordScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -29,14 +28,14 @@ class PhoneNumberAuth extends StatelessWidget {
                 children: [
                   Image.asset("assets/images/logo.png"),
                   Text(
-                    "Welcome Learner!",
+                    "Welcome Back!",
                     style: TextStyle(
                       fontSize: 18,
                       color: AppColor.whiteColor,
                     ),
                   ),
                   Text(
-                    "Enter your mobile number to get started ",
+                    "Enter your password to continue learning",
                     style: TextStyle(
                       color: AppColor.whiteColor,
                     ),
@@ -45,25 +44,35 @@ class PhoneNumberAuth extends StatelessWidget {
                     height: 10,
                   ),
                   WhiteStrokeTextField(
-                    hind: "Enter your Mobile number",
+                    hind: "Enter your Password",
                   ),
                   SizedBox(
                     height: 10,
                   ),
                   whiteButton(
-                    text: "Verify Phone Number",
-                    onpressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => PasswordScreen()));
-                    },
-                  )
+                    text: "Login",
+                    onpressed: () {},
+                  ),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      TextButton(
+                          onPressed: () {},
+                          child: Text("Forgot Password?",
+                              style: TextStyle(
+                                fontSize: 12,
+                                color: AppColor.whiteColor,
+                              )))
+                    ],
+                  ),
                 ],
               ),
             ),
             SizedBox(
-              height: 45,
+              height: 35,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
