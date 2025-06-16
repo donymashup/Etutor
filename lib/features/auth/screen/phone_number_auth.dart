@@ -7,10 +7,17 @@ class PhoneNumberAuth extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColor().greyStroke,
+      backgroundColor: AppColor.primaryColor,
       body: Column(
         children: [
-          
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Image.asset("assets/images/arrow_topLeft.png"),
+            ],
+          ),
+          Image.asset("assets/images/logo.png"),
+          Text("Welcome Learner" , style: TextStyle(),)
         ],
       ),
     );
