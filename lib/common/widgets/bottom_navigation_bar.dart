@@ -1,4 +1,3 @@
-
 import 'package:etutor/common/constants/app_constants.dart';
 import 'package:etutor/features/home/screen/home_screen.dart';
 import 'package:etutor/features/live/screens/live_screen.dart';
@@ -17,7 +16,7 @@ class _BottomNavBarScreenState extends State<BottomNavBarScreen> {
   final List<Widget> _pages = const [
     HomePage(),
     //MyCoursePage(),
-    LiveScreen(),
+    //LiveScreen(),
     //TestSeriesPage(),
   ];
 
@@ -29,6 +28,7 @@ class _BottomNavBarScreenState extends State<BottomNavBarScreen> {
         currentIndex: _currentIndex,
         selectedItemColor: AppColor.primaryColor,
         unselectedItemColor: AppColor.greyText,
+        backgroundColor: AppColor.whiteColor, // ✅ Add your background color here
         type: BottomNavigationBarType.fixed,
         onTap: (index) {
           setState(() {
