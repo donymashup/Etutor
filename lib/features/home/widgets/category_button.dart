@@ -17,7 +17,7 @@ class CategoryButton extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: AppColor().primaryColor, width: 1), // 🔼 Changed border color
+        border: Border.all(color: AppColor.primaryColor, width: 1), // 🔼 Changed border color
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,

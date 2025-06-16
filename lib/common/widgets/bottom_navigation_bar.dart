@@ -27,8 +27,8 @@ class _BottomNavBarScreenState extends State<BottomNavBarScreen> {
       body: _pages[_currentIndex],
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
-        selectedItemColor: AppColor().primaryColor,
-        unselectedItemColor: AppColor().greyText,
+        selectedItemColor: AppColor.primaryColor,
+        unselectedItemColor: AppColor.greyText,
         type: BottomNavigationBarType.fixed,
         onTap: (index) {
           setState(() {
