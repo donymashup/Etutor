@@ -1,3 +1,8 @@
+import 'package:etutor/features/auth/screen/otp_screen.dart';
+import 'package:etutor/features/auth/screen/password_reset_succesfull.dart';
+import 'package:etutor/features/auth/screen/password_screen.dart';
+import 'package:etutor/features/auth/screen/phone_number_auth.dart';
+import 'package:etutor/features/auth/screen/test_home.dart';
 import 'package:etutor/common/constants/app_constants.dart';
 import 'package:etutor/features/auth/screen/password_reset_succesfull.dart';
 import 'package:etutor/features/subscribed_course.dart/screens/subscribed_course_assignment_screen.dart';
