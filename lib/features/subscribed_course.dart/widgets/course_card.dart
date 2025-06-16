@@ -6,8 +6,8 @@ class CourseCard extends StatefulWidget {
   String subtitle;
   IconData icon;
   Color Iconbgcolor;
+  Color Iconcolor;
   void Function() onPressed;
-  
 
   CourseCard(
       {super.key,
@@ -15,8 +15,8 @@ class CourseCard extends StatefulWidget {
       required this.subtitle,
       required this.icon,
       required this.Iconbgcolor,
-      required this.onPressed
-      
+      required this.onPressed,
+      required this.Iconcolor
       });
 
   @override
@@ -26,22 +26,30 @@ class CourseCard extends StatefulWidget {
 class _CourseCardState extends State<CourseCard> {
   @override
   Widget build(BuildContext context) {
+    //course card structure
     return Container(
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
           border: Border.all(color: AppColor.greyStroke),
           color: Colors.white),
       height: MediaQuery.of(context).size.height * 0.2,
-      width: MediaQuery.of(context).size.width * 0.8,
+      width: MediaQuery.of(context).size.width ,
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Container(color: widget.Iconbgcolor, child: Icon(widget.icon)),
+            //icon and background of icon
+            Container(
+              decoration: BoxDecoration(borderRadius:BorderRadius.circular(10),color: widget.Iconbgcolor, ),
+              height: MediaQuery.of(context).size.height * 0.1,
+              width: MediaQuery.of(context).size.width * 0.1,
+            child: Icon(widget.icon,color: widget.Iconcolor,size: 40,)),
             Padding(
               padding: const EdgeInsets.all(20.0),
-              child: Column(
+              child:
+              //title and subtitle of the course
+               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(widget.title),
@@ -49,7 +57,8 @@ class _CourseCardState extends State<CourseCard> {
                 ],
               ),
             ),
-            IconButton(onPressed: (){}, icon: Icon(Icons.arrow_forward_ios))
+            //icon for moving to next page
+            IconButton(onPressed: widget.onPressed, icon: Icon(Icons.arrow_forward_ios))
           ],
         ),
       ),
