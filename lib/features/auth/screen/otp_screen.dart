@@ -1,26 +1,11 @@
 import 'package:etutor/common/constants/app_constants.dart';
+import 'package:etutor/features/auth/widgets/pinput_theme.dart';
 import 'package:etutor/features/auth/widgets/white_button.dart';
 import 'package:flutter/material.dart';
 import 'package:pinput/pinput.dart';
 
 class OtpScreen extends StatelessWidget {
-  OtpScreen({super.key});
-
-  final defaultPinTheme = PinTheme(
-    width: 56,
-    height: 56,
-    textStyle: const TextStyle(
-      fontSize: 20,
-      color: AppColor.whiteColor,
-      fontWeight: FontWeight.w600,
-    ),
-    decoration: BoxDecoration(
-      color: AppColor.whiteColorTrasparent,
-      border: Border.all(color: AppColor.whiteColor),
-      borderRadius: BorderRadius.circular(5),
-    ),
-  );
-
+  const OtpScreen({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,7 +30,7 @@ class OtpScreen extends StatelessWidget {
                   Text(
                     "Welcome Back!",
                     style: TextStyle(
-                      fontSize: 18,
+                      fontSize: 20,
                       color: AppColor.whiteColor,
                     ),
                   ),
