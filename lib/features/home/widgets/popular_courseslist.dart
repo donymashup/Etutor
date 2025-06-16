@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-class CoursesList extends StatelessWidget {
+class PopularCoursesList extends StatelessWidget {
   final String imagePath;
   final double rating;
   final String title; // Add course name
 
-  const CoursesList({
+  const PopularCoursesList({
     super.key,
     required this.imagePath,
     required this.rating,
