@@ -7,13 +7,11 @@ class NoData extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      
       decoration: BoxDecoration(
         color: AppColor.whiteColor,
         image: DecorationImage(
         image: AssetImage("assets/images/nodata.png"))
       ),
-      
     );
   }
 }

@@ -52,7 +52,7 @@ class _CourseCardState extends State<CourseCard> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(widget.title,style: TextStyle(fontSize: 18,fontWeight: FontWeight.w500),),
-                    Text(widget.subtitle,maxLines: 1,overflow: TextOverflow.ellipsis,style: TextStyle(fontSize: 14)),
+                    // Text(widget.subtitle,maxLines: 1,overflow: TextOverflow.ellipsis,style: TextStyle(fontSize: 14)),
                   ],
                 ),
               ),
