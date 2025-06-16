@@ -1,6 +1,6 @@
 import 'dart:ui';
 
-class AppColor {
+  class  AppColor {
   final primaryColor = Color(0xFF005DA3);
   final secondaryColor = Color(0xFFF6921E);
   final greyText = Color(0xFFB0B0B0);
@@ -19,6 +19,8 @@ class AppColor {
   final pdfIconColour = Color(0xFFF40000);
   final imageIconColour = Color(0xFF00C642);
   final testIconColour = Color(0xFF8F00AF);
+  final voucherIconColour = Color(0xFFEEBA56);
+  final paymentIconColour =Color(0xFF4D9371);
   final lightRedCardBackground = Color(0xFFFFE5E5);
   final lightGreenCardBackground = Color(0xFFE9FFEE);
   final redStroke = Color(0xFF00A526);
@@ -28,5 +30,6 @@ class AppColor {
   final orangeBarGraph = Color(0xFFFFB800);
   final blackColor = Color(0xFF000000);
   final whiteColor = Color(0xFFFFFFFF);
+
 }
 
