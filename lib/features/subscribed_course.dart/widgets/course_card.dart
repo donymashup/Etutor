@@ -5,8 +5,8 @@ class CourseCard extends StatefulWidget {
   String title;
   String subtitle;
   IconData icon;
-  Color Iconbgcolor;
-  Color Iconcolor;
+  Color iconBgColor;
+  Color iconColor;
   void Function() onPressed;
 
   CourseCard(
@@ -14,9 +14,9 @@ class CourseCard extends StatefulWidget {
       required this.title,
       required this.subtitle,
       required this.icon,
-      required this.Iconbgcolor,
+      required this.iconBgColor,
       required this.onPressed,
-      required this.Iconcolor
+      required this.iconColor
       });
 
   @override
@@ -32,29 +32,29 @@ class _CourseCardState extends State<CourseCard> {
           borderRadius: BorderRadius.circular(10),
           border: Border.all(color: AppColor.greyStroke),
           color: Colors.white),
-      height: MediaQuery.of(context).size.height * 0.2,
       width: MediaQuery.of(context).size.width ,
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             //icon and background of icon
             Container(
-              decoration: BoxDecoration(borderRadius:BorderRadius.circular(10),color: widget.Iconbgcolor, ),
-              height: MediaQuery.of(context).size.height * 0.1,
+              decoration: BoxDecoration(borderRadius:BorderRadius.circular(10),color: widget.iconBgColor),
+              height: MediaQuery.of(context).size.width * 0.1,
               width: MediaQuery.of(context).size.width * 0.1,
-            child: Icon(widget.icon,color: widget.Iconcolor,size: 40,)),
-            Padding(
-              padding: const EdgeInsets.all(20.0),
-              child:
-              //title and subtitle of the course
-               Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(widget.title),
-                  Text(widget.subtitle),
-                ],
+            child: Icon(widget.icon,color: widget.iconColor,size: 40,)),
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.all(20.0),
+                child:
+                //title and subtitle of the course
+                 Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(widget.title,style: TextStyle(fontSize: 18,fontWeight: FontWeight.w500),),
+                    Text(widget.subtitle,maxLines: 1,overflow: TextOverflow.ellipsis,style: TextStyle(fontSize: 14)),
+                  ],
+                ),
               ),
             ),
             //icon for moving to next page
