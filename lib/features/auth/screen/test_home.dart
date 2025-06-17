@@ -16,15 +16,28 @@ class _TestHomeState extends State<TestHome> {
     return Scaffold(
       body: Container(
         color: AppColor.whiteColor,
-        child:Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(30.0),
-              child:
-              SubjectOverviewCard(title: "title", description: "description", subjectImage: "assets/images/subname1.jpg")
-            )
-            
-          ],
+        child:Padding(
+          padding: const EdgeInsets.all(30.0),
+          child:
+          Column(
+            children: [
+              // Expanded(
+              //   child: GridView.builder(
+              //     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, mainAxisSpacing: 10, crossAxisSpacing: 10, childAspectRatio: 1.1), 
+              //     itemBuilder: (context, index) => SubjectOverviewCard(title: "Social Science", description: "Understanding Our Past and Present", subjectImage: "assets/images/subname1.jpg")),
+              // )
+              Center(
+                child: Wrap(
+                  alignment: WrapAlignment.spaceBetween,
+                  children: [
+                    SubjectOverviewCard(title: "Social Science", description: "Understanding Our Past and Present", subjectImage: "assets/images/subname1.jpg"),
+                    SubjectOverviewCard(title: "Social Science", description: "Understanding Our Past and Present", subjectImage: "assets/images/subname1.jpg"),
+                    SubjectOverviewCard(title: "Social Science", description: "Understanding Our Past and Present", subjectImage: "assets/images/subname1.jpg")
+                  ],
+                ),
+              )          
+            ],
+          )
         ) ,
       ),
     );
