@@ -3,12 +3,12 @@ import 'package:etutor/features/auth/widgets/white_button.dart';
 import 'package:etutor/features/auth/widgets/whitestroke_textfield.dart';
 import 'package:flutter/material.dart';
 
-class PasswordScreen extends StatelessWidget {
-  const PasswordScreen({super.key});
+class ForgotPassword extends StatelessWidget {
+  const ForgotPassword({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+        return Scaffold(
       backgroundColor: AppColor.primaryColor,
       body: SingleChildScrollView(
         child: Column(
@@ -28,14 +28,14 @@ class PasswordScreen extends StatelessWidget {
                 children: [
                   Image.asset("assets/images/logo.png"),
                   Text(
-                    "Welcome Back!",
+                    "Forgot Password ?",
                     style: TextStyle(
                       fontSize: 20,
                       color: AppColor.whiteColor,
                     ),
                   ),
                   Text(
-                    "Enter your password to continue learning",
+                    "Don’t worry, it happens to the best of us",
                     style: TextStyle(
                       color: AppColor.whiteColor,
                     ),
@@ -44,35 +44,25 @@ class PasswordScreen extends StatelessWidget {
                     height: 10,
                   ),
                   WhiteStrokeTextField(
-                    hind: "Enter your Password",
+                    hind: "Enter your Mobile number",
                   ),
                   SizedBox(
                     height: 10,
                   ),
                   whiteButton(
-                    text: "Login",
-                    onpressed: () {},
-                  ),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      TextButton(
-                          onPressed: () {},
-                          child: Text("Forgot Password?",
-                              style: TextStyle(
-                                fontSize: 12,
-                                color: AppColor.whiteColor,
-                              )))
-                    ],
-                  ),
+                    text: "Continue",
+                    onpressed: () {
+                      // Navigator.push(
+                      //     context,
+                      //     MaterialPageRoute(
+                      //         builder: (context) => PasswordScreen()));
+                    },
+                  )
                 ],
               ),
             ),
             SizedBox(
-              height: 35,
+              height: 45,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.end,

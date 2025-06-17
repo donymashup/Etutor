@@ -31,7 +31,7 @@ class PhoneNumberAuth extends StatelessWidget {
                   Text(
                     "Welcome Learner!",
                     style: TextStyle(
-                      fontSize: 18,
+                      fontSize: 20,
                       color: AppColor.whiteColor,
                     ),
                   ),
