@@ -28,6 +28,9 @@ class PhoneNumberAuth extends StatelessWidget {
               child: Column(
                 children: [
                   Image.asset("assets/images/logo.png"),
+                  SizedBox(
+                    height: 20,
+                  ),
                   Text(
                     "Welcome Learner!",
                     style: TextStyle(
@@ -39,10 +42,11 @@ class PhoneNumberAuth extends StatelessWidget {
                     "Enter your mobile number to get started ",
                     style: TextStyle(
                       color: AppColor.whiteColor,
+                      fontWeight: FontWeight.w500,
                     ),
                   ),
                   SizedBox(
-                    height: 10,
+                    height: 15,
                   ),
                   WhiteStrokeTextField(
                     hind: "Enter your Mobile number",

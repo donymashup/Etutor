@@ -3,8 +3,8 @@ import 'package:etutor/features/auth/widgets/white_button.dart';
 import 'package:etutor/features/auth/widgets/whitestroke_textfield.dart';
 import 'package:flutter/material.dart';
 
-class PasswordScreen extends StatelessWidget {
-  const PasswordScreen({super.key});
+class PasswordResetScreen extends StatelessWidget {
+  const PasswordResetScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -31,28 +31,29 @@ class PasswordScreen extends StatelessWidget {
                     height: 20,
                   ),
                   Text(
-                    "Welcome Back!",
+                    "Create New Password",
                     style: TextStyle(
                       fontSize: 20,
                       color: AppColor.whiteColor,
                       fontWeight: FontWeight.w500,
                     ),
                   ),
-                  Text(
-                    "Enter your password to continue learning",
-                    style: TextStyle(
-                      color: AppColor.whiteColor,
-                    ),
-                  ),
                   SizedBox(
                     height: 15,
                   ),
                   WhiteStrokeTextField(
-                    hind: "Enter your Password",
-                    isPassword: true,
+                    hind: "Enter your new Password",
+                     isPassword: true,
                   ),
                   SizedBox(
                     height: 10,
+                  ),
+                  WhiteStrokeTextField(
+                    hind: "confirm Password",
+                    isPassword: true,
+                  ),
+                  SizedBox(
+                    height: 15,
                   ),
                   whiteButton(
                     text: "Login",
@@ -60,18 +61,6 @@ class PasswordScreen extends StatelessWidget {
                   ),
                   SizedBox(
                     height: 5,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      TextButton(
-                          onPressed: () {},
-                          child: Text("Forgot Password?",
-                              style: TextStyle(
-                                fontSize: 12,
-                                color: AppColor.whiteColor,
-                              )))
-                    ],
                   ),
                 ],
               ),

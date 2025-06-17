@@ -3,15 +3,18 @@ import 'package:flutter/material.dart';
 
 class WhiteStrokeTextField extends StatelessWidget {
   String hind;
+  bool isPassword;
   WhiteStrokeTextField({
     super.key,
     required this.hind,
+    this.isPassword = false,
   });
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
       style: const TextStyle(color: Colors.white),
+      obscureText: isPassword ? true :false,
       decoration: InputDecoration(
         filled: true,
         fillColor: AppColor.whiteColorTrasparent,
@@ -31,6 +34,17 @@ class WhiteStrokeTextField extends StatelessWidget {
             width: 1.0,
           ),
         ),
+        prefixIcon: isPassword ? 
+        Icon(
+          Icons.lock_outline_rounded,
+          size: 18,
+          color: AppColor.whiteColor,)
+          : null,
+        suffixIcon: isPassword?
+        Icon(Icons.visibility_off_outlined,
+          size: 18,
+          color: AppColor.whiteColor,)
+        : null,  
       ),
     );
   }
