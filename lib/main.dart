@@ -36,7 +36,7 @@ class MyApp extends StatelessWidget {
       // home: SplashScreen(),
       // home: const MyHomePage(title: 'Flutter Demo Home Page'),
       // home: PasswordResetSuccesfull(),
-      home: TestHome(),
+      // home: TestHome(),
       // home: SubscribedCourseOverview()
       // home: SubscribedCourseContent(),
 

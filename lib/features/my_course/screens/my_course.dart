@@ -27,16 +27,33 @@ class MyCoursePage extends StatelessWidget {
     },
   ];
 
+  final List<String> infoCardImages = const [
+    'assets/images/qburious.png',
+    'assets/images/qouteoftheday.png',
+    'assets/images/sciencetoday.png',
+    'assets/images/ilovephysics.png',
+    'assets/images/fallinlovephysics.png',
+    'assets/images/techtoday.png',
+  ];
+
+
+
+    final List<String> testCardImages = const [
+    'assets/images/targetupsc.png',
+    'assets/images/etutortest.png',
+    
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColor.whiteColor,
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: CustomScrollView(
-            slivers: [
-              SliverToBoxAdapter(
+        child: CustomScrollView(
+          slivers: [
+            SliverPadding(
+              padding: const EdgeInsets.all(16.0),
+              sliver: SliverToBoxAdapter(
                 child: Text(
                   "My Courses",
                   style: const TextStyle(
@@ -46,8 +63,11 @@ class MyCoursePage extends StatelessWidget {
                   ),
                 ),
               ),
-              const SliverToBoxAdapter(child: SizedBox(height: 12)),
-              SliverGrid(
+            ),
+            const SliverToBoxAdapter(child: SizedBox(height: 12)),
+            SliverPadding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              sliver: SliverGrid(
                 delegate: SliverChildBuilderDelegate(
                   (context, index) {
                     final course = courses[index];
@@ -67,46 +87,162 @@ class MyCoursePage extends StatelessWidget {
                   childAspectRatio: 3 / 2.5,
                 ),
               ),
-
+            ),
             SliverToBoxAdapter(
-              child: Center(
-                child: Container(
-                  width:350, // Reduced width
-                  child: Divider(
-                    color: AppColor.greyStroke,
-                    thickness: 1.5,
-                    height: 20,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 15),
+                child: Center(
+                  child: Container(
+                    width: 350,
+                    child: Divider(
+                      color: AppColor.greyStroke,
+                      thickness: 1.5,
+                      height: 20,
+                    ),
                   ),
                 ),
               ),
             ),
+            SliverToBoxAdapter(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: FeatureButton(
+                        icon: Icons.view_timeline,
+                        text: 'Timeline',
+                        backgroundColor: AppColor.primaryColor,
+                        onPressed: () {},
+                      ),
+                    ),
+                    const SizedBox(width: 16),
+                    Expanded(
+                      child: FeatureButton(
+                        icon: Icons.bar_chart,
+                        text: 'Performance Index',
+                        backgroundColor: AppColor.secondaryColor,
+                        onPressed: () {},
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            const SliverToBoxAdapter(child: SizedBox(height: 24)),
+
+
 
             SliverToBoxAdapter(
-                child: Padding(padding: const EdgeInsets.all(20),
-                 child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                        FeatureButton(
-                            icon: Icons.view_timeline,
-                            text: 'Timeline',
-                            backgroundColor: AppColor.primaryColor,
-                            onPressed: () {
-                            },
-                        ),
-                        FeatureButton(
-                            icon: Icons.bar_chart,
-                            text: 'Performance Index',
-                            backgroundColor: AppColor.secondaryColor,
-                            onPressed: () {
-                            },
-                        ),
-                    ],
-                 ),),
-            )
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: Text(
+                  "Explore the world of Information",
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w700,
+                    color: AppColor.blackColor,
+                  ),
+                ),
+              ),
+            ),
+            const SliverToBoxAdapter(child: SizedBox(height: 12)),
+            SliverToBoxAdapter(
+              child: SizedBox(
+                height: 105, // 69 (image height) + 24 (padding)
+                child: ListView.separated(
+                  scrollDirection: Axis.horizontal,
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  itemCount: infoCardImages.length,
+                  separatorBuilder: (context, index) =>
+                      const SizedBox(width: 12),
+                  itemBuilder: (context, index) {
+                    final imagePath = infoCardImages[index];
+                    return Container(
+                      width: 120, // 93 (image width) + padding
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(16),
+                        border: Border.all(
+                            color: AppColor.primaryColor.withOpacity(0.5)),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black12,
+                            blurRadius: 4,
+                            offset: Offset(0, 2),
+                          ),
+                        ],
+                      ),
+                      padding: const EdgeInsets.all(12),
+                      child: Image.asset(
+                        imagePath,
+                        width: 99,
+                        height: 75,
+                        fit: BoxFit.contain,
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ),
+            const SliverToBoxAdapter(child: SizedBox(height: 24)),
+
+            SliverToBoxAdapter(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: Text(
+                  "Test Your Knowledge",
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w700,
+                    color: AppColor.blackColor,
+                  ),
+                ),
+              ),
+            ),
+            const SliverToBoxAdapter(child: SizedBox(height: 12)),
+            SliverToBoxAdapter(
+              child: SizedBox(
+                height: 105, // 69 (image height) + 24 (padding)
+                child: ListView.separated(
+                  scrollDirection: Axis.horizontal,
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  itemCount: testCardImages.length,
+                  separatorBuilder: (context, index) =>
+                      const SizedBox(width: 12),
+                  itemBuilder: (context, index) {
+                    final imagePath = testCardImages[index];
+                    return Container(
+                      width: 120, // 93 (image width) + padding
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(16),
+                        border: Border.all(
+                            color: AppColor.primaryColor.withOpacity(0.5)),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black12,
+                            blurRadius: 4,
+                            offset: Offset(0, 2),
+                          ),
+                        ],
+                      ),
+                      padding: const EdgeInsets.all(12),
+                      child: Image.asset(
+                        imagePath,
+                        width: 99,
+                        height: 75,
+                        fit: BoxFit.contain,
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ),
 
 
-            ],
-          ),
+
+          ],
         ),
       ),
     );
