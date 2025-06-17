@@ -1,5 +1,5 @@
-import 'package:etutor/common/constants/app_constants.dart';
 import 'package:flutter/material.dart';
+import 'package:etutor/common/constants/app_constants.dart';
 
 class FeatureButton extends StatelessWidget {
   final IconData icon;
@@ -8,6 +8,7 @@ class FeatureButton extends StatelessWidget {
   final VoidCallback onPressed;
 
   const FeatureButton({
+    super.key,
     required this.icon,
     required this.text,
     required this.backgroundColor,
@@ -17,7 +18,6 @@ class FeatureButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 160,
       height: 120,
       decoration: BoxDecoration(
         color: backgroundColor,
