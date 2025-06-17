@@ -26,29 +26,34 @@ class _CourseSubjectCardState extends State<CourseSubjectCard> {
           border: Border.all(color: AppColor.greyStroke),
           color: Colors.white),
       width: MediaQuery.of(context).size.width,
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Row(
-          children: [
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      widget.subjectName,
-                      style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
-                    ),
-                  ],
-                ),
+      height: MediaQuery.of(context).size.height * 0.1,
+      child: Row(
+        // crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+           Container(
+            decoration: BoxDecoration(
+              borderRadius:BorderRadius.circular(10),
+              image: DecorationImage(
+                      image: AssetImage(widget.subjectImage),
+                      fit: BoxFit.cover),
+              color: AppColor.greyIcon
+            ),
+            height: MediaQuery.of(context).size.height ,
+            width: MediaQuery.of(context).size.width * 0.4,
+                     ),
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Text(
+                widget.subjectName,
+                style:
+                    TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
               ),
             ),
-            IconButton(
-                onPressed: widget.onPressed, icon: Icon(Icons.arrow_drop_down))
-          ],
-        ),
+          ),
+          IconButton(
+              onPressed: widget.onPressed, icon: Icon(Icons.arrow_drop_down))
+        ],
       ),
     );
   }
