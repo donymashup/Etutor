@@ -135,12 +135,11 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
 
-              // ↓ Reduced spacing here
+             
               const SizedBox(height: 0),
 
               const CategoryButtonList(),
 
-              // ↓ Reduced spacing here
               const SizedBox(height: 0),
 
               Padding(
