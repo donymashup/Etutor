@@ -75,7 +75,8 @@ class _SubscribedCourseContentState extends State<SubscribedCourseContent> {
               ),
             ),  
           ],
-        )),
+        )
+        ),
       ),
     );
   }

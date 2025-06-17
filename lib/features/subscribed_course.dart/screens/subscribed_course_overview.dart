@@ -2,6 +2,7 @@ import 'package:etutor/common/constants/app_constants.dart';
 import 'package:etutor/features/subscribed_course.dart/screens/no_data.dart';
 import 'package:etutor/features/subscribed_course.dart/screens/subscribed_course_assignment_screen.dart';
 import 'package:etutor/features/subscribed_course.dart/widgets/course_card.dart';
+import 'package:etutor/features/subscribed_course.dart/widgets/course_subject_card.dart';
 import 'package:flutter/material.dart';
 
 class SubscribedCourseOverview extends StatefulWidget {
@@ -90,6 +91,7 @@ class _SubscribedCourseOverviewState extends State<SubscribedCourseOverview> {
                     iconColor: AppColor.fileIconColour,
                   ),
                   SizedBox(height: 10),
+                  CourseSubjectCard(subjectName: 'iuhy76t5resdxc v', onPressed: () {  }, subjectImage: 'assets/image/course1.png',),
                 ],
               ),
             ),
