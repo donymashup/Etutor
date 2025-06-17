@@ -15,6 +15,7 @@ import 'package:etutor/features/subscribed_course.dart/screens/subscribed_course
 import 'package:etutor/common/widgets/bottom_navigation_bar.dart';
 import 'package:etutor/features/home/screen/home_screen.dart';
 import 'package:etutor/features/subscribed_course.dart/screens/subscribed_course_overview.dart';
+import 'package:etutor/features/subscribed_course.dart/screens/subscribed_course_subject.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -38,10 +39,12 @@ class MyApp extends StatelessWidget {
       // home: SplashScreen(),
       // home: const MyHomePage(title: 'Flutter Demo Home Page'),
       // home: PasswordResetSuccesfull(),
-      // home: TestHome(),
+         home: TestHome(),
       // home: SubscribedCourseOverview()
       // home: SubscribedCourseContent(),
-      home: Registration(),
+      // home: BottomNavBarScreen(),
+      // home: SubscribedCourseAssignmentScreen(),
+      // home: SubscribedCourseSubject(),
 
     );
   }
