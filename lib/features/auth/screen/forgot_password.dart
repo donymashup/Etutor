@@ -27,11 +27,15 @@ class ForgotPassword extends StatelessWidget {
               child: Column(
                 children: [
                   Image.asset("assets/images/logo.png"),
+                  SizedBox(
+                    height: 20,
+                  ),
                   Text(
                     "Forgot Password ?",
                     style: TextStyle(
                       fontSize: 20,
                       color: AppColor.whiteColor,
+                      fontWeight: FontWeight.w500,
                     ),
                   ),
                   Text(
@@ -41,7 +45,7 @@ class ForgotPassword extends StatelessWidget {
                     ),
                   ),
                   SizedBox(
-                    height: 10,
+                    height: 15,
                   ),
                   WhiteStrokeTextField(
                     hind: "Enter your Mobile number",

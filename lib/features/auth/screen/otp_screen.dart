@@ -27,11 +27,15 @@ class OtpScreen extends StatelessWidget {
               child: Column(
                 children: [
                   Image.asset("assets/images/logo.png"),
+                  SizedBox(
+                    height: 20,
+                  ),
                   Text(
                     "Welcome Back!",
                     style: TextStyle(
                       fontSize: 20,
                       color: AppColor.whiteColor,
+                      fontWeight: FontWeight.w500,
                     ),
                   ),
                   Text(
@@ -43,7 +47,7 @@ class OtpScreen extends StatelessWidget {
                     maxLines: 2,
                   ),
                   SizedBox(
-                    height: 10,
+                    height: 15,
                   ),
                   Pinput(
                     length: 6,

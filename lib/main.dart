@@ -1,8 +1,11 @@
 import 'package:etutor/features/auth/screen/forgot_password.dart';
 import 'package:etutor/features/auth/screen/otp_screen.dart';
+import 'package:etutor/features/auth/screen/password_reset_otp.dart';
+import 'package:etutor/features/auth/screen/password_reset_screen.dart';
 import 'package:etutor/features/auth/screen/password_reset_succesfull.dart';
 import 'package:etutor/features/auth/screen/password_screen.dart';
 import 'package:etutor/features/auth/screen/phone_number_auth.dart';
+import 'package:etutor/features/auth/screen/registration.dart';
 import 'package:etutor/features/auth/screen/test_home.dart';
 import 'package:etutor/common/constants/app_constants.dart';
 import 'package:etutor/features/auth/screen/password_reset_succesfull.dart';
@@ -42,8 +45,6 @@ class MyApp extends StatelessWidget {
       // home: BottomNavBarScreen(),
       // home: SubscribedCourseAssignmentScreen(),
       // home: SubscribedCourseSubject(),
-
-
 
     );
   }
