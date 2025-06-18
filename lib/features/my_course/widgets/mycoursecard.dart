@@ -17,66 +17,95 @@ class MyCourseCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Stack(
-          children: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(16),
-              child: Image.asset(
-                imagePath,
-                width: double.infinity,
-                height: 100,
-                fit: BoxFit.cover,
-              ),
-            ),
-            if (isFree)
-              const Positioned(
-                top: 10,
-                left: 10,
-                child: Banner(
-                  message: 'FREE',
-                  location: BannerLocation.topStart,
-                  color: Colors.red,
-                ),
-              ),
-          ],
-        ),
-        const SizedBox(height: 6),
-
-        // Title
-        Text(
-          title,
-          style: const TextStyle(
-            fontSize: 14,
-            fontWeight: FontWeight.w600,
-            color: AppColor.blackColor,
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      child: Container(
+        width: MediaQuery.of(context).size.width * 0.5 - 21,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(
+            color: AppColor.greyStroke,
+            width: 1,
           ),
         ),
-
-        const SizedBox(height: 4),
-
-        // Rating row
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(
-              children: List.generate(5, (index) {
-                return const Icon(Icons.star, color: Colors.amber, size: 14);
-              }),
+            Stack(
+              children: [
+                ClipRRect(
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(16),
+                    topRight: Radius.circular(16),
+                  ),
+                  child: Image.asset(
+                    imagePath,
+                    width: double.infinity,
+                    height: MediaQuery.of(context).size.width * 0.25,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+                //free bageeeeer
+                if (isFree)
+                  const Positioned(
+                    top: 10,
+                    left: 10,
+                    child: Banner(
+                      message: 'FREE',
+                      location: BannerLocation.topStart,
+                      color: Colors.red,
+                    ),
+                  ),
+              ],
             ),
-            Text(
-              rating.toString(),
-              style: const TextStyle(
-                color: AppColor.blackColor,
-                fontSize: 12,
-                fontWeight: FontWeight.w500,
+            const SizedBox(height: 6),
+
+            // Title
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w600,
+                      color: AppColor.blackColor,
+                    ),
+                  ),
+              
+                  const SizedBox(height: 4),
+              
+                  // Rating row
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        children: List.generate(5, (index) {
+                          return const Icon(Icons.star,
+                              color: Colors.amber, size: 14);
+                        }),
+                      ),
+                      Text(
+                        rating.toString(),
+                        style: const TextStyle(
+                          color: AppColor.blackColor,
+                          fontSize: 12,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 10),
+                ],
               ),
             ),
           ],
         ),
-      ],
+      ),
     );
   }
 }

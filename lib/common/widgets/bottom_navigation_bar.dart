@@ -18,7 +18,6 @@ class _BottomNavBarScreenState extends State<BottomNavBarScreen> {
     
     HomePage(),
     MyCoursePage(),
-    
     //LiveScreen(),
     //TestSeriesPage(),
   ];
@@ -31,7 +30,7 @@ class _BottomNavBarScreenState extends State<BottomNavBarScreen> {
         currentIndex: _currentIndex,
         selectedItemColor: AppColor.primaryColor,
         unselectedItemColor: AppColor.greyText,
-        backgroundColor: AppColor.whiteColor, // ✅ Add your background color here
+        backgroundColor: AppColor.whiteColor, 
         type: BottomNavigationBarType.fixed,
         onTap: (index) {
           setState(() {

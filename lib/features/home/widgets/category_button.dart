@@ -10,14 +10,16 @@ class CategoryButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 120, // 🔼 Increased width
-      height: 70, // 🔽 Reduced height
+      width:  MediaQuery.of(context).size.width * 0.15 < 120
+      ?120
+      : MediaQuery.of(context).size.width * 0.15, 
+      height: 70, 
       margin: const EdgeInsets.only(right: 12),
       padding: const EdgeInsets.symmetric(vertical: 10),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: AppColor.primaryColor, width: 1), // 🔼 Changed border color
+        border: Border.all(color: AppColor.primaryColor, width: 1), 
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
