@@ -53,20 +53,25 @@ class MyCoursePage extends StatelessWidget {
             children: [
               Padding(
                 padding: const EdgeInsets.all(16.0),
-                child: Text(
-                  "My Courses",
-                  style: const TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w700,
-                    color: AppColor.blackColor,
+                child: Row(children: [
+                  Text(
+                    "My Courses",
+                    style: const TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w700,
+                      color: AppColor.blackColor,
+                    ),
                   ),
-                ),
+                  const Spacer(),
+                  IconButton(
+                    icon: const Icon(Icons.list, color: AppColor.blackColor),
+                    onPressed: () {
+                      // Implement search functionality here
+                    },
+                  ),
+                ]),
               ),
-
               SizedBox(height: 12),
-
-              
-
               courses.isEmpty
                   ? Center(child: NoData())
                   : Padding(
@@ -84,7 +89,6 @@ class MyCoursePage extends StatelessWidget {
                         }),
                       ),
                     ),
-
               Padding(
                 padding:
                     const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
@@ -96,7 +100,6 @@ class MyCoursePage extends StatelessWidget {
                   ),
                 ),
               ),
-
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: Row(
