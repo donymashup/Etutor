@@ -6,57 +6,98 @@ class SubscribedCourseSubject extends StatefulWidget {
   const SubscribedCourseSubject({super.key});
 
   @override
-  State<SubscribedCourseSubject> createState() => _SubscribedCourseSubjectState();
+  State<SubscribedCourseSubject> createState() =>
+  _SubscribedCourseSubjectState();
+}
+
+class Subject {
+  String subjectName;
+  String subjectImage;
+
+  Subject({
+    required this.subjectName, 
+    required this.subjectImage
+    });
 }
 
 class _SubscribedCourseSubjectState extends State<SubscribedCourseSubject> {
+  List<Subject> subject = [
+    Subject(
+        subjectName: "SEPERATION OF SUBSTANCES",
+        subjectImage: 'assets/images/subname1.jpg'),
+    Subject(
+        subjectName: "SORTING MATERIALS",
+        subjectImage: 'assets/images/subname2.jpg'),
+    Subject(
+        subjectName: "FIBRE TO FABRIC",
+        subjectImage: 'assets/images/subname3.jpg'),
+    Subject(
+        subjectName: "COMPONENTS OF FOOD",
+        subjectImage: 'assets/images/subname4.jpg'),
+    Subject(
+        subjectName: "SEPERATION OF SUBSTANCES",
+        subjectImage: 'assets/images/subname1.jpg'),
+    Subject(
+        subjectName: "SORTING MATERIALS",
+        subjectImage: 'assets/images/subname2.jpg'),
+    Subject(
+        subjectName: "FIBRE TO FABRIC",
+        subjectImage: 'assets/images/subname3.jpg'),
+    Subject(
+        subjectName: "COMPONENTS OF FOOD",
+        subjectImage: 'assets/images/subname4.jpg'),
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColor.whiteColor,
       body: SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              Stack(
-                children: [
-                  Container(
-                    height: 300,
-                    width: double.infinity,
-                    decoration: const BoxDecoration(
-                      image: DecorationImage(
-                          image: AssetImage('assets/images/subname1.jpg'),
-                          fit: BoxFit.cover),
-                    ),
+        child: Column(
+          children: [
+            Stack(
+              alignment: Alignment.bottomCenter,
+              children: [
+                Container(
+                  height: 250,
+                  width: MediaQuery.of(context).size.width,
+                  decoration: const BoxDecoration(
+                    image: DecorationImage(
+                        image: AssetImage('assets/images/subname1.jpg'),
+                        fit: BoxFit.cover),
                   ),
-                  Container(
-                    margin: const EdgeInsets.only(top: 260),
-                    padding: const EdgeInsets.all(20),
-                    width: double.infinity,
-                    decoration: const BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(30),
-                          topRight: Radius.circular(30)),
-                    ),
-                    child: Expanded(child: Text("Science",style: TextStyle(fontWeight: FontWeight.w500,fontSize: 25))),
-                  )
-                ],
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  children: [
-                    SizedBox(height: 10),CourseSubjectCard(subjectName: "SEPERATION OF SUBSTANCES", subjectImage: "assets/images/sub2.jpg", onPressed: (){}),
-                    SizedBox(height: 10),CourseSubjectCard(subjectName: "SORTING MATERIALS", subjectImage: "assets/images/sub1.jpg", onPressed: (){}),
-                    SizedBox(height: 10),CourseSubjectCard(subjectName: "FIBRE TO FABRIC", subjectImage: "assets/images/sub3.jpg", onPressed: (){}),
-                    SizedBox(height: 10), CourseSubjectCard(subjectName: "COMPONENTS OF FOOD", subjectImage: "assets/images/sub4.jpg", onPressed: (){}),
-                    SizedBox(height: 10), 
-                  ],
                 ),
-              ),  
-            ],
-          )
+                Container(
+                  padding: const EdgeInsets.symmetric(vertical:  15, horizontal: 40),
+                  width: MediaQuery.of(context).size.width,
+                  decoration: const BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(30),
+                        topRight: Radius.circular(30)),
+                  ),
+                  child: Text("Science",
+                      style: TextStyle(
+                          fontWeight: FontWeight.w500, fontSize: 25)),
+                )
+              ],
+            ),
+            
+            Expanded(
+              // height: MediaQuery.of(context).size.height - 300,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                child: ListView.builder(
+                  itemCount: subject.length,
+                  itemBuilder: (context, index) => CourseSubjectCard(
+                      subjectName: subject[index].subjectName,
+                      subjectImage: subject[index].subjectImage,
+                      onPressed: () {}),
+             
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );
