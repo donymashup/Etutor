@@ -7,6 +7,8 @@ class NoData extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      height: MediaQuery.of(context).size.width * 0.5,
+      width: MediaQuery.of(context).size.width * 0.5,
       decoration: BoxDecoration(
         color: AppColor.whiteColor,
         image: DecorationImage(

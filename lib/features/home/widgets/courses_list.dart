@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class CoursesList extends StatelessWidget {
   final String imagePath;
   final double rating;
-  final String title; // Add course name
+  final String title; 
 
   const CoursesList({
     super.key,
@@ -15,14 +15,15 @@ class CoursesList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      width: MediaQuery.of(context).size.width * 0.4,
+      // height: ,
       margin: const EdgeInsets.only(right: 12),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // Course Image
           Container(
-            width: 200,
-            height: 120,
+            height: MediaQuery.of(context).size.width * 0.22,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(16),
               image: DecorationImage(
@@ -37,6 +38,8 @@ class CoursesList extends StatelessWidget {
           // Course Title
           Text(
             title,
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
             style: const TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.w600,

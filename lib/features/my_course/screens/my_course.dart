@@ -1,6 +1,7 @@
 import 'package:etutor/common/constants/app_constants.dart';
 import 'package:etutor/features/my_course/widgets/feature_button.dart';
 import 'package:etutor/features/my_course/widgets/mycoursecard.dart';
+import 'package:etutor/features/subscribed_course.dart/screens/no_data.dart';
 import 'package:flutter/material.dart';
 
 class MyCoursePage extends StatelessWidget {
@@ -36,12 +37,9 @@ class MyCoursePage extends StatelessWidget {
     'assets/images/techtoday.png',
   ];
 
-
-
-    final List<String> testCardImages = const [
+  final List<String> testCardImages = const [
     'assets/images/targetupsc.png',
     'assets/images/etutortest.png',
-    
   ];
 
   @override
@@ -49,11 +47,12 @@ class MyCoursePage extends StatelessWidget {
     return Scaffold(
       backgroundColor: AppColor.whiteColor,
       body: SafeArea(
-        child: CustomScrollView(
-          slivers: [
-            SliverPadding(
-              padding: const EdgeInsets.all(16.0),
-              sliver: SliverToBoxAdapter(
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(16.0),
                 child: Text(
                   "My Courses",
                   style: const TextStyle(
@@ -63,48 +62,42 @@ class MyCoursePage extends StatelessWidget {
                   ),
                 ),
               ),
-            ),
-            const SliverToBoxAdapter(child: SizedBox(height: 12)),
-            SliverPadding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              sliver: SliverGrid(
-                delegate: SliverChildBuilderDelegate(
-                  (context, index) {
-                    final course = courses[index];
-                    return MyCourseCard(
-                      title: course['title'],
-                      imagePath: course['image'],
-                      rating: course['rating'],
-                      isFree: course['isFree'],
-                    );
-                  },
-                  childCount: courses.length,
-                ),
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  mainAxisSpacing: 16,
-                  crossAxisSpacing: 16,
-                  childAspectRatio: 3 / 2.5,
-                ),
-              ),
-            ),
-            SliverToBoxAdapter(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 15),
-                child: Center(
-                  child: Container(
-                    width: 350,
-                    child: Divider(
-                      color: AppColor.greyStroke,
-                      thickness: 1.5,
-                      height: 20,
+
+              SizedBox(height: 12),
+
+              
+
+              courses.isEmpty
+                  ? Center(child: NoData())
+                  : Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Wrap(
+                        spacing: 10,
+                        children: List.generate(courses.length, (index) {
+                          final course = courses[index];
+                          return MyCourseCard(
+                            title: course['title'],
+                            imagePath: course['image'],
+                            rating: course['rating'],
+                            isFree: course['isFree'],
+                          );
+                        }),
+                      ),
                     ),
+
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
+                child: Center(
+                  child: Divider(
+                    color: AppColor.greyStroke,
+                    thickness: 1.5,
+                    height: 20,
                   ),
                 ),
               ),
-            ),
-            SliverToBoxAdapter(
-              child: Padding(
+
+              Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: Row(
                   children: [
@@ -128,13 +121,8 @@ class MyCoursePage extends StatelessWidget {
                   ],
                 ),
               ),
-            ),
-            const SliverToBoxAdapter(child: SizedBox(height: 24)),
-
-
-
-            SliverToBoxAdapter(
-              child: Padding(
+              SizedBox(height: 24),
+              Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: Text(
                   "Explore the world of Information",
@@ -145,11 +133,9 @@ class MyCoursePage extends StatelessWidget {
                   ),
                 ),
               ),
-            ),
-            const SliverToBoxAdapter(child: SizedBox(height: 12)),
-            SliverToBoxAdapter(
-              child: SizedBox(
-                height: 105, // 69 (image height) + 24 (padding)
+              SizedBox(height: 12),
+              SizedBox(
+                height: 105,
                 child: ListView.separated(
                   scrollDirection: Axis.horizontal,
                   padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -159,7 +145,9 @@ class MyCoursePage extends StatelessWidget {
                   itemBuilder: (context, index) {
                     final imagePath = infoCardImages[index];
                     return Container(
-                      width: 120, // 93 (image width) + padding
+                      width: MediaQuery.of(context).size.width * 0.15 < 120
+                          ? 120
+                          : MediaQuery.of(context).size.width * 0.15,
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(16),
@@ -184,11 +172,8 @@ class MyCoursePage extends StatelessWidget {
                   },
                 ),
               ),
-            ),
-            const SliverToBoxAdapter(child: SizedBox(height: 24)),
-
-            SliverToBoxAdapter(
-              child: Padding(
+              SizedBox(height: 24),
+              Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: Text(
                   "Test Your Knowledge",
@@ -199,11 +184,9 @@ class MyCoursePage extends StatelessWidget {
                   ),
                 ),
               ),
-            ),
-            const SliverToBoxAdapter(child: SizedBox(height: 12)),
-            SliverToBoxAdapter(
-              child: SizedBox(
-                height: 105, // 69 (image height) + 24 (padding)
+              SizedBox(height: 12),
+              SizedBox(
+                height: 105,
                 child: ListView.separated(
                   scrollDirection: Axis.horizontal,
                   padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -213,7 +196,9 @@ class MyCoursePage extends StatelessWidget {
                   itemBuilder: (context, index) {
                     final imagePath = testCardImages[index];
                     return Container(
-                      width: 120, // 93 (image width) + padding
+                      width: MediaQuery.of(context).size.width * 0.15 < 120
+                          ? 120
+                          : MediaQuery.of(context).size.width * 0.15,
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(16),
@@ -238,11 +223,8 @@ class MyCoursePage extends StatelessWidget {
                   },
                 ),
               ),
-            ),
-
-
-
-          ],
+            ],
+          ),
         ),
       ),
     );
