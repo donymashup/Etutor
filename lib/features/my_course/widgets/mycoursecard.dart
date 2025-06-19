@@ -6,6 +6,7 @@ class MyCourseCard extends StatelessWidget {
   final String imagePath;
   final double rating;
   final bool isFree;
+  final double imgHeight;
 
   const MyCourseCard({
     super.key,
@@ -13,6 +14,7 @@ class MyCourseCard extends StatelessWidget {
     required this.imagePath,
     required this.rating,
     required this.isFree,
+    required this.imgHeight,
   });
 
   @override
@@ -41,7 +43,7 @@ class MyCourseCard extends StatelessWidget {
                   child: Image.asset(
                     imagePath,
                     width: double.infinity,
-                    height: MediaQuery.of(context).size.width * 0.25,
+                    height: imgHeight,
                     fit: BoxFit.cover,
                   ),
                 ),
