@@ -6,58 +6,82 @@ class SubscribedCourseAssignmentScreen extends StatefulWidget {
   const SubscribedCourseAssignmentScreen({super.key});
 
   @override
-  State<SubscribedCourseAssignmentScreen> createState() => _SubscribedCourseAssignmentScreenState();
+  State<SubscribedCourseAssignmentScreen> createState() =>
+      _SubscribedCourseAssignmentScreenState();
 }
 
-class _SubscribedCourseAssignmentScreenState extends State<SubscribedCourseAssignmentScreen> {
+class Assignments {
+  String title;
+  String subtitle;
+  IconData icon;
+  Color iconBgcolor;
+  Color iconcolor;
+  void Function() onPressed;
+
+  Assignments(
+      {required this.title,
+      required this.subtitle,
+      required this.icon,
+      required this.iconBgcolor,
+      required this.iconcolor,
+      required this.onPressed});
+}
+
+class _SubscribedCourseAssignmentScreenState
+    extends State<SubscribedCourseAssignmentScreen> {
+  List<Assignments> assignments = [
+    Assignments(title: "Experiment 4.5", 
+    subtitle: "Tap to view this video", 
+    icon: Icons.videocam, 
+    iconBgcolor: AppColor.lighBlueBackground, 
+    iconcolor: AppColor.videoIconColor, 
+    onPressed: (){},
+    ),
+    Assignments(title: "Chapter 2 Notes", 
+    subtitle: "Tap to view this pdf", 
+    icon: Icons.videocam, 
+    iconBgcolor: AppColor.lightRedCardBackground, 
+    iconcolor: AppColor.pdfIconColour, 
+    onPressed: (){},
+    ),
+    Assignments(title: "Figure 2.9", 
+    subtitle: "Tap to view this image", 
+    icon: Icons.videocam, 
+    iconBgcolor: AppColor.lightGreenCardBackground, 
+    iconcolor: AppColor.greenBarGraph, 
+    onPressed: (){},
+    ),
+     Assignments(title: "Sample Test", 
+    subtitle: "Tap to attend the test", 
+    icon: Icons.videocam, 
+    iconBgcolor: AppColor.lightVioletCardBackground, 
+    iconcolor: AppColor.testIconColour, 
+    onPressed: (){},
+    ),
+    ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(12.0),
-            child: Column(
-              children: [
-                Text("Assignments",style: TextStyle(fontSize: 22,fontWeight: FontWeight.w500),textAlign: TextAlign.center,),
-                SizedBox(height: 15),
-                CourseCard(
-                  title: "Experiment 4.5", 
-                  subtitle: "Tap to view this video", 
-                  icon: Icons.videocam, 
-                  iconBgColor: AppColor.lighBlueBackground,
-                  onPressed: (){}, 
-                  iconColor: AppColor.videoIconColor
-                  ),
-                SizedBox(height: 10),
-                 CourseCard(
-                  title: "Chapter 2 Notes", 
-                  subtitle: "Tap to view this pdf", 
-                  icon: Icons.picture_as_pdf, 
-                  iconBgColor: AppColor.lightRedCardBackground,
-                  onPressed: (){}, 
-                  iconColor: AppColor.redBarGraph
-                  ),
-                SizedBox(height: 10),
-                 CourseCard(
-                  title: "Figure 2.9", 
-                  subtitle: "Tap to view the image", 
-                  icon: Icons.image_rounded, 
-                  iconBgColor: AppColor.lightGreenCardBackground,
-                  onPressed: (){}, 
-                  iconColor: AppColor.greenBarGraph
-                  ),
-                SizedBox(height: 10), CourseCard(
-                  title: "Sample Test", 
-                  subtitle: "Tap to attend the test", 
-                  icon: Icons.calendar_month, 
-                  iconBgColor: AppColor.lightVioletCardBackground,
-                  onPressed: (){}, 
-                  iconColor: AppColor.testIconColour,
-                  ),
-                SizedBox(height: 10),
-              ],
-            ),
+        child: Padding(
+          padding: const EdgeInsets.all(12.0),
+          child: Column(
+            children: [
+              Text(
+                "Assignments",
+                style: TextStyle(fontSize: 22, fontWeight: FontWeight.w500),
+                textAlign: TextAlign.center,
+              ),
+              Expanded(
+                child: ListView.builder(itemBuilder:(context, index) => CourseCard(
+                title: assignments[index].title, 
+                subtitle: assignments[index].subtitle, 
+                icon: assignments[index].icon, 
+                iconBgColor: assignments[index].iconBgcolor, 
+                onPressed: assignments[index].onPressed, 
+                iconColor: assignments[index].iconcolor),),
+              )
+            ],
           ),
         ),
       ),
