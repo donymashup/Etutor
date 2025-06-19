@@ -43,7 +43,7 @@ class MyApp extends StatelessWidget {
        //home: TestHome(),
       // home: SubscribedCourseOverview()
       // home: SubscribedCourseContent(),
-      home: BottomNavBarScreen(),
+      home: Registration(),
       // home: SubscribedCourseAssignmentScreen(),
       // home: SubscribedCourseSubject(),
       // home: SubscribedCourseAllSubjects(),
