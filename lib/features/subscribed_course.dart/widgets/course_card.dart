@@ -9,8 +9,8 @@ class CourseCard extends StatefulWidget {
   Color iconColor;
   void Function() onPressed;
 
-  CourseCard(
-      {super.key,
+  CourseCard({
+      super.key,
       required this.title,
       required this.subtitle,
       required this.icon,
