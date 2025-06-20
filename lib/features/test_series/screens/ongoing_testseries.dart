@@ -1,12 +1,37 @@
 import 'package:flutter/material.dart';
+import 'package:etutor/features/test_series/widgets/test_series_card.dart';
 
 class OngoingPage extends StatelessWidget {
   const OngoingPage({super.key});
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('Ongoing')),
-      body: const Center(child: Text('Ongoing content')),
+    return ListView(
+      padding: const EdgeInsets.only(top: 8, bottom: 16),
+      children: [
+        TestSeriesCard(
+          title: 'JEE Main Full Model I',
+          date: '20/05/25',
+          startTime: '10.00 AM',
+          endTime: '05.00 AM',
+          duration: '30 min',
+          marks: '0',
+          questionCount: '20',
+          onReview: () {},
+          isOngoing: true,
+        ),
+        TestSeriesCard(
+          title: 'JEE Main Full Model I',
+          date: '20/05/25',
+          startTime: '10.00 AM',
+          endTime: '05.00 AM',
+          duration: '30 min',
+          marks: '0',
+          questionCount: '20',
+          onReview: () {},
+          isOngoing: true,
+        ),
+      ],
     );
   }
 }

@@ -9,7 +9,10 @@ class TestSeriesCard extends StatelessWidget {
   final String endTime;
   final String duration;
   final String marks;
-  final VoidCallback onReview;
+  final String questionCount;
+  final VoidCallback? onReview;
+  final bool isOngoing;
+  final bool isUpcoming;
 
   const TestSeriesCard({
     super.key,
@@ -19,15 +22,36 @@ class TestSeriesCard extends StatelessWidget {
     required this.endTime,
     required this.duration,
     required this.marks,
-    required this.onReview,
+    required this.questionCount,
+    this.onReview,
+    this.isOngoing = false,
+    this.isUpcoming = false,
   });
 
   @override
   Widget build(BuildContext context) {
+    final Color borderColor = isOngoing
+        ? AppColor.secondaryColor
+        : isUpcoming
+            ? const Color(0xFFB2E6C2)
+            : AppColor.primaryColor;
+
+    final IconData leadingIcon = isOngoing
+        ? Icons.assignment_outlined
+        : isUpcoming
+            ? Icons.access_time
+            : Icons.check_circle_outline;
+
+    final Color iconBgColor = isOngoing
+        ? const Color(0xFFFFF1E6)
+        : isUpcoming
+            ? const Color(0xFFE6F0FB)
+            : const Color(0xFFE6F0FB);
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       child: DottedBorder(
-        color: AppColor.lightNightBlue,
+        color: borderColor,
         strokeWidth: 1.5,
         borderType: BorderType.RRect,
         radius: const Radius.circular(16),
@@ -41,15 +65,16 @@ class TestSeriesCard extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              /// Row: Icon + Title + Date + Review Button
               Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  const CircleAvatar(
+                  CircleAvatar(
                     radius: 20,
-                    backgroundColor: Color(0xFFE6F0FB),
-                    child: Icon(Icons.check_circle_outline,
-                        color: AppColor.primaryColor),
+                    backgroundColor: iconBgColor,
+                    child: Icon(
+                      leadingIcon,
+                      color: AppColor.primaryColor,
+                    ),
                   ),
                   const SizedBox(width: 8),
                   Expanded(
@@ -71,26 +96,31 @@ class TestSeriesCard extends StatelessWidget {
                       ],
                     ),
                   ),
-                  OutlinedButton(
-                    onPressed: onReview,
-                    style: OutlinedButton.styleFrom(
-                      foregroundColor: AppColor.primaryColor,
-                      side: const BorderSide(color: AppColor.primaryColor),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
+                  if (!isUpcoming)
+                    OutlinedButton(
+                      onPressed: onReview,
+                      style: OutlinedButton.styleFrom(
+                        foregroundColor: AppColor.primaryColor,
+                        side: BorderSide(color: AppColor.primaryColor),
+                        backgroundColor: isOngoing
+                            ? AppColor.primaryColor.withOpacity(0.1)
+                            : Colors.white,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 14, vertical: 6),
                       ),
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 12, vertical: 4),
+                      child: Text(
+                        isOngoing ? "Attend" : "Review",
+                        style: const TextStyle(fontWeight: FontWeight.w500),
+                      ),
                     ),
-                    child: const Text("Review",
-                        style: TextStyle(fontWeight: FontWeight.w500)),
-                  ),
                 ],
               ),
 
               const Divider(height: 24, thickness: 1),
 
-              /// Row: Start & End
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -100,13 +130,15 @@ class TestSeriesCard extends StatelessWidget {
               ),
               const SizedBox(height: 12),
 
-              /// Row: Duration & Marks
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
+                  _iconLabelValue(Icons.hourglass_bottom, "Duration", duration),
                   _iconLabelValue(
-                      Icons.hourglass_bottom, "Duration", duration),
-                  _iconLabelValue(Icons.flag_outlined, "Marks", marks),
+                    isOngoing ? Icons.help_outline : Icons.flag_outlined,
+                    isOngoing ? "Questions" : "Marks",
+                    isOngoing ? questionCount : marks,
+                  ),
                 ],
               ),
             ],

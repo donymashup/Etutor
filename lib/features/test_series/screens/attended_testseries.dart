@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:etutor/features/test_series/widgets/test_series_card.dart';
+import 'package:flutter/material.dart';
 
 class AttendedPage extends StatelessWidget {
   const AttendedPage({super.key});
@@ -16,8 +16,8 @@ class AttendedPage extends StatelessWidget {
           endTime: '05.00 AM',
           duration: '30 min',
           marks: '20',
+          questionCount: '10',
           onReview: () {
-            // Handle review tap
           },
         ),
         TestSeriesCard(
@@ -27,8 +27,8 @@ class AttendedPage extends StatelessWidget {
           endTime: '05.00 AM',
           duration: '30 min',
           marks: '20',
+          questionCount: '10',
           onReview: () {
-            // Handle review tap
           },
         ),
         TestSeriesCard(
@@ -38,8 +38,8 @@ class AttendedPage extends StatelessWidget {
           endTime: '05.00 AM',
           duration: '30 min',
           marks: '20',
+          questionCount: '10',
           onReview: () {
-            // Handle review tap
           },
         ),
       ],

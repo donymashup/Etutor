@@ -47,8 +47,8 @@ class MyApp extends StatelessWidget {
       // home: SubscribedCourseContent(),
       // home: SubscribedCourseAssignmentScreen(),
       // home: SubscribedCourseSubject(),
-      home: SubscribedCoursesTests(),
-      
+      //home: SubscribedCoursesTests(),
+      home: BottomNavBarScreen(),
 
     );
   }
