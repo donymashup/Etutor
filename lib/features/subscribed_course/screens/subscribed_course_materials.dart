@@ -1,5 +1,5 @@
 import 'package:etutor/common/constants/app_constants.dart';
-import 'package:etutor/features/subscribed_course.dart/widgets/course_card.dart';
+import 'package:etutor/features/subscribed_course/widgets/course_card.dart';
 import 'package:flutter/material.dart';
 
 class SubscribedCourseMaterials extends StatefulWidget {
@@ -18,13 +18,14 @@ class Materials {
   Color iconcolor;
   void Function() onPressed;
 
-  Materials(
-      {required this.title,
+  Materials({
+      required this.title,
       required this.subtitle,
       required this.icon,
       required this.iconcolor,
       required this.iconBgcolor,
-      required this.onPressed});
+      required this.onPressed
+      });
 }
 
 class _SubscribedCourseMaterialsState extends State<SubscribedCourseMaterials> {
@@ -50,19 +51,6 @@ class _SubscribedCourseMaterialsState extends State<SubscribedCourseMaterials> {
       iconcolor: AppColor.lightGreenCardBackground, 
       iconBgcolor: AppColor.greenBarGraph, 
       onPressed: (){}),
-      // Materials(
-      // title: "Figure 2.9", 
-      // subtitle: "Tap to view this image", 
-      // icon: Icons.image, 
-      // iconcolor: AppColor.lightGreenCardBackground, 
-      // iconBgcolor: AppColor.greenBarGraph, 
-      // onPressed: (){}),Materials(
-      // title: "Figure 9.9", 
-      // subtitle: "Tap to view this image", 
-      // icon: Icons.image, 
-      // iconcolor: AppColor.lightGreenCardBackground, 
-      // iconBgcolor: AppColor.greenBarGraph, 
-      // onPressed: (){}),
   ];
 
   @override
@@ -81,7 +69,8 @@ class _SubscribedCourseMaterialsState extends State<SubscribedCourseMaterials> {
               Expanded(
                 child: ListView.builder(
                   itemCount: materials.length,
-                  itemBuilder: (context, index) => CourseCard(
+                  itemBuilder: (context, index) =>
+                   CourseCard(
                       title: materials[index].title,
                       subtitle: materials[index].subtitle,
                       icon: materials[index].icon,
