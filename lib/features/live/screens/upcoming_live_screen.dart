@@ -1,3 +1,4 @@
+import 'package:etutor/features/live/widgets/no_live_class.dart';
 import 'package:flutter/material.dart';
 
 class UpcomingLiveScreen extends StatelessWidget {
@@ -5,6 +6,9 @@ class UpcomingLiveScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Scaffold(
+      body: noLiveClass(),
+    );
   }
 }
+
