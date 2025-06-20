@@ -16,7 +16,6 @@ import 'package:etutor/features/subscribed_course/screens/subscribed_course_cont
 import 'package:etutor/features/subscribed_course/screens/subscribed_course_materials.dart';
 import 'package:etutor/features/subscribed_course/screens/subscribed_course_overview.dart';
 import 'package:etutor/features/live/screens/ongoing_live_screen.dart';
-import 'package:etutor/features/live/screens/upcoming_live_screen.dart';
 import 'package:etutor/common/widgets/bottom_navigation_bar.dart';
 import 'package:etutor/features/home/screen/home_screen.dart';
 import 'package:etutor/features/subscribed_course/screens/subscribed_course_overview.dart';
@@ -50,7 +49,9 @@ class MyApp extends StatelessWidget {
       // home: SubscribedCourseContent(),
       // home: SubscribedCourseAssignmentScreen(),
       // home: SubscribedCourseSubject(),
-      home: UpcomingLiveScreen(),
+      // home: SubscribedCoursesTests(),
+      home: BottomNavBarScreen(),
+      //home: OngoingLiveScreen(),
       // home: SubscribedCourseSubject()
 
     );

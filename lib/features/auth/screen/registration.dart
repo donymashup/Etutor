@@ -203,7 +203,7 @@ class _RegistrationState extends State<Registration> {
                   CustomButton(
                     onpressed: () {},
                     text: "Get Started",
-                    color:AppColor.primaryColor,)                                   
+                    buttoncolor:AppColor.primaryColor,textColor: AppColor.whiteColor,)                                   
                 ],
               ),
             ),
