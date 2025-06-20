@@ -13,12 +13,34 @@ class TestSeriesPage extends StatefulWidget {
 
 class _TestSeriesPageState extends State<TestSeriesPage> {
   int selectedIndex = 0;
+  late final PageController _pageController;
 
   final List<Widget> tabs = const [
     AttendedPage(),
     OngoingPage(),
     UpcomingPage(),
   ];
+
+  @override
+  void initState() {
+    super.initState();
+    _pageController = PageController(initialPage: selectedIndex);
+  }
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
+  }
+
+  void _onTabSelected(int index) {
+    setState(() => selectedIndex = index);
+    _pageController.animateToPage(
+      index,
+      duration: const Duration(milliseconds: 300),
+      curve: Curves.ease,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -51,24 +73,32 @@ class _TestSeriesPageState extends State<TestSeriesPage> {
                     _TabButton(
                       label: 'Attended',
                       selected: selectedIndex == 0,
-                      onTap: () => setState(() => selectedIndex = 0),
+                      onTap: () => _onTabSelected(0),
                     ),
                     _TabButton(
                       label: 'Ongoing',
                       selected: selectedIndex == 1,
-                      onTap: () => setState(() => selectedIndex = 1),
+                      onTap: () => _onTabSelected(1),
                     ),
                     _TabButton(
                       label: 'Upcoming',
                       selected: selectedIndex == 2,
-                      onTap: () => setState(() => selectedIndex = 2),
+                      onTap: () => _onTabSelected(2),
                     ),
                   ],
                 ),
               ),
             ),
             const SizedBox(height: 16),
-            Expanded(child: tabs[selectedIndex]),
+            Expanded(
+              child: PageView(
+                controller: _pageController,
+                onPageChanged: (index) {
+                  setState(() => selectedIndex = index);
+                },
+                children: tabs,
+              ),
+            ),
           ],
         ),
       ),

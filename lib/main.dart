@@ -15,6 +15,12 @@ import 'package:etutor/features/subscribed_course/screens/subscribed_course_assi
 import 'package:etutor/features/subscribed_course/screens/subscribed_course_content.dart';
 import 'package:etutor/features/subscribed_course/screens/subscribed_course_materials.dart';
 import 'package:etutor/features/subscribed_course/screens/subscribed_course_overview.dart';
+import 'package:etutor/features/live/screens/ongoing_live_screen.dart';
+import 'package:etutor/features/subscribed_course.dart/screens/subscribed_course_all_subjects.dart';
+import 'package:etutor/features/subscribed_course.dart/screens/subscribed_course_assignment_screen.dart';
+import 'package:etutor/features/subscribed_course.dart/screens/subscribed_course_content.dart';
+import 'package:etutor/features/subscribed_course.dart/screens/subscribed_course_materials.dart';
+import 'package:etutor/features/subscribed_course.dart/screens/subscribed_course_overview.dart';
 import 'package:etutor/common/widgets/bottom_navigation_bar.dart';
 import 'package:etutor/features/home/screen/home_screen.dart';
 import 'package:etutor/features/subscribed_course/screens/subscribed_course_overview.dart';
@@ -50,7 +56,8 @@ class MyApp extends StatelessWidget {
       // home: SubscribedCourseSubject(),
       // home: SubscribedCoursesTests(),
       home: CourseDetailsScreen(),
-      
+      //home: OngoingLiveScreen(),
+      // home: SubscribedCourseSubject()
 
     );
   }
