@@ -1,7 +1,5 @@
 import 'package:etutor/common/constants/app_constants.dart';
-import 'package:etutor/features/subscribed_course.dart/screens/no_data.dart';
-import 'package:etutor/features/subscribed_course.dart/screens/subscribed_course_assignment_screen.dart';
-import 'package:etutor/features/subscribed_course.dart/widgets/course_card.dart';
+import 'package:etutor/features/subscribed_course/widgets/course_card.dart';
 import 'package:flutter/material.dart';
 
 class SubscribedCourseOverview extends StatefulWidget {

@@ -45,7 +45,7 @@ class _CourseCardState extends State<CourseCard> {
                 color: widget.iconBgColor),
                 height: MediaQuery.of(context).size.width * 0.1,
                 width: MediaQuery.of(context).size.width * 0.1,
-              child: Icon(widget.icon,color: widget.iconColor,size: 40,)),
+              child: Icon(widget.icon,color: widget.iconColor,size: 30,)),
               Expanded(
                 child: Padding(
                   padding: const EdgeInsets.all(20.0),

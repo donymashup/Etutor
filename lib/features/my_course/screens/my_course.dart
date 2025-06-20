@@ -1,7 +1,7 @@
 import 'package:etutor/common/constants/app_constants.dart';
 import 'package:etutor/features/my_course/widgets/feature_button.dart';
 import 'package:etutor/features/my_course/widgets/mycoursecard.dart';
-import 'package:etutor/features/subscribed_course.dart/screens/no_data.dart';
+import 'package:etutor/features/subscribed_course/screens/no_data.dart';
 import 'package:etutor/features/my_course/widgets/my_course_listview.dart';
 import 'package:flutter/material.dart';
 
