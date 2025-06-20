@@ -1,13 +1,15 @@
 import 'package:etutor/common/constants/app_constants.dart';
 import 'package:flutter/material.dart';
 
-class blueButton extends StatelessWidget {
+class CustomButton extends StatelessWidget {
 void Function() onpressed;
+Color color;
 String text;
-  blueButton({
+  CustomButton({
     super.key,
     required this.onpressed,
     required this.text,
+    required this.color,
   });
 
   @override
@@ -20,7 +22,7 @@ String text;
       style: ElevatedButton.styleFrom(
         backgroundColor: AppColor.primaryColor,
       ),
-      child:Text(text,style: TextStyle(color: AppColor.whiteColor,fontWeight: FontWeight.w600,fontSize: 15),),
+      child:Text(text,style: TextStyle(color: color,fontWeight: FontWeight.w600,fontSize: 15),),
        ),
     );
   }
