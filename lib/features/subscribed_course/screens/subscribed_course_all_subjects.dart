@@ -1,4 +1,4 @@
-import 'package:etutor/features/subscribed_course.dart/widgets/subject_overview_card.dart';
+import 'package:etutor/features/subscribed_course/widgets/subject_overview_card.dart';
 import 'package:flutter/material.dart';
 
 class SubscribedCourseAllSubjects extends StatefulWidget {

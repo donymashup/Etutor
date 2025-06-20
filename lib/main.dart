@@ -9,6 +9,12 @@ import 'package:etutor/features/auth/screen/registration.dart';
 import 'package:etutor/features/auth/screen/test_home.dart';
 import 'package:etutor/common/constants/app_constants.dart';
 import 'package:etutor/features/auth/screen/password_reset_succesfull.dart';
+import 'package:etutor/features/my_course/screens/course_details_screen.dart';
+import 'package:etutor/features/subscribed_course/screens/subscribed_course_all_subjects.dart';
+import 'package:etutor/features/subscribed_course/screens/subscribed_course_assignment_screen.dart';
+import 'package:etutor/features/subscribed_course/screens/subscribed_course_content.dart';
+import 'package:etutor/features/subscribed_course/screens/subscribed_course_materials.dart';
+import 'package:etutor/features/subscribed_course/screens/subscribed_course_overview.dart';
 import 'package:etutor/features/live/screens/ongoing_live_screen.dart';
 import 'package:etutor/features/subscribed_course.dart/screens/subscribed_course_all_subjects.dart';
 import 'package:etutor/features/subscribed_course.dart/screens/subscribed_course_assignment_screen.dart';
@@ -17,9 +23,9 @@ import 'package:etutor/features/subscribed_course.dart/screens/subscribed_course
 import 'package:etutor/features/subscribed_course.dart/screens/subscribed_course_overview.dart';
 import 'package:etutor/common/widgets/bottom_navigation_bar.dart';
 import 'package:etutor/features/home/screen/home_screen.dart';
-import 'package:etutor/features/subscribed_course.dart/screens/subscribed_course_overview.dart';
-import 'package:etutor/features/subscribed_course.dart/screens/subscribed_course_subject.dart';
-import 'package:etutor/features/subscribed_course.dart/screens/subscribed_courses_tests.dart';
+import 'package:etutor/features/subscribed_course/screens/subscribed_course_overview.dart';
+import 'package:etutor/features/subscribed_course/screens/subscribed_course_subject.dart';
+import 'package:etutor/features/subscribed_course/screens/subscribed_courses_tests.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -48,8 +54,11 @@ class MyApp extends StatelessWidget {
       // home: SubscribedCourseContent(),
       // home: SubscribedCourseAssignmentScreen(),
       // home: SubscribedCourseSubject(),
-      home: OngoingLiveScreen(),
+      // home: SubscribedCoursesTests(),
+      home: CourseDetailsScreen(),
+      //home: OngoingLiveScreen(),
       // home: SubscribedCourseSubject()
+
     );
   }
 }

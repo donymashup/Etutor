@@ -1,7 +1,7 @@
 import 'package:etutor/common/constants/app_constants.dart';
-import 'package:etutor/features/subscribed_course.dart/screens/subscribed_course_subject.dart';
-import 'package:etutor/features/subscribed_course.dart/widgets/course_subject_card.dart';
-import 'package:etutor/features/subscribed_course.dart/widgets/subject_overview_card.dart';
+import 'package:etutor/features/subscribed_course/screens/subscribed_course_subject.dart';
+import 'package:etutor/features/subscribed_course/widgets/course_subject_card.dart';
+import 'package:etutor/features/subscribed_course/widgets/subject_overview_card.dart';
 import 'package:flutter/material.dart';
 
 class TestHome extends StatelessWidget {

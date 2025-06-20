@@ -1,5 +1,5 @@
 import 'package:etutor/common/constants/app_constants.dart';
-import 'package:etutor/features/subscribed_course.dart/widgets/course_card.dart';
+import 'package:etutor/features/subscribed_course/widgets/course_card.dart';
 import 'package:flutter/material.dart';
 
 class SubscribedCoursesTests extends StatefulWidget {
@@ -16,6 +16,7 @@ class Tests {
   Color iconBgcolor;
   Color iconcolor;
   void Function() onPressed;
+  
   Tests(
       {required this.title,
       required this.subtitle,
