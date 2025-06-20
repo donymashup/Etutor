@@ -1,15 +1,17 @@
-import 'package:etutor/common/constants/app_constants.dart';
 import 'package:flutter/material.dart';
 
 class CustomButton extends StatelessWidget {
-void Function() onpressed;
-Color color;
-String text;
+  void Function() onpressed;
+  Color buttoncolor;
+  String text;
+  Color textColor;
+
   CustomButton({
     super.key,
     required this.onpressed,
     required this.text,
-    required this.color,
+    required this.buttoncolor,
+    required this.textColor
   });
 
   @override
@@ -18,12 +20,17 @@ String text;
       width: MediaQuery.of(context).size.width,
       height: 45,
       child: ElevatedButton(
-      onPressed:onpressed, 
-      style: ElevatedButton.styleFrom(
-        backgroundColor: AppColor.primaryColor,
+        onPressed: onpressed,
+        style: ElevatedButton.styleFrom(
+          shape: RoundedRectangleBorder(borderRadius: BorderRadiusGeometry.circular(10)),
+          backgroundColor: buttoncolor,
+        ),
+        child: Text(
+          text,
+          style:
+              TextStyle(color: textColor, fontWeight: FontWeight.w600, fontSize: 15),
+        ),
       ),
-      child:Text(text,style: TextStyle(color: color,fontWeight: FontWeight.w600,fontSize: 15),),
-       ),
     );
   }
 }
