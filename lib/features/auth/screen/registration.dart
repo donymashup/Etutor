@@ -1,5 +1,5 @@
 import 'package:etutor/common/constants/app_constants.dart';
-import 'package:etutor/common/widgets/blue_button.dart';
+import 'package:etutor/common/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
 
 class Registration extends StatefulWidget {
@@ -199,9 +199,11 @@ class _RegistrationState extends State<Registration> {
                     ],
                   ),
                   SizedBox(height: 25,),
-                  blueButton(
+                  
+                  CustomButton(
                     onpressed: () {},
-                    text: "Get Started",)                                   
+                    text: "Get Started",
+                    color:AppColor.primaryColor,)                                   
                 ],
               ),
             ),
