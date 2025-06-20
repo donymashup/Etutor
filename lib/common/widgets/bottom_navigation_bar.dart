@@ -19,7 +19,7 @@ class _BottomNavBarScreenState extends State<BottomNavBarScreen> {
     
     HomePage(),
     MyCoursePage(),
-    LiveScreen(),
+    // LiveScreen(),
     TestSeriesPage(),
     
   ];

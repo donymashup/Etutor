@@ -1,4 +1,3 @@
-import 'package:etutor/common/widgets/blue_button.dart';
 import 'package:flutter/material.dart';
 
 class CourseOverviewScreen extends StatefulWidget {
