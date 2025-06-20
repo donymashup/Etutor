@@ -1,3 +1,4 @@
+import 'package:etutor/features/test_series/widgets/tapbtn_testseries.dart';
 import 'package:flutter/material.dart';
 import 'package:etutor/common/constants/app_constants.dart';
 import 'package:etutor/features/test_series/screens/attended_testseries.dart';
@@ -70,17 +71,17 @@ class _TestSeriesPageState extends State<TestSeriesPage> {
                 ),
                 child: Row(
                   children: [
-                    _TabButton(
+                    TabButton(
                       label: 'Attended',
                       selected: selectedIndex == 0,
                       onTap: () => _onTabSelected(0),
                     ),
-                    _TabButton(
+                    TabButton(
                       label: 'Ongoing',
                       selected: selectedIndex == 1,
                       onTap: () => _onTabSelected(1),
                     ),
-                    _TabButton(
+                    TabButton(
                       label: 'Upcoming',
                       selected: selectedIndex == 2,
                       onTap: () => _onTabSelected(2),
@@ -100,44 +101,6 @@ class _TestSeriesPageState extends State<TestSeriesPage> {
               ),
             ),
           ],
-        ),
-      ),
-    );
-  }
-}
-
-class _TabButton extends StatelessWidget {
-  final String label;
-  final bool selected;
-  final VoidCallback onTap;
-
-  const _TabButton({
-    required this.label,
-    required this.selected,
-    required this.onTap,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Expanded(
-      child: InkWell(
-        borderRadius: BorderRadius.circular(12),
-        onTap: onTap,
-        child: Container(
-          padding: const EdgeInsets.symmetric(vertical: 16),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(12),
-            color: selected ? AppColor.primaryColor.withOpacity(0.1) : Colors.transparent,
-          ),
-          child: Center(
-            child: Text(
-              label,
-              style: TextStyle(
-                fontWeight: FontWeight.w600,
-                color: selected ? AppColor.primaryColor : AppColor.greyText,
-              ),
-            ),
-          ),
         ),
       ),
     );

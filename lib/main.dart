@@ -50,9 +50,12 @@ class MyApp extends StatelessWidget {
       // home: SubscribedCourseAssignmentScreen(),
       // home: SubscribedCourseSubject(),
       // home: SubscribedCoursesTests(),
+
       home: BottomNavBarScreen(),
+
       //home: OngoingLiveScreen(),
       // home: SubscribedCourseSubject()
+      home: const BottomNavBarScreen(),
 
     );
   }
