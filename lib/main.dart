@@ -55,7 +55,6 @@ class MyApp extends StatelessWidget {
 
       //home: OngoingLiveScreen(),
       // home: SubscribedCourseSubject()
-      home: const BottomNavBarScreen(),
 
     );
   }
