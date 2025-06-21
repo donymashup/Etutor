@@ -11,16 +11,22 @@ class LiveScreen extends StatefulWidget {
   State<LiveScreen> createState() => _LiveScreenState();
 }
 
-class _LiveScreenState extends State<LiveScreen>with SingleTickerProviderStateMixin {
+class _LiveScreenState extends State<LiveScreen>
+    with SingleTickerProviderStateMixin {
   late final TabController _tabController;
-  final List<Widget> _body = [ OngoingLiveScreen(),UpcomingLiveScreen(),RecordedLiveScreen()];
+  final List<Widget> _body = [
+    OngoingLiveScreen(),
+    UpcomingLiveScreen(),
+    RecordedLiveScreen()
+  ];
 
   @override
   void initState() {
     _tabController = TabController(length: 3, vsync: this);
     super.initState();
   }
-   @override
+
+  @override
   void dispose() {
     _tabController.dispose();
     super.dispose();
@@ -31,14 +37,17 @@ class _LiveScreenState extends State<LiveScreen>with SingleTickerProviderStateMi
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          toolbarHeight:kToolbarHeight -10 ,
+          toolbarHeight: kToolbarHeight - 10,
           title: Padding(
             padding: const EdgeInsets.only(top: 30),
-            child: Text("Live Class",style: TextStyle(fontSize: 20),),
+            child: Text(
+              "Live Class",
+              style: TextStyle(fontSize: 20),
+            ),
           ),
         ),
         body: DefaultTabController(
-          length: 3, 
+          length: 3,
           child: Column(
             children: [
               Padding(
@@ -55,29 +64,32 @@ class _LiveScreenState extends State<LiveScreen>with SingleTickerProviderStateMi
                     dividerColor: Colors.transparent,
                     indicator: BoxDecoration(
                       borderRadius: BorderRadius.circular(8.0),
-                      color:AppColor.primaryColor,
+                      color: AppColor.primaryColor,
                     ),
                     padding: const EdgeInsets.all(5),
-                     labelStyle: TextStyle(color: AppColor.whiteColor,fontWeight: FontWeight.w600),
-                     unselectedLabelStyle:TextStyle(color: AppColor.blackColor,) ,
+                    labelStyle: TextStyle(
+                        color: AppColor.whiteColor,
+                        fontWeight: FontWeight.w600),
+                    unselectedLabelStyle: TextStyle(
+                      color: AppColor.blackColor,
+                    ),
                     tabs: const [
                       Tab(text: "Ongoing"),
                       Tab(text: "Upcoming"),
-                      Tab(text: "Recorded"),   
+                      Tab(text: "Recorded"),
                     ],
                   ),
                 ),
               ),
               Expanded(
                 child: TabBarView(
-                 // physics: const NeverScrollableScrollPhysics(),
                   controller: _tabController,
                   children: _body,
                 ),
               ),
             ],
           ),
-          ),
+        ),
       ),
     );
   }
