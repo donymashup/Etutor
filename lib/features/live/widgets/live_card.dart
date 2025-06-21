@@ -19,13 +19,13 @@ class LiveCard extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadiusDirectional.circular(10),
-        border: Border.all(color: AppColor.primaryColor),
+        border: Border.all(color: AppColor.lightNightBlue),
         color: AppColor.greyCardBackground,
       ),
       width: MediaQuery.of(context).size.width,
-      margin: EdgeInsets.all(10),
+      margin: EdgeInsets.symmetric(horizontal: 10,vertical: 5),
       child: Padding(
-        padding: const EdgeInsets.all(10.0),
+        padding: const EdgeInsets.all(6.0),
         child: Row(
           children: [
               Container(
@@ -34,19 +34,19 @@ class LiveCard extends StatelessWidget {
                   border: Border.all(color: AppColor.secondaryColor),
                   image: DecorationImage(image: AssetImage(img),fit: BoxFit.cover,
                 ),),
-                height: MediaQuery.of(context).size.width *0.3,
+                height: MediaQuery.of(context).size.width *0.27,
                 width: MediaQuery.of(context).size.width * 0.39,
               ),
                 SizedBox(width: 5,),
                 Expanded(
                   child:SizedBox(
-                 height: MediaQuery.of(context).size.width *0.3,
+                 height: MediaQuery.of(context).size.width *0.27,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(title,maxLines: 2, overflow: TextOverflow.ellipsis,
-                        style: TextStyle(fontWeight: FontWeight.w500,fontSize: 18),),                    
+                        style: TextStyle(fontWeight: FontWeight.w500,fontSize: 16),),                    
                         Row(
                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                          crossAxisAlignment: CrossAxisAlignment.end,
