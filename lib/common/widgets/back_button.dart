@@ -10,10 +10,11 @@ class CustomBackButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Align(                       
-      alignment: Alignment.centerLeft,
+      alignment: Alignment.center,
       child: Container(
         width: 36,
         height: 36,
+        padding: EdgeInsets.zero,
         decoration: BoxDecoration(color: AppColor.whiteColor,borderRadius: BorderRadius.circular(22),border:Border.all(color: AppColor.greyStroke)),
         child: IconButton(
           iconSize: 18,

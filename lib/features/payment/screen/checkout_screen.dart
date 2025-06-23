@@ -8,19 +8,19 @@ class CheckoutScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-        child: Scaffold(
+    return Scaffold(
       backgroundColor: AppColor.greyBackground,
       appBar: AppBar(
+        centerTitle: true,
         backgroundColor: AppColor.whiteColor,
-        title: Center(
-            child: Text(
+        title: Text(
           "Buy Course",
           style: TextStyle(fontWeight: FontWeight.w500, fontSize: 20),
         ),
-        
+        leading: Padding(
+          padding: const EdgeInsets.all(15.0),
+          child: CustomBackButton(),
         ),
-       
       ),
       body: Padding(
         padding: const EdgeInsets.all(15.0),
@@ -35,7 +35,6 @@ class CheckoutScreen extends StatelessWidget {
                   ),
                   child: Column(
                     children: [
-          
                       //course details card
                       Row(
                         mainAxisAlignment: MainAxisAlignment.start,
@@ -104,7 +103,7 @@ class CheckoutScreen extends StatelessWidget {
                       )
                     ],
                   )),
-          
+
               //voucher card
               Container(
                 decoration: BoxDecoration(
@@ -165,9 +164,9 @@ class CheckoutScreen extends StatelessWidget {
                   ],
                 ),
               ),
-          
+
               //payment method card
-               Container(
+              Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
                   color: AppColor.whiteColor,
@@ -221,7 +220,7 @@ class CheckoutScreen extends StatelessWidget {
                   ],
                 ),
               ),
-              
+
               //bill splits card
               Container(
                 margin: EdgeInsets.symmetric(vertical: 10),
@@ -233,86 +232,116 @@ class CheckoutScreen extends StatelessWidget {
                   children: [
                     Row(
                       children: [
-                         Image.asset("assets/icons/clipIcon.png"),
+                        Image.asset("assets/icons/clipIcon.png"),
                         SizedBox(
                           width: 5,
                         ),
                         Text("Summary"),
                       ],
                     ),
-                    SizedBox(height: 10,),
+                    SizedBox(
+                      height: 10,
+                    ),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 10.0),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                         Text("PricePrice",style: TextStyle(fontSize:13 ,color:AppColor.greyTextDark ),),
-                         Text("₹1000")
+                          Text(
+                            "PricePrice",
+                            style: TextStyle(
+                                fontSize: 13, color: AppColor.greyTextDark),
+                          ),
+                          Text("₹1000")
                         ],
                       ),
                     ),
-                    SizedBox(height: 5,),
+                    SizedBox(
+                      height: 5,
+                    ),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 10.0),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                         Text("Voucher Discount",style: TextStyle(fontSize:13 ,color:AppColor.greyTextDark ),),
-                         Row(
-                           children: [
-                            Text("-"),
-                             Text("₹0"),
-                           ],
-                         )
+                          Text(
+                            "Voucher Discount",
+                            style: TextStyle(
+                                fontSize: 13, color: AppColor.greyTextDark),
+                          ),
+                          Row(
+                            children: [
+                              Text("-"),
+                              Text("₹0"),
+                            ],
+                          )
                         ],
                       ),
                     ),
-                    SizedBox(height: 5,),
+                    SizedBox(
+                      height: 5,
+                    ),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 10.0),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                         Text("Tax",style: TextStyle(fontSize:13 ,color:AppColor.greyTextDark ),),
-                         Row(
-                           children: [
-                             Text("-"),
-                             Text("₹0"),
-                           ],
-                         )
+                          Text(
+                            "Tax",
+                            style: TextStyle(
+                                fontSize: 13, color: AppColor.greyTextDark),
+                          ),
+                          Row(
+                            children: [
+                              Text("-"),
+                              Text("₹0"),
+                            ],
+                          )
                         ],
                       ),
                     ),
-                    SizedBox(height: 10,),
+                    SizedBox(
+                      height: 10,
+                    ),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                      child: Divider(color: AppColor.greyStroke,),
+                      child: Divider(
+                        color: AppColor.greyStroke,
+                      ),
                     ),
                     Padding(
                       padding: const EdgeInsets.all(10.0),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                         Text("Total Amount",style: TextStyle(fontSize: 14,fontWeight: FontWeight.w500),),
-                         Text("₹10000",style: TextStyle(fontSize: 14,fontWeight: FontWeight.w500),),
-                      ],),
+                          Text(
+                            "Total Amount",
+                            style: TextStyle(
+                                fontSize: 14, fontWeight: FontWeight.w500),
+                          ),
+                          Text(
+                            "₹10000",
+                            style: TextStyle(
+                                fontSize: 14, fontWeight: FontWeight.w500),
+                          ),
+                        ],
+                      ),
                     ),
-                   
                   ],
                 ),
               ),
-               Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 20.0),
-                      child: CustomButton(
-                        onpressed: (){}, 
-                        text: "Pay  ₹10000" , 
-                        buttoncolor: AppColor.greyButton, 
-                        textColor: AppColor.whiteColor),
-                    )
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 20.0),
+                child: CustomButton(
+                    onpressed: () {},
+                    text: "Pay  ₹10000",
+                    buttoncolor: AppColor.greyButton,
+                    textColor: AppColor.whiteColor),
+              )
             ],
           ),
         ),
       ),
-    ));
+    );
   }
 }
