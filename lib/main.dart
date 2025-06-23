@@ -9,6 +9,7 @@ import 'package:etutor/features/auth/screen/registration.dart';
 import 'package:etutor/features/auth/screen/test_home.dart';
 import 'package:etutor/common/constants/app_constants.dart';
 import 'package:etutor/features/auth/screen/password_reset_succesfull.dart';
+import 'package:etutor/features/live/screens/live_screen.dart';
 import 'package:etutor/features/my_course/screens/course_details_screen.dart';
 import 'package:etutor/features/performace_index/screens/performance_index_screen.dart';
 import 'package:etutor/features/subscribed_course/screens/subscribed_course_all_subjects.dart';
@@ -50,12 +51,14 @@ class MyApp extends StatelessWidget {
       // home: SubscribedCourseContent(),
       // home: SubscribedCourseAssignmentScreen(),
       // home: SubscribedCourseSubject(),
-      home: PerformanceIndexScreen(),
+      // home: PerformanceIndexScreen(),
       // home: SubscribedCoursesTests(),
       // home: BottomNavBarScreen(),
       // home: OngoingLiveScreen(),
+      // home:LiveScreen(),
+      home: BottomNavBarScreen(),
+      //home: OngoingLiveScreen(),
       // home: SubscribedCourseSubject()
-
     );
   }
 }
