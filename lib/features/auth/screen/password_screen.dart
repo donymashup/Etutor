@@ -1,4 +1,5 @@
 import 'package:etutor/common/constants/app_constants.dart';
+import 'package:etutor/features/auth/screen/forgot_password.dart';
 import 'package:etutor/features/auth/widgets/white_button.dart';
 import 'package:etutor/features/auth/widgets/whitestroke_textfield.dart';
 import 'package:flutter/material.dart';
@@ -65,7 +66,12 @@ class PasswordScreen extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       TextButton(
-                          onPressed: () {},
+                          onPressed: () {
+                             Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ForgotPassword()));
+                          },
                           child: Text("Forgot Password?",
                               style: TextStyle(
                                 fontSize: 12,

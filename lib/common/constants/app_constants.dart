@@ -31,5 +31,5 @@ class AppColor {
   static const Color whiteColorTrasparent = Color.fromARGB(51, 255, 255, 255);
   static const Color lightVioletCardBackground =Color(0x2E6207FF);
   static const Color lightNightBlue = Color(0xFF5A81A8); // soft, light night blue
-
+  static const Color greyIconDark = Color.fromARGB(255, 113, 113, 113);
 }
