@@ -3,6 +3,7 @@ import 'package:etutor/features/my_course/widgets/feature_button.dart';
 import 'package:etutor/features/my_course/widgets/mycoursecard.dart';
 import 'package:etutor/features/subscribed_course/screens/no_data.dart';
 import 'package:etutor/features/my_course/widgets/my_course_listview.dart';
+import 'package:etutor/features/subscribed_course/screens/subscribed_course_overview.dart';
 import 'package:flutter/material.dart';
 
 class MyCoursePage extends StatefulWidget {
@@ -115,13 +116,25 @@ class _MyCoursePageState extends State<MyCoursePage> {
                               runSpacing: 10,
                               children: List.generate(courses.length, (index) {
                                 final course = courses[index];
-                                return MyCourseCard(
-                                  imgHeight:
-                                      MediaQuery.of(context).size.width * 0.25,
-                                  title: course['title'],
-                                  imagePath: course['image'],
-                                  rating: course['rating'],
-                                  isFree: course['isFree'],
+                                return GestureDetector(
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            const SubscribedCourseOverview(),
+                                      ),
+                                    );
+                                  },
+                                  child: MyCourseCard(
+                                    imgHeight:
+                                        MediaQuery.of(context).size.width *
+                                            0.25,
+                                    title: course['title'],
+                                    imagePath: course['image'],
+                                    rating: course['rating'],
+                                    isFree: course['isFree'],
+                                  ),
                                 );
                               }),
                             )

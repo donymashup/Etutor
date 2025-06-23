@@ -1,3 +1,5 @@
+import 'package:etutor/features/my_course/screens/course_details_screen.dart';
+import 'package:etutor/features/notification/screens/notification_page.dart';
 import 'package:flutter/material.dart';
 import 'package:etutor/common/constants/app_constants.dart';
 import 'package:etutor/features/home/widgets/category_button.dart';
@@ -57,8 +59,7 @@ class _HomePageState extends State<HomePage> {
     },
   ];
 
-
-    final List<Map<String, dynamic>> mockCourses = [
+  final List<Map<String, dynamic>> mockCourses = [
     {
       'imagePath': 'assets/images/course3.png',
       'title': 'Mental Ability 25-26',
@@ -114,7 +115,8 @@ class _HomePageState extends State<HomePage> {
                             children: [
                               const CircleAvatar(
                                 radius: 30,
-                                backgroundImage: AssetImage('assets/images/smriti1.jpeg'),
+                                backgroundImage:
+                                    AssetImage('assets/images/smriti1.jpeg'),
                               ),
                               const SizedBox(width: 12),
                               Column(
@@ -150,7 +152,8 @@ class _HomePageState extends State<HomePage> {
                                   shape: BoxShape.circle,
                                   color: Colors.white,
                                   image: const DecorationImage(
-                                    image: AssetImage('assets/images/gpt (2).png'),
+                                    image:
+                                        AssetImage('assets/images/gpt (2).png'),
                                     fit: BoxFit.cover,
                                   ),
                                 ),
@@ -158,9 +161,21 @@ class _HomePageState extends State<HomePage> {
                               Stack(
                                 alignment: Alignment.topRight,
                                 children: [
-                                  const CircleAvatar(
-                                    backgroundColor: Colors.white,
-                                    child: Icon(Icons.notifications, color: Colors.black),
+                                  GestureDetector(
+                                    onTap: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              NotificationPage(),
+                                        ),
+                                      );
+                                    },
+                                    child: const CircleAvatar(
+                                      backgroundColor: Colors.white,
+                                      child: Icon(Icons.notifications,
+                                          color: Colors.black),
+                                    ),
                                   ),
                                   Positioned(
                                     right: 6,
@@ -236,10 +251,26 @@ class _HomePageState extends State<HomePage> {
                   itemCount: activeCourses.length,
                   itemBuilder: (context, index) {
                     final course = activeCourses[index];
-                    return CoursesList(
-                      imagePath: course['imagePath'],
-                      rating: course['rating'],
-                      title: course['title'],
+                    // return CoursesList(
+                    //   imagePath: course['imagePath'],
+                    //   rating: course['rating'],
+                    //   title: course['title'],
+                    // );
+
+                    return GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const CourseDetailsScreen(),
+                          ),
+                        );
+                      },
+                      child: CoursesList(
+                        imagePath: course['imagePath'],
+                        rating: course['rating'],
+                        title: course['title'],
+                      ),
                     );
                   },
                 ),
@@ -267,10 +298,26 @@ class _HomePageState extends State<HomePage> {
                   itemCount: popularCourses.length,
                   itemBuilder: (context, index) {
                     final course = popularCourses[index];
-                    return CoursesList(
-                      imagePath: course['imagePath'],
-                      rating: course['rating'],
-                      title: course['title'],
+                    // return CoursesList(
+                    //   imagePath: course['imagePath'],
+                    //   rating: course['rating'],
+                    //   title: course['title'],
+                    // );
+
+                    return GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const CourseDetailsScreen(),
+                          ),
+                        );
+                      },
+                      child: CoursesList(
+                        imagePath: course['imagePath'],
+                        rating: course['rating'],
+                        title: course['title'],
+                      ),
                     );
                   },
                 ),
@@ -299,10 +346,25 @@ class _HomePageState extends State<HomePage> {
                   itemCount: mockCourses.length,
                   itemBuilder: (context, index) {
                     final course = mockCourses[index];
-                    return CoursesList(
-                      imagePath: course['imagePath'],
-                      rating: course['rating'],
-                      title: course['title'],
+                    // return CoursesList(
+                    //   imagePath: course['imagePath'],
+                    //   rating: course['rating'],
+                    //   title: course['title'],
+                    // );
+                    return GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const CourseDetailsScreen(),
+                          ),
+                        );
+                      },
+                      child: CoursesList(
+                        imagePath: course['imagePath'],
+                        rating: course['rating'],
+                        title: course['title'],
+                      ),
                     );
                   },
                 ),
