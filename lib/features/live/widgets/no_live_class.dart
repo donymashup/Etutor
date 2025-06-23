@@ -19,7 +19,10 @@ class noLiveClass extends StatelessWidget {
                 fit: BoxFit.cover,
                 width: 300,
               ),
-          Text("No live classes are available right now Check back soon for updates", textAlign: TextAlign.center,style: TextStyle(fontWeight: FontWeight.w500,fontSize: 16),)    
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text("No live classes are available right now Check back soon for updates", textAlign: TextAlign.center,style: TextStyle(fontWeight: FontWeight.w500,fontSize: 16),),
+          )    
         ],
       ),
     );
