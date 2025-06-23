@@ -11,7 +11,7 @@ class noTestSeries extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(10.0),
       child: Column(
-        mainAxisAlignment:MainAxisAlignment.center ,
+        mainAxisAlignment:MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
          Lottie.asset(
@@ -19,7 +19,7 @@ class noTestSeries extends StatelessWidget {
                 fit: BoxFit.cover,
                 width: 300,
               ),
-          Text("No test series are available right now Check back soon for updates", textAlign: TextAlign.center,style: TextStyle(fontWeight: FontWeight.w500,fontSize: 16),)    
+          Text("No test series are available right now Check back soon for updates", textAlign: TextAlign.center,style: TextStyle(fontWeight: FontWeight.w500,fontSize: 12),)    
         ],
       ),
     );

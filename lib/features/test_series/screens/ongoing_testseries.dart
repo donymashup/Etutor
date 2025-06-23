@@ -46,7 +46,9 @@ class OngoingPage extends StatelessWidget {
           duration: test["duration"]!,
           marks: test["marks"]!,
           questionCount: test["questions"]!,
-          onReview: () {
+          onReview: (
+            
+          ) {
             // Handle attend/review action
           },
           isOngoing: true,

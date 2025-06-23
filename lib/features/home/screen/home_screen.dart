@@ -1,3 +1,4 @@
+import 'package:etutor/features/notification/screens/notification_page.dart';
 import 'package:flutter/material.dart';
 import 'package:etutor/common/constants/app_constants.dart';
 import 'package:etutor/features/home/widgets/category_button.dart';
@@ -158,10 +159,20 @@ class _HomePageState extends State<HomePage> {
                               Stack(
                                 alignment: Alignment.topRight,
                                 children: [
-                                  const CircleAvatar(
-                                    backgroundColor: Colors.white,
-                                    child: Icon(Icons.notifications, color: Colors.black),
-                                  ),
+                                    GestureDetector(
+                                    onTap: () {
+                                      Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => NotificationPage(),
+                                      ),
+                                      );
+                                    },
+                                    child: const CircleAvatar(
+                                      backgroundColor: Colors.white,
+                                      child: Icon(Icons.notifications, color: Colors.black),
+                                    ),
+                                    ),
                                   Positioned(
                                     right: 6,
                                     top: 6,
