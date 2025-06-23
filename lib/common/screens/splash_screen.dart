@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:etutor/features/auth/screen/phone_number_auth.dart';
 import 'package:flutter/material.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -11,10 +14,10 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    // Timer(
-    //     Duration(seconds: 3),
-    //     () => Navigator.pushReplacement(
-    //         context, MaterialPageRoute(builder: (context) => SecondScreen())));
+    Timer(
+        Duration(seconds: 3),
+        () => Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (context) => PhoneNumberAuth())));
   }
 
   @override

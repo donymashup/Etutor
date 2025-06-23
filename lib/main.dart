@@ -55,13 +55,13 @@ class MyApp extends StatelessWidget {
       // home: SubscribedCourseContent(),
        // home: SubscribedCourseAssignmentScreen(),
       // home: SubscribedCourseSubject(),
-      // home: PerformanceIndexScreen(),
+       home: PerformanceIndexScreen(),
       // home: SubscribedCoursesTests(),
 
       // home: NotificationPage(),
       // home: ProfilePage()
 
-      home: BottomNavBarScreen(),
+      //home: BottomNavBarScreen(),
 
       //home: OngoingLiveScreen(),
       //home: CourseDetailsScreen(),

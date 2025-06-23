@@ -1,4 +1,5 @@
 import 'package:etutor/common/constants/app_constants.dart';
+import 'package:etutor/common/widgets/back_button.dart';
 import 'package:etutor/common/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
 
@@ -58,20 +59,7 @@ class _RegistrationState extends State<Registration> {
                           ),
                         ),
                         
-                        Align(                       
-                          alignment: Alignment.centerLeft,
-                          child: Container(
-                            width: 36,
-                            height: 36,
-                            decoration: BoxDecoration(color: AppColor.whiteColor,borderRadius: BorderRadius.circular(22)),
-                            child: IconButton(
-                              iconSize: 18,
-                              onPressed: () => Navigator.pop(context),
-                              icon: Icon(Icons.arrow_back_ios_new_outlined,
-                                  color: AppColor.greyIcon,),
-                            ),
-                          ),
-                        ),
+                        CustomBackButton(),
                       ],
                     ),
                     SizedBox(height: 20),
@@ -213,6 +201,7 @@ class _RegistrationState extends State<Registration> {
     );
   }
 
+//method for dropdown
   DropdownButtonFormField<String> dropdown(IconData iconData, String hint,
       List<String> item, String? dropdownValue) {
     return DropdownButtonFormField<String>(
@@ -262,6 +251,7 @@ class _RegistrationState extends State<Registration> {
 }
 
 
+//widget for lable of the textfield
 class label extends StatelessWidget {
   String labelText;
   label({
@@ -286,6 +276,7 @@ class label extends StatelessWidget {
   }
 }
 
+// custom textformfield with greystroke
 class greystokeTextfield extends StatelessWidget {
   String hintText;
   IconData iconData;
