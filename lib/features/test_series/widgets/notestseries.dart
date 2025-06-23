@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 
-class noLiveClass extends StatelessWidget {
-  const noLiveClass({
+class noTestSeries extends StatelessWidget {
+  const noTestSeries({
     super.key,
   });
 
@@ -15,14 +15,11 @@ class noLiveClass extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
          Lottie.asset(
-                'assets/lottie/noLiveClass.json',
+                'assets/lottie/notestseries.json',
                 fit: BoxFit.cover,
                 width: 300,
               ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text("No live classes are available right now Check back soon for updates", textAlign: TextAlign.center,style: TextStyle(fontWeight: FontWeight.w500,fontSize: 16),),
-          )    
+          Text("No test series are available right now Check back soon for updates", textAlign: TextAlign.center,style: TextStyle(fontWeight: FontWeight.w500,fontSize: 16),)    
         ],
       ),
     );
