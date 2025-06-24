@@ -1,9 +1,11 @@
 import 'package:etutor/common/constants/app_constants.dart';
 import 'package:etutor/features/my_course/widgets/feature_button.dart';
 import 'package:etutor/features/my_course/widgets/mycoursecard.dart';
+import 'package:etutor/features/performace_index/screens/performance_index_screen.dart';
 import 'package:etutor/features/subscribed_course/screens/no_data.dart';
 import 'package:etutor/features/my_course/widgets/my_course_listview.dart';
 import 'package:etutor/features/subscribed_course/screens/subscribed_course_overview.dart';
+import 'package:etutor/features/timeline/screens/timeline_screen.dart';
 import 'package:flutter/material.dart';
 
 class MyCoursePage extends StatefulWidget {
@@ -140,7 +142,6 @@ class _MyCoursePageState extends State<MyCoursePage> {
                             )
                           : MyCourseListView(courses: courses),
                     ),
-
               Padding(
                 padding:
                     const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
@@ -163,7 +164,14 @@ class _MyCoursePageState extends State<MyCoursePage> {
                         icon: Icons.view_timeline,
                         text: 'Timeline',
                         backgroundColor: AppColor.primaryColor,
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const TimelineScreen(),
+                            ),
+                          );
+                        },
                       ),
                     ),
                     const SizedBox(width: 16),
@@ -172,7 +180,15 @@ class _MyCoursePageState extends State<MyCoursePage> {
                         icon: Icons.bar_chart,
                         text: 'Performance Index',
                         backgroundColor: AppColor.secondaryColor,
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  const PerformanceIndexScreen(),
+                            ),
+                          );
+                        },
                       ),
                     ),
                   ],
