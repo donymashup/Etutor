@@ -17,10 +17,10 @@ class CheckoutScreen extends StatelessWidget {
           "Buy Course",
           style: TextStyle(fontWeight: FontWeight.w500, fontSize: 20),
         ),
-        leading: Padding(
-          padding: const EdgeInsets.all(15.0),
-          child: CustomBackButton(),
-        ),
+       leading: Padding(
+         padding: const EdgeInsets.all(10.0),
+         child: CustomBackButton(),
+       ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(15.0),
