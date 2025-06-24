@@ -10,7 +10,7 @@ class CustomBackButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Align(                       
-      alignment: Alignment.center,
+      alignment: Alignment.centerLeft,
       child: Container(
         width: 36,
         height: 36,
