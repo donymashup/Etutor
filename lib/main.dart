@@ -48,12 +48,12 @@ class MyApp extends StatelessWidget {
       // home: const MyHomePage(title: 'Flutter Demo Home Page'),
       // home: PasswordResetSuccesfull(),
       // home: TestHome(),
-       //home: PerformanceIndexScreen(),
+      //home: PerformanceIndexScreen(),
       // home: NotificationPage(),
       // home: ProfilePage()
-      // home: BottomNavBarScreen(),
-      //home: OngoingLiveScreen(),
-      home: CourseDetailsScreen(),
+       home: BottomNavBarScreen(),
+      // home: OngoingLiveScreen(),
+      // home: CourseDetailsScreen(),
     );
   }
 }
