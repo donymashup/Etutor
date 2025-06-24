@@ -62,9 +62,9 @@ class MyApp extends StatelessWidget {
       // home: Registration(),
       // home: NotificationPage(),
       // home: ProfilePage()
-        home: CheckoutScreen(),
+      // home: CheckoutScreen(),
       //home: BottomNavBarScreen(),
-//home: PaymentMethod(),
+      home: PaymentMethod(),
       //home: OngoingLiveScreen(),
       //home: CourseDetailsScreen(),
       // home: SubscribedCourseContent(),
