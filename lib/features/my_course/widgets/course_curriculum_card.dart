@@ -8,7 +8,7 @@ class CourseCurriculumCard extends StatefulWidget {
   String classname;
   String subject;
   final List<String> items;
- final Function(String) onPressed;
+  final Function() onPressed;
 
   CourseCurriculumCard({
     required this.title,
@@ -56,7 +56,7 @@ class _CourseCurriculumCardState extends State<CourseCurriculumCard> {
                   // tileColor: AppColor.whiteColor,
                   title: Text(item, style: const TextStyle(fontSize: 16)),
                   onTap: () {
-                    widget.onPressed(item);
+                    widget.onPressed();
                     Navigator.push(
                         context,
                         MaterialPageRoute(

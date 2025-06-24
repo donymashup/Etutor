@@ -81,15 +81,12 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen>
               ),
             ),
             Expanded(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                child: Stack(children: [
-                  TabBarView(controller: _tabcontroller, children: [
-                    CourseOverviewScreen(),
-                    CourseCurriculum(),
-                  ]),
+              child: Stack(children: [
+                TabBarView(controller: _tabcontroller, children: [
+                  CourseOverviewScreen(),
+                  CourseCurriculum(),
                 ]),
-              ),
+              ]),
             ),
           ],
         ),
