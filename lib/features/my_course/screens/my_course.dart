@@ -127,7 +127,6 @@ class _MyCoursePageState extends State<MyCoursePage> {
                             )
                           : MyCourseListView(courses: courses),
                     ),
-
               Padding(
                 padding:
                     const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
