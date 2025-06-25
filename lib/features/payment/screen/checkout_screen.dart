@@ -1,6 +1,8 @@
 import 'package:etutor/common/constants/app_constants.dart';
 import 'package:etutor/common/widgets/back_button.dart';
 import 'package:etutor/common/widgets/custom_button.dart';
+import 'package:etutor/features/payment/screen/payment_method.dart';
+import 'package:etutor/features/payment/screen/voucher_screen.dart';
 import 'package:flutter/material.dart';
 
 class CheckoutScreen extends StatelessWidget {
@@ -159,7 +161,14 @@ class CheckoutScreen extends StatelessWidget {
                                       ),
                                     ),
                                     IconButton(
-                                      onPressed: () {},
+                                      onPressed: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => VoucherScreen(),
+                                          ),
+                                        );
+                                      },
                                       icon: Icon(Icons.arrow_forward_ios_outlined),
                                     ),
                                   ],
@@ -215,7 +224,14 @@ class CheckoutScreen extends StatelessWidget {
                                       ],
                                     ),
                                     IconButton(
-                                      onPressed: () {},
+                                      onPressed: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => PaymentMethod(),
+                                          ),
+                                        );
+                                      },
                                       icon: Icon(Icons.arrow_forward_ios_outlined),
                                     ),
                                   ],

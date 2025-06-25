@@ -1,4 +1,5 @@
 import 'package:etutor/common/constants/app_constants.dart';
+import 'package:etutor/features/subscribed_course/screens/subscribed_course_all_subjects.dart';
 import 'package:etutor/features/subscribed_course/widgets/course_card.dart';
 import 'package:flutter/material.dart';
 
@@ -27,30 +28,87 @@ class CourseOverview {
       required this.onPressed});
 }
 
+// class _SubscribedCourseOverviewState extends State<SubscribedCourseOverview> {
+//   List<CourseOverview> courseoverview = [
+//     CourseOverview(
+//         title: "Class 6",
+//         subtitle: "Class 6 subjects",
+//         icon: Icons.book,
+//         iconBgcolor: AppColor.greyCardBackground,
+//         iconcolor: AppColor.videoIconColor,
+//         onPressed: () {
+//           // Navigate to Class 6 subjects page
+//           Navigator.push(
+//             context,
+//             MaterialPageRoute(
+//               builder: (context) => SubscribedCourseAllSubjects(),
+//             ),
+//           );
+//         }),
+//     CourseOverview(
+//         title: "Class 7",
+//         subtitle: "Class 7 subjects",
+//         icon: Icons.book,
+//         iconBgcolor: AppColor.greyCardBackground,
+//         iconcolor: AppColor.videoIconColor,
+//         onPressed: () {}),
+//     CourseOverview(
+//         title: "Study Materials",
+//         subtitle: "Tap to view all other resources related to this course",
+//         icon: Icons.folder,
+//         iconBgcolor: AppColor.greyCardBackground,
+//         iconcolor: AppColor.fileIconColour,
+//         onPressed: () {}),
+//   ];
+
 class _SubscribedCourseOverviewState extends State<SubscribedCourseOverview> {
-  List<CourseOverview> courseoverview = [
-    CourseOverview(
+  late List<CourseOverview> courseoverview;
+
+  @override
+  void initState() {
+    super.initState();
+
+    courseoverview = [
+      CourseOverview(
         title: "Class 6",
         subtitle: "Class 6 subjects",
         icon: Icons.book,
         iconBgcolor: AppColor.greyCardBackground,
         iconcolor: AppColor.videoIconColor,
-        onPressed: () {}),
-    CourseOverview(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const SubscribedCourseAllSubjects(),
+            ),
+          );
+        },
+      ),
+      CourseOverview(
         title: "Class 7",
         subtitle: "Class 7 subjects",
         icon: Icons.book,
         iconBgcolor: AppColor.greyCardBackground,
         iconcolor: AppColor.videoIconColor,
-        onPressed: () {}),
-    CourseOverview(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const SubscribedCourseAllSubjects(),
+            ),
+          );
+        },
+      ),
+      CourseOverview(
         title: "Study Materials",
         subtitle: "Tap to view all other resources related to this course",
         icon: Icons.folder,
         iconBgcolor: AppColor.greyCardBackground,
         iconcolor: AppColor.fileIconColour,
-        onPressed: () {}),
-  ];
+        onPressed: () {},
+      ),
+    ];
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -94,14 +152,13 @@ class _SubscribedCourseOverviewState extends State<SubscribedCourseOverview> {
               child: ListView.builder(
                 itemCount: courseoverview.length,
                 itemBuilder: (context, index) => CourseCard(
-                title: courseoverview[index].title, 
-                subtitle: courseoverview[index].subtitle, 
-                icon: courseoverview[index].icon, 
-                iconBgColor: courseoverview[index].iconBgcolor, 
-                iconColor: courseoverview[index].iconcolor,
-                onPressed: courseoverview[index].onPressed
-                ),
-                ),
+                    title: courseoverview[index].title,
+                    subtitle: courseoverview[index].subtitle,
+                    icon: courseoverview[index].icon,
+                    iconBgColor: courseoverview[index].iconBgcolor,
+                    iconColor: courseoverview[index].iconcolor,
+                    onPressed: courseoverview[index].onPressed),
+              ),
             ),
           ),
         ],
