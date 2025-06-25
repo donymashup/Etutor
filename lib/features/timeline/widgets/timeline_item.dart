@@ -1,3 +1,4 @@
+import 'package:etutor/common/constants/app_constants.dart';
 import 'package:flutter/material.dart';
 
 class TimelineItem extends StatelessWidget {
@@ -22,7 +23,7 @@ class TimelineItem extends StatelessWidget {
       margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppColor.greyBackground,
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
