@@ -2,6 +2,7 @@ import 'package:etutor/common/constants/app_constants.dart';
 import 'package:etutor/common/widgets/custom_button.dart';
 import 'package:etutor/features/my_course/screens/course_curriculum.dart';
 import 'package:etutor/features/my_course/screens/course_overview_screen.dart';
+import 'package:etutor/features/payment/screen/checkout_screen.dart';
 import 'package:flutter/material.dart';
 
 class CourseDetailsScreen extends StatefulWidget {
@@ -99,7 +100,14 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen>
                 padding:
                     const EdgeInsets.symmetric(horizontal: 15.0, vertical: 15),
                 child: CustomButton(
-                    onpressed: () {},
+                    onpressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => CheckoutScreen(),
+                        ),
+                      );
+                    },
                     text: "Enroll now",
                     buttoncolor: AppColor.primaryColor,textColor: AppColor.whiteColor,),
               ),

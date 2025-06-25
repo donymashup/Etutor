@@ -234,12 +234,16 @@ class _VoucherScreenState extends State<VoucherScreen> {
                     padding: const EdgeInsets.only(
                         left: 10.0, right: 10.0, top: 10.0, bottom: 20),
                     child: CustomButton(
-                        onpressed: () {},
-                        text: "Confirm",
-                        buttoncolor: _selectedOption == null
-                            ? AppColor.greyButton
-                            : AppColor.primaryColor,
-                        textColor: AppColor.whiteColor),
+                      onpressed: _selectedOption == null
+                        ? () {}
+                        : () {
+                            Navigator.pop(context);
+                          },
+                      text: "Confirm",
+                      buttoncolor: _selectedOption == null
+                        ? AppColor.greyButton
+                        : AppColor.primaryColor,
+                      textColor: AppColor.whiteColor),
                   ),
                 ))
           ],

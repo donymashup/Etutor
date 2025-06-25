@@ -64,14 +64,14 @@ class MyApp extends StatelessWidget {
       // home: CheckoutScreen(),
       // home: BottomNavBarScreen(),
       // //home: PaymentMethod(),
-      home:VoucherScreen(),
+      // home:VoucherScreen(),
       // home: OngoingLiveScreen(),
       // home: CourseDetailsScreen(),
 
       // home: PerformanceIndexScreen(),
       // home: NotificationPage(),
-      // home: ProfilePage()
-       //  home: BottomNavBarScreen(),
+      // home: ProfilePage(),
+       home: BottomNavBarScreen(),
       // home: OngoingLiveScreen(),
       // home: CourseDetailsScreen(),
 
