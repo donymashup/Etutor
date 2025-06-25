@@ -122,6 +122,7 @@
 
 import 'package:etutor/features/my_course/screens/course_curriculum.dart';
 import 'package:etutor/features/my_course/widgets/course_curriculum_card.dart';
+import 'package:etutor/features/my_course/widgets/testimonial_card.dart';
 import 'package:flutter/material.dart';
 
 class TestHome extends StatefulWidget {
@@ -140,10 +141,15 @@ class _TestHomeState extends State<TestHome> {
           // CourseCurriculumCard(classname: "Class7",subject: "science",title: "FOOD:WHERE DOES IT COME FROM?",items: ["Food Variety", "Food Materials and Sources", "Plant Parts and Animal Products as Food"],onPressed: () {},),
           // CourseCurriculumCard(classname: "Class7",subject: "science",title: " COMPONENTS OF FOOD",items: ["Carbohydrates, Proteins, Fats, Vitamins, and Minerals", "Balanced diet", "Deficiency diseases"],onPressed: () {},),
           // CourseCurriculumCard(classname: "Class7",subject: "science",title: "FOOD:WHERE DOES IT COME FROM?",items: ["Chapter 1", "Chapter 2", "Chapter 3"],onPressed: () {},),
-         Text("wertyuijo"),
-          Text("wertyuijo"),
-          Text("wertyuijo"),
-          Text("wertyuijo"),
+        //  Text("wertyuijo"),
+        //   Text("wertyuijo"),
+        //   Text("wertyuijo"),
+        //   Text("wertyuijo"),
+          // TestimonialCard(
+          //   username: 'Arjun Ashokan', 
+          //   rating: Icons.star, 
+          //   description: 'eTutor has completely changed the way I learn—its interactive, easy to use, and keeps me engaged every step of the way!', 
+          //   userimage: "assets/images/arjun.webp",)
          
         ],
       ),

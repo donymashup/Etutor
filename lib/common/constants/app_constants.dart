@@ -32,4 +32,6 @@ class AppColor {
   static const Color lightVioletCardBackground =Color(0x2E6207FF);
   static const Color lightNightBlue = Color(0xFF5A81A8); // soft, light night blue
   static const Color greyIconDark = Color.fromARGB(255, 113, 113, 113);
+  static const Color activedaydot = Color(0xFF4CAF50); // normal green
+  static const Color inactiveDayDot = Color(0xFFFF0000); // normal red
 }
