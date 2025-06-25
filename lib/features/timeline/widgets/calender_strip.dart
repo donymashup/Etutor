@@ -29,7 +29,8 @@ class CalendarStrip extends StatelessWidget {
         children: [
           Text(
             DateFormat('MMMM').format(selectedDate),
-            style: const TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
+            style: const TextStyle(
+                color: AppColor.whiteColor, fontSize: 20, fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 12),
           SizedBox(
@@ -50,9 +51,10 @@ class CalendarStrip extends StatelessWidget {
                     width: 60,
                     margin: const EdgeInsets.symmetric(horizontal: 6),
                     decoration: BoxDecoration(
-                      color: isSelected ? Colors.white : Colors.transparent,
+                      color: isSelected ? AppColor.whiteColor : Colors.transparent,
                       borderRadius: BorderRadius.circular(16),
-                      border: isSelected ? null : Border.all(color: Colors.white),
+                      border:
+                          isSelected ? null : Border.all(color: AppColor.whiteColor),
                     ),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -60,7 +62,7 @@ class CalendarStrip extends StatelessWidget {
                         Text(
                           DateFormat('E').format(day),
                           style: TextStyle(
-                            color: isSelected ? Colors.black : Colors.white,
+                            color: isSelected ? Colors.black : AppColor.whiteColor,
                             fontWeight: FontWeight.w600,
                           ),
                         ),
@@ -74,7 +76,15 @@ class CalendarStrip extends StatelessWidget {
                           ),
                         ),
                         const SizedBox(height: 2),
-                        const CircleAvatar(radius: 2, backgroundColor: Colors.red),
+                        //const CircleAvatar(radius: 2, backgroundColor: Colors.red),
+                        CircleAvatar(
+                          radius: 2,
+                          backgroundColor: day.day == DateTime.now().day &&
+                                  day.month == DateTime.now().month &&
+                                  day.year == DateTime.now().year
+                              ? AppColor.activedaydot
+                              : AppColor.inactiveDayDot,
+                        ),
                       ],
                     ),
                   ),
@@ -85,7 +95,8 @@ class CalendarStrip extends StatelessWidget {
           const SizedBox(height: 10),
           Text(
             '${selectedDate.year}',
-            style: const TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
+            style: const TextStyle(
+                color: AppColor.whiteColor, fontSize: 18, fontWeight: FontWeight.bold),
           ),
         ],
       ),
