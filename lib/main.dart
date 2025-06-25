@@ -14,6 +14,7 @@ import 'package:etutor/features/my_course/screens/course_details_screen.dart';
 import 'package:etutor/features/notification/screens/notification_page.dart';
 import 'package:etutor/features/payment/screen/checkout_screen.dart';
 import 'package:etutor/features/payment/screen/payment_method.dart';
+import 'package:etutor/features/payment/screen/voucher_screen.dart';
 
 import 'package:etutor/features/performace_index/screens/performance_index_screen.dart';
 import 'package:etutor/features/subscribed_course/screens/subscribed_course_all_subjects.dart';
@@ -62,14 +63,15 @@ class MyApp extends StatelessWidget {
       // home: ProfilePage()
       // home: CheckoutScreen(),
       // home: BottomNavBarScreen(),
-      // home: PaymentMethod(),
+      // //home: PaymentMethod(),
+      home:VoucherScreen(),
       // home: OngoingLiveScreen(),
       // home: CourseDetailsScreen(),
 
       // home: PerformanceIndexScreen(),
       // home: NotificationPage(),
       // home: ProfilePage()
-         home: BottomNavBarScreen(),
+       //  home: BottomNavBarScreen(),
       // home: OngoingLiveScreen(),
       // home: CourseDetailsScreen(),
 
