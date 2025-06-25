@@ -23,7 +23,7 @@ class whiteButton extends StatelessWidget {
             borderRadius: BorderRadius.circular(30),
           ),
         ),
-        child: Text("Verify Phone Number",
+        child: Text(text,
             style: TextStyle(
               color: AppColor.primaryColor,
             )),
