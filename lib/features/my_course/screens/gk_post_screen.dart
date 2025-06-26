@@ -15,7 +15,7 @@ class GkPostScreen extends StatelessWidget {
         backgroundColor: AppColor.whiteColor,
         title: Text(
           "Be Qurious",
-          style: TextStyle(fontWeight: FontWeight.w500,),
+          style: TextStyle(fontWeight: FontWeight.w500,fontSize: 18),
         ),
         leading: Padding(
           padding: const EdgeInsets.all(10.0),

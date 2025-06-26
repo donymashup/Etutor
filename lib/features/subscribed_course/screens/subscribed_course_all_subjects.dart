@@ -1,3 +1,4 @@
+import 'package:etutor/features/subscribed_course/screens/subscribed_course_subject.dart';
 import 'package:etutor/features/subscribed_course/widgets/subject_overview_card.dart';
 import 'package:flutter/material.dart';
 
@@ -23,14 +24,41 @@ class _SubscribedCourseAllSubjectsState extends State<SubscribedCourseAllSubject
                 Text("Step Into a World of Knowledge Across Every Core Subject",style: TextStyle(fontSize: 14)),
                 SizedBox(height: 10),
                 Center(
-                  child: Wrap(
-                            alignment: WrapAlignment.spaceBetween,
-                            children: [
-                              SubjectOverviewCard(title: "Social Science", description: "Understanding Our Past and Present", subjectImage: "assets/images/subname1.jpg"),
-                              SubjectOverviewCard(title: "Social Science", description: "Understanding Our Past and Present", subjectImage: "assets/images/subname1.jpg"),
-                              SubjectOverviewCard(title: "Social Science", description: "Understanding Our Past and Present", subjectImage: "assets/images/subname1.jpg"),
-                            ],
-                          ),
+                    child: Wrap(
+                    alignment: WrapAlignment.spaceBetween,
+                    children: [
+                      GestureDetector(
+                      onTap: () {
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => SubscribedCourseSubject()));
+                      },
+                      child: SubjectOverviewCard(
+                        title: "Social Science",
+                        description: "Understanding Our Past and Present",
+                        subjectImage: "assets/images/subname1.jpg",
+                      ),
+                      ),
+                      GestureDetector(
+                      onTap: () {
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => SubscribedCourseSubject()));
+                      },
+                      child: SubjectOverviewCard(
+                        title: "Social Science",
+                        description: "Understanding Our Past and Present",
+                        subjectImage: "assets/images/subname1.jpg",
+                      ),
+                      ),
+                      GestureDetector(
+                      onTap: () {
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => SubscribedCourseSubject()));
+                      },
+                      child: SubjectOverviewCard(
+                        title: "Social Science",
+                        description: "Understanding Our Past and Present",
+                        subjectImage: "assets/images/subname1.jpg",
+                      ),
+                      ),
+                    ],
+                    ),
                 ),
               ],
             ),
