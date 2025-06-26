@@ -1,5 +1,6 @@
 import 'package:etutor/common/constants/app_constants.dart';
 import 'package:etutor/features/subscribed_course/screens/subscribed_course_all_subjects.dart';
+import 'package:etutor/features/subscribed_course/screens/subscribed_course_content.dart';
 import 'package:etutor/features/subscribed_course/widgets/course_card.dart';
 import 'package:flutter/material.dart';
 
@@ -27,39 +28,6 @@ class CourseOverview {
       required this.iconcolor,
       required this.onPressed});
 }
-
-// class _SubscribedCourseOverviewState extends State<SubscribedCourseOverview> {
-//   List<CourseOverview> courseoverview = [
-//     CourseOverview(
-//         title: "Class 6",
-//         subtitle: "Class 6 subjects",
-//         icon: Icons.book,
-//         iconBgcolor: AppColor.greyCardBackground,
-//         iconcolor: AppColor.videoIconColor,
-//         onPressed: () {
-//           // Navigate to Class 6 subjects page
-//           Navigator.push(
-//             context,
-//             MaterialPageRoute(
-//               builder: (context) => SubscribedCourseAllSubjects(),
-//             ),
-//           );
-//         }),
-//     CourseOverview(
-//         title: "Class 7",
-//         subtitle: "Class 7 subjects",
-//         icon: Icons.book,
-//         iconBgcolor: AppColor.greyCardBackground,
-//         iconcolor: AppColor.videoIconColor,
-//         onPressed: () {}),
-//     CourseOverview(
-//         title: "Study Materials",
-//         subtitle: "Tap to view all other resources related to this course",
-//         icon: Icons.folder,
-//         iconBgcolor: AppColor.greyCardBackground,
-//         iconcolor: AppColor.fileIconColour,
-//         onPressed: () {}),
-//   ];
 
 class _SubscribedCourseOverviewState extends State<SubscribedCourseOverview> {
   late List<CourseOverview> courseoverview;
@@ -100,12 +68,20 @@ class _SubscribedCourseOverviewState extends State<SubscribedCourseOverview> {
         },
       ),
       CourseOverview(
-        title: "Study Materials",
+        title: "Course Contents",
         subtitle: "Tap to view all other resources related to this course",
         icon: Icons.folder,
         iconBgcolor: AppColor.greyCardBackground,
         iconcolor: AppColor.fileIconColour,
-        onPressed: () {},
+        onPressed: () {
+          // Navigate to Study Materials page
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const SubscribedCourseContent(),
+            ),
+          );
+        },
       ),
     ];
   }

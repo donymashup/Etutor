@@ -62,7 +62,7 @@ class _SubscribedCourseMaterialsState extends State<SubscribedCourseMaterials> {
           child: Column(
             children: [
               Text(
-                "Assignments",
+                "Materials",
                 style: TextStyle(fontSize: 22, fontWeight: FontWeight.w500),
                 textAlign: TextAlign.center,
               ),

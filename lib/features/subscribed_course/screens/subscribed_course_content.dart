@@ -1,4 +1,5 @@
 import 'package:etutor/common/constants/app_constants.dart';
+import 'package:etutor/features/subscribed_course/screens/subscribed_course_assignment_screen.dart';
 import 'package:etutor/features/subscribed_course/widgets/course_card.dart';
 import 'package:flutter/material.dart';
 
@@ -27,30 +28,45 @@ class CourseContent{
 }
 
 class _SubscribedCourseContentState extends State<SubscribedCourseContent> {
-  List<CourseContent> coursecontent = [
+  late List<CourseContent> coursecontent;
 
-    CourseContent(
-      title: "Assignments", 
-      subtitle: "Tap to view assignment related to this course", 
-      icon: Icons.folder, 
-      iconBgcolor: AppColor.greyCardBackground, 
-      iconcolor: AppColor.fileIconColour, 
-      onPressed: (){}),
+  @override
+  void initState() {
+    super.initState();
+    coursecontent = [
       CourseContent(
-      title: "Exam Notifications", 
-      subtitle: "Tap to view notification related to this course", 
-      icon: Icons.folder, 
-      iconBgcolor: AppColor.greyCardBackground, 
-      iconcolor: AppColor.fileIconColour, 
-      onPressed: (){}),
+        title: "Assignments", 
+        subtitle: "Tap to view assignment related to this course", 
+        icon: Icons.folder, 
+        iconBgcolor: AppColor.greyCardBackground, 
+        iconcolor: AppColor.fileIconColour, 
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const SubscribedCourseAssignmentScreen(),
+            ),
+          );
+        }
+      ),
       CourseContent(
-      title: "Others", 
-      subtitle: "Tap to view other details related to this course", 
-      icon: Icons.folder, 
-      iconBgcolor: AppColor.greyCardBackground, 
-      iconcolor: AppColor.fileIconColour, 
-      onPressed: (){}),
+        title: "Exam Notifications", 
+        subtitle: "Tap to view notification related to this course", 
+        icon: Icons.folder, 
+        iconBgcolor: AppColor.greyCardBackground, 
+        iconcolor: AppColor.fileIconColour, 
+        onPressed: (){}
+      ),
+      CourseContent(
+        title: "Others", 
+        subtitle: "Tap to view other details related to this course", 
+        icon: Icons.folder, 
+        iconBgcolor: AppColor.greyCardBackground, 
+        iconcolor: AppColor.fileIconColour, 
+        onPressed: (){}
+      ),
     ];
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
