@@ -1,4 +1,5 @@
 import 'package:etutor/common/constants/app_constants.dart';
+import 'package:etutor/features/subscribed_course/screens/no_assigments.dart';
 import 'package:etutor/features/subscribed_course/widgets/course_card.dart';
 import 'package:flutter/material.dart';
 
@@ -30,35 +31,9 @@ class Assignments {
 class _SubscribedCourseAssignmentScreenState
     extends State<SubscribedCourseAssignmentScreen> {
   List<Assignments> assignments = [
-    Assignments(title: "Experiment 4.5", 
-    subtitle: "Tap to view this video", 
-    icon: Icons.videocam, 
-    iconBgcolor: AppColor.lighBlueBackground, 
-    iconcolor: AppColor.videoIconColor, 
-    onPressed: (){},
-    ),
-    Assignments(title: "Chapter 2 Notes", 
-    subtitle: "Tap to view this pdf", 
-    icon: Icons.picture_as_pdf, 
-    iconBgcolor: AppColor.lightRedCardBackground, 
-    iconcolor: AppColor.pdfIconColour, 
-    onPressed: (){},
-    ),
-    Assignments(title: "Figure 2.9", 
-    subtitle: "Tap to view this image", 
-    icon: Icons.image, 
-    iconBgcolor: AppColor.lightGreenCardBackground, 
-    iconcolor: AppColor.greenBarGraph, 
-    onPressed: (){},
-    ),
-     Assignments(title: "Sample Test", 
-    subtitle: "Tap to attend the test", 
-    icon: Icons.calendar_month, 
-    iconBgcolor: AppColor.lightVioletCardBackground, 
-    iconcolor: AppColor.testIconColour, 
-    onPressed: (){},
-    ),
-    ];
+    // ... your assignments here
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -73,15 +48,19 @@ class _SubscribedCourseAssignmentScreenState
                 textAlign: TextAlign.center,
               ),
               Expanded(
-                child: ListView.builder(
-                  itemCount: assignments.length,
-                  itemBuilder:(context, index) => CourseCard(
-                title: assignments[index].title, 
-                subtitle: assignments[index].subtitle, 
-                icon: assignments[index].icon, 
-                iconBgColor: assignments[index].iconBgcolor, 
-                onPressed: assignments[index].onPressed, 
-                iconColor: assignments[index].iconcolor),),
+                child: assignments.isEmpty
+                    ? NoAssignments()
+                    : ListView.builder(
+                        itemCount: assignments.length,
+                        itemBuilder: (context, index) => CourseCard(
+                          title: assignments[index].title,
+                          subtitle: assignments[index].subtitle,
+                          icon: assignments[index].icon,
+                          iconBgColor: assignments[index].iconBgcolor,
+                          onPressed: assignments[index].onPressed,
+                          iconColor: assignments[index].iconcolor,
+                        ),
+                      ),
               )
             ],
           ),
