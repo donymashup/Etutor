@@ -1,3 +1,4 @@
+import 'package:etutor/features/drawer/screens/drawer.dart';
 import 'package:etutor/features/my_course/screens/course_details_screen.dart';
 import 'package:etutor/features/notification/screens/notification_page.dart';
 import 'package:flutter/material.dart';
@@ -13,6 +14,9 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
+
   final List<Map<String, dynamic>> activeCourses = [
     {
       'imagePath': 'assets/images/course1.png',
@@ -85,6 +89,8 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
+      endDrawer: const SideDrawer(),
       backgroundColor: AppColor.whiteColor,
       body: SafeArea(
         child: SingleChildScrollView(
@@ -202,12 +208,29 @@ class _HomePageState extends State<HomePage> {
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(16),
                         ),
-                        child: const TextField(
-                          decoration: InputDecoration(
-                            icon: Icon(Icons.search),
-                            hintText: "Search Course here",
-                            border: InputBorder.none,
-                          ),
+                        child: Row(
+                            children: [
+                            const Expanded(
+                              child: TextField(
+                              decoration: InputDecoration(
+                                icon: Icon(Icons.search),
+                                hintText: "Search Course here",
+                                border: InputBorder.none,
+                              ),
+                              ),
+                            ),
+                            IconButton(
+                              icon: Image.asset(
+                              "assets/icons/menu.png",
+                              width: 24,
+                              height: 24,
+                              ),
+                              onPressed: () {
+                              // Implement menu functionality
+                              _scaffoldKey.currentState?.openEndDrawer();
+                              },
+                            ),
+                          ],
                         ),
                       ),
                     ],
