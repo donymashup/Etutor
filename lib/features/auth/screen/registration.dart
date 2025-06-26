@@ -1,5 +1,6 @@
 import 'package:etutor/common/constants/app_constants.dart';
 import 'package:etutor/common/widgets/back_button.dart';
+import 'package:etutor/common/widgets/bottom_navigation_bar.dart';
 import 'package:etutor/common/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
 
@@ -189,7 +190,12 @@ class _RegistrationState extends State<Registration> {
                   SizedBox(height: 25,),
                   
                   CustomButton(
-                    onpressed: () {},
+                    onpressed: () {
+                       Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => BottomNavBarScreen()));
+                    },
                     text: "Get Started",
                     buttoncolor:AppColor.primaryColor,textColor: AppColor.whiteColor,)                                   
                 ],

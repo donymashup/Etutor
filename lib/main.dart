@@ -1,3 +1,4 @@
+import 'package:etutor/common/screens/splash_screen.dart';
 import 'package:etutor/features/auth/screen/forgot_password.dart';
 import 'package:etutor/features/auth/screen/otp_screen.dart';
 import 'package:etutor/features/auth/screen/password_reset_otp.dart';
@@ -11,6 +12,8 @@ import 'package:etutor/common/constants/app_constants.dart';
 import 'package:etutor/features/auth/screen/password_reset_succesfull.dart';
 import 'package:etutor/features/live/screens/live_screen.dart';
 import 'package:etutor/features/my_course/screens/course_details_screen.dart';
+import 'package:etutor/features/my_course/screens/gk_post_screen.dart';
+import 'package:etutor/features/my_course/screens/gk_vedios.dart';
 import 'package:etutor/features/notification/screens/notification_page.dart';
 import 'package:etutor/features/payment/screen/checkout_screen.dart';
 import 'package:etutor/features/payment/screen/payment_method.dart';
@@ -64,16 +67,19 @@ class MyApp extends StatelessWidget {
       // home: CheckoutScreen(),
       // home: BottomNavBarScreen(),
       // //home: PaymentMethod(),
-      // home:VoucherScreen(),
+     // home:VoucherScreen(),
       // home: OngoingLiveScreen(),
       // home: CourseDetailsScreen(),
-
+      //  home: GkPostScreen(),
+     // home: SplashScreen(),
       // home: PerformanceIndexScreen(),
       // home: NotificationPage(),
-      // home: ProfilePage(),
-       home: BottomNavBarScreen(),
+      // home: ProfilePage()
+       //  home: BottomNavBarScreen(),
       // home: OngoingLiveScreen(),
       // home: CourseDetailsScreen(),
+      home: HomePage(),
+     // home: GkVedios(),
 
     );
   }
