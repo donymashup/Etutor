@@ -75,11 +75,12 @@ class MyApp extends StatelessWidget {
      // home: SplashScreen(),
       // home: PerformanceIndexScreen(),
       // home: NotificationPage(),
-      // home: ProfilePage()
-       //  home: BottomNavBarScreen(),
+      // home: ProfilePage(),
+      home: BottomNavBarScreen(),
       // home: OngoingLiveScreen(),
       // home: CourseDetailsScreen(),
      // home: HomePage(),
+
      // home: GkVedios(),
     home: SubscribedCourseVedio(),
     );
