@@ -8,17 +8,23 @@ class SideDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Drawer(
+      backgroundColor: AppColor.whiteColor,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(32),
-          bottomLeft: Radius.circular(32),
+          bottomLeft: Radius.circular(40),
         ),
       ),
       child: Column(
         children: [
           // Top White Section
           Container(
-            color: AppColor.primaryColor,
+            decoration: const BoxDecoration(
+              color: AppColor.primaryColor,
+              borderRadius: BorderRadius.only(
+                bottomLeft: Radius.circular(40),
+              ),
+            ),
             width: double.infinity,
             padding: const EdgeInsets.symmetric(vertical: 60),
             child: Column(
@@ -68,24 +74,53 @@ class SideDrawer extends StatelessWidget {
                           SizedBox(height: 4),
                           Text(
                             "INK3322",
-                            style: TextStyle(
-                                color: Colors.black, fontSize: 14),
+                            style: TextStyle(color: Colors.black, fontSize: 14),
                           ),
                         ],
                       ),
                     ],
                   ),
                   const SizedBox(height: 24),
-                  const DrawerItem(icon: Icons.edit, title: "Edit Profile",),
+                  const DrawerItem(
+                    icon: Icons.edit,
+                    title: "Edit Profile",
+                  ),
                   const DrawerItem(
                       icon: Icons.notifications, title: "Notifications"),
                   const DrawerItem(
                       icon: Icons.help_outline, title: "Help & Support"),
                   const DrawerItem(
                       icon: Icons.policy, title: "Terms & Conditions"),
-                  const DrawerItem(icon: Icons.logout, title: "Logout"),
-                  const DrawerItem(
-                      icon: Icons.info_outline, title: "About us"),
+                  const DrawerItem(icon: Icons.info_outline, title: "About us"),
+                   DrawerItem(
+                    icon: Icons.logout,
+                    title: "Logout",
+                    onTap: () {
+                      showDialog(
+                        context: context,
+                        builder: (context) => AlertDialog(
+                          title:
+                              const Text("Are you sure you want to log out?",
+                                  style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w500)),
+                          actions: [
+                            TextButton(
+                              onPressed: () => Navigator.of(context).pop(),
+                              child: const Text("Cancel"),
+                            ),
+                            TextButton(
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                                // Add your logout logic here
+                              },
+                              child: const Text("Log Out"),
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                  ),
                 ],
               ),
             ),
