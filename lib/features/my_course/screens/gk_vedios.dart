@@ -53,7 +53,8 @@ GkVedios({super.key});
                 width: MediaQuery.of(context).size.width * 0.5,)),
             ),
             Column(
-              children: List.generate(
+              children: 
+              List.generate(
               _videos.length,
                 (index) {
                   final video =_videos[index];

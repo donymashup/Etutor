@@ -16,7 +16,6 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
-
   final List<Map<String, dynamic>> activeCourses = [
     {
       'imagePath': 'assets/images/course1.png',
@@ -114,183 +113,104 @@ class _HomePageState extends State<HomePage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       // Profile and Notification Row
-                      // Row(
-                      //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      //   children: [
-                      //     Row(
-                      //       children: [
-                      //         const CircleAvatar(
-                      //           radius: 30,
-                      //           backgroundImage:
-                      //               AssetImage('assets/images/smriti1.jpeg'),
-                      //         ),
-                      //         const SizedBox(width: 12),
-                      //         Column(
-                      //           crossAxisAlignment: CrossAxisAlignment.start,
-                      //           children: const [
-                      //             Text(
-                      //               "Holla, Yukihira!",
-                      //               style: TextStyle(
-                      //                 fontSize: 20,
-                      //                 fontWeight: FontWeight.bold,
-                      //                 color: Colors.white,
-                      //               ),
-                      //             ),
-                      //             SizedBox(height: 4),
-                      //             Text(
-                      //               "Ready to learn something today?",
-                      //               style: TextStyle(
-                      //                 color: Colors.white70,
-                      //                 fontSize: 14,
-                      //               ),
-                      //             ),
-                      //           ],
-                      //         ),
-                      //       ],
-                      //     ),
-                      //     Row(
-                      //       children: [
-                      //         Container(
-                      //           width: 40,
-                      //           height: 40,
-                      //           margin: const EdgeInsets.only(right: 12),
-                      //           decoration: BoxDecoration(
-                      //             shape: BoxShape.circle,
-                      //             color: Colors.white,
-                      //             image: const DecorationImage(
-                      //               image:
-                      //                   AssetImage('assets/images/gpt (2).png'),
-                      //               fit: BoxFit.cover,
-                      //             ),
-                      //           ),
-                      //         ),
-                      //         Stack(
-                      //           alignment: Alignment.topRight,
-                      //           children: [
-                      //             GestureDetector(
-                      //               onTap: () {
-                      //                 Navigator.push(
-                      //                   context,
-                      //                   MaterialPageRoute(
-                      //                     builder: (context) =>
-                      //                         NotificationPage(),
-                      //                   ),
-                      //                 );
-                      //               },
-                      //               child: const CircleAvatar(
-                      //                 backgroundColor: Colors.white,
-                      //                 child: Icon(Icons.notifications,
-                      //                     color: Colors.black),
-                      //               ),
-                      //             ),
-                      //             Positioned(
-                      //               right: 6,
-                      //               top: 6,
-                      //               child: Container(
-                      //                 width: 10,
-                      //                 height: 10,
-                      //                 decoration: const BoxDecoration(
-                      //                   color: Colors.orange,
-                      //                   shape: BoxShape.circle,
-                      //                 ),
-                      //               ),
-                      //             ),
-                      //           ],
-                      //         ),
-                      //       ],
-                      //     ),
-                      //   ],
-                      // ),
                       Row(
-  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-  children: [
-    Expanded(
-      child: Row(
-        children: [
-          const CircleAvatar(
-            radius: 30,
-            backgroundImage: AssetImage('assets/images/smriti1.jpeg'),
-          ),
-          const SizedBox(width: 12),
-          Expanded( // Add this to prevent text overflow
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: const [
-                Text(
-                  "Holla, Yukihira!",
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                  ),
-                  overflow: TextOverflow.ellipsis, // optional
-                ),
-                SizedBox(height: 4),
-                Text(
-                  "Ready to learn something today?",
-                  style: TextStyle(
-                    color: Colors.white70,
-                    fontSize: 14,
-                  ),
-                  overflow: TextOverflow.ellipsis, // optional
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    ),
-    Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Container(
-          width: 40,
-          height: 40,
-          margin: const EdgeInsets.only(right: 12),
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            color: Colors.white,
-            image: const DecorationImage(
-              image: AssetImage('assets/images/gpt (2).png'),
-              fit: BoxFit.cover,
-            ),
-          ),
-        ),
-        Stack(
-          alignment: Alignment.topRight,
-          children: [
-            GestureDetector(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => NotificationPage(),
-                  ),
-                );
-              },
-              child: const CircleAvatar(
-                backgroundColor: Colors.white,
-                child: Icon(Icons.notifications, color: Colors.black),
-              ),
-            ),
-            Positioned(
-              right: 6,
-              top: 6,
-              child: Container(
-                width: 10,
-                height: 10,
-                decoration: const BoxDecoration(
-                  color: Colors.orange,
-                  shape: BoxShape.circle,
-                ),
-              ),
-            ),
-          ],
-        ),
-      ],
-    ),
-  ],
-),
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Expanded(
+                            child: Row(
+                              children: [
+                                const CircleAvatar(
+                                  radius: 30,
+                                  backgroundImage:
+                                      AssetImage('assets/images/smriti1.jpeg'),
+                                ),
+                                const SizedBox(width: 12),
+                                Expanded(
+                                  // Add this to prevent text overflow
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: const [
+                                      Text(
+                                        "Holla, Yukihira!",
+                                        style: TextStyle(
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.white,
+                                        ),
+                                        overflow:
+                                            TextOverflow.ellipsis, // optional
+                                      ),
+                                      SizedBox(height: 4),
+                                      Text(
+                                        "Ready to learn something today?",
+                                        style: TextStyle(
+                                          color: Colors.white70,
+                                          fontSize: 14,
+                                        ),
+                                        overflow:
+                                            TextOverflow.ellipsis, // optional
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Container(
+                                width: 40,
+                                height: 40,
+                                margin: const EdgeInsets.only(right: 12),
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: Colors.white,
+                                  image: const DecorationImage(
+                                    image:
+                                        AssetImage('assets/images/gpt (2).png'),
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                              ),
+                              Stack(
+                                alignment: Alignment.topRight,
+                                children: [
+                                  GestureDetector(
+                                    onTap: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              NotificationPage(),
+                                        ),
+                                      );
+                                    },
+                                    child: const CircleAvatar(
+                                      backgroundColor: Colors.white,
+                                      child: Icon(Icons.notifications,
+                                          color: Colors.black),
+                                    ),
+                                  ),
+                                  Positioned(
+                                    right: 6,
+                                    top: 6,
+                                    child: Container(
+                                      width: 10,
+                                      height: 10,
+                                      decoration: const BoxDecoration(
+                                        color: Colors.orange,
+                                        shape: BoxShape.circle,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
 
                       const SizedBox(height: 20),
                       Container(
@@ -300,25 +220,25 @@ class _HomePageState extends State<HomePage> {
                           borderRadius: BorderRadius.circular(16),
                         ),
                         child: Row(
-                            children: [
+                          children: [
                             const Expanded(
                               child: TextField(
-                              decoration: InputDecoration(
-                                icon: Icon(Icons.search),
-                                hintText: "Search Course here",
-                                border: InputBorder.none,
-                              ),
+                                decoration: InputDecoration(
+                                  icon: Icon(Icons.search),
+                                  hintText: "Search Course here",
+                                  border: InputBorder.none,
+                                ),
                               ),
                             ),
                             IconButton(
                               icon: Image.asset(
-                              "assets/icons/menu.png",
-                              width: 24,
-                              height: 24,
+                                "assets/icons/menu.png",
+                                width: 24,
+                                height: 24,
                               ),
                               onPressed: () {
-                              // Implement menu functionality
-                              _scaffoldKey.currentState?.openEndDrawer();
+                                // Implement menu functionality
+                                _scaffoldKey.currentState?.openEndDrawer();
                               },
                             ),
                           ],
