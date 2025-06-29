@@ -1,3 +1,4 @@
+import 'package:etutor/common/constants/app_constants.dart';
 import 'package:etutor/features/live/widgets/live_card.dart';
 import 'package:flutter/material.dart';
 
@@ -22,6 +23,7 @@ class RecordedLiveScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
    return Scaffold(
+    backgroundColor: AppColor.liveScreenBackground,
       body: ListView.builder(
         itemCount: liveClass.length,
         itemBuilder: (context, index){ 

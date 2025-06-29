@@ -83,7 +83,7 @@ class _MyCoursePageState extends State<MyCoursePage> {
             children: [
               /// Title + Icon button
               Padding(
-                padding: const EdgeInsets.fromLTRB(16, 16, 0, 0),
+                padding: const EdgeInsets.only(left: 16, right: 16, top:  10),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -91,7 +91,7 @@ class _MyCoursePageState extends State<MyCoursePage> {
                       "My Courses",
                       style: TextStyle(
                         fontSize: 18,
-                        fontWeight: FontWeight.w700,
+                        fontWeight: FontWeight.w600,
                         color: AppColor.blackColor,
                       ),
                     ),
@@ -106,7 +106,6 @@ class _MyCoursePageState extends State<MyCoursePage> {
                   ],
                 ),
               ),
-              const SizedBox(height: 6),
 
               /// Courses
               courses.isEmpty
@@ -301,6 +300,7 @@ class _MyCoursePageState extends State<MyCoursePage> {
                   },
                 ),
               ),
+              SizedBox(height: 20)
             ],
           ),
         ),
