@@ -34,19 +34,19 @@ class LiveCard extends StatelessWidget {
                   border: Border.all(color: AppColor.secondaryColor),
                   image: DecorationImage(image: AssetImage(img),fit: BoxFit.cover,
                 ),),
-                height: MediaQuery.of(context).size.width *0.27,
-                width: MediaQuery.of(context).size.width * 0.39,
+                height: MediaQuery.of(context).size.width *0.2,
+                width: MediaQuery.of(context).size.width * 0.36,
               ),
-                SizedBox(width: 5,),
+                SizedBox(width: 10),
                 Expanded(
                   child:SizedBox(
-                 height: MediaQuery.of(context).size.width *0.27,
+                 height: MediaQuery.of(context).size.width *0.18,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(title,maxLines: 2, overflow: TextOverflow.ellipsis,
-                        style: TextStyle(fontWeight: FontWeight.w500,fontSize: 16),),                    
+                        style: TextStyle(fontWeight: FontWeight.w600,fontSize: MediaQuery.of(context).size.width * 0.03, height: 1.2),),                    
                         Row(
                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                          crossAxisAlignment: CrossAxisAlignment.end,
@@ -54,15 +54,15 @@ class LiveCard extends StatelessWidget {
                              Column(
                                crossAxisAlignment: CrossAxisAlignment.start,
                                children: [
-                                 Text("Date"),
-                                 Text(date),
+                                 Text("Date",style: TextStyle(fontWeight: FontWeight.w500,fontSize: 12)),
+                                 Text(date,style: TextStyle(fontWeight: FontWeight.w500,fontSize: 12))
                                ],
                              ),                            
                              Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                                children: [
-                                 Text("Time"),
-                                 Text(time),
+                                 Text("Time",style: TextStyle(fontWeight: FontWeight.w500,fontSize: 12)),
+                                 Text(time,style: TextStyle(fontWeight: FontWeight.w500,fontSize: 12))
                                ],
                              )                
                            ],

@@ -10,47 +10,56 @@ class CourseCurriculumCard extends StatefulWidget {
   final List<String> items;
   final Function() onPressed;
 
-  CourseCurriculumCard({
-    required this.title,
-    required this.classname,
-    required this.subject,
-    required this.items,
-    required this.onPressed,
-    super.key});
+  CourseCurriculumCard(
+      {required this.title,
+      required this.classname,
+      required this.subject,
+      required this.items,
+      required this.onPressed,
+      super.key});
 
   @override
   State<CourseCurriculumCard> createState() => _CourseCurriculumCardState();
 }
 
 class _CourseCurriculumCardState extends State<CourseCurriculumCard> {
-
   @override
   Widget build(BuildContext context) {
-    return Card(
-      color: AppColor.whiteColor,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-      elevation: 5,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
-        child: ExpansionTile(
-          shape: RoundedRectangleBorder(
-              side: BorderSide.none, 
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+      child: Card(
+        color: AppColor.whiteColor,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+        elevation: 3,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
+          child: ExpansionTile(
+            tilePadding:
+                const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+            shape: RoundedRectangleBorder(
+              side: BorderSide.none,
             ),
             collapsedShape: RoundedRectangleBorder(
               side: BorderSide.none,
             ),
-          title: Text(widget.title,style: TextStyle(fontWeight: FontWeight.w600),),
-          subtitle: Row(
-            children: [
-              Text(widget.classname ),
-              SizedBox(height: 10,
-                child: VerticalDivider()),
-              Text(widget.subject),
-            ],
-          ),
-          children: widget.items.map((item) {
+            title: Text(
+              widget.title,
+              style: TextStyle(fontWeight: FontWeight.w600),
+            ),
+            subtitle: Row(
+              children: [
+                Text(widget.classname),
+                SizedBox(height: 10, child: VerticalDivider()),
+                Text(widget.subject),
+              ],
+            ),
+            children: widget.items.map((item) {
               return Padding(
-                padding: const EdgeInsets.all(5.0),
+                padding: widget.items.indexOf(item) == (widget.items.length - 1)
+                    ? EdgeInsets.only(
+                        left: 16.0, right: 16.0, top: 5, bottom: 16)
+                    : EdgeInsets.only(
+                        left: 16.0, right: 16.0, top: 5, bottom: 5),
                 child: ListTile(
                   tileColor: AppColor.greyCardBackground,
                   // tileColor: AppColor.whiteColor,
@@ -69,6 +78,7 @@ class _CourseCurriculumCardState extends State<CourseCurriculumCard> {
               );
             }).toList(),
           ),
+        ),
       ),
     );
   }
