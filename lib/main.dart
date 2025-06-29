@@ -72,17 +72,17 @@ class MyApp extends StatelessWidget {
       // home: OngoingLiveScreen(),
       // home: CourseDetailsScreen(),
       //  home: GkPostScreen(),
-     // home: SplashScreen(),
+     home: SplashScreen(),
       // home: PerformanceIndexScreen(),
       // home: NotificationPage(),
       // home: ProfilePage(),
-      home: BottomNavBarScreen(),
+      // home: BottomNavBarScreen(),
       // home: OngoingLiveScreen(),
       // home: CourseDetailsScreen(),
      // home: HomePage(),
 
      // home: GkVedios(),
-    //home: SubscribedCourseVedio(),
+    // home: SubscribedCourseVedio(),
     );
   }
 }

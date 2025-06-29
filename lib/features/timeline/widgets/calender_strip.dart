@@ -30,73 +30,97 @@ class CalendarStrip extends StatelessWidget {
           Text(
             DateFormat('MMMM').format(selectedDate),
             style: const TextStyle(
-                color: AppColor.whiteColor, fontSize: 20, fontWeight: FontWeight.bold),
+                color: AppColor.whiteColor,
+                fontSize: 20,
+                fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 12),
           SizedBox(
             height: 80,
-            child: ListView.builder(
-              controller: scrollController,
-              scrollDirection: Axis.horizontal,
-              itemCount: days.length,
-              itemBuilder: (context, index) {
-                final day = days[index];
-                final isSelected = day.day == selectedDate.day &&
-                    day.month == selectedDate.month &&
-                    day.year == selectedDate.year;
-
-                return GestureDetector(
-                  onTap: () => onDateSelected(day),
-                  child: Container(
-                    width: 60,
-                    margin: const EdgeInsets.symmetric(horizontal: 6),
-                    decoration: BoxDecoration(
-                      color: isSelected ? AppColor.whiteColor : Colors.transparent,
-                      borderRadius: BorderRadius.circular(16),
-                      border:
-                          isSelected ? null : Border.all(color: AppColor.whiteColor),
-                    ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          DateFormat('E').format(day),
-                          style: TextStyle(
-                            color: isSelected ? Colors.black : AppColor.whiteColor,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                        const SizedBox(height: 6),
-                        Text(
-                          '${day.day}',
-                          style: TextStyle(
-                            color: isSelected ? Colors.black : Colors.white,
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        const SizedBox(height: 2),
-                        //const CircleAvatar(radius: 2, backgroundColor: Colors.red),
-                        CircleAvatar(
-                          radius: 2,
-                          backgroundColor: day.day == DateTime.now().day &&
-                                  day.month == DateTime.now().month &&
-                                  day.year == DateTime.now().year
-                              ? AppColor.activedaydot
-                              : AppColor.inactiveDayDot,
-                        ),
-                      ],
-                    ),
-                  ),
-                );
+            child: ShaderMask(
+              shaderCallback: (Rect bounds) {
+                return const LinearGradient(
+                  begin: Alignment.centerLeft,
+                  end: Alignment.centerRight,
+                  colors: [
+                    Colors.transparent,
+                    Colors.black,
+                    Colors.black,
+                    Colors.transparent,
+                  ],
+                  stops: [0.0, 0.1, 0.9, 1.0],
+                ).createShader(bounds);
               },
+              blendMode: BlendMode.dstIn,
+              child: ListView.builder(
+                controller: scrollController,
+                scrollDirection: Axis.horizontal,
+                itemCount: days.length,
+                itemBuilder: (context, index) {
+                  final day = days[index];
+                  final isSelected = day.day == selectedDate.day &&
+                      day.month == selectedDate.month &&
+                      day.year == selectedDate.year;
+
+                  return GestureDetector(
+                    onTap: () => onDateSelected(day),
+                    child: Container(
+                      width: 60,
+                      margin: const EdgeInsets.symmetric(horizontal: 6),
+                      decoration: BoxDecoration(
+                        color: isSelected
+                            ? AppColor.whiteColor
+                            : Colors.transparent,
+                        borderRadius: BorderRadius.circular(16),
+                        border: isSelected
+                            ? null
+                            : Border.all(color: AppColor.whiteColor),
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            DateFormat('E').format(day),
+                            style: TextStyle(
+                              color: isSelected
+                                  ? Colors.black
+                                  : AppColor.whiteColor,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                          const SizedBox(height: 6),
+                          Text(
+                            '${day.day}',
+                            style: TextStyle(
+                              color: isSelected ? Colors.black : Colors.white,
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          const SizedBox(height: 2),
+                          CircleAvatar(
+                            radius: 2,
+                            backgroundColor: day.day == DateTime.now().day &&
+                                    day.month == DateTime.now().month &&
+                                    day.year == DateTime.now().year
+                                ? AppColor.activedaydot
+                                : AppColor.inactiveDayDot,
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                },
+              ),
             ),
           ),
           const SizedBox(height: 10),
           Text(
             '${selectedDate.year}',
             style: const TextStyle(
-                color: AppColor.whiteColor, fontSize: 18, fontWeight: FontWeight.bold),
+                color: AppColor.whiteColor,
+                fontSize: 18,
+                fontWeight: FontWeight.bold),
           ),
         ],
       ),
