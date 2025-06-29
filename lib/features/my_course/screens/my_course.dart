@@ -1,9 +1,10 @@
 import 'package:etutor/common/constants/app_constants.dart';
+import 'package:etutor/features/my_course/screens/gk_post_screen.dart';
+import 'package:etutor/features/my_course/screens/gk_vedios.dart';
 import 'package:etutor/features/my_course/widgets/feature_button.dart';
 import 'package:etutor/features/my_course/widgets/mycoursecard.dart';
 import 'package:etutor/features/my_course/widgets/nomycourse.dart';
 import 'package:etutor/features/performace_index/screens/performance_index_screen.dart';
-import 'package:etutor/features/subscribed_course/screens/no_data.dart';
 import 'package:etutor/features/my_course/widgets/my_course_listview.dart';
 import 'package:etutor/features/subscribed_course/screens/subscribed_course_overview.dart';
 import 'package:etutor/features/timeline/screens/timeline_screen.dart';
@@ -221,6 +222,62 @@ class _MyCoursePageState extends State<MyCoursePage> {
                       const SizedBox(width: 12),
                   itemBuilder: (context, index) {
                     final imagePath = infoCardImages[index];
+                    return GestureDetector(
+                      onTap: () {
+                      // Add navigation logic for each info card here
+                      switch (index) {
+                        case 0:
+                        // Navigate to Qburious page
+                        Navigator.push(context, MaterialPageRoute(builder: (_) => GkPostScreen()));
+                        break;
+                        case 1:
+                        // Navigate to Quote of the Day page
+                        Navigator.push(context, MaterialPageRoute(builder: (_) => GkVedios()));
+                        break;
+                        case 2:
+                        // Navigate to Science Today page
+                        Navigator.push(context, MaterialPageRoute(builder: (_) => GkPostScreen()));
+                        break;
+                        case 3:
+                        // Navigate to I Love Physics page
+                        Navigator.push(context, MaterialPageRoute(builder: (_) => GkVedios()));
+                        break;
+                        case 4:
+                        // Navigate to Fall in Love with Physics page
+                        // Navigator.push(context, MaterialPageRoute(builder: (_) => FallInLovePhysicsScreen()));
+                        break;
+                        case 5:
+                        // Navigate to Tech Today page
+                        // Navigator.push(context, MaterialPageRoute(builder: (_) => TechTodayScreen()));
+                        break;
+                        default:
+                        break;
+                      }
+                      },
+                      child: Container(
+                      width: MediaQuery.of(context).size.width * 0.15 < 120
+                        ? 120
+                        : MediaQuery.of(context).size.width * 0.15,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(16),
+                        border: Border.all(
+                          color: AppColor.primaryColor.withOpacity(0.5)),
+                        boxShadow: const [
+                        BoxShadow(
+                          color: Colors.black12,
+                          blurRadius: 4,
+                          offset: Offset(0, 2),
+                        ),
+                        ],
+                      ),
+                      padding: const EdgeInsets.all(12),
+                      child: Image.asset(
+                        imagePath,
+                        fit: BoxFit.contain,
+                      ),
+                      ),
+                    );
                     return Container(
                       width: MediaQuery.of(context).size.width * 0.15 < 120
                           ? 120
