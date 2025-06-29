@@ -1,8 +1,6 @@
 import 'package:etutor/common/constants/app_constants.dart';
 import 'package:etutor/features/home/screen/home_screen.dart';
-
 import 'package:etutor/features/live/screens/live_screen.dart';
-
 import 'package:etutor/features/my_course/screens/my_course.dart';
 import 'package:etutor/features/test_series/screens/test_series.dart';
 import 'package:flutter/material.dart';
@@ -18,14 +16,10 @@ class _BottomNavBarScreenState extends State<BottomNavBarScreen> {
   int _currentIndex = 0;
 
   final List<Widget> _pages = const [
-    
     HomePage(),
     MyCoursePage(),
-
-    // LiveScreen(),
-
+    LiveScreen(),
     TestSeriesPage(),
-    
   ];
 
   @override
@@ -36,7 +30,7 @@ class _BottomNavBarScreenState extends State<BottomNavBarScreen> {
         currentIndex: _currentIndex,
         selectedItemColor: AppColor.primaryColor,
         unselectedItemColor: AppColor.greyText,
-        backgroundColor: AppColor.whiteColor, 
+        backgroundColor: AppColor.whiteColor,
         type: BottomNavigationBarType.fixed,
         onTap: (index) {
           setState(() {

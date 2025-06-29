@@ -1,4 +1,5 @@
 import 'package:etutor/common/constants/app_constants.dart';
+import 'package:etutor/features/auth/screen/password_reset_succesfull.dart';
 import 'package:etutor/features/auth/widgets/pinput_theme.dart';
 import 'package:etutor/features/auth/widgets/white_button.dart';
 import 'package:flutter/material.dart';
@@ -69,7 +70,12 @@ class PasswordResetOtp extends StatelessWidget {
                   ),
                   whiteButton(
                     text: "Login",
-                    onpressed: () {},
+                    onpressed: () {
+                       Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => PasswordResetSuccesfull()));
+                    },
                   ),
                   SizedBox(
                     height: 5,

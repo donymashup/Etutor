@@ -1,5 +1,6 @@
 import 'package:etutor/common/constants/app_constants.dart';
 import 'package:etutor/features/auth/screen/password_screen.dart';
+import 'package:etutor/features/auth/screen/registration.dart';
 import 'package:etutor/features/auth/widgets/white_button.dart';
 import 'package:etutor/features/auth/widgets/whitestroke_textfield.dart';
 import 'package:flutter/material.dart';
@@ -54,14 +55,22 @@ class PhoneNumberAuth extends StatelessWidget {
                   SizedBox(
                     height: 10,
                   ),
-                  whiteButton(
-                    text: "Verify Phone Number",
-                    onpressed: () {
-                      Navigator.push(
+                  GestureDetector(
+                    onLongPress: () {
+                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => PasswordScreen()));
+                              builder: (context) => Registration()));
                     },
+                    child: whiteButton(
+                      text: "Verify Phone Number",
+                      onpressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => PasswordScreen()));
+                      },
+                    ),
                   )
                 ],
               ),

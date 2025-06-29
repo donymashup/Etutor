@@ -1,4 +1,6 @@
 import 'package:etutor/common/widgets/custom_button.dart';
+import 'package:etutor/features/subscribed_course/screens/subscribed_course_materials.dart';
+import 'package:etutor/features/subscribed_course/screens/subscribed_courses_tests.dart';
 import 'package:flutter/material.dart';
 import 'package:etutor/common/constants/app_constants.dart';
 
@@ -82,17 +84,29 @@ class _CourseSubjectCardState extends State<CourseSubjectCard>
                           horizontal: 16, vertical: 12),
                       child: Column(
                         children: [
-                          Row(
+                            Row(
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: [
-                              _iconWithLabel(Icons.videocam, 'Videos',
-                                  Colors.orange),
-                              _iconWithLabel(Icons.insert_drive_file,
-                                  'Materials', Colors.blue),
-                              _iconWithLabel(
-                                  Icons.assignment, 'Tests', Colors.green),
+                              GestureDetector(
+                                onTap: () {
+                                  // Navigator.push(context, MaterialPageRoute(builder: (context) => VideosScreen()));
+                                },
+                                child: _iconWithLabel(Icons.videocam, 'Videos', Colors.orange),
+                              ),
+                              GestureDetector(
+                                onTap: () {
+                                  Navigator.push(context, MaterialPageRoute(builder: (context) => SubscribedCourseMaterials()));
+                                },
+                                child: _iconWithLabel(Icons.insert_drive_file, 'Materials', Colors.blue),
+                              ),
+                              GestureDetector(
+                              onTap: () {
+                                Navigator.push(context, MaterialPageRoute(builder: (context) => SubscribedCoursesTests()));
+                              },
+                              child: _iconWithLabel(Icons.assignment, 'Tests', Colors.green),
+                              ),
                             ],
-                          ),
+                            ),
                           const SizedBox(height: 10),
                           Row(
                             children: [

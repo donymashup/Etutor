@@ -1,3 +1,4 @@
+import 'package:etutor/features/drawer/screens/drawer.dart';
 import 'package:etutor/features/my_course/screens/course_details_screen.dart';
 import 'package:etutor/features/notification/screens/notification_page.dart';
 import 'package:flutter/material.dart';
@@ -13,6 +14,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
   final List<Map<String, dynamic>> activeCourses = [
     {
       'imagePath': 'assets/images/course1.png',
@@ -85,6 +88,8 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
+      endDrawer: const SideDrawer(),
       backgroundColor: AppColor.whiteColor,
       body: SafeArea(
         child: SingleChildScrollView(
@@ -111,38 +116,49 @@ class _HomePageState extends State<HomePage> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Row(
-                            children: [
-                              const CircleAvatar(
-                                radius: 30,
-                                backgroundImage:
-                                    AssetImage('assets/images/smriti1.jpeg'),
-                              ),
-                              const SizedBox(width: 12),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: const [
-                                  Text(
-                                    "Holla, Yukihira!",
-                                    style: TextStyle(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.white,
-                                    ),
+                          Expanded(
+                            child: Row(
+                              children: [
+                                const CircleAvatar(
+                                  radius: 30,
+                                  backgroundImage:
+                                      AssetImage('assets/images/smriti1.jpeg'),
+                                ),
+                                const SizedBox(width: 12),
+                                Expanded(
+                                  // Add this to prevent text overflow
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: const [
+                                      Text(
+                                        "Holla, Yukihira!",
+                                        style: TextStyle(
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.white,
+                                        ),
+                                        overflow:
+                                            TextOverflow.ellipsis, // optional
+                                      ),
+                                      SizedBox(height: 4),
+                                      Text(
+                                        "Ready to learn something today?",
+                                        style: TextStyle(
+                                          color: Colors.white70,
+                                          fontSize: 14,
+                                        ),
+                                        overflow:
+                                            TextOverflow.ellipsis, // optional
+                                      ),
+                                    ],
                                   ),
-                                  SizedBox(height: 4),
-                                  Text(
-                                    "Ready to learn something today?",
-                                    style: TextStyle(
-                                      color: Colors.white70,
-                                      fontSize: 14,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ],
+                                ),
+                              ],
+                            ),
                           ),
                           Row(
+                            mainAxisSize: MainAxisSize.min,
                             children: [
                               Container(
                                 width: 40,
@@ -195,6 +211,7 @@ class _HomePageState extends State<HomePage> {
                           ),
                         ],
                       ),
+
                       const SizedBox(height: 20),
                       Container(
                         padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -202,12 +219,29 @@ class _HomePageState extends State<HomePage> {
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(16),
                         ),
-                        child: const TextField(
-                          decoration: InputDecoration(
-                            icon: Icon(Icons.search),
-                            hintText: "Search Course here",
-                            border: InputBorder.none,
-                          ),
+                        child: Row(
+                          children: [
+                            const Expanded(
+                              child: TextField(
+                                decoration: InputDecoration(
+                                  icon: Icon(Icons.search),
+                                  hintText: "Search Course here",
+                                  border: InputBorder.none,
+                                ),
+                              ),
+                            ),
+                            IconButton(
+                              icon: Image.asset(
+                                "assets/icons/menu.png",
+                                width: 24,
+                                height: 24,
+                              ),
+                              onPressed: () {
+                                // Implement menu functionality
+                                _scaffoldKey.currentState?.openEndDrawer();
+                              },
+                            ),
+                          ],
                         ),
                       ),
                     ],

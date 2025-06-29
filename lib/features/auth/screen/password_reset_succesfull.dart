@@ -1,10 +1,25 @@
+import 'dart:async';
+
+import 'package:etutor/common/widgets/bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 
-class PasswordResetSuccesfull extends StatelessWidget {
+class PasswordResetSuccesfull extends StatefulWidget {
   const PasswordResetSuccesfull({super.key});
-  
 
+  @override
+  State<PasswordResetSuccesfull> createState() => _PasswordResetSuccesfullState();
+}
+
+class _PasswordResetSuccesfullState extends State<PasswordResetSuccesfull> {
+   @override
+  void initState() {
+    super.initState();
+    Timer(
+        Duration(seconds: 4),
+        () => Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (context) => BottomNavBarScreen())));
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
