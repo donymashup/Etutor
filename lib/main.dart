@@ -82,7 +82,7 @@ class MyApp extends StatelessWidget {
      // home: HomePage(),
 
      // home: GkVedios(),
-    home: SubscribedCourseVedio(),
+    //home: SubscribedCourseVedio(),
     );
   }
 }

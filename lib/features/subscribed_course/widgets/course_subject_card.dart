@@ -1,5 +1,7 @@
 import 'package:etutor/common/widgets/custom_button.dart';
+import 'package:etutor/features/chapter_analysis/screens/chapter_analysis_screen.dart';
 import 'package:etutor/features/subscribed_course/screens/subscribed_course_materials.dart';
+import 'package:etutor/features/subscribed_course/screens/subscribed_course_vedio.dart';
 import 'package:etutor/features/subscribed_course/screens/subscribed_courses_tests.dart';
 import 'package:flutter/material.dart';
 import 'package:etutor/common/constants/app_constants.dart';
@@ -89,7 +91,7 @@ class _CourseSubjectCardState extends State<CourseSubjectCard>
                             children: [
                               GestureDetector(
                                 onTap: () {
-                                  // Navigator.push(context, MaterialPageRoute(builder: (context) => VideosScreen()));
+                                   Navigator.push(context, MaterialPageRoute(builder: (context) => SubscribedCourseVedio()));
                                 },
                                 child: _iconWithLabel(Icons.videocam, 'Videos', Colors.orange),
                               ),
@@ -130,7 +132,19 @@ class _CourseSubjectCardState extends State<CourseSubjectCard>
                           const SizedBox(height: 12),
                           SizedBox(
                             width: double.infinity,
-                            child: CustomButton(onpressed: widget.onPressed!, text: "chapter analysis", buttoncolor: AppColor.fileIconColour, textColor: AppColor.whiteColor)
+                            child: CustomButton(
+                              onpressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                builder: (context) => ChapterAnalysisScreen(),
+                                ),
+                              );
+                              },
+                              text: "chapter analysis",
+                              buttoncolor: AppColor.fileIconColour,
+                              textColor: AppColor.whiteColor,
+                            )
                           )
                         ],
                       ),

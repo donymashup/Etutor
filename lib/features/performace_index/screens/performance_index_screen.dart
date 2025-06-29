@@ -16,7 +16,7 @@ class PerformanceIndexScreen extends StatelessWidget {
       appBar: AppBar(
         title: Row(
           children: [
-            BackButton(),
+            //BackButton(),
             Text(
               "Student Performance Index",
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
