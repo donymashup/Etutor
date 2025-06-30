@@ -7,17 +7,14 @@ class SubscribedCourseSubject extends StatefulWidget {
 
   @override
   State<SubscribedCourseSubject> createState() =>
-  _SubscribedCourseSubjectState();
+      _SubscribedCourseSubjectState();
 }
 
 class Subject {
   String subjectName;
   String subjectImage;
 
-  Subject({
-    required this.subjectName, 
-    required this.subjectImage
-    });
+  Subject({required this.subjectName, required this.subjectImage});
 }
 
 class _SubscribedCourseSubjectState extends State<SubscribedCourseSubject> {
@@ -68,7 +65,8 @@ class _SubscribedCourseSubjectState extends State<SubscribedCourseSubject> {
                   ),
                 ),
                 Container(
-                  padding: const EdgeInsets.symmetric(vertical:  15, horizontal: 40),
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 15, horizontal: 40),
                   width: MediaQuery.of(context).size.width,
                   decoration: const BoxDecoration(
                     color: Colors.white,
@@ -77,12 +75,11 @@ class _SubscribedCourseSubjectState extends State<SubscribedCourseSubject> {
                         topRight: Radius.circular(30)),
                   ),
                   child: Text("Science",
-                      style: TextStyle(
-                          fontWeight: FontWeight.w500, fontSize: 25)),
+                      style:
+                          TextStyle(fontWeight: FontWeight.w500, fontSize: 25)),
                 )
               ],
             ),
-            
             Expanded(
               // height: MediaQuery.of(context).size.height - 300,
               child: Padding(
@@ -93,7 +90,6 @@ class _SubscribedCourseSubjectState extends State<SubscribedCourseSubject> {
                       subjectName: subject[index].subjectName,
                       subjectImage: subject[index].subjectImage,
                       onPressed: () {}),
-             
                 ),
               ),
             ),

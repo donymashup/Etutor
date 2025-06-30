@@ -80,62 +80,6 @@ class _SubscribedCourseAllSubjectsState
                                     subjectImage:
                                         allsubjects[index].subjectImage ?? ""),
                               ))
-                      // GestureDetector(
-                      //   onTap: () {
-                      //     Navigator.push(
-                      //         context,
-                      //         MaterialPageRoute(
-                      //             builder: (context) =>
-                      //                 SubscribedCourseSubject()));
-                      //   },
-                      //   child: SubjectOverviewCard(
-                      //     title: "Social Science",
-                      //     description: "Understanding Our Past and Present",
-                      //     subjectImage: "assets/images/subname1.jpg",
-                      //   ),
-                      // ),
-                      // GestureDetector(
-                      //   onTap: () {
-                      //     Navigator.push(
-                      //         context,
-                      //         MaterialPageRoute(
-                      //             builder: (context) =>
-                      //                 SubscribedCourseSubject()));
-                      //   },
-                      //   child: SubjectOverviewCard(
-                      //     title: "Social Science",
-                      //     description: "Understanding Our Past and Present",
-                      //     subjectImage: "assets/images/subname2.jpg",
-                      //   ),
-                      // ),
-                      // GestureDetector(
-                      //   onTap: () {
-                      //     Navigator.push(
-                      //         context,
-                      //         MaterialPageRoute(
-                      //             builder: (context) =>
-                      //                 SubscribedCourseSubject()));
-                      //   },
-                      //   child: SubjectOverviewCard(
-                      //     title: "Social Science",
-                      //     description: "Understanding Our Past and Present",
-                      //     subjectImage: "assets/images/subname3.jpg",
-                      //   ),
-                      // ),
-                      // GestureDetector(
-                      //   onTap: () {
-                      //     Navigator.push(
-                      //         context,
-                      //         MaterialPageRoute(
-                      //             builder: (context) =>
-                      //                 SubscribedCourseSubject()));
-                      //   },
-                      //   child: SubjectOverviewCard(
-                      //     title: "Social Science",
-                      //     description: "Understanding Our Past and Present",
-                      //     subjectImage: "assets/images/subname4.jpg",
-                      //   ),
-                      // ),
                     ],
                   ),
                 ),
