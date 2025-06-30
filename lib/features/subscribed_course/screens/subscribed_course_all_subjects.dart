@@ -31,7 +31,7 @@ List<AllSubjects> allsubjects = [
   AllSubjects(
       title: "Mathematics",
       description: "Building Logical Thinking Through Numbers and Patterns",
-      subjectImage: "assets/images/subname.jpg"),
+      subjectImage: "assets/images/subname1.jpg"),
   AllSubjects(
       title: "Mental Ability",
       description:
@@ -90,62 +90,6 @@ class _SubscribedCourseAllSubjectsState
                                     subjectImage:
                                         allsubjects[index].subjectImage ?? ""),
                               ))
-                      // GestureDetector(
-                      //   onTap: () {
-                      //     Navigator.push(
-                      //         context,
-                      //         MaterialPageRoute(
-                      //             builder: (context) =>
-                      //                 SubscribedCourseSubject()));
-                      //   },
-                      //   child: SubjectOverviewCard(
-                      //     title: "Social Science",
-                      //     description: "Understanding Our Past and Present",
-                      //     subjectImage: "assets/images/subname1.jpg",
-                      //   ),
-                      // ),
-                      // GestureDetector(
-                      //   onTap: () {
-                      //     Navigator.push(
-                      //         context,
-                      //         MaterialPageRoute(
-                      //             builder: (context) =>
-                      //                 SubscribedCourseSubject()));
-                      //   },
-                      //   child: SubjectOverviewCard(
-                      //     title: "Social Science",
-                      //     description: "Understanding Our Past and Present",
-                      //     subjectImage: "assets/images/subname2.jpg",
-                      //   ),
-                      // ),
-                      // GestureDetector(
-                      //   onTap: () {
-                      //     Navigator.push(
-                      //         context,
-                      //         MaterialPageRoute(
-                      //             builder: (context) =>
-                      //                 SubscribedCourseSubject()));
-                      //   },
-                      //   child: SubjectOverviewCard(
-                      //     title: "Social Science",
-                      //     description: "Understanding Our Past and Present",
-                      //     subjectImage: "assets/images/subname3.jpg",
-                      //   ),
-                      // ),
-                      // GestureDetector(
-                      //   onTap: () {
-                      //     Navigator.push(
-                      //         context,
-                      //         MaterialPageRoute(
-                      //             builder: (context) =>
-                      //                 SubscribedCourseSubject()));
-                      //   },
-                      //   child: SubjectOverviewCard(
-                      //     title: "Social Science",
-                      //     description: "Understanding Our Past and Present",
-                      //     subjectImage: "assets/images/subname4.jpg",
-                      //   ),
-                      // ),
                     ],
                   ),
                 ),

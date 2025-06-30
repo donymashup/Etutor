@@ -1,6 +1,7 @@
 import 'package:etutor/features/drawer/screens/drawer.dart';
 import 'package:etutor/features/my_course/screens/course_details_screen.dart';
 import 'package:etutor/features/notification/screens/notification_page.dart';
+import 'package:etutor/features/profile/screens/profile.dart';
 import 'package:flutter/material.dart';
 import 'package:etutor/common/constants/app_constants.dart';
 import 'package:etutor/features/home/widgets/category_button.dart';
@@ -119,10 +120,21 @@ class _HomePageState extends State<HomePage> {
                           Expanded(
                             child: Row(
                               children: [
-                                const CircleAvatar(
+                                GestureDetector(
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            const Profile(),
+                                      ),
+                                    );
+                                  },
+                                  child: const CircleAvatar(
                                   radius: 30,
                                   backgroundImage:
-                                      AssetImage('assets/images/smriti1.jpeg'),
+                                    AssetImage('assets/images/smriti1.jpeg'),
+                                  ),
                                 ),
                                 const SizedBox(width: 12),
                                 Expanded(
