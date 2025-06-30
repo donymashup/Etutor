@@ -1,0 +1,163 @@
+import 'package:etutor/common/constants/app_constants.dart';
+import 'package:etutor/common/widgets/back_button.dart';
+import 'package:flutter/material.dart';
+
+class CustomWavePainter extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint()..color =AppColor.primaryColor;
+
+    final path = Path();
+    path.moveTo(0, size.height);
+
+    // First upward wave
+    path.quadraticBezierTo(
+      size.width * 0.25, size.height * 0.4,  
+      size.width * 0.5, size.height * 0.6    
+    );
+
+    // Second downward wave
+    path.quadraticBezierTo(
+      size.width * 0.75, size.height * 0.8, 
+      size.width, size.height * 0.5          
+    );
+
+    // Close shape to top 
+    path.lineTo(size.width, 0);
+    path.lineTo(0, 0);
+    path.close();
+
+    canvas.drawPath(path, paint);
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
+}
+
+
+class Profile extends StatelessWidget {
+  const Profile({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        appBar: AppBar(
+          backgroundColor: AppColor.primaryColor,
+          leading: Padding(
+            padding: const EdgeInsets.only(left: 20.0),
+            child: CustomBackButton(),
+          ),),
+        body: SingleChildScrollView(
+          child: Stack(
+            children :[ CustomPaint(
+              painter: CustomWavePainter(),
+              child: SizedBox(
+                width: MediaQuery.of(context).size.width,
+                height: 120,
+              ),
+            ),
+             Padding(
+               padding: const EdgeInsets.all( 25.0,),
+               child: Column(
+                 children: [
+                   Padding(
+                     padding: const EdgeInsets.only(top: 30.0,),
+                     child: Row(
+                     // crossAxisAlignment: CrossAxisAlignment.start,
+                       children: [
+                        ClipRRect(
+                          borderRadius:BorderRadius.circular(50),
+                          child: Image.asset("assets/images/basil.jpg",
+                          width:100 ,
+                          height:100,
+                          fit: BoxFit.cover,),),
+                          SizedBox(width: 10,),
+                         Column(
+                         crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text("Basil Joseph",style: TextStyle(fontWeight: FontWeight.w600,fontSize: 16),),
+                            Text("Class 6",style: TextStyle(color: AppColor.greyText,fontSize: 13),),
+                          ],
+                         ),
+                         SizedBox(width: 30,),
+                         IconButton(
+                          onPressed: (){}, 
+                          icon: Icon(Icons.edit_note_rounded))
+                       ],
+                     ),
+                   ),
+                   SizedBox(height:40 ,),
+                   Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                     children: [
+                      Row(
+                        children: [
+                          Icon(Icons.person,color: AppColor.primaryColor,),
+                          SizedBox(width: 20,),
+                          Text("Basil Joseph",style: TextStyle(fontWeight: FontWeight.w600),)
+                        ],
+                      ),
+                      SizedBox(height: 15,),
+                      Row(
+                        children: [
+                          Icon(Icons.phone_android,color: AppColor.primaryColor,),
+                          SizedBox(width: 20,),
+                          Text("+91 8078559319",style: TextStyle(fontWeight: FontWeight.w600))
+                        ],
+                      ),
+                      SizedBox(height: 15,),
+                      Row(
+                        children: [
+                          Icon(Icons.email,color: AppColor.primaryColor,),
+                          SizedBox(width: 20,),
+                          Text("josephBasil@gmail.com",style: TextStyle(fontWeight: FontWeight.w600))
+                        ],
+                      ),
+                    SizedBox(height: 15,),
+                      Row(
+                        children: [
+                          Icon(Icons.school,color: AppColor.primaryColor,),
+                          SizedBox(width: 20,),
+                          Text("C.C.P.L.M School, Thevera",style: TextStyle(fontWeight: FontWeight.w600))
+                        ],
+                      ),
+                      SizedBox(height: 15,),
+                     ],
+                   ),
+                   SizedBox(height: 30,),
+                   Container(
+                    width: MediaQuery.of(context).size.width,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(5),
+                      border: Border.all(color: AppColor.greyStroke)
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text("My Account",style: TextStyle(color: AppColor.greyText,fontSize: 13),),
+                          SizedBox(height: 10,),
+                          Padding(
+                            padding: const EdgeInsets.only(left:8.0),
+                            child: Text("Delete Account"),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(left:8.0),
+                            child: Text("Log out"),
+                          ),
+                        ],
+                      ),
+                    ),
+                   )
+          
+                 ],
+               ),
+             )
+            ],
+          ),
+        ),
+      );
+
+  }
+}
