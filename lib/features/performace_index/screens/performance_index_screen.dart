@@ -26,9 +26,11 @@ class PerformanceIndexScreen extends StatelessWidget {
         ),
      ),
       body: SafeArea(
+        child: Container(
+          color: AppColor.whiteColor,
           child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20.0),
-        child: SingleChildScrollView(
+            padding: const EdgeInsets.symmetric(horizontal: 20.0),
+            child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -89,7 +91,9 @@ class PerformanceIndexScreen extends StatelessWidget {
             ],
           ),
         ),
-      )),
+      ),
+      ),
+    ),
     );
   }
 }

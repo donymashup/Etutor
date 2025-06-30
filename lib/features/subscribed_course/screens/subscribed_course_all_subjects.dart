@@ -48,14 +48,18 @@ class _SubscribedCourseAllSubjectsState
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColor.whiteColor,
       appBar: AppBar(
         centerTitle: true,
         leading: Padding(
           padding: const EdgeInsets.only(left: 20.0),
           child: CustomBackButton(),
         ),
-        title: Text("Class 6"),
-        backgroundColor: AppColor.greyCardBackground,),
+        title: const Text(
+          "Class 6",
+          style: TextStyle(fontWeight: FontWeight.w500),
+        ),
+        backgroundColor: AppColor.whiteColor,),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(

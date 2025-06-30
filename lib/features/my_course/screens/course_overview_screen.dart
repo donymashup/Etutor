@@ -1,6 +1,4 @@
-
 import 'package:etutor/common/constants/app_constants.dart';
-import 'package:etutor/features/my_course/widgets/testimonial_card.dart';
 import 'package:flutter/material.dart';
 
 class CourseOverviewScreen extends StatefulWidget {
@@ -85,21 +83,6 @@ class _CourseOverviewState extends State<CourseOverviewScreen> {
                 fontWeight: FontWeight.w600,
                 color: AppColor.blackColor,
               ),
-            ),
-          ),
-          SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Row(
-              children: [
-                SizedBox(width: 12),
-                ...List.generate(
-                    testimonials.length,
-                    (index) => TestimonialCard(
-                        username: testimonials[index].username,
-                        description: testimonials[index].description,
-                        userimage: testimonials[index].userimage)),
-                SizedBox(width: 12),
-              ],
             ),
           ),
           SizedBox(height: 80),

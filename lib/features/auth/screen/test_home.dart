@@ -37,6 +37,7 @@ class TestHome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      
         // appBar: AppBar(backgroundColor: AppColor.primaryColor,),
         body: SafeArea(
           child: CustomScrollView(
