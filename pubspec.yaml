@@ -41,6 +41,9 @@ dependencies:
   syncfusion_flutter_charts: ^29.2.11
   percent_indicator: ^4.2.5
   fl_chart: ^1.0.0
+  flutter_tex: ^5.1.7
+  custom_timer: ^0.2.3
+  webview_flutter_plus: ^0.4.19
 
 
 dev_dependencies:
