@@ -1,4 +1,5 @@
 import 'package:etutor/common/constants/app_constants.dart';
+import 'package:etutor/common/widgets/back_button.dart';
 import 'package:etutor/features/subscribed_course/widgets/course_card.dart';
 import 'package:flutter/material.dart';
 
@@ -56,6 +57,17 @@ class _SubscribedCourseMaterialsState extends State<SubscribedCourseMaterials> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: AppColor.whiteColor,
+        title: Text(
+          "Materials",
+          style: TextStyle(fontWeight: FontWeight.w500,fontSize: 18),
+        ),
+        leading: Padding(
+          padding: const EdgeInsets.only(left: 20.0),
+          child: CustomBackButton(),
+        ),
+      ),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(12.0),

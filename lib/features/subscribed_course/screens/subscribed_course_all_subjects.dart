@@ -1,3 +1,5 @@
+import 'package:etutor/common/constants/app_constants.dart';
+import 'package:etutor/common/widgets/back_button.dart';
 import 'package:etutor/features/subscribed_course/screens/subscribed_course_subject.dart';
 import 'package:etutor/features/subscribed_course/widgets/subject_overview_card.dart';
 import 'package:flutter/material.dart';
@@ -46,6 +48,14 @@ class _SubscribedCourseAllSubjectsState
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        centerTitle: true,
+        leading: Padding(
+          padding: const EdgeInsets.only(left: 20.0),
+          child: CustomBackButton(),
+        ),
+        title: Text("Class 6"),
+        backgroundColor: AppColor.greyCardBackground,),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(
