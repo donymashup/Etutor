@@ -45,7 +45,7 @@ dependencies:
   webview_flutter_plus: ^0.4.19
   syncfusion_flutter_charts: ^29.2.11
   syncfusion_flutter_pdfviewer: ^29.2.11
-  # better_player: ^0.0.84
+  better_player: ^0.0.84
 
 
 dev_dependencies:

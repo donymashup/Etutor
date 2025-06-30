@@ -35,6 +35,7 @@ import 'package:etutor/features/subscribed_course/screens/subscribed_course_over
 import 'package:etutor/features/subscribed_course/screens/subscribed_course_subject.dart';
 import 'package:etutor/features/subscribed_course/screens/subscribed_course_vedio.dart';
 import 'package:etutor/features/subscribed_course/screens/subscribed_courses_tests.dart';
+import 'package:etutor/features/subscribed_course/screens/video_player_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_tex/flutter_tex.dart';
 
@@ -73,7 +74,7 @@ class MyApp extends StatelessWidget {
       // home: OngoingLiveScreen(),
       // home: CourseDetailsScreen(),
       //  home: GkPostScreen(),
-          home: SplashScreen(),
+          // home: SplashScreen(),
       // home: PerformanceIndexScreen(),
       // home: NotificationPage(),
       // home: ProfilePage(),
@@ -83,6 +84,7 @@ class MyApp extends StatelessWidget {
      // home: HomePage(),
      // home: GkVedios(),
     //  home:  PdfViewer(),
+    home: VideoPlayerScreen(),
      // home: QuizCompletionScreen(),
     );
   }
