@@ -1,4 +1,5 @@
 import 'package:etutor/common/constants/app_constants.dart';
+import 'package:etutor/features/quiz/screens/quiz_instruction_screen.dart';
 import 'package:etutor/features/subscribed_course/widgets/course_card.dart';
 import 'package:flutter/material.dart';
 
@@ -28,22 +29,36 @@ class Tests {
 
 class _SubscribedCoursesTestsState extends State<SubscribedCoursesTests> {
 
-  List<Tests> tests = [
-    Tests(
-      title: "Sample Test 1", 
-      subtitle: "Tap to attend the test", 
-      icon: Icons.calendar_month, 
-      iconcolor: AppColor.testIconColour, 
-      iconBgcolor: AppColor.lightVioletCardBackground, 
-      onPressed: (){}),
-       Tests(
-      title: "Sample Test 2", 
-      subtitle: "Tap to attend the test", 
-      icon: Icons.calendar_month, 
-      iconcolor: AppColor.testIconColour, 
-      iconBgcolor: AppColor.lightVioletCardBackground, 
-      onPressed: (){}),
-  ];
+  late List<Tests> tests;
+
+  @override
+  void initState() {
+    super.initState();
+    tests = [
+      Tests(
+        title: "Sample Test 1",
+        subtitle: "Tap to attend the test",
+        icon: Icons.calendar_month,
+        iconcolor: AppColor.testIconColour,
+        iconBgcolor: AppColor.lightVioletCardBackground,
+        onPressed: () {
+          // Navigate to test details or perform some action
+          Navigator.push(context, MaterialPageRoute(builder: (context) => QuizInstructionPage()));
+        },
+      ),
+      Tests(
+        title: "Sample Test 2",
+        subtitle: "Tap to attend the test",
+        icon: Icons.calendar_month,
+        iconcolor: AppColor.testIconColour,
+        iconBgcolor: AppColor.lightVioletCardBackground,
+        onPressed: () {
+          // Navigate to test details or perform some action
+          Navigator.push(context, MaterialPageRoute(builder: (context) => QuizInstructionPage()));
+        },
+      ),
+    ];
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
