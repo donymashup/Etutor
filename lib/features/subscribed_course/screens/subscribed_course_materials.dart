@@ -60,6 +60,7 @@ class _SubscribedCourseMaterialsState extends State<SubscribedCourseMaterials> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColor.whiteColor,
       appBar: AppBar(
         backgroundColor: AppColor.whiteColor,
         title: Text(
@@ -76,11 +77,11 @@ class _SubscribedCourseMaterialsState extends State<SubscribedCourseMaterials> {
           padding: const EdgeInsets.all(12.0),
           child: Column(
             children: [
-              Text(
-                "Materials",
-                style: TextStyle(fontSize: 22, fontWeight: FontWeight.w500),
-                textAlign: TextAlign.center,
-              ),
+              // Text(
+              //   "Materials",
+              //   style: TextStyle(fontSize: 22, fontWeight: FontWeight.w500),
+              //   textAlign: TextAlign.center,
+              // ),
               Expanded(
                 child: ListView.builder(
                   itemCount: materials.length,

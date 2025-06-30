@@ -30,6 +30,7 @@ class SubscribedCourseVedio extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColor.whiteColor,
       appBar: AppBar(
         backgroundColor: AppColor.whiteColor,
         title: Text(

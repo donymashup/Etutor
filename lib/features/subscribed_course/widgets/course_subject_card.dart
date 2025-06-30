@@ -62,7 +62,6 @@ class _CourseSubjectCardState extends State<CourseSubjectCard>
                       padding: const EdgeInsets.symmetric(horizontal: 12.0),
                       child: Text(
                         widget.subjectName,
-                        maxLines: 3,
                         style: const TextStyle(
                             fontSize: 18, fontWeight: FontWeight.w500),
                       ),
