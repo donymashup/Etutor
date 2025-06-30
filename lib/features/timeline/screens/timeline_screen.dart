@@ -1,5 +1,6 @@
 // timeline_screen.dart
 import 'package:etutor/common/constants/app_constants.dart';
+import 'package:etutor/common/widgets/back_button.dart';
 import 'package:etutor/features/timeline/widgets/calender_strip.dart';
 import 'package:etutor/features/timeline/widgets/timeline_item.dart';
 import 'package:flutter/material.dart';
@@ -59,25 +60,21 @@ class _TimelineScreenState extends State<TimelineScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
+      appBar: AppBar(
+        backgroundColor: AppColor.whiteColor,
+        title:  Text(
+              "Timeline",
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+              textAlign: TextAlign.center,
+            ),
+        leading: Padding(
+          padding: const EdgeInsets.only(left: 20.0),
+          child: CustomBackButton(),
+        ),
+     ),
       body: SafeArea(
         child: Column(
           children: [
-            Container(
-              color: Colors.grey.shade200,
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 0),
-              child: Row(
-                children: [
-                  IconButton(
-                    icon: const Icon(Icons.arrow_back_ios, color: Colors.black),
-                    onPressed: () => Navigator.pop(context),
-                  ),
-                  const Text(
-                    'Timeline',
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
-                  ),
-                ],
-              ),
-            ),
             CalendarStrip(
               days: days,
               selectedDate: selectedDate,

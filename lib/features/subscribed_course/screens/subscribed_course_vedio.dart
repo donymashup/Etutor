@@ -37,7 +37,7 @@ class SubscribedCourseVedio extends StatelessWidget {
           style: TextStyle(fontWeight: FontWeight.w500,fontSize: 18),
         ),
         leading: Padding(
-          padding: const EdgeInsets.all(10.0),
+          padding: const EdgeInsets.only(left: 20.0),
           child: CustomBackButton(),
         ),
       ),
