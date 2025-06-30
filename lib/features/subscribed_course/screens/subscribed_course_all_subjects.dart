@@ -29,7 +29,7 @@ List<AllSubjects> allsubjects = [
   AllSubjects(
       title: "Mathematics",
       description: "Building Logical Thinking Through Numbers and Patterns",
-      subjectImage: "assets/images/subname.jpg"),
+      subjectImage: "assets/images/subname1.jpg"),
   AllSubjects(
       title: "Mental Ability",
       description:
