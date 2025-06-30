@@ -1,6 +1,7 @@
 import 'package:etutor/features/drawer/screens/drawer.dart';
 import 'package:etutor/features/my_course/screens/course_details_screen.dart';
 import 'package:etutor/features/notification/screens/notification_page.dart';
+import 'package:etutor/features/profile/screens/profile.dart';
 import 'package:flutter/material.dart';
 import 'package:etutor/common/constants/app_constants.dart';
 import 'package:etutor/features/home/widgets/category_button.dart';
@@ -19,22 +20,22 @@ class _HomePageState extends State<HomePage> {
   final List<Map<String, dynamic>> activeCourses = [
     {
       'imagePath': 'assets/images/course1.png',
-      'title': 'Class 06 Foundation 25-26',
+      'title': 'International Social Studies Olympiad (ISSO)',
       'rating': 4.5,
     },
     {
       'imagePath': 'assets/images/course2.png',
-      'title': 'Class 07 Foundation 25-26',
+      'title': ' International General Knowledge Olympiad (IGKO)',
       'rating': 4.6,
     },
     {
       'imagePath': 'assets/images/course3.png',
-      'title': 'Class 08 Foundation 25-26',
+      'title': 'International Commerce Olympiad (ICO)',
       'rating': 4.4,
     },
     {
       'imagePath': 'assets/images/course4.png',
-      'title': 'Class 09 Foundation 25-26',
+      'title': 'International English Olympiad (IEO)',
       'rating': 4.7,
     },
   ];
@@ -42,17 +43,17 @@ class _HomePageState extends State<HomePage> {
   final List<Map<String, dynamic>> popularCourses = [
     {
       'imagePath': 'assets/images/course4.png',
-      'title': 'Mental Ability 25-26',
+      'title': 'International Mathematics Olympiad (IMO)',
       'rating': 4.8,
     },
     {
       'imagePath': 'assets/images/course3.png',
-      'title': 'Math Olympiad 25-26',
+      'title': 'National Science Olympiad (NSO)',
       'rating': 4.6,
     },
     {
       'imagePath': 'assets/images/course2.png',
-      'title': 'Science Booster',
+      'title': 'National Interactive Maths Olympiad [NIMO]',
       'rating': 4.9,
     },
     {
@@ -75,12 +76,12 @@ class _HomePageState extends State<HomePage> {
     },
     {
       'imagePath': 'assets/images/course2.png',
-      'title': 'Science Booster',
+      'title': 'Spell Bee (CSB) ',
       'rating': 4.9,
     },
     {
       'imagePath': 'assets/images/course4.png',
-      'title': 'English Smart Series',
+      'title': ' International English Olympiad (IEO)',
       'rating': 4.3,
     },
   ];
@@ -119,10 +120,21 @@ class _HomePageState extends State<HomePage> {
                           Expanded(
                             child: Row(
                               children: [
-                                const CircleAvatar(
+                                GestureDetector(
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            const Profile(),
+                                      ),
+                                    );
+                                  },
+                                  child: const CircleAvatar(
                                   radius: 30,
                                   backgroundImage:
-                                      AssetImage('assets/images/smriti1.jpeg'),
+                                    AssetImage('assets/images/smriti1.jpeg'),
+                                  ),
                                 ),
                                 const SizedBox(width: 12),
                                 Expanded(

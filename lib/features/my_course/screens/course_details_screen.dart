@@ -1,4 +1,5 @@
 import 'package:etutor/common/constants/app_constants.dart';
+import 'package:etutor/common/widgets/back_button.dart';
 import 'package:etutor/common/widgets/custom_button.dart';
 import 'package:etutor/features/my_course/screens/course_curriculum.dart';
 import 'package:etutor/features/my_course/screens/course_overview_screen.dart';
@@ -38,15 +39,19 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen>
           children: [
             Padding(
               padding: const EdgeInsets.all(16.0),
-              child: Container(
-                height: MediaQuery.of(context).size.width * .5,
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
-                  image: DecorationImage(
-                      image: AssetImage('assets/images/course2.png'),
-                      fit: BoxFit.cover),
-                ),
+              child: Stack(
+                children:[ 
+                  CustomBackButton(),
+                  Container(
+                  height: MediaQuery.of(context).size.width * .5,
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    image: DecorationImage(
+                        image: AssetImage('assets/images/course2.png'),
+                        fit: BoxFit.cover),
+                  ),
+                ),],
               ),
             ),
             Padding(

@@ -1,4 +1,5 @@
 import 'package:etutor/common/constants/app_constants.dart';
+import 'package:etutor/common/widgets/back_button.dart';
 import 'package:etutor/features/performace_index/widgets/catergory_progress.dart';
 import 'package:etutor/features/performace_index/widgets/course_progress.dart';
 import 'package:etutor/features/performace_index/widgets/monthly_progress.dart';
@@ -12,14 +13,18 @@ class PerformanceIndexScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColor.whiteColor,
-      appBar: AppBar(
-        title: Text(
-          "Student Performance Index",
-          style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
-          textAlign: TextAlign.center,
+     appBar: AppBar(
+        backgroundColor: AppColor.whiteColor,
+        title:  Text(
+              "Student Performance Index",
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+              textAlign: TextAlign.center,
+            ),
+        leading: Padding(
+          padding: const EdgeInsets.only(left: 20.0),
+          child: CustomBackButton(),
         ),
-      ),
+     ),
       body: SafeArea(
           child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20.0),
