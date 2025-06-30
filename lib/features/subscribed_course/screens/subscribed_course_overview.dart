@@ -1,4 +1,5 @@
 import 'package:etutor/common/constants/app_constants.dart';
+import 'package:etutor/common/widgets/back_button.dart';
 import 'package:etutor/features/subscribed_course/screens/subscribed_course_all_subjects.dart';
 import 'package:etutor/features/subscribed_course/screens/subscribed_course_content.dart';
 import 'package:etutor/features/subscribed_course/widgets/course_card.dart';
@@ -104,6 +105,13 @@ class _SubscribedCourseOverviewState extends State<SubscribedCourseOverview> {
                       fit: BoxFit.cover),
                 ),
               ),
+               Align(
+                  alignment: Alignment.topLeft,
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: CustomBackButton(),
+                  ),
+                ),
               Container(
                 margin: const EdgeInsets.only(top: 260),
                 padding: const EdgeInsets.all(20),

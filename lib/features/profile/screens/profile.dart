@@ -51,7 +51,7 @@ class Profile extends StatelessWidget {
                          SizedBox(width: 30,),
                          IconButton(
                           onPressed: (){}, 
-                          icon: Icon(Icons.edit_note_rounded))
+                          icon: Icon(Icons.edit_note_rounded,size: 26,))
                        ],
                      ),
                    ),
@@ -105,16 +105,40 @@ class Profile extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text("My Account",style: TextStyle(color: AppColor.greyText,fontSize: 13),),
                           SizedBox(height: 10,),
-                          Padding(
-                            padding: const EdgeInsets.only(left:8.0),
-                            child: Text("Delete Account"),
+                          
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width,
+                            child: Padding(
+                              padding: const EdgeInsets.only(left:8.0),
+                              child:ElevatedButton( 
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: AppColor.primaryColor,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(5)
+                                )
+                              ),                                
+                              onPressed: (){}, 
+                              child: Text("Delete Account",style: TextStyle(color: AppColor.whiteColor))),
+                            ),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.only(left:8.0),
-                            child: Text("Log out"),
+                          SizedBox(height: 10,),
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width,
+                            child: Padding(
+                              padding: const EdgeInsets.only(left:8.0),
+                              child:ElevatedButton( 
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: AppColor.secondaryColor,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(5)
+                                )
+                              ),                                
+                              onPressed: (){}, 
+                              child: Text("Log out",style: TextStyle(color: AppColor.whiteColor),)),
+                            ),
                           ),
+                         
                         ],
                       ),
                     ),

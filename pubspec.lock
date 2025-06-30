@@ -24,7 +24,7 @@ packages:
       sha256: d2872f9c19731c2e5f10444b14686eb7cc85c76274bd6c16e1816bff9a3bab63
       url: "https://pub.dev"
     source: hosted
-    version: "2.13.0"
+    version: "2.12.0"
   better_player:
     dependency: "direct main"
     description:
@@ -32,7 +32,7 @@ packages:
       sha256: fc8883218ab7a2fd7e916956c1f59b5c26c3cab1e4dfd6f051901f5e4da39619
       url: "https://pub.dev"
     source: hosted
-    version: "2.12.0"
+    version: "0.0.84"
   boolean_selector:
     dependency: transitive
     description:
@@ -772,7 +772,7 @@ packages:
       sha256: "0968250880a6c5fe7edc067ed0a13d4bae1577fe2771dcf3010d52c4a9d3ca14"
       url: "https://pub.dev"
     source: hosted
-    version: "15.0.0"
+    version: "14.3.1"
   wakelock_plus:
     dependency: transitive
     description:
@@ -788,7 +788,7 @@ packages:
       sha256: e10444072e50dbc4999d7316fd303f7ea53d31c824aa5eb05d7ccbdd98985207
       url: "https://pub.dev"
     source: hosted
-    version: "14.3.1"
+    version: "1.2.3"
   web:
     dependency: transitive
     description:
