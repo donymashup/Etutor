@@ -22,6 +22,7 @@ import 'package:etutor/features/payment/screen/voucher_screen.dart';
 import 'package:etutor/features/performace_index/screens/performance_index_screen.dart';
 import 'package:etutor/features/profile/screens/profile.dart';
 import 'package:etutor/features/quiz/screens/quiz_completion_screen.dart';
+import 'package:etutor/features/subscribed_course/screens/pdf_viewer.dart';
 import 'package:etutor/features/subscribed_course/screens/subscribed_course_all_subjects.dart';
 import 'package:etutor/features/subscribed_course/screens/subscribed_course_assignment_screen.dart';
 import 'package:etutor/features/subscribed_course/screens/subscribed_course_content.dart';
@@ -35,20 +36,18 @@ import 'package:etutor/features/subscribed_course/screens/subscribed_course_subj
 import 'package:etutor/features/subscribed_course/screens/subscribed_course_vedio.dart';
 import 'package:etutor/features/subscribed_course/screens/subscribed_courses_tests.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_tex/flutter_tex.dart';
 
-void main() {
-  runApp(const MyApp());
+void main() async {
+  await TeXRenderingServer.start();
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
       theme: ThemeData(
         fontFamily: "Poppins",
         colorScheme: ColorScheme.fromSeed(seedColor: AppColor.whiteColor),
@@ -78,11 +77,12 @@ class MyApp extends StatelessWidget {
       // home: PerformanceIndexScreen(),
       // home: NotificationPage(),
       // home: ProfilePage(),
-    //  home: BottomNavBarScreen(),
+      //  home: BottomNavBarScreen(),
       // home: OngoingLiveScreen(),
       // home: CourseDetailsScreen(),
      // home: HomePage(),
      // home: GkVedios(),
+    //  home:  PdfViewer(),
      // home: QuizCompletionScreen(),
     );
   }

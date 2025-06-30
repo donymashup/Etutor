@@ -6,13 +6,13 @@ class TestimonialCard extends StatefulWidget {
   // IconData rating;
   String userimage;
   String description;
-  
-   TestimonialCard({
-    required this.username,
-    // required this.rating,
-    required this.description,
-    required this.userimage,
-    super.key});
+
+  TestimonialCard(
+      {required this.username,
+      // required this.rating,
+      required this.description,
+      required this.userimage,
+      super.key});
 
   @override
   State<TestimonialCard> createState() => _TestimonialCardState();
@@ -28,49 +28,79 @@ class _TestimonialCardState extends State<TestimonialCard> {
             borderRadius: BorderRadius.circular(10),
             border: Border.all(color: AppColor.greyStroke),
             color: AppColor.lightorange),
-        width: MediaQuery.of(context).size.width *.9,
-       // height: MediaQuery.of(context).size.width *.34,
-        child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        width: MediaQuery.of(context).size.width * .9,
+        // height: MediaQuery.of(context).size.width *.34,
+        child: Column(
           children: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: CircleAvatar(
-                radius: 50,
-                backgroundColor:AppColor.greyAppBar,
-                backgroundImage: AssetImage(widget.userimage),
-              ),
-            )
-            ,Expanded(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15.0),
-                child:
-                    //title and subtitle of the course
-                    Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(widget.username,style: TextStyle(fontSize: 20,fontWeight: FontWeight.w500),),
-                    Row(
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 8.0, horizontal: 5),
+                  child: CircleAvatar(
+                    radius: 25,
+                    backgroundColor: AppColor.greyAppBar,
+                    backgroundImage: AssetImage(widget.userimage),
+                  ),
+                ),
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 10, horizontal: 10.0),
+                    child:
+                        //title and subtitle of the course
+                        Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                       Icon(Icons.star,color: AppColor.fileIconColour,size: 18,),
-                       Icon(Icons.star,color: AppColor.fileIconColour,size: 18,),
-                       Icon(Icons.star,color: AppColor.fileIconColour,size: 18,),
-                       Icon(Icons.star,color: AppColor.fileIconColour,size: 18,),
-                       Icon(Icons.star,color: AppColor.fileIconColour,size: 18,),
+                        Text(
+                          widget.username,
+                          style: TextStyle(
+                              fontSize: 18, fontWeight: FontWeight.w500),
+                        ),
+                        Row(
+                          children: [
+                            Icon(
+                              Icons.star,
+                              color: AppColor.fileIconColour,
+                              size: 18,
+                            ),
+                            Icon(
+                              Icons.star,
+                              color: AppColor.fileIconColour,
+                              size: 18,
+                            ),
+                            Icon(
+                              Icons.star,
+                              color: AppColor.fileIconColour,
+                              size: 18,
+                            ),
+                            Icon(
+                              Icons.star,
+                              color: AppColor.fileIconColour,
+                              size: 18,
+                            ),
+                            Icon(
+                              Icons.star,
+                              color: AppColor.fileIconColour,
+                              size: 18,
+                            ),
+                          ],
+                        ),
                       ],
                     ),
-                    Text(
-                    widget.description,
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                    textAlign: TextAlign.justify,
-                    style: TextStyle(fontSize: 14)),
-                  ],
+                  ),
                 ),
-              ),
+              ],
             ),
-            //icon for moving to next page
-            // IconButton(onPressed: widget.onPressed, icon: Icon(Icons.arrow_forward_ios))
+            Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Text(widget.description,
+                  maxLines: 3,
+                  overflow: TextOverflow.ellipsis,
+                  textAlign: TextAlign.justify,
+                  style: TextStyle(fontSize: 14)),
+            ),
           ],
         ),
       ),

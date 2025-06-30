@@ -50,7 +50,7 @@ class _CourseCurriculumCardState extends State<CourseCurriculumCard> {
               children: [
                 Text(widget.classname),
                 SizedBox(height: 10, child: VerticalDivider()),
-                Text(widget.subject),
+                Expanded(child: Text(widget.subject, maxLines: 1, overflow: TextOverflow.ellipsis,)),
               ],
             ),
             children: widget.items.map((item) {
