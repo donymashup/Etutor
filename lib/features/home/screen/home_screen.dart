@@ -172,21 +172,7 @@ class _HomePageState extends State<HomePage> {
                           Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              Container(
-                                width: 40,
-                                height: 40,
-                                margin: const EdgeInsets.only(right: 12),
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: Colors.white,
-                                  image: const DecorationImage(
-                                    image:
-                                        AssetImage('assets/images/gpt (2).png'),
-                                    fit: BoxFit.cover,
-                                  ),
-                                ),
-                              ),
-                              Stack(
+                               Stack(
                                 alignment: Alignment.topRight,
                                 children: [
                                   GestureDetector(
@@ -199,15 +185,12 @@ class _HomePageState extends State<HomePage> {
                                         ),
                                       );
                                     },
-                                    child: const CircleAvatar(
-                                      backgroundColor: Colors.white,
-                                      child: Icon(Icons.notifications,
-                                          color: Colors.black),
-                                    ),
+                                    child: Icon(Icons.notifications,
+                                        color: Colors.white),
                                   ),
                                   Positioned(
-                                    right: 6,
-                                    top: 6,
+                                    right: 0,
+                                    top: 0,
                                     child: Container(
                                       width: 10,
                                       height: 10,
@@ -219,6 +202,17 @@ class _HomePageState extends State<HomePage> {
                                   ),
                                 ],
                               ),
+                             IconButton(
+                              icon: Image.asset(
+                                "assets/icons/menu.png",
+                                width: 24,
+                                height: 24,
+                              ),
+                              onPressed: () {
+                                // Implement menu functionality
+                                _scaffoldKey.currentState?.openEndDrawer();
+                              },
+                            ),
                             ],
                           ),
                         ],
@@ -242,17 +236,22 @@ class _HomePageState extends State<HomePage> {
                                 ),
                               ),
                             ),
-                            IconButton(
-                              icon: Image.asset(
-                                "assets/icons/menu.png",
-                                width: 24,
-                                height: 24,
+                            
+                             Container(
+                                width: 40,
+                                height: 40,
+                                margin: const EdgeInsets.only(right: 12),
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: Colors.white,
+                                  image: const DecorationImage(
+                                    image:
+                                        AssetImage('assets/images/gpt (2).png'),
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
                               ),
-                              onPressed: () {
-                                // Implement menu functionality
-                                _scaffoldKey.currentState?.openEndDrawer();
-                              },
-                            ),
+
                           ],
                         ),
                       ),
