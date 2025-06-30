@@ -21,14 +21,25 @@ class AllSubjects {
       required this.subjectImage});
 }
 
- List<AllSubjects> allsubjects = [
-  AllSubjects(title: "Science", description: "Exploring the Wonders of Nature and Everyday Phenomena", subjectImage: "assets/images/subname1.jpg"),
-    AllSubjects(title: "Mathematics", description: "Building Logical Thinking Through Numbers and Patterns", subjectImage: "assets/images/subname4.jpg"),
-    AllSubjects(title: "Mental Ability", description: "Enhancing Reasoning Skills for Analytical and Critical Thinking", subjectImage: "assets/images/subname3.jpg"),
-    AllSubjects(title: "Social Science", description: "Understanding Past and Present", subjectImage: "assets/images/subname2.jpg"),
-
-
- ];
+List<AllSubjects> allsubjects = [
+  AllSubjects(
+      title: "Science",
+      description: "Exploring the Wonders of Nature and Everyday Phenomena",
+      subjectImage: "assets/images/subname1.jpg"),
+  AllSubjects(
+      title: "Mathematics",
+      description: "Building Logical Thinking Through Numbers and Patterns",
+      subjectImage: "assets/images/subname.jpg"),
+  AllSubjects(
+      title: "Mental Ability",
+      description:
+          "Enhancing Reasoning Skills for Analytical and Critical Thinking",
+      subjectImage: "assets/images/subname3.jpg"),
+  AllSubjects(
+      title: "Social Science",
+      description: "Understanding Past and Present",
+      subjectImage: "assets/images/subname2.jpg"),
+];
 
 class _SubscribedCourseAllSubjectsState
     extends State<SubscribedCourseAllSubjects> {
@@ -54,8 +65,21 @@ class _SubscribedCourseAllSubjectsState
                     spacing: 10,
                     alignment: WrapAlignment.spaceBetween,
                     children: [
-                      ...List.generate(allsubjects.length, (index) => SubjectOverviewCard(title: allsubjects[index].title ?? "", 
-                      description: allsubjects[index].description ?? "", subjectImage: allsubjects[index].subjectImage ?? ""))
+                      ...List.generate(
+                          allsubjects.length,
+                          (index) => GestureDetector(
+                                onTap: () => Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            SubscribedCourseSubject())),
+                                child: SubjectOverviewCard(
+                                    title: allsubjects[index].title ?? "",
+                                    description:
+                                        allsubjects[index].description ?? "",
+                                    subjectImage:
+                                        allsubjects[index].subjectImage ?? ""),
+                              ))
                       // GestureDetector(
                       //   onTap: () {
                       //     Navigator.push(

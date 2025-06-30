@@ -86,7 +86,7 @@ class _SubscribedCourseSubjectState extends State<SubscribedCourseSubject> {
             Expanded(
               // height: MediaQuery.of(context).size.height - 300,
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                padding: const EdgeInsets.symmetric(horizontal: 5.0),
                 child: ListView.builder(
                   itemCount: subject.length,
                   itemBuilder: (context, index) => CourseSubjectCard(
