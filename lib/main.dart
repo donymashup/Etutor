@@ -73,7 +73,7 @@ class MyApp extends StatelessWidget {
       // home: OngoingLiveScreen(),
       // home: CourseDetailsScreen(),
       //  home: GkPostScreen(),
-     // home: SplashScreen(),
+     home: SplashScreen(),
       // home: PerformanceIndexScreen(),
       // home: NotificationPage(),
       // home: ProfilePage(),
@@ -81,9 +81,7 @@ class MyApp extends StatelessWidget {
       // home: OngoingLiveScreen(),
       // home: CourseDetailsScreen(),
      // home: HomePage(),
-
      // home: GkVedios(),
-      home: QuizCompletionScreen(),
     );
   }
 }

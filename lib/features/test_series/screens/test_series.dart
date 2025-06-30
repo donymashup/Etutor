@@ -51,17 +51,17 @@ class _TestSeriesPageState extends State<TestSeriesPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Padding(
-              padding: EdgeInsets.all(16.0),
-              child: Text(
-                'Test Series',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w700,
-                  color: AppColor.blackColor,
+            Padding(
+                padding: const EdgeInsets.only(left: 16, right: 16, top: 16, bottom: 10),
+                child: const Text(
+                  "Test Series",
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w600,
+                    color: AppColor.blackColor,
+                  ),
                 ),
               ),
-            ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: Container(
