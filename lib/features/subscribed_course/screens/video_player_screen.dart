@@ -10,6 +10,7 @@ class VideoPlayerScreen extends StatefulWidget {
   @override
   State<VideoPlayerScreen> createState() => _VideoPlayerScreenState();
 }
+
  class Testimonials {
   String username;
   String userimage;

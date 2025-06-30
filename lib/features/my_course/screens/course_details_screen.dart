@@ -3,6 +3,7 @@ import 'package:etutor/common/widgets/back_button.dart';
 import 'package:etutor/common/widgets/custom_button.dart';
 import 'package:etutor/features/my_course/screens/course_curriculum.dart';
 import 'package:etutor/features/my_course/screens/course_overview_screen.dart';
+import 'package:etutor/features/my_course/screens/course_review.dart';
 import 'package:etutor/features/payment/screen/checkout_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -20,7 +21,7 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen>
   @override
   void initState() {
     super.initState();
-    _tabcontroller = TabController(length: 2, vsync: this);
+    _tabcontroller = TabController(length: 3, vsync: this);
   }
 
   @override
@@ -74,6 +75,11 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen>
                       padding: const EdgeInsets.all(8.0),
                       child: Tab(text: "Curiculum"),
                     )),
+                    Expanded(
+                        child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Tab(text: "Reviews"),
+                    )),
                   ],
                   labelColor: AppColor.whiteColor,
                   unselectedLabelColor: AppColor.blackColor,
@@ -88,9 +94,11 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen>
             ),
             Expanded(
               child: Stack(children: [
-                TabBarView(controller: _tabcontroller, children: [
+                TabBarView(controller: _tabcontroller,
+                 children: [
                   CourseOverviewScreen(),
                   CourseCurriculum(),
+                  CourseReview(),
                 ]),
               ]),
             ),
