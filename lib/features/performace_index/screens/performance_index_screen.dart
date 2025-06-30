@@ -14,15 +14,10 @@ class PerformanceIndexScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: AppColor.whiteColor,
       appBar: AppBar(
-        title: Row(
-          children: [
-            BackButton(),
-            Text(
-              "Student Performance Index",
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
-              textAlign: TextAlign.center,
-            ),
-          ],
+        title: Text(
+          "Student Performance Index",
+          style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+          textAlign: TextAlign.center,
         ),
       ),
       body: SafeArea(

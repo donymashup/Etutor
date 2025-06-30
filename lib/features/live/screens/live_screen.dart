@@ -2,6 +2,7 @@ import 'package:etutor/common/constants/app_constants.dart';
 import 'package:etutor/features/live/screens/ongoing_live_screen.dart';
 import 'package:etutor/features/live/screens/recorded_live_screen.dart';
 import 'package:etutor/features/live/screens/upcoming_live_screen.dart';
+import 'package:etutor/features/test_series/widgets/tapbtn_testseries.dart';
 import 'package:flutter/material.dart';
 
 class LiveScreen extends StatefulWidget {
@@ -13,7 +14,11 @@ class LiveScreen extends StatefulWidget {
 
 class _LiveScreenState extends State<LiveScreen>
     with SingleTickerProviderStateMixin {
-  late final TabController _tabController;
+      
+  int selectedIndex = 0;
+  late final PageController _pageController;
+
+
   final List<Widget> _body = [
     OngoingLiveScreen(),
     UpcomingLiveScreen(),
@@ -22,68 +27,82 @@ class _LiveScreenState extends State<LiveScreen>
 
   @override
   void initState() {
-    _tabController = TabController(length: 3, vsync: this);
+    _pageController = PageController(initialPage: selectedIndex);
     super.initState();
   }
 
   @override
   void dispose() {
-    _tabController.dispose();
     super.dispose();
+  }
+
+  void _onTabSelected(int index) {
+    setState(() => selectedIndex = index);
+    _pageController.animateToPage(
+      index,
+      duration: const Duration(milliseconds: 300),
+      curve: Curves.ease,
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        toolbarHeight: kToolbarHeight - 10,
-        title: Padding(
-          padding: const EdgeInsets.only(top: 30),
-          child: Text(
-            "Live Class",
-            style: TextStyle(fontSize: 20),
-          ),
-        ),
-      ),
-      body: DefaultTabController(
-        length: 3,
+      backgroundColor: AppColor.greyBackground,
+      body: SafeArea(
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
-              padding: const EdgeInsets.all(10),
-              child: Container(
-                height: 50,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8.0),
-                  color: AppColor.greyTabBar,
-                ),
-                child: TabBar(
-                  controller: _tabController,
-                  indicatorSize: TabBarIndicatorSize.tab,
-                  dividerColor: Colors.transparent,
-                  indicator: BoxDecoration(
-                    borderRadius: BorderRadius.circular(8.0),
-                    color: AppColor.primaryColor,
-                  ),
-                  padding: const EdgeInsets.all(5),
-                  labelStyle: TextStyle(
-                      color: AppColor.whiteColor,
-                      fontWeight: FontWeight.w600),
-                  unselectedLabelStyle: TextStyle(
+                padding: const EdgeInsets.only(left: 16, right: 16, top: 16, bottom: 10),
+                child: const Text(
+                  "Live Classes",
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w600,
                     color: AppColor.blackColor,
                   ),
-                  tabs: const [
-                    Tab(text: "Ongoing"),
-                    Tab(text: "Upcoming"),
-                    Tab(text: "Recorded"),
+                ),
+              ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: Container(
+                decoration: BoxDecoration(
+                  color: AppColor.whiteColor,
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Row(
+                  children: [
+                    TabButton(
+                      label: 'Ongoing',
+                      selected: selectedIndex == 0,
+                      onTap: () => _onTabSelected(0),
+                    ),
+                    TabButton(
+                      label: 'Upcoming',
+                      selected: selectedIndex == 1,
+                      onTap: () => _onTabSelected(1),
+                    ),
+                    TabButton(
+                      label: 'Recorded',
+                      selected: selectedIndex == 2,
+                      onTap: () => _onTabSelected(2),
+                    ),
                   ],
                 ),
               ),
             ),
+            const SizedBox(height: 16),
             Expanded(
-              child: TabBarView(
-                controller: _tabController,
-                children: _body,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                child: PageView(
+                  controller: _pageController,
+                  onPageChanged: (index) {
+                    setState(() => selectedIndex = index);
+                  },
+                  children: _body,
+                ),
               ),
             ),
           ],

@@ -27,7 +27,7 @@ class _TestimonialCardState extends State<TestimonialCard> {
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
             border: Border.all(color: AppColor.greyStroke),
-            color: Colors.white),
+            color: AppColor.lightorange),
         width: MediaQuery.of(context).size.width *.9,
        // height: MediaQuery.of(context).size.width *.34,
         child: Row(
@@ -43,7 +43,7 @@ class _TestimonialCardState extends State<TestimonialCard> {
             )
             ,Expanded(
               child: Padding(
-                padding: const EdgeInsets.all(20.0),
+                padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15.0),
                 child:
                     //title and subtitle of the course
                     Column(
@@ -61,7 +61,7 @@ class _TestimonialCardState extends State<TestimonialCard> {
                     ),
                     Text(
                     widget.description,
-                    maxLines: 3,
+                    maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                     textAlign: TextAlign.justify,
                     style: TextStyle(fontSize: 14)),

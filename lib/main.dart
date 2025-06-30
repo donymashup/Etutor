@@ -82,9 +82,8 @@ class MyApp extends StatelessWidget {
       // home: OngoingLiveScreen(),
       // home: CourseDetailsScreen(),
      // home: HomePage(),
-
      // home: GkVedios(),
-    //  home:Profile()
+     // home: QuizCompletionScreen(),
     );
   }
 }

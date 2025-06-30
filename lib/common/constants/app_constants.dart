@@ -13,7 +13,9 @@ class AppColor {
   static const Color greyTabBar = Color(0xFFDADADA);
   static const Color greyAppBar = Color(0xFFEFEFEF);
   static const Color greyCardBackground = Color.fromARGB(255, 243, 244, 245);
+  static const Color liveScreenBackground = Color(0xFFfbfbfc);
   static const Color lighBlueBackground = Color(0xFFE8F5FF);
+  static const Color lightorange = Color.fromARGB(255, 255, 253, 250);
   static const Color fileIconColour = Color(0xFFFC961E);
   static const Color videoIconColor = Color(0xFF079DFF);
   static const Color pdfIconColour = Color(0xFFF40000);
