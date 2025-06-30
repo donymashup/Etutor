@@ -20,9 +20,9 @@ class _SubjectOverviewCardState extends State<SubjectOverviewCard> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(5.0),
+      padding: const EdgeInsets.symmetric(vertical: 5.0),
       child: Container(
-        width: MediaQuery.of(context).size.width * .5 - 40,
+        width: MediaQuery.of(context).size.width * .5 - 35,
         clipBehavior: Clip.hardEdge,
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(15),
@@ -33,7 +33,7 @@ class _SubjectOverviewCardState extends State<SubjectOverviewCard> {
             Container(
               decoration: BoxDecoration(
                   image: DecorationImage(
-                      image: AssetImage("assets/images/subname2.jpg"),
+                      image: AssetImage(widget.subjectImage),
                       fit: BoxFit.cover),
                   color: AppColor.greyAppBar),
               height: MediaQuery.of(context).size.width *.2,
