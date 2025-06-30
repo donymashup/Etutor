@@ -40,11 +40,12 @@ dependencies:
   dotted_border: ^2.0.0
   percent_indicator: ^4.2.5
   fl_chart: ^1.0.0
+  flutter_tex: ^5.1.7
+  custom_timer: ^0.2.3
+  webview_flutter_plus: ^0.4.19
   syncfusion_flutter_charts: ^29.2.11
   syncfusion_flutter_pdfviewer: ^29.2.11
   # better_player: ^0.0.84
-
-
 
 
 dev_dependencies:
