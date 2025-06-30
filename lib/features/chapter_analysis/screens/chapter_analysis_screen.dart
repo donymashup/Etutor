@@ -19,7 +19,6 @@ class ChapterAnalysisScreen extends StatelessWidget {
       appBar: AppBar(
         title: Row(
           children: [
-            // BackButton(),
             Text(
               "Chapter Analysis",
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
