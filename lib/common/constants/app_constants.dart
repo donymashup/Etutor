@@ -21,8 +21,8 @@ class AppColor {
   static const Color testIconColour = Color(0xFF8F00AF);
   static const Color lightRedCardBackground = Color(0xFFFFE5E5);
   static const Color lightGreenCardBackground = Color(0xFFE9FFEE);
-  static const Color redStroke = Color(0xFF00A526);
-  static const Color greenStroke = Color(0xFFE10004);
+  static const Color greenStroke  = Color(0xFF00A526);
+  static const Color redStroke= Color(0xFFE10004);
   static const Color greenBarGraph = Color(0xFF00E513);
   static const Color redBarGraph = Color(0xFFED0000);
   static const Color orangeBarGraph = Color(0xFFFFB800);

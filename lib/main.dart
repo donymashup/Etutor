@@ -20,6 +20,7 @@ import 'package:etutor/features/payment/screen/payment_method.dart';
 import 'package:etutor/features/payment/screen/voucher_screen.dart';
 
 import 'package:etutor/features/performace_index/screens/performance_index_screen.dart';
+import 'package:etutor/features/quiz/screens/quiz_completion_screen.dart';
 import 'package:etutor/features/subscribed_course/screens/subscribed_course_all_subjects.dart';
 import 'package:etutor/features/subscribed_course/screens/subscribed_course_assignment_screen.dart';
 import 'package:etutor/features/subscribed_course/screens/subscribed_course_content.dart';
@@ -76,13 +77,13 @@ class MyApp extends StatelessWidget {
       // home: PerformanceIndexScreen(),
       // home: NotificationPage(),
       // home: ProfilePage(),
-      home: BottomNavBarScreen(),
+    //  home: BottomNavBarScreen(),
       // home: OngoingLiveScreen(),
       // home: CourseDetailsScreen(),
      // home: HomePage(),
 
      // home: GkVedios(),
-    home: SubscribedCourseVedio(),
+      home: QuizCompletionScreen(),
     );
   }
 }
