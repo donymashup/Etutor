@@ -9,7 +9,6 @@ class TestimonialCard extends StatefulWidget {
 
   TestimonialCard(
       {required this.username,
-      // required this.rating,
       required this.description,
       required this.userimage,
       super.key});
@@ -49,7 +48,7 @@ class _TestimonialCardState extends State<TestimonialCard> {
                     padding: const EdgeInsets.symmetric(
                         vertical: 10, horizontal: 10.0),
                     child:
-                        //title and subtitle of the course
+                        //username and icon of the course
                         Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -93,6 +92,7 @@ class _TestimonialCardState extends State<TestimonialCard> {
                 ),
               ],
             ),
+            //review description
             Padding(
               padding: const EdgeInsets.all(10.0),
               child: Text(widget.description,
