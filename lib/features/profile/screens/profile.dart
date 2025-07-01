@@ -85,12 +85,28 @@ class Profile extends StatelessWidget {
                     SizedBox(height: 15,),
                       Row(
                         children: [
+                          Icon(Icons.cake,color: AppColor.primaryColor,),
+                          SizedBox(width: 20,),
+                          Text("12/12/2012",style: TextStyle(fontWeight: FontWeight.w600))
+                        ],
+                      ),
+                    SizedBox(height: 15,),
+                      Row(
+                        children: [
+                          Icon(Icons.class_rounded,color: AppColor.primaryColor,),
+                          SizedBox(width: 20,),
+                          Text("6th Standard",style: TextStyle(fontWeight: FontWeight.w600))
+                        ],
+                      ),
+                    SizedBox(height: 15,),
+                    
+                      Row(
+                        children: [
                           Icon(Icons.school,color: AppColor.primaryColor,),
                           SizedBox(width: 20,),
                           Text("C.C.P.L.M School, Thevera",style: TextStyle(fontWeight: FontWeight.w600))
                         ],
                       ),
-                      SizedBox(height: 15,),
                      ],
                    ),
                    SizedBox(height: 30,),

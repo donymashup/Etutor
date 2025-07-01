@@ -1,3 +1,4 @@
+import 'package:etutor/common/widgets/back_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:etutor/common/constants/app_constants.dart';
@@ -134,32 +135,22 @@ class NotificationPage extends StatelessWidget {
     final yesterdayItems = notifications.where((e) => e.dateGroup == 'Yesterday').toList();
 
     return Scaffold(
+      backgroundColor: AppColor.whiteColor,
+      appBar: AppBar(
+        backgroundColor: AppColor.whiteColor,
+        title:  Text(
+              "Notifications",
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+              textAlign: TextAlign.center,
+            ),
+        leading: Padding(
+          padding: const EdgeInsets.only(left: 20.0),
+          child: CustomBackButton(),
+        ),
+     ),
       body: SafeArea(
         child: ListView(
           children: [
-            // Scrollable Header
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 0),
-              color: AppColor.greyTabBar,
-              child: Row(
-                children: [
-                  CupertinoNavigationBarBackButton(
-                    color: AppColor.blackColor,
-                    onPressed: () => Navigator.of(context).maybePop(),
-                  ),
-                  const Spacer(),
-                  const Text(
-                    'Notifications',
-                    style: TextStyle(
-                      color: AppColor.blackColor,
-                      fontSize: 18,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                  const Spacer(flex: 2),
-                ],
-              ),
-            ),
             if (todayItems.isNotEmpty) _buildSectionHeader('Today'),
             ...todayItems.map((item) => _buildNotificationTile(item, context)),
             if (yesterdayItems.isNotEmpty) _buildSectionHeader('Yesterday'),
