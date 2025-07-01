@@ -33,6 +33,14 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text("Course Details"),
+        backgroundColor: AppColor.whiteColor,
+        leading: Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: CustomBackButton(),
+        ),
+      ),
       backgroundColor: AppColor.whiteColor,
       body: SafeArea(
           child: Stack(children: [
@@ -42,7 +50,6 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen>
               padding: const EdgeInsets.all(16.0),
               child: Stack(
                 children:[ 
-                  CustomBackButton(),
                   Container(
                   height: MediaQuery.of(context).size.width * .5,
                   width: double.infinity,
@@ -52,7 +59,15 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen>
                         image: AssetImage('assets/images/course2.png'),
                         fit: BoxFit.cover),
                   ),
-                ),],
+                ),
+                Align(
+                  alignment: Alignment.topLeft,
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: CustomBackButton(),
+                  ),
+                )
+                ],
               ),
             ),
             Padding(
