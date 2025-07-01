@@ -69,7 +69,7 @@ class MyApp extends StatelessWidget {
       // home: CheckoutScreen(),
       // home: BottomNavBarScreen(),
       // //home: PaymentMethod(),
-     // home:VoucherScreen(),
+      // home:VoucherScreen(),
       // home: OngoingLiveScreen(),
       // home: CourseDetailsScreen(),
       //  home: GkPostScreen(),
@@ -80,15 +80,14 @@ class MyApp extends StatelessWidget {
       // home: ProfilePage(),
       //  home: BottomNavBarScreen(),
       // home: OngoingLiveScreen(),
-    //  home: CourseDetailsScreen(),
-     // home: HomePage(),
-
-     // home: GkVedios(),
-    //  home:  PdfViewer(),
-    //  home: VideoPlayerScreen(),
-     // home: QuizCompletionScreen(),
-    // home: SubscribedCourseAllSubjects(),
-    //home: SubscribedCourseSubject(),
+      //  home: CourseDetailsScreen(),
+      // home: HomePage(),
+      // home: GkVedios(),
+      //  home:  PdfViewer(),
+      //  home: VideoPlayerScreen(),
+      // home: QuizCompletionScreen(),
+      // home: SubscribedCourseAllSubjects(),
+      //home: SubscribedCourseSubject(),
     );
   }
 }

@@ -78,24 +78,26 @@ class QuizInstructionPage extends StatelessWidget {
                         child: Icon(Icons.help_outline, color: Colors.white),
                       ),
                       const SizedBox(width: 12),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: const [
-                          Text(
-                            '30 Questions',
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 15,
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: const [
+                            Text(
+                              '30 Questions',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 15,
+                              ),
                             ),
-                          ),
-                          Text(
-                            '1 point for a correct answer, -1 for a wrong answer',
-                            style: TextStyle(
-                              fontSize: 13,
-                              color: Colors.grey,
+                            Text(
+                              '1 point for a correct answer, -1 for a wrong answer',
+                              style: TextStyle(
+                                fontSize: 13,
+                                color: Colors.grey,
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ],
                   ),

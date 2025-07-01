@@ -55,7 +55,7 @@ class ChapterAnalysisScreen extends StatelessWidget {
               VideoStatusChart(),
               SizedBox(height: 20),
               MaterialsStatusChart(),
-
+               SizedBox(height: 40),
             ],
           ),
         ),
