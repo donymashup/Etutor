@@ -86,15 +86,73 @@ class SideDrawer extends StatelessWidget {
                     title: "Edit Profile",
                   ),
                   const DrawerItem(
-                      icon: Icons.notifications, title: "Notifications"),
+                      icon: Icons.notifications, title: "About Us"),
                   const DrawerItem(
-                      icon: Icons.help_outline, title: "Help & Support"),
+                      icon: Icons.help_outline, title: "Terms & Conditions"),
                   const DrawerItem(
-                      icon: Icons.policy, title: "Terms & Conditions"),
-                  const DrawerItem(icon: Icons.info_outline, title: "About us"),
+                      icon: Icons.policy, title: "Privacy Policy"),
+                  
+                    DrawerItem(
+                    icon: Icons.info_outline,
+                    title: "Help & Support",
+                    onTap: () {
+                      showDialog(
+                      context: context,
+                      builder: (context) => AlertDialog(
+                        title: const Text("Help & Support"),
+                        content: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: const [
+                          Text("Phone: +91 8113813377"),
+                          SizedBox(height: 8),
+                          Text("Email: pskeduventures@gmail.com"),
+                        ],
+                        ),
+                        actions: [
+                        Align(
+                          alignment: Alignment.bottomRight,
+                          child: TextButton(
+                          onPressed: () => Navigator.of(context).pop(),
+                          child: const Text("OK"),
+                          ),
+                        ),
+                        ],
+                      ),
+                      );
+                    },
+                    ),
+                  DrawerItem(
+                      icon: Icons.delete,
+                       title: "Delete Account",
+                       onTap: () {
+                        showDialog(
+                          context: context,
+                          builder: (context) => AlertDialog(
+                            title: const Text("Are you sure you want to delete your account?",
+                                style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w500)),
+                            content: const Text("This action cannot be undone."),
+                            actions: [
+                              TextButton(
+                                onPressed: () => Navigator.of(context).pop(),
+                                child: const Text("Cancel"),
+                              ),
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                  // Add your delete account logic here
+                                },
+                                child: const Text("Delete"),
+                              ),
+                            ],
+                          ),
+                        );
+                       },),
                    DrawerItem(
                     icon: Icons.logout,
-                    title: "Logout",
+                    title: "Logout Account",
                     onTap: () {
                       showDialog(
                         context: context,

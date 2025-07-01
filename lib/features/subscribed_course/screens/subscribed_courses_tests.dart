@@ -14,16 +14,14 @@ class SubscribedCoursesTests extends StatefulWidget {
 class Tests {
   String title;
   String subtitle;
-  IconData icon;
+  Widget icon;
   Color iconBgcolor;
-  Color iconcolor;
   void Function() onPressed;
   
   Tests(
       {required this.title,
       required this.subtitle,
       required this.icon,
-      required this.iconcolor,
       required this.iconBgcolor,
       required this.onPressed});
 }
@@ -39,8 +37,7 @@ class _SubscribedCoursesTestsState extends State<SubscribedCoursesTests> {
       Tests(
         title: "Sample Test 1",
         subtitle: "Tap to attend the test",
-        icon: Icons.calendar_month,
-        iconcolor: AppColor.testIconColour,
+        icon: Icon(Icons.calendar_month),
         iconBgcolor: AppColor.lightVioletCardBackground,
         onPressed: () {
           // Navigate to test details or perform some action
@@ -50,8 +47,7 @@ class _SubscribedCoursesTestsState extends State<SubscribedCoursesTests> {
       Tests(
         title: "Sample Test 2",
         subtitle: "Tap to attend the test",
-        icon: Icons.calendar_month,
-        iconcolor: AppColor.testIconColour,
+        icon: Icon(Icons.calendar_month),
         iconBgcolor: AppColor.lightVioletCardBackground,
         onPressed: () {
           // Navigate to test details or perform some action
@@ -94,7 +90,7 @@ class _SubscribedCoursesTestsState extends State<SubscribedCoursesTests> {
                       icon: tests[index].icon,
                       iconBgColor: tests[index].iconBgcolor,
                       onPressed: tests[index].onPressed,
-                      iconColor: tests[index].iconcolor),
+                      ),
                 ),
               )
             ],

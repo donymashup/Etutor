@@ -60,13 +60,13 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen>
                         fit: BoxFit.cover),
                   ),
                 ),
-                Align(
-                  alignment: Alignment.topLeft,
-                  child: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: CustomBackButton(),
-                  ),
-                )
+                // Align(
+                //   alignment: Alignment.topLeft,
+                //   child: Padding(
+                //     padding: const EdgeInsets.all(16.0),
+                //     child: CustomBackButton(),
+                //   ),
+                // )
                 ],
               ),
             ),

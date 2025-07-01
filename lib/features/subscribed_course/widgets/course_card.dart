@@ -4,9 +4,8 @@ import 'package:flutter/material.dart';
 class CourseCard extends StatefulWidget {
   String title;
   String subtitle;
-  IconData icon;
+  Widget icon;
   Color iconBgColor;
-  Color iconColor;
   void Function() onPressed;
 
   CourseCard({
@@ -16,7 +15,6 @@ class CourseCard extends StatefulWidget {
       required this.icon,
       required this.iconBgColor,
       required this.onPressed,
-      required this.iconColor
       });
 
   @override
@@ -43,9 +41,12 @@ class _CourseCardState extends State<CourseCard> {
               Container(
                 decoration: BoxDecoration(borderRadius:BorderRadius.circular(10),
                 color: widget.iconBgColor),
-                height: MediaQuery.of(context).size.width * 0.1,
-                width: MediaQuery.of(context).size.width * 0.1,
-              child: Icon(widget.icon,color: widget.iconColor,size: 30,)),
+                // height: MediaQuery.of(context).size.width * 0.1,
+                // width: MediaQuery.of(context).size.width * 0.1,
+              child: Padding(
+                padding: EdgeInsets.all(MediaQuery.of(context).size.width * 0.03),
+                child: widget.icon,
+              )),
               Expanded(
                 child: Padding(
                   padding: const EdgeInsets.all(20.0),
@@ -55,7 +56,7 @@ class _CourseCardState extends State<CourseCard> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(widget.title,style: TextStyle(fontSize: 18,fontWeight: FontWeight.w500),),
-                      // Text(widget.subtitle,maxLines: 1,overflow: TextOverflow.ellipsis,style: TextStyle(fontSize: 14)),
+                      Text(widget.subtitle,maxLines: 1,overflow: TextOverflow.ellipsis,style: TextStyle(fontSize: 14)),
                     ],
                   ),
                 ),

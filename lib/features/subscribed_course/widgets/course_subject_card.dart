@@ -6,25 +6,19 @@ import 'package:etutor/features/subscribed_course/screens/subscribed_courses_tes
 import 'package:flutter/material.dart';
 import 'package:etutor/common/constants/app_constants.dart';
 
-class CourseSubjectCard extends StatefulWidget {
+class CourseSubjectCard extends StatelessWidget {
   final String subjectName;
   final String subjectImage;
-  final void Function()? onPressed;
+  final bool isExpanded;
+  final VoidCallback onTap;
 
   const CourseSubjectCard({
     required this.subjectName,
     required this.subjectImage,
-    this.onPressed,
+    required this.isExpanded,
+    required this.onTap,
     super.key,
   });
-
-  @override
-  State<CourseSubjectCard> createState() => _CourseSubjectCardState();
-}
-
-class _CourseSubjectCardState extends State<CourseSubjectCard>
-    with SingleTickerProviderStateMixin {
-  bool _isExpanded = false;
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +33,7 @@ class _CourseSubjectCardState extends State<CourseSubjectCard>
         child: Column(
           children: [
             GestureDetector(
-              onTap: () => setState(() => _isExpanded = !_isExpanded),
+              onTap: onTap,
               child: Row(
                 children: [
                   Padding(
@@ -50,7 +44,7 @@ class _CourseSubjectCardState extends State<CourseSubjectCard>
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(6),
                         image: DecorationImage(
-                          image: AssetImage(widget.subjectImage),
+                          image: AssetImage(subjectImage),
                           fit: BoxFit.cover,
                         ),
                         color: AppColor.greyIcon,
@@ -61,54 +55,56 @@ class _CourseSubjectCardState extends State<CourseSubjectCard>
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 12.0),
                       child: Text(
-                        widget.subjectName,
+                        subjectName,
                         style: const TextStyle(
                             fontSize: 18, fontWeight: FontWeight.w500),
                       ),
                     ),
                   ),
-                  IconButton(
-                    onPressed: () =>
-                        setState(() => _isExpanded = !_isExpanded),
-                    icon: Icon(_isExpanded
-                        ? Icons.arrow_drop_up
-                        : Icons.arrow_drop_down),
-                  ),
+                  Icon(isExpanded ? Icons.arrow_drop_up : Icons.arrow_drop_down),
                 ],
               ),
             ),
             AnimatedSize(
               duration: const Duration(milliseconds: 300),
               curve: Curves.easeInOut,
-              child: _isExpanded
+              child: isExpanded
                   ? Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 16, vertical: 12),
+                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                       child: Column(
                         children: [
-                            Row(
+                          Row(
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: [
                               GestureDetector(
                                 onTap: () {
-                                   Navigator.push(context, MaterialPageRoute(builder: (context) => SubscribedCourseVedio()));
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(builder: (context) =>  SubscribedCourseVedio()),
+                                  );
                                 },
                                 child: _iconWithLabel(Icons.videocam, 'Videos', Colors.orange),
                               ),
                               GestureDetector(
                                 onTap: () {
-                                  Navigator.push(context, MaterialPageRoute(builder: (context) => SubscribedCourseMaterials()));
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(builder: (context) => const SubscribedCourseMaterials()),
+                                  );
                                 },
                                 child: _iconWithLabel(Icons.insert_drive_file, 'Materials', Colors.blue),
                               ),
                               GestureDetector(
-                              onTap: () {
-                                Navigator.push(context, MaterialPageRoute(builder: (context) => SubscribedCoursesTests()));
-                              },
-                              child: _iconWithLabel(Icons.assignment, 'Tests', Colors.green),
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(builder: (context) => const SubscribedCoursesTests()),
+                                  );
+                                },
+                                child: _iconWithLabel(Icons.assignment, 'Tests', Colors.green),
                               ),
                             ],
-                            ),
+                          ),
                           const SizedBox(height: 10),
                           Row(
                             children: [
@@ -123,9 +119,9 @@ class _CourseSubjectCardState extends State<CourseSubjectCard>
                                 ),
                               ),
                               const SizedBox(width: 10),
-                              Padding(
-                                padding: const EdgeInsets.all(12.0),
-                                child: const Text("60%"),
+                              const Padding(
+                                padding: EdgeInsets.all(12.0),
+                                child: Text("60%"),
                               ),
                             ],
                           ),
@@ -134,18 +130,16 @@ class _CourseSubjectCardState extends State<CourseSubjectCard>
                             width: double.infinity,
                             child: CustomButton(
                               onpressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                builder: (context) => ChapterAnalysisScreen(),
-                                ),
-                              );
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(builder: (context) => const ChapterAnalysisScreen()),
+                                );
                               },
                               text: "chapter analysis",
                               buttoncolor: AppColor.fileIconColour,
                               textColor: AppColor.whiteColor,
-                            )
-                          )
+                            ),
+                          ),
                         ],
                       ),
                     )
