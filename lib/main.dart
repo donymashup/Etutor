@@ -80,6 +80,7 @@ class MyApp extends StatelessWidget {
       // home: ProfilePage(),
       //  home: BottomNavBarScreen(),
       // home: OngoingLiveScreen(),
+    //  home: CourseDetailsScreen(),
      // home: HomePage(),
 
      // home: GkVedios(),
