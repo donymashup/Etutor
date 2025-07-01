@@ -93,10 +93,11 @@ class TestHome extends StatelessWidget {
               SliverList(
                 delegate: SliverChildBuilderDelegate(
                   (BuildContext context, int index) {
-                    return CourseSubjectCard(
-                        subjectName: subject[index].subjectName,
-                        subjectImage: subject[index].subjectImage,
-                        onPressed: () {});
+                    // return CourseSubjectCard(
+                    //     subjectName: subject[index].subjectName,
+                    //     subjectImage: subject[index].subjectImage,
+                    //     onPressed: () {}
+                    //     );
                   },
                   childCount: subject.length,
                 ),
