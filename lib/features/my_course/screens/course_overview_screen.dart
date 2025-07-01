@@ -23,42 +23,10 @@ class Testimonials {
 
 class _CourseOverviewState extends State<CourseOverviewScreen> {
 
-  List<Testimonials> testimonials = [
-    Testimonials(
-        username: "Arjun Ashokan",
-        description:
-            "eTutor has completely changed the way I learn—it's interactive, easy to use, and keeps me engaged every step of the way!",
-        userimage: "assets/images/arjun.webp"),
-    Testimonials(
-        username: "Aiswarya Lakshmi",
-        description:
-            "Thanks to eTutor, I can now study anytime, anywhere with expert guidance and structured lessons tailored just for me.",
-        userimage: "assets/images/aish.jpg"),
-    Testimonials(
-        username: "Basil Joseph",
-        description:
-            "The personalized learning experience on eTutor helped me improve my scores and stay motivated throughout the course",
-        userimage: "assets/images/basil.jpg"),
-    Testimonials(
-        username: "Mamitha Baiju",
-        description:
-            "I love how eTutor breaks down tough subjects into simple concepts. It's like having a personal tutor at home.",
-        userimage: "assets/images/mamitha.webp"),
-    Testimonials(
-        username: "Gopika Ramesh",
-        description:
-            "With eTutor, I finally feel confident in subjects I used to struggle with. It's the best study companion!",
-        userimage: "assets/images/gopika.jpg"),
-        Testimonials(
-        username: "Vijay Kumar",
-        description:
-            "Ever since I started using eTutor, my grades have improved. The way it explains everything is just amazing.",
-        userimage: "assets/images/vijay.jpg")
-  ];
-  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColor.whiteColor,
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

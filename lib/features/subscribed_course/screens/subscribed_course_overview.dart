@@ -3,6 +3,7 @@ import 'package:etutor/common/widgets/back_button.dart';
 import 'package:etutor/features/subscribed_course/screens/subscribed_course_all_subjects.dart';
 import 'package:etutor/features/subscribed_course/screens/subscribed_course_content.dart';
 import 'package:etutor/features/subscribed_course/widgets/course_card.dart';
+import 'package:fluentui_emoji_icon/fluentui_emoji_icon.dart';
 import 'package:flutter/material.dart';
 
 class SubscribedCourseOverview extends StatefulWidget {
@@ -16,9 +17,8 @@ class SubscribedCourseOverview extends StatefulWidget {
 class CourseOverview {
   String title;
   String subtitle;
-  IconData icon;
+  Widget icon;
   Color iconBgcolor;
-  Color iconcolor;
   void Function() onPressed;
 
   CourseOverview(
@@ -26,7 +26,6 @@ class CourseOverview {
       required this.subtitle,
       required this.icon,
       required this.iconBgcolor,
-      required this.iconcolor,
       required this.onPressed});
 }
 
@@ -41,9 +40,8 @@ class _SubscribedCourseOverviewState extends State<SubscribedCourseOverview> {
       CourseOverview(
         title: "Class 6",
         subtitle: "Class 6 subjects",
-        icon: Icons.book,
-        iconBgcolor: AppColor.greyCardBackground,
-        iconcolor: AppColor.videoIconColor,
+        icon: FluentUiEmojiIcon(fl: Fluents.flBlueBook,h: 30, w: 30,),
+        iconBgcolor: AppColor.lighBlueBackground,
         onPressed: () {
           Navigator.push(
             context,
@@ -56,9 +54,8 @@ class _SubscribedCourseOverviewState extends State<SubscribedCourseOverview> {
       CourseOverview(
         title: "Class 7",
         subtitle: "Class 7 subjects",
-        icon: Icons.book,
-        iconBgcolor: AppColor.greyCardBackground,
-        iconcolor: AppColor.videoIconColor,
+        icon: FluentUiEmojiIcon(fl: Fluents.flBlueBook,h: 30, w: 30,),
+        iconBgcolor: AppColor.lighBlueBackground,
         onPressed: () {
           Navigator.push(
             context,
@@ -71,9 +68,8 @@ class _SubscribedCourseOverviewState extends State<SubscribedCourseOverview> {
       CourseOverview(
         title: "Course Contents",
         subtitle: "Tap to view all other resources related to this course",
-        icon: Icons.folder,
-        iconBgcolor: AppColor.greyCardBackground,
-        iconcolor: AppColor.fileIconColour,
+        icon: FluentUiEmojiIcon(fl: Fluents.flOpenFileFolder, h: 30, w: 30,),
+        iconBgcolor: AppColor.lightYellowBg,
         onPressed: () {
           // Navigate to Study Materials page
           Navigator.push(
@@ -140,7 +136,6 @@ class _SubscribedCourseOverviewState extends State<SubscribedCourseOverview> {
                     subtitle: courseoverview[index].subtitle,
                     icon: courseoverview[index].icon,
                     iconBgColor: courseoverview[index].iconBgcolor,
-                    iconColor: courseoverview[index].iconcolor,
                     onPressed: courseoverview[index].onPressed),
               ),
             ),
