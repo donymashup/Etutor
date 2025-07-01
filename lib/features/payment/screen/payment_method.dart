@@ -190,7 +190,11 @@ class _PaymentMethodState extends State<PaymentMethod> {
                     padding: const EdgeInsets.only(
                         left: 10.0, right: 10.0, top: 10.0, bottom: 20),
                     child: CustomButton(
-                        onpressed: () {},
+                        onpressed: _selectedOption == null
+                        ? () {}
+                        : () {
+                            Navigator.pop(context);
+                          },
                         text: "Confirm",
                         buttoncolor: _selectedOption == null ?AppColor.greyButton : AppColor.primaryColor,
                         textColor: AppColor.whiteColor),

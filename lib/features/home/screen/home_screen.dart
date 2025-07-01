@@ -240,7 +240,7 @@ class _HomePageState extends State<HomePage> {
                              Container(
                                 width: 40,
                                 height: 40,
-                                margin: const EdgeInsets.only(right: 12),
+                               // margin: const EdgeInsets.only(right: 12),
                                 decoration: BoxDecoration(
                                   shape: BoxShape.circle,
                                   color: Colors.white,

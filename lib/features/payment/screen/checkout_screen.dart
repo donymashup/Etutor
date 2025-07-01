@@ -2,6 +2,7 @@ import 'package:etutor/common/constants/app_constants.dart';
 import 'package:etutor/common/widgets/back_button.dart';
 import 'package:etutor/common/widgets/custom_button.dart';
 import 'package:etutor/features/payment/screen/payment_method.dart';
+import 'package:etutor/features/payment/screen/payment_succesfull.dart';
 import 'package:etutor/features/payment/screen/voucher_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -365,7 +366,9 @@ class CheckoutScreen extends StatelessWidget {
                     child: Padding(
                       padding: const EdgeInsets.only(left: 10.0,right:  10.0,top:  10.0,bottom: 20),
                       child: CustomButton(
-                          onpressed: () {},
+                          onpressed: () {
+                          Navigator.push(context,MaterialPageRoute(builder:(context) => PaymentSuccesfull() ));
+                          },
                           text: "Pay  ₹10000",
                           buttoncolor: AppColor.greyButton,
                           textColor: AppColor.whiteColor),

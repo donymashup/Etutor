@@ -1,8 +1,25 @@
+import 'dart:async';
+
+import 'package:etutor/common/widgets/bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 
-class PaymentSuccesfull extends StatelessWidget {
+class PaymentSuccesfull extends StatefulWidget {
   const PaymentSuccesfull({super.key});
+
+  @override
+  State<PaymentSuccesfull> createState() => _PaymentSuccesfullState();
+}
+
+class _PaymentSuccesfullState extends State<PaymentSuccesfull> {
+@override
+  void initState() {
+    super.initState();
+     Timer(
+        Duration(seconds: 4),
+        () => Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (context) => BottomNavBarScreen())));
+  }
 
   @override
   Widget build(BuildContext context) {

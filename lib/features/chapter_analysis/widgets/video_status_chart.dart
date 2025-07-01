@@ -82,18 +82,20 @@ class VideoStatusChart extends StatelessWidget {
               const SizedBox(width: 24),
 
               // Right-side Text
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Total No. of Videos : $total',
-                    style: const TextStyle(fontSize: 14),
-                  ),
-                  const SizedBox(height: 12),
-                  _statusRow(Colors.blue[800]!, 'Watched', watched),
-                  const SizedBox(height: 8),
-                  _statusRow(Colors.orange, 'Pending', pending),
-                ],
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Total No. of Videos : $total',
+                      style: const TextStyle(fontSize: 14),
+                    ),
+                    const SizedBox(height: 12),
+                    _statusRow(Colors.blue[800]!, 'Watched', watched),
+                    const SizedBox(height: 8),
+                    _statusRow(Colors.orange, 'Pending', pending),
+                  ],
+                ),
               )
             ],
           ),
@@ -119,9 +121,11 @@ class VideoStatusChart extends StatelessWidget {
           style: const TextStyle(fontSize: 14),
         ),
         const SizedBox(width: 12),
-        Text(
-          "$count",
-          style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+        Flexible(
+          child: Text(
+            "$count",
+            style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+          ),
         ),
       ],
     );
