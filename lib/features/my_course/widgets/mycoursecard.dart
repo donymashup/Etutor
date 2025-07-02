@@ -8,6 +8,7 @@ class MyCourseCard extends StatelessWidget {
   final bool isFree;
   final double imgHeight;
 
+
   const MyCourseCard({
     super.key,
     required this.title,
@@ -16,6 +17,7 @@ class MyCourseCard extends StatelessWidget {
     required this.isFree,
     required this.imgHeight,
   });
+
 
   @override
   Widget build(BuildContext context) {
@@ -60,6 +62,7 @@ class MyCourseCard extends StatelessWidget {
                   ),
               ],
             ),
+            
             const SizedBox(height: 6),
 
             // Title
@@ -78,9 +81,11 @@ class MyCourseCard extends StatelessWidget {
                       color: AppColor.blackColor,
                     ),
                   ),
+
               
                   const SizedBox(height: 4),
               
+
                   // Rating row
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
