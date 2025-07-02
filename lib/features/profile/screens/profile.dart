@@ -1,5 +1,6 @@
 import 'package:etutor/common/constants/app_constants.dart';
 import 'package:etutor/common/widgets/back_button.dart';
+import 'package:etutor/features/profile/screens/edit_profile.dart';
 import 'package:etutor/features/profile/widgets/custom_wave_painter.dart';
 import 'package:flutter/material.dart';
 
@@ -50,7 +51,12 @@ class Profile extends StatelessWidget {
                          ),
                          SizedBox(width: 30,),
                          IconButton(
-                          onPressed: (){}, 
+                          onPressed: (){
+                            Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => EditProfile()));
+                          }, 
                           icon: Icon(Icons.edit_note_rounded,size: 26,))
                        ],
                      ),
