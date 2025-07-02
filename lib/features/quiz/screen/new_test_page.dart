@@ -1,9 +1,11 @@
 import 'package:custom_timer/custom_timer.dart';
 import 'package:etutor/common/constants/app_constants.dart';
+import 'package:etutor/common/widgets/custom_button.dart';
 import 'package:etutor/features/quiz/model/data_model.dart';
 import 'package:etutor/features/quiz/model/quiz_model.dart';
 import 'package:etutor/features/quiz/styles/texView_styles.dart';
 import 'package:etutor/features/quiz/widgets/options_builder.dart';
+import 'package:etutor/features/quiz/widgets/quiz_drawer.dart';
 import 'package:etutor/features/quiz/widgets/quiz_nav_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_tex/flutter_tex.dart';
@@ -21,7 +23,9 @@ class _TexViewQuizScreenState extends State<TexViewQuizScreen>
   String currentSelectedId = "";
   List<String> currentCheckedIds = [];
   bool isWrong = false;
+  Key _texViewKey = UniqueKey();
   bool isShowingAnswers = false;
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   // Add TextEditingController for numerical input
   final TextEditingController _numericalController = TextEditingController();
@@ -48,6 +52,8 @@ class _TexViewQuizScreenState extends State<TexViewQuizScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
+      drawer: quizDrawer(),
       backgroundColor: const Color(0xFFF5F5F5),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -70,13 +76,81 @@ class _TexViewQuizScreenState extends State<TexViewQuizScreen>
                 width: MediaQuery.of(context).size.width,
                 child: Padding(
                   padding: const EdgeInsets.symmetric(
-                    vertical: 40,
+                    vertical: 30,
                     horizontal: 30,
                   ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      SizedBox(height: 20),
+                      SizedBox(height: 30),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          SingleChildScrollView(
+                            scrollDirection: Axis.horizontal,
+                            child: Wrap(
+                              spacing: 5,
+                              children: [
+                                Container(
+                                  decoration: BoxDecoration(
+                                      border: Border.all(
+                                          width: 2,
+                                          color: AppColor.fileIconColour),
+                                      borderRadius: BorderRadius.circular(10),
+                                      color: AppColor.whiteColor),
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 15.0, vertical: 10),
+                                    child: Text(
+                                      "Section 1",
+                                      style: TextStyle(fontSize: 14),
+                                    ),
+                                  ),
+                                ),
+                                Container(
+                                  decoration: BoxDecoration(
+                                      border: Border.all(
+                                          width: 2, color: AppColor.greyText),
+                                      borderRadius: BorderRadius.circular(10),
+                                      color: AppColor.whiteColor),
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 15.0, vertical: 10),
+                                    child: Text(
+                                      "Section 2",
+                                      style: TextStyle(fontSize: 14),
+                                    ),
+                                  ),
+                                ),
+                                Container(
+                                  decoration: BoxDecoration(
+                                      border: Border.all(
+                                          width: 2, color: AppColor.greyText),
+                                      borderRadius: BorderRadius.circular(10),
+                                      color: AppColor.whiteColor),
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 15.0, vertical: 10),
+                                    child: Text(
+                                      "Section 3",
+                                      style: TextStyle(fontSize: 14),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          IconButton(
+                              onPressed: () {
+                                _scaffoldKey.currentState?.openDrawer();
+                              },
+                              icon: Icon(
+                                Icons.menu_open_rounded,
+                                color: AppColor.whiteColor,
+                              ))
+                        ],
+                      ),
+                      SizedBox(height: 10),
                       Text(
                         "Quantum Mechanics Questions",
                         style: TextStyle(
@@ -95,8 +169,15 @@ class _TexViewQuizScreenState extends State<TexViewQuizScreen>
                       ),
                       SizedBox(height: 10),
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
+                          SizedBox(
+                              width: MediaQuery.of(context).size.width * 0.4,
+                              child: CustomButton(
+                                  onpressed: () {},
+                                  text: "Submit",
+                                  buttoncolor: AppColor.fileIconColour,
+                                  textColor: AppColor.whiteColor)),
                           Row(
                             children: [
                               Icon(
@@ -118,6 +199,63 @@ class _TexViewQuizScreenState extends State<TexViewQuizScreen>
                           ),
                         ],
                       ),
+                      SizedBox(height: 10),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Row(
+                            children: [
+                              Row(
+                                children: [
+                                  Icon(
+                                    Icons.check,
+                                    color: AppColor.greenBarGraph,
+                                  ),
+                                  SizedBox(width: 5),
+                                  Text("Correct: ",
+                                      style: TextStyle(
+                                          color: AppColor.whiteColor)),
+                                  Text(
+                                    "+5",
+                                    style: TextStyle(
+                                        color: AppColor.whiteColor,
+                                        fontWeight: FontWeight.w600),
+                                  )
+                                ],
+                              ),
+                              SizedBox(width: 10),
+                              Row(
+                                children: [
+                                  Icon(Icons.check,
+                                      color: AppColor.redBarGraph),
+                                  SizedBox(width: 5),
+                                  Text("Wrong: ",
+                                      style: TextStyle(
+                                          color: AppColor.whiteColor)),
+                                  Text(
+                                    "-1",
+                                    style: TextStyle(
+                                        color: AppColor.whiteColor,
+                                        fontWeight: FontWeight.w600),
+                                  )
+                                ],
+                              ),
+                            ],
+                          ),
+                          IconButton(
+                            onPressed: () {
+                              setState(() {
+                                _texViewKey =
+                                    UniqueKey(); // 🔁 Triggers full TeXView reload
+                              });
+                            },
+                            icon: const Icon(
+                              Icons.refresh,
+                              color: Colors.white,
+                            ),
+                          )
+                        ],
+                      )
                     ],
                   ),
                 ),
@@ -151,6 +289,7 @@ class _TexViewQuizScreenState extends State<TexViewQuizScreen>
               child: Column(
                 children: [
                   TeXView(
+                    key: _texViewKey,
                     child: TeXViewColumn(
                       children: [
                         TeXViewDocument(
@@ -340,7 +479,7 @@ class _TexViewQuizScreenState extends State<TexViewQuizScreen>
               ],
             ),
             child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 20),
+              padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -461,5 +600,209 @@ class _TexViewQuizScreenState extends State<TexViewQuizScreen>
         }
       }
     }
+  }
+
+  Color getQuestionContainerColor({
+    required Quiz quiz,
+    required int index,
+    required int currentQuizIndex,
+  }) {
+    // Case 1: Currently selected question
+    if (index == currentQuizIndex) {
+      return Colors.green.shade100;
+    }
+
+    // Case 2: Answered (user interacted with it)
+    final isAnswered = quiz.type == "smcq" || quiz.type == "keam"
+        ? quiz.selectedOptionId != null
+        : quiz.type == "mmcq"
+            ? quiz.selectedOptionIds != null &&
+                quiz.selectedOptionIds!.isNotEmpty
+            : quiz.type == "numerical"
+                ? quiz.enteredAnswer != null &&
+                    quiz.enteredAnswer!.trim().isNotEmpty
+                : false;
+
+    // Case 3: Not selected but answered
+    if (isAnswered) {
+      return Colors.blue.shade50; // You can choose another color if you'd like
+    }
+
+    // Case 4: Default
+    return Colors.orangeAccent.shade100;
+  }
+
+  Widget quizDrawer() {
+    return Drawer(
+      backgroundColor: AppColor.whiteColor,
+      child: Column(
+        children: [
+          // Top Section
+          Container(
+            decoration: const BoxDecoration(
+              color: AppColor.primaryColor,
+            ),
+            width: double.infinity,
+            padding: const EdgeInsets.symmetric(vertical: 30),
+            child: Column(
+              children: [
+                SizedBox(height: 30),
+                Text(
+                  "Questions Overview",
+                  style: TextStyle(
+                    fontSize: 24,
+                    color: AppColor.whiteColor,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                SizedBox(height: 5),
+                Text(
+                  "Section 1",
+                  style: TextStyle(
+                    fontSize: 18,
+                    color: AppColor.whiteColor,
+                    fontWeight: FontWeight.w300,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          SizedBox(height: 15),
+
+          // Questions list with TeXView
+          Expanded(
+              child: SingleChildScrollView(
+                  child: Wrap(
+            spacing: 10,
+            children: [
+              ...List.generate(
+                  DataModel.quizList.length,
+                  (index) => Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 6),
+                        child: GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              currentQuizIndex = index;
+                              Navigator.pop(context);
+                            });
+                          },
+                          child: Container(
+                            height: 60,
+                            width: 60,
+                            padding: const EdgeInsets.all(12),
+                            decoration: BoxDecoration(
+                              color: getQuestionContainerColor(
+                                  quiz: DataModel.quizList[index],
+                                  index: index,
+                                  currentQuizIndex: currentQuizIndex),
+                              border: Border.all(color: Colors.grey.shade300),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: Center(
+                                child: Text((index + 1).toString(),
+                                    style: TextStyle(
+                                        fontSize: 28,
+                                        fontWeight: FontWeight.w600))),
+                          ),
+                        ),
+                      ))
+            ],
+          ))),
+
+          // Bottom section with summary
+          Container(
+            padding: EdgeInsets.all(20),
+            decoration: BoxDecoration(
+              color: Colors.grey[50],
+              border: Border(
+                top: BorderSide(color: Colors.grey[300]!, width: 1),
+              ),
+            ),
+            child: Column(
+              children: [
+                Row(
+                  children: [
+                    Container(
+                        height: 10, width: 10, color: Colors.blue.shade50),
+                    SizedBox(width: 10),
+                    Text("Answered")
+                  ],
+                ),
+                Row(
+                  children: [
+                    Container(
+                        height: 10,
+                        width: 10,
+                        color: Colors.orangeAccent.shade100),
+                    SizedBox(width: 10),
+                    Text("Not Answered")
+                  ],
+                ),
+                Row(
+                  children: [
+                    Container(
+                        height: 10, width: 10, color: Colors.green.shade100),
+                    SizedBox(width: 10),
+                    Text("Current Question")
+                  ],
+                ),
+                SizedBox(height: 10),
+                Divider(),
+                SizedBox(height: 10),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          "Total Questions",
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: Colors.grey[600],
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                        Text(
+                          "${DataModel.quizList.length}",
+                          style: TextStyle(
+                            fontSize: 18,
+                            color: AppColor.primaryColor,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          "Completed",
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: Colors.grey[600],
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                        Text(
+                          "0/${DataModel.quizList.length}",
+                          style: TextStyle(
+                            fontSize: 18,
+                            color: Colors.green[600],
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }
