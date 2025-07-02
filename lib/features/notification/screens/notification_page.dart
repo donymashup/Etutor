@@ -1,4 +1,5 @@
 import 'package:etutor/common/widgets/back_button.dart';
+import 'package:etutor/features/notification/widgets/noNotifications.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:etutor/common/constants/app_constants.dart';
@@ -57,7 +58,7 @@ class NotificationPage extends StatelessWidget {
         ),
         NotificationItem(
           title: 'Payment Successful',
-          message: 'Your subscription has been renewed successfully.',
+          message: 'Your subscription has been renewed successfully.',     
           time: '5.00 pm',
           dateGroup: 'Yesterday',
           icon: Icons.payment,
@@ -131,6 +132,11 @@ class NotificationPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Check if notifications list is empty
+    if (notifications.isEmpty) {
+      return const Nonotifications();
+    }
+
     final todayItems = notifications.where((e) => e.dateGroup == 'Today').toList();
     final yesterdayItems = notifications.where((e) => e.dateGroup == 'Yesterday').toList();
 
@@ -138,16 +144,16 @@ class NotificationPage extends StatelessWidget {
       backgroundColor: AppColor.whiteColor,
       appBar: AppBar(
         backgroundColor: AppColor.whiteColor,
-        title:  Text(
-              "Notifications",
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
-              textAlign: TextAlign.center,
-            ),
+        title: const Text(
+          "Notifications",
+          style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+          textAlign: TextAlign.center,
+        ),
         leading: Padding(
           padding: const EdgeInsets.only(left: 20.0),
           child: CustomBackButton(),
         ),
-     ),
+      ),
       body: SafeArea(
         child: ListView(
           children: [
