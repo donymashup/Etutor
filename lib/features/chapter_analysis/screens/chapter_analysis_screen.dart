@@ -1,4 +1,5 @@
 import 'package:etutor/common/constants/app_constants.dart';
+import 'package:etutor/common/widgets/back_button.dart';
 import 'package:etutor/features/chapter_analysis/widgets/materials_status_chart.dart';
 import 'package:etutor/features/chapter_analysis/widgets/test_analysis_chart.dart';
 import 'package:etutor/features/chapter_analysis/widgets/video_status_chart.dart';
@@ -17,16 +18,17 @@ class ChapterAnalysisScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: AppColor.whiteColor,
       appBar: AppBar(
-        title: Row(
-          children: [
-            Text(
+        backgroundColor: AppColor.whiteColor,
+        title:  Text(
               "Chapter Analysis",
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
               textAlign: TextAlign.center,
             ),
-          ],
+        leading: Padding(
+          padding: const EdgeInsets.only(left: 20.0),
+          child: CustomBackButton(),
         ),
-      ),
+     ),
       body: SafeArea(
           child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20.0),
@@ -53,7 +55,7 @@ class ChapterAnalysisScreen extends StatelessWidget {
               VideoStatusChart(),
               SizedBox(height: 20),
               MaterialsStatusChart(),
-
+               SizedBox(height: 40),
             ],
           ),
         ),

@@ -36,6 +36,7 @@ dependencies:
   cupertino_icons: ^1.0.8
   lottie: ^3.3.1
   iconify_flutter: ^0.0.7
+  flutter_svg: ^2.0.7
   pinput: ^5.0.1
   dotted_border: ^2.0.0
   percent_indicator: ^4.2.5
@@ -48,7 +49,8 @@ dependencies:
   flutter_html: ^3.0.0
   flutter_html_math: ^3.0.0
   flutter_math_fork: ^0.7.4
-  # better_player: ^0.0.84
+  better_player: ^0.0.84
+  fluentui_emoji_icon: ^0.0.2
 
 
 dev_dependencies:

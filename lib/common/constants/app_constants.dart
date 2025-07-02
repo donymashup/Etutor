@@ -36,4 +36,6 @@ class AppColor {
   static const Color greyIconDark = Color.fromARGB(255, 113, 113, 113);
   static const Color activedaydot = Color(0xFF4CAF50); // normal green
   static const Color inactiveDayDot = Color(0xFFFF0000); // normal red
+  static const Color lightYellowBg = Color(0x26FFB800);
+
 }

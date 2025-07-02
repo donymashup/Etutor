@@ -2,6 +2,9 @@ import 'package:etutor/common/constants/app_constants.dart';
 import 'package:etutor/features/subscribed_course/screens/no_assigments.dart';
 import 'package:etutor/features/subscribed_course/widgets/course_card.dart';
 import 'package:flutter/material.dart';
+import 'package:iconify_flutter/iconify_flutter.dart';
+import 'package:iconify_flutter/icons/bxs.dart';
+import 'package:iconify_flutter/icons/mdi.dart';
 
 class SubscribedCourseAssignmentScreen extends StatefulWidget {
   const SubscribedCourseAssignmentScreen({super.key});
@@ -14,9 +17,8 @@ class SubscribedCourseAssignmentScreen extends StatefulWidget {
 class Assignments {
   String title;
   String subtitle;
-  IconData icon;
+  Widget icon;
   Color iconBgcolor;
-  Color iconcolor;
   void Function() onPressed;
 
   Assignments(
@@ -24,14 +26,42 @@ class Assignments {
       required this.subtitle,
       required this.icon,
       required this.iconBgcolor,
-      required this.iconcolor,
       required this.onPressed});
 }
 
 class _SubscribedCourseAssignmentScreenState
     extends State<SubscribedCourseAssignmentScreen> {
   List<Assignments> assignments = [
-    // ... your assignments here
+    Assignments(
+    title: "Experiment 2", 
+    subtitle: "Tap to view this video", 
+    icon: Iconify(Bxs.video, size: 30, 
+    color: AppColor.videoIconColor,),
+    iconBgcolor: AppColor.lighBlueBackground, 
+    onPressed: (){}),
+    Assignments(
+    title: "Chapter 1 Notes", 
+    subtitle: "Tap to view this notes", 
+    icon: Iconify(Mdi.pdf_box,size: 30,color: AppColor.redBarGraph,),
+        iconBgcolor: AppColor.lightRedCardBackground,
+    onPressed: (){}),
+    Assignments(
+    title: "Figure 7.2", 
+    subtitle: "Tap to view this image", 
+    icon: Icon(Icons.image,color: AppColor.greenBarGraph,size: 30,),
+    iconBgcolor: AppColor.lightGreenCardBackground, 
+    onPressed: (){}),
+    Assignments(
+    title: "Sample Tests", 
+    subtitle: "Tap to attend this test", 
+    icon: Iconify(
+      Mdi.timer, 
+      size: 30,      
+      color: AppColor.testIconColour, 
+    ),
+    iconBgcolor: AppColor.lightVioletCardBackground, 
+    onPressed: (){}),
+    
   ];
 
   @override
@@ -58,7 +88,6 @@ class _SubscribedCourseAssignmentScreenState
                           icon: assignments[index].icon,
                           iconBgColor: assignments[index].iconBgcolor,
                           onPressed: assignments[index].onPressed,
-                          iconColor: assignments[index].iconcolor,
                         ),
                       ),
               )

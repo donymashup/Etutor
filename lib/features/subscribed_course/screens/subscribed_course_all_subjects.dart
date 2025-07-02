@@ -1,3 +1,5 @@
+import 'package:etutor/common/constants/app_constants.dart';
+import 'package:etutor/common/widgets/back_button.dart';
 import 'package:etutor/features/subscribed_course/screens/subscribed_course_subject.dart';
 import 'package:etutor/features/subscribed_course/widgets/subject_overview_card.dart';
 import 'package:flutter/material.dart';
@@ -29,7 +31,7 @@ List<AllSubjects> allsubjects = [
   AllSubjects(
       title: "Mathematics",
       description: "Building Logical Thinking Through Numbers and Patterns",
-      subjectImage: "assets/images/subname.jpg"),
+      subjectImage: "assets/images/subname1.jpg"),
   AllSubjects(
       title: "Mental Ability",
       description:
@@ -46,6 +48,18 @@ class _SubscribedCourseAllSubjectsState
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColor.whiteColor,
+      appBar: AppBar(
+        centerTitle: true,
+        leading: Padding(
+          padding: const EdgeInsets.only(left: 20.0),
+          child: CustomBackButton(),
+        ),
+        title: const Text(
+          "Class 6",
+          style: TextStyle(fontWeight: FontWeight.w500),
+        ),
+        backgroundColor: AppColor.whiteColor,),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(

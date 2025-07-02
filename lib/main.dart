@@ -18,9 +18,8 @@ import 'package:etutor/features/notification/screens/notification_page.dart';
 import 'package:etutor/features/payment/screen/checkout_screen.dart';
 import 'package:etutor/features/payment/screen/payment_method.dart';
 import 'package:etutor/features/payment/screen/voucher_screen.dart';
-
 import 'package:etutor/features/performace_index/screens/performance_index_screen.dart';
-import 'package:etutor/features/profile.dart';
+import 'package:etutor/features/profile/screens/profile.dart';
 import 'package:etutor/features/quiz/screens/quiz_completion_screen.dart';
 import 'package:etutor/features/subscribed_course/screens/pdf_viewer.dart';
 import 'package:etutor/features/subscribed_course/screens/subscribed_course_all_subjects.dart';
@@ -35,6 +34,7 @@ import 'package:etutor/features/subscribed_course/screens/subscribed_course_over
 import 'package:etutor/features/subscribed_course/screens/subscribed_course_subject.dart';
 import 'package:etutor/features/subscribed_course/screens/subscribed_course_vedio.dart';
 import 'package:etutor/features/subscribed_course/screens/subscribed_courses_tests.dart';
+import 'package:etutor/features/subscribed_course/screens/video_player_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_tex/flutter_tex.dart';
 
@@ -53,37 +53,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: AppColor.whiteColor),
         useMaterial3: true,
       ),
-      // home: SplashScreen(),
-      // home: const MyHomePage(title: 'Flutter Demo Home Page'),
-      // home: PasswordResetSuccesfull(),
-      // home: TestHome(),
-      // home: SubscribedCourseOverview(),
-      // home: SubscribedCourseContent(),
-      // home: SubscribedCourseAssignmentScreen(),
-      // home: SubscribedCourseSubject(),
-      // home: PerformanceIndexScreen(),
-      // home: SubscribedCoursesTests(),
-      // home: Registration(),
-      // home: NotificationPage(),
-      // home: ProfilePage()
-      // home: CheckoutScreen(),
-      // home: BottomNavBarScreen(),
-      // //home: PaymentMethod(),
-     // home:VoucherScreen(),
-      // home: OngoingLiveScreen(),
-      // home: CourseDetailsScreen(),
-      //  home: GkPostScreen(),
-          home: SplashScreen(),
-      // home: PerformanceIndexScreen(),
-      // home: NotificationPage(),
-      // home: ProfilePage(),
-      //  home: BottomNavBarScreen(),
-      // home: OngoingLiveScreen(),
-      // home: CourseDetailsScreen(),
-     // home: HomePage(),
-     // home: GkVedios(),
-    //  home:  PdfViewer(),
-     // home: QuizCompletionScreen(),
+      home: SplashScreen(),
     );
   }
 }

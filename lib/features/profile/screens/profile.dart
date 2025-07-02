@@ -1,38 +1,7 @@
 import 'package:etutor/common/constants/app_constants.dart';
 import 'package:etutor/common/widgets/back_button.dart';
+import 'package:etutor/features/profile/widgets/custom_wave_painter.dart';
 import 'package:flutter/material.dart';
-
-class CustomWavePainter extends CustomPainter {
-  @override
-  void paint(Canvas canvas, Size size) {
-    final paint = Paint()..color =AppColor.primaryColor;
-
-    final path = Path();
-    path.moveTo(0, size.height);
-
-    // First upward wave
-    path.quadraticBezierTo(
-      size.width * 0.25, size.height * 0.4,  
-      size.width * 0.5, size.height * 0.6    
-    );
-
-    // Second downward wave
-    path.quadraticBezierTo(
-      size.width * 0.75, size.height * 0.8, 
-      size.width, size.height * 0.5          
-    );
-
-    // Close shape to top 
-    path.lineTo(size.width, 0);
-    path.lineTo(0, 0);
-    path.close();
-
-    canvas.drawPath(path, paint);
-  }
-
-  @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
-}
 
 
 class Profile extends StatelessWidget {
@@ -82,7 +51,7 @@ class Profile extends StatelessWidget {
                          SizedBox(width: 30,),
                          IconButton(
                           onPressed: (){}, 
-                          icon: Icon(Icons.edit_note_rounded))
+                          icon: Icon(Icons.edit_note_rounded,size: 26,))
                        ],
                      ),
                    ),
@@ -116,12 +85,28 @@ class Profile extends StatelessWidget {
                     SizedBox(height: 15,),
                       Row(
                         children: [
+                          Icon(Icons.cake,color: AppColor.primaryColor,),
+                          SizedBox(width: 20,),
+                          Text("12/12/2012",style: TextStyle(fontWeight: FontWeight.w600))
+                        ],
+                      ),
+                    SizedBox(height: 15,),
+                      Row(
+                        children: [
+                          Icon(Icons.class_rounded,color: AppColor.primaryColor,),
+                          SizedBox(width: 20,),
+                          Text("6th Standard",style: TextStyle(fontWeight: FontWeight.w600))
+                        ],
+                      ),
+                    SizedBox(height: 15,),
+                    
+                      Row(
+                        children: [
                           Icon(Icons.school,color: AppColor.primaryColor,),
                           SizedBox(width: 20,),
                           Text("C.C.P.L.M School, Thevera",style: TextStyle(fontWeight: FontWeight.w600))
                         ],
                       ),
-                      SizedBox(height: 15,),
                      ],
                    ),
                    SizedBox(height: 30,),
@@ -136,16 +121,40 @@ class Profile extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text("My Account",style: TextStyle(color: AppColor.greyText,fontSize: 13),),
                           SizedBox(height: 10,),
-                          Padding(
-                            padding: const EdgeInsets.only(left:8.0),
-                            child: Text("Delete Account"),
+                          
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width,
+                            child: Padding(
+                              padding: const EdgeInsets.only(left:8.0),
+                              child:ElevatedButton( 
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: AppColor.primaryColor,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(5)
+                                )
+                              ),                                
+                              onPressed: (){}, 
+                              child: Text("Delete Account",style: TextStyle(color: AppColor.whiteColor))),
+                            ),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.only(left:8.0),
-                            child: Text("Log out"),
+                          SizedBox(height: 10,),
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width,
+                            child: Padding(
+                              padding: const EdgeInsets.only(left:8.0),
+                              child:ElevatedButton( 
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: AppColor.secondaryColor,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(5)
+                                )
+                              ),                                
+                              onPressed: (){}, 
+                              child: Text("Log out",style: TextStyle(color: AppColor.whiteColor),)),
+                            ),
                           ),
+                         
                         ],
                       ),
                     ),
