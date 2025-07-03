@@ -7,6 +7,7 @@ import 'package:etutor/features/my_course/widgets/nomycourse.dart';
 import 'package:etutor/features/performace_index/screens/performance_index_screen.dart';
 import 'package:etutor/features/my_course/widgets/my_course_listview.dart';
 import 'package:etutor/features/quiz/screen/new_test_page.dart';
+import 'package:etutor/features/quiz/screens/quiz_instruction_screen.dart';
 import 'package:etutor/features/subscribed_course/screens/subscribed_course_overview.dart';
 import 'package:etutor/features/timeline/screens/timeline_screen.dart';
 import 'package:flutter/material.dart';
@@ -310,7 +311,7 @@ class _MyCoursePageState extends State<MyCoursePage> {
                   itemBuilder: (context, index) {
                     final imagePath = testCardImages[index];
                     return GestureDetector(
-                      onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => TexViewQuizScreen())),
+                      onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => QuizInstructionPage())),
                       child: Container(
                         width: MediaQuery.of(context).size.width * 0.15 < 120
                             ? 120

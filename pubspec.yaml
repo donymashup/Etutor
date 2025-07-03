@@ -48,6 +48,7 @@ dependencies:
   syncfusion_flutter_pdfviewer: ^29.2.11
   better_player: ^0.0.84
   fluentui_emoji_icon: ^0.0.2
+  provider: ^6.1.5
 
 
 dev_dependencies:
