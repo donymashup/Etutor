@@ -98,13 +98,6 @@ class SideDrawer extends StatelessWidget {
                     icon: Icons.edit,
                     title: "Edit Profile",
                   ),
-//                   const DrawerItem(
-//                       icon: Icons.notifications, title: "About Us"),
-//                   const DrawerItem(
-//                       icon: Icons.help_outline, title: "Terms & Conditions"),
-//                   const DrawerItem(icon: Icons.policy, title: "Privacy Policy"),
-//                   DrawerItem(
-
                     DrawerItem(
                     icon: Icons.notifications,
                     title: "About Us",
