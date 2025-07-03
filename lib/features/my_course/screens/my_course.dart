@@ -98,7 +98,7 @@ class _MyCoursePageState extends State<MyCoursePage> {
                         color: AppColor.blackColor,
                       ),
                     ),
-                    IconButton(
+                    IconButton(    
                       icon: Icon(isGrid ? Icons.view_list : Icons.grid_view),
                       onPressed: () {
                         setState(() {
