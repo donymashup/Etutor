@@ -18,15 +18,13 @@ class SubscribedCourseOverview extends StatefulWidget {
 class CourseOverview {
   String title;
   String subtitle;
-  Widget icon;
-  Color iconBgcolor;
+  String type;
   void Function() onPressed;
 
   CourseOverview(
       {required this.title,
       required this.subtitle,
-      required this.icon,
-      required this.iconBgcolor,
+      required this.type,
       required this.onPressed});
 }
 
@@ -41,8 +39,7 @@ class _SubscribedCourseOverviewState extends State<SubscribedCourseOverview> {
       CourseOverview(
         title: "Class 6",
         subtitle: "Class 6 subjects",
-        icon: FluentUiEmojiIcon(fl: Fluents.flBlueBook,h: 30, w: 30,),
-        iconBgcolor: AppColor.lighBlueBackground,
+        type: "class",
         onPressed: () {
           Navigator.push(
             context,
@@ -55,8 +52,7 @@ class _SubscribedCourseOverviewState extends State<SubscribedCourseOverview> {
       CourseOverview(
         title: "Class 7",
         subtitle: "Class 7 subjects",
-        icon: FluentUiEmojiIcon(fl: Fluents.flBlueBook,h: 30, w: 30,),
-        iconBgcolor: AppColor.lighBlueBackground,
+        type: "class",
         onPressed: () {
           Navigator.push(
             context,
@@ -69,8 +65,7 @@ class _SubscribedCourseOverviewState extends State<SubscribedCourseOverview> {
       CourseOverview(
         title: "Course Contents",
         subtitle: "Tap to view all other resources related to this course",
-        icon: FluentUiEmojiIcon(fl: Fluents.flOpenFileFolder, h: 30, w: 30,),
-        iconBgcolor: AppColor.lightYellowBg,
+        type: "folder",
         onPressed: () {
           // Navigate to Study Materials page
           Navigator.push(
@@ -102,13 +97,13 @@ class _SubscribedCourseOverviewState extends State<SubscribedCourseOverview> {
                       fit: BoxFit.cover),
                 ),
               ),
-               Align(
-                  alignment: Alignment.topLeft,
-                  child: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: CustomBackButton(),
-                  ),
+              Align(
+                alignment: Alignment.topLeft,
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: CustomBackButton(),
                 ),
+              ),
               Container(
                 margin: const EdgeInsets.only(top: 260),
                 padding: const EdgeInsets.all(20),
@@ -133,21 +128,18 @@ class _SubscribedCourseOverviewState extends State<SubscribedCourseOverview> {
               child: ListView.builder(
                 itemCount: courseoverview.length,
                 itemBuilder: (context, index) => GestureDetector(
-                  onTap: (){
-                       Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => SubscribedCourseSubject()));
-                    },
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => SubscribedCourseSubject()));
+                  },
                   child: GestureDetector(
-                    onTap: () {
-                      
-                    },
+                    onTap: () {},
                     child: CourseCard(
                         title: courseoverview[index].title,
                         subtitle: courseoverview[index].subtitle,
-                        icon: courseoverview[index].icon,
-                        iconBgColor: courseoverview[index].iconBgcolor,
+                        type: courseoverview[index].type,
                         onPressed: courseoverview[index].onPressed),
                   ),
                 ),

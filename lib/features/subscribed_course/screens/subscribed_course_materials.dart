@@ -17,40 +17,36 @@ class SubscribedCourseMaterials extends StatefulWidget {
 class Materials {
   String title;
   String subtitle;
-  Widget icon;
-  Color iconBgcolor;
+  String type;
   void Function(BuildContext) onPressed;
 
   Materials(
       {required this.title,
       required this.subtitle,
-      required this.icon,
-      required this.iconBgcolor,
+      required this.type,
       required this.onPressed});
 }
 
 class _SubscribedCourseMaterialsState extends State<SubscribedCourseMaterials> {
   List<Materials> materials = [
     Materials(
-        title: "Chapter 1 Notes",
-        subtitle: "Tap to view this pdf",
-        icon: Iconify(Mdi.pdf_box,size: 30,color: AppColor.redBarGraph,),
-        iconBgcolor: AppColor.lightRedCardBackground,
-        onPressed: (BuildContext context) => Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => PdfViewer())),),
+      title: "Chapter 1 Notes",
+      subtitle: "Tap to view this pdf",
+      type: "pdf",
+      onPressed: (BuildContext context) => Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (context) => PdfViewer())),
+    ),
     Materials(
       title: "Chapter 2 Notes",
       subtitle: "Tap to view this pdf",
-      icon: Iconify(Mdi.pdf_box,size: 30,color: AppColor.redBarGraph,),
-      iconBgcolor: AppColor.lightRedCardBackground,
+      type: "pdf",
       onPressed: (BuildContext context) => Navigator.pushReplacement(
           context, MaterialPageRoute(builder: (context) => PdfViewer())),
     ),
     Materials(
         title: "Figure 2.9",
         subtitle: "Tap to view this image",
-        icon: Icon(Icons.image,color: AppColor.greenBarGraph,size: 30,),
-        iconBgcolor: AppColor.lightGreenCardBackground,
+        type: "pdf",
         onPressed: (_) {}),
   ];
 
@@ -62,7 +58,7 @@ class _SubscribedCourseMaterialsState extends State<SubscribedCourseMaterials> {
         backgroundColor: AppColor.whiteColor,
         title: Text(
           "Materials",
-          style: TextStyle(fontWeight: FontWeight.w500,fontSize: 18),
+          style: TextStyle(fontWeight: FontWeight.w500, fontSize: 18),
         ),
         leading: Padding(
           padding: const EdgeInsets.only(left: 20.0),
@@ -84,12 +80,11 @@ class _SubscribedCourseMaterialsState extends State<SubscribedCourseMaterials> {
                   itemCount: materials.length,
                   itemBuilder: (context, index) => GestureDetector(
                     child: CourseCard(
-                        title: materials[index].title,
-                        subtitle: materials[index].subtitle,
-                        icon: materials[index].icon,
-                        iconBgColor: materials[index].iconBgcolor,
-                        onPressed: () => materials[index].onPressed(context),
-                        ),
+                      title: materials[index].title,
+                      subtitle: materials[index].subtitle,
+                      type: materials[index].type,
+                      onPressed: () => materials[index].onPressed(context),
+                    ),
                   ),
                 ),
               )

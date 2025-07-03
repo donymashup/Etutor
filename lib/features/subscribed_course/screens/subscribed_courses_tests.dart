@@ -16,15 +16,13 @@ class SubscribedCoursesTests extends StatefulWidget {
 class Tests {
   String title;
   String subtitle;
-  Widget icon;
-  Color iconBgcolor;
+  String type;
   void Function() onPressed;
 
   Tests(
       {required this.title,
       required this.subtitle,
-      required this.icon,
-      required this.iconBgcolor,
+      required this.type,
       required this.onPressed});
 }
 
@@ -38,12 +36,7 @@ class _SubscribedCoursesTestsState extends State<SubscribedCoursesTests> {
       Tests(
         title: "Sample Test 1",
         subtitle: "Tap to attend the test",
-        icon: Iconify(
-          Mdi.timer,
-          size: 30,
-          color: AppColor.testIconColourDark,
-        ),
-        iconBgcolor: AppColor.lightVioletCardBackground,
+        type: "test",
         onPressed: () {
           Navigator.push(context,
               MaterialPageRoute(builder: (context) => QuizInstructionPage()));
@@ -52,12 +45,7 @@ class _SubscribedCoursesTestsState extends State<SubscribedCoursesTests> {
       Tests(
         title: "Sample Test 2",
         subtitle: "Tap to attend the test",
-        icon: Iconify(
-          Mdi.timer,
-          size: 30,
-          color: AppColor.testIconColourDark
-        ),
-        iconBgcolor: AppColor.lightVioletCardBackground,
+        type: "test",
         onPressed: () {
           // Navigate to test details or perform some action
           Navigator.push(context,
@@ -93,8 +81,7 @@ class _SubscribedCoursesTestsState extends State<SubscribedCoursesTests> {
                   itemBuilder: (context, index) => CourseCard(
                     title: tests[index].title,
                     subtitle: tests[index].subtitle,
-                    icon: tests[index].icon,
-                    iconBgColor: tests[index].iconBgcolor,
+                    type: tests[index].type,
                     onPressed: tests[index].onPressed,
                   ),
                 ),
