@@ -5,6 +5,9 @@ import 'package:etutor/features/subscribed_course/screens/subscribed_course_vedi
 import 'package:etutor/features/subscribed_course/screens/subscribed_courses_tests.dart';
 import 'package:flutter/material.dart';
 import 'package:etutor/common/constants/app_constants.dart';
+import 'package:iconify_flutter/iconify_flutter.dart';
+import 'package:iconify_flutter/icons/bxs.dart';
+import 'package:iconify_flutter/icons/mdi.dart';
 
 class CourseSubjectCard extends StatelessWidget {
   final String subjectName;
@@ -61,7 +64,11 @@ class CourseSubjectCard extends StatelessWidget {
                       ),
                     ),
                   ),
-                  Icon(isExpanded ? Icons.arrow_drop_up : Icons.arrow_drop_down),
+                  Padding(
+                    padding: const EdgeInsets.all(12.0),
+                    child: Icon(
+                        isExpanded ? Icons.arrow_drop_up : Icons.arrow_drop_down),
+                  ),
                 ],
               ),
             ),
@@ -70,7 +77,8 @@ class CourseSubjectCard extends StatelessWidget {
               curve: Curves.easeInOut,
               child: isExpanded
                   ? Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 16, vertical: 12),
                       child: Column(
                         children: [
                           Row(
@@ -80,28 +88,55 @@ class CourseSubjectCard extends StatelessWidget {
                                 onTap: () {
                                   Navigator.push(
                                     context,
-                                    MaterialPageRoute(builder: (context) =>  SubscribedCourseVedio()),
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            SubscribedCourseVedio()),
                                   );
                                 },
-                                child: _iconWithLabel(Icons.videocam, 'Videos', Colors.orange),
+                                child: _iconWithLabel(
+                                    Iconify(
+                                      Bxs.video,
+                                      size: 30,
+                                      color: AppColor.fileIconColour,
+                                    ),
+                                    'Videos',
+                                    ),
                               ),
                               GestureDetector(
                                 onTap: () {
                                   Navigator.push(
                                     context,
-                                    MaterialPageRoute(builder: (context) => const SubscribedCourseMaterials()),
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            const SubscribedCourseMaterials()),
                                   );
                                 },
-                                child: _iconWithLabel(Icons.insert_drive_file, 'Materials', Colors.blue),
+                                child: _iconWithLabel(
+                                    Iconify(
+                                      Mdi.document,
+                                      size: 30,
+                                      color: AppColor.videoIconColor,
+                                    ),
+                                    'Materials',
+                                    ),
                               ),
                               GestureDetector(
                                 onTap: () {
                                   Navigator.push(
                                     context,
-                                    MaterialPageRoute(builder: (context) => const SubscribedCoursesTests()),
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            const SubscribedCoursesTests()),
                                   );
                                 },
-                                child: _iconWithLabel(Icons.assignment, 'Tests', Colors.green),
+                                child: _iconWithLabel(
+                                    Iconify(
+                                      Mdi.timer,
+                                      size: 30,
+                                      color: AppColor.greenchaptertest,
+                                    ),
+                                    'Tests',
+                                    ),
                               ),
                             ],
                           ),
@@ -132,10 +167,12 @@ class CourseSubjectCard extends StatelessWidget {
                               onpressed: () {
                                 Navigator.push(
                                   context,
-                                  MaterialPageRoute(builder: (context) => const ChapterAnalysisScreen()),
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const ChapterAnalysisScreen()),
                                 );
                               },
-                              text: "chapter analysis",
+                              text: "Chapter Analysis",
                               buttoncolor: AppColor.fileIconColour,
                               textColor: AppColor.whiteColor,
                             ),
@@ -149,12 +186,16 @@ class CourseSubjectCard extends StatelessWidget {
         ),
       ),
     );
-  }
+  }   
 
-  Widget _iconWithLabel(IconData icon, String label, Color color) {
+  Widget _iconWithLabel(Widget icon, String label) {
     return Column(
       children: [
-        Icon(icon, color: color, size: 32),
+        SizedBox(
+          height: 32,
+          width: 32,
+          child: Center(child: icon),
+        ),
         const SizedBox(height: 4),
         Text(label),
       ],

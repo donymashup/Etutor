@@ -88,7 +88,7 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen>
                     Expanded(
                         child: Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: Tab(text: "Curiculum"),
+                      child: Tab(text: "Curriculum"),
                     )),
                     Expanded(
                         child: Padding(
