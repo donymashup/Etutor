@@ -3,6 +3,7 @@ import 'package:etutor/features/subscribed_course/screens/subscribed_course_assi
 import 'package:etutor/features/subscribed_course/widgets/course_card.dart';
 import 'package:fluentui_emoji_icon/fluentui_emoji_icon.dart';
 import 'package:flutter/material.dart';
+
 class SubscribedCourseContent extends StatefulWidget {
   const SubscribedCourseContent({super.key});
 
@@ -10,18 +11,17 @@ class SubscribedCourseContent extends StatefulWidget {
   State<SubscribedCourseContent> createState() =>
       _SubscribedCourseContentState();
 }
-class CourseContent{
+
+class CourseContent {
   String title;
   String subtitle;
-  Widget icon;
-  Color iconBgcolor;
+  String type;
   void Function() onPressed;
 
   CourseContent(
       {required this.title,
       required this.subtitle,
-      required this.icon,
-      required this.iconBgcolor,
+      required this.type,
       required this.onPressed});
 }
 
@@ -33,35 +33,30 @@ class _SubscribedCourseContentState extends State<SubscribedCourseContent> {
     super.initState();
     coursecontent = [
       CourseContent(
-        title: "Assignments", 
-        subtitle: "Tap to view assignment related to this course", 
-        icon: FluentUiEmojiIcon(fl: Fluents.flOpenFileFolder, h: 30, w: 30,),
-        iconBgcolor: AppColor.lightYellowBg,
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => const SubscribedCourseAssignmentScreen(),
-            ),
-          );
-        }
-      ),
+          title: "Assignments",
+          subtitle: "Tap to view assignment related to this course",
+          type: "folder",
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const SubscribedCourseAssignmentScreen(),
+              ),
+            );
+          }),
       CourseContent(
-        title: "Exam Notifications", 
-        subtitle: "Tap to view notification related to this course", 
-        icon: FluentUiEmojiIcon(fl: Fluents.flOpenFileFolder, h: 30, w: 30,),
-        iconBgcolor: AppColor.lightYellowBg,
-        onPressed: (){}
-      ),
+          title: "Exam Notifications",
+          subtitle: "Tap to view notification related to this course",
+          type: "folder",
+          onPressed: () {}),
       CourseContent(
-        title: "Others", 
-        subtitle: "Tap to view other details related to this course", 
-        icon: FluentUiEmojiIcon(fl: Fluents.flOpenFileFolder, h: 30, w: 30,),
-        iconBgcolor: AppColor.lightYellowBg,
-        onPressed: (){}
-      ),
+          title: "Others",
+          subtitle: "Tap to view other details related to this course",
+          type: "folder",
+          onPressed: () {}),
     ];
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -100,13 +95,15 @@ class _SubscribedCourseContentState extends State<SubscribedCourseContent> {
           Expanded(
             child: Padding(
               padding: const EdgeInsets.all(8.0),
-              child: ListView.builder(itemCount: coursecontent.length,
+              child: ListView.builder(
+                itemCount: coursecontent.length,
                 itemBuilder: (context, index) => CourseCard(
-                title: coursecontent[index].title, 
-                subtitle: coursecontent[index].subtitle, 
-                icon: coursecontent[index].icon, 
-                iconBgColor: coursecontent[index].iconBgcolor, 
-                onPressed: coursecontent[index].onPressed, ),),
+                  title: coursecontent[index].title,
+                  subtitle: coursecontent[index].subtitle,
+                  type: coursecontent[index].type,
+                  onPressed: coursecontent[index].onPressed,
+                ),
+              ),
             ),
           ),
         ],
