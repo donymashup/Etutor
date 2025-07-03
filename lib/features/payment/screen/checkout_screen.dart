@@ -1,16 +1,21 @@
 import 'package:etutor/common/constants/app_constants.dart';
 import 'package:etutor/common/widgets/back_button.dart';
 import 'package:etutor/common/widgets/custom_button.dart';
+import 'package:etutor/features/payment/controller/payment_provider.dart';
 import 'package:etutor/features/payment/screen/payment_method.dart';
 import 'package:etutor/features/payment/screen/payment_succesfull.dart';
 import 'package:etutor/features/payment/screen/voucher_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-class CheckoutScreen extends StatelessWidget {
-  const CheckoutScreen({super.key});
+class CheckoutScreen extends StatelessWidget { 
+  CheckoutScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+
+     final selected = context.watch<PaymentProvider>().selectedPayment;
+
     return Scaffold(
       backgroundColor: AppColor.greyBackground,
       appBar: AppBar(
@@ -41,6 +46,7 @@ class CheckoutScreen extends StatelessWidget {
                           ),
                           child: Column(
                             children: [
+                              SizedBox(height: 5,),
                               //course details card
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
@@ -119,6 +125,7 @@ class CheckoutScreen extends StatelessWidget {
                         margin: EdgeInsets.symmetric(vertical: 10),
                         child: Column(
                           children: [
+                            SizedBox(height: 5,),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
@@ -182,11 +189,14 @@ class CheckoutScreen extends StatelessWidget {
                       Container(
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
-                          color: AppColor.whiteColor,
+                          color: selected != null ? AppColor.lighBlueBackground
+                          : AppColor.whiteColor,
+                          border: selected != null ? Border.all(color: AppColor.primaryColor):null
                         ),
                         margin: EdgeInsets.symmetric(vertical: 10),
                         child: Column(
                           children: [
+                            SizedBox(height: 5,),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
@@ -197,6 +207,7 @@ class CheckoutScreen extends StatelessWidget {
                                 Text("Payment Method"),
                               ],
                             ),
+                            selected == null ?
                             Padding(
                                 padding: const EdgeInsets.all(10),
                                 child: Row(
@@ -218,9 +229,7 @@ class CheckoutScreen extends StatelessWidget {
                                           ),
                                         ),
                                         SizedBox(width: 10),
-                                        Text(
-                                          "Choose Payment Method",
-                                          style: TextStyle(),
+                                        Text("Choose Payment Method",
                                         ),
                                       ],
                                     ),
@@ -237,8 +246,59 @@ class CheckoutScreen extends StatelessWidget {
                                     ),
                                   ],
                                 ))
+                                : Padding(
+                                padding: const EdgeInsets.all(10),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Expanded(
+                                      child: Row(
+                                        children: [
+                                          Container(
+                                                  width: 40,
+                                                  height: 40,
+                                                  decoration: BoxDecoration(
+                                                      borderRadius:
+                                                          BorderRadius.circular(20),
+                                                      border: Border.all(
+                                                          color:
+                                                              AppColor.greyStroke)),
+                                                  child: Padding(
+                                                    padding:
+                                                        const EdgeInsets.all(5.0),
+                                                    child: Image.asset(
+                                                      selected['icon']!,
+                                                    ),
+                                                  ),
+                                                ),
+                                          SizedBox(width: 10),
+                                          Flexible(
+                                            child: Column(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                Text(selected['name']!,
+                                                ),
+                                                Text(selected['info']!,
+                                                  style: TextStyle(color: AppColor.greyText),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                   TextButton(onPressed: (){
+                                    Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => PaymentMethod()));
+                                   }, 
+                                   child: Text("change",style: TextStyle(color: AppColor.primaryColor),))
+                                  ],
+                                ))           
                           ],
-                        ),
+                        )
+                        
                       ),
                               
                       //bill splits card
@@ -250,6 +310,7 @@ class CheckoutScreen extends StatelessWidget {
                         ),
                         child: Column(
                           children: [
+                            SizedBox(height: 5,),
                             Row(
                               children: [
                                 Image.asset("assets/icons/clipIcon.png"),
@@ -268,7 +329,7 @@ class CheckoutScreen extends StatelessWidget {
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
-                                    "PricePrice",
+                                    "Price (incl. all tax)",
                                     style: TextStyle(
                                         fontSize: 13, color: AppColor.greyTextDark),
                                   ),
@@ -300,25 +361,6 @@ class CheckoutScreen extends StatelessWidget {
                             ),
                             SizedBox(
                               height: 5,
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    "Tax",
-                                    style: TextStyle(
-                                        fontSize: 13, color: AppColor.greyTextDark),
-                                  ),
-                                  Row(
-                                    children: [
-                                      Text("-"),
-                                      Text("₹0"),
-                                    ],
-                                  )
-                                ],
-                              ),
                             ),
                             SizedBox(
                               height: 10,
@@ -367,10 +409,12 @@ class CheckoutScreen extends StatelessWidget {
                       padding: const EdgeInsets.only(left: 10.0,right:  10.0,top:  10.0,bottom: 20),
                       child: CustomButton(
                           onpressed: () {
-                          Navigator.push(context,MaterialPageRoute(builder:(context) => PaymentSuccesfull() ));
+                          selected != null ?
+                          Navigator.push(context,MaterialPageRoute(builder:(context) => PaymentSuccesfull() ))
+                          : null;
                           },
                           text: "Pay  ₹10000",
-                          buttoncolor: AppColor.greyButton,
+                          buttoncolor:selected != null ?AppColor.primaryColor: AppColor.greyButton,
                           textColor: AppColor.whiteColor),
                     ),
                   )

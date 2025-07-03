@@ -280,29 +280,6 @@ class _MyCoursePageState extends State<MyCoursePage> {
                       ),
                       ),
                     );
-                    return Container(
-                      width: MediaQuery.of(context).size.width * 0.15 < 120
-                          ? 120
-                          : MediaQuery.of(context).size.width * 0.15,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(16),
-                        border: Border.all(
-                            color: AppColor.primaryColor.withOpacity(0.5)),
-                        boxShadow: const [
-                          BoxShadow(
-                            color: Colors.black12,
-                            blurRadius: 4,
-                            offset: Offset(0, 2),
-                          ),
-                        ],
-                      ),
-                      padding: const EdgeInsets.all(12),
-                      child: Image.asset(
-                        imagePath,
-                        fit: BoxFit.contain,
-                      ),
-                    );
                   },
                 ),
               ),
