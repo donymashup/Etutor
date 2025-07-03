@@ -1,4 +1,5 @@
 import 'package:etutor/features/drawer/screens/drawer.dart';
+import 'package:etutor/features/home/screen/see_more_courses.dart';
 import 'package:etutor/features/my_course/screens/course_details_screen.dart';
 import 'package:etutor/features/notification/screens/notification_page.dart';
 import 'package:etutor/features/profile/screens/profile.dart';
@@ -276,12 +277,19 @@ class _HomePageState extends State<HomePage> {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    Text(
-                      "See more",
-                      style: TextStyle(
-                        color: AppColor.primaryColor,
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
+                    GestureDetector(
+                      onTap: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const SeeMoreCourses(),
+                          )),
+                      child: Text(
+                        "See more",
+                        style: TextStyle(
+                          color: AppColor.primaryColor,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                        ),
                       ),
                     ),
                   ],
@@ -296,12 +304,6 @@ class _HomePageState extends State<HomePage> {
                   itemCount: activeCourses.length,
                   itemBuilder: (context, index) {
                     final course = activeCourses[index];
-                    // return CoursesList(
-                    //   imagePath: course['imagePath'],
-                    //   rating: course['rating'],
-                    //   title: course['title'],
-                    // );
-
                     return GestureDetector(
                       onTap: () {
                         Navigator.push(
