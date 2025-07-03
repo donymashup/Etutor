@@ -6,7 +6,7 @@ class MyCourseCard extends StatelessWidget {
   final String imagePath;
   final double rating;
   final bool isFree;
-  final double imgHeight;
+  final double? imgHeight;
 
 
   const MyCourseCard({
@@ -15,7 +15,7 @@ class MyCourseCard extends StatelessWidget {
     required this.imagePath,
     required this.rating,
     required this.isFree,
-    required this.imgHeight,
+    this.imgHeight,
   });
 
 

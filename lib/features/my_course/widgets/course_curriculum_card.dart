@@ -84,6 +84,8 @@
 // }
 
 import 'package:etutor/common/constants/app_constants.dart';
+import 'package:etutor/features/payment/screen/checkout_screen.dart';
+import 'package:etutor/features/payment/screen/payment_method.dart';
 import 'package:etutor/features/subscribed_course/screens/video_player_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -120,7 +122,8 @@ class _CourseCurriculumCardState extends State<CourseCurriculumCard> {
           padding: const EdgeInsets.all(0),
           child: ExpansionTile(
             // Course title and class info
-            tilePadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+            tilePadding:
+                const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
             shape: const RoundedRectangleBorder(side: BorderSide.none),
             collapsedShape: const RoundedRectangleBorder(side: BorderSide.none),
             title: Text(
@@ -148,8 +151,10 @@ class _CourseCurriculumCardState extends State<CourseCurriculumCard> {
 
               return Padding(
                 padding: index == (widget.items.length - 1)
-                    ? const EdgeInsets.only(left: 16, right: 16, top: 5, bottom: 16)
-                    : const EdgeInsets.only(left: 16, right: 16, top: 5, bottom: 5),
+                    ? const EdgeInsets.only(
+                        left: 16, right: 16, top: 5, bottom: 16)
+                    : const EdgeInsets.only(
+                        left: 16, right: 16, top: 5, bottom: 5),
                 child: ListTile(
                   tileColor: AppColor.greyCardBackground,
                   title: Text(item, style: const TextStyle(fontSize: 16)),
@@ -164,8 +169,9 @@ class _CourseCurriculumCardState extends State<CourseCurriculumCard> {
                             fontWeight: FontWeight.bold,
                           ),
                         )
-                        // Icon(Icons.lock_open, color: AppColor.greenchaptertest)
-                      : const Icon(Icons.lock_outline, color: AppColor.blackColor),
+                      // Icon(Icons.lock_open, color: AppColor.greenchaptertest)
+                      : const Icon(Icons.lock_outline,
+                          color: AppColor.blackColor),
                   // Tap only if item is free
                   onTap: isFree
                       ? () {
@@ -177,7 +183,38 @@ class _CourseCurriculumCardState extends State<CourseCurriculumCard> {
                             ),
                           );
                         }
-                      : null,
+                      : () {
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                title: Text('Subscription needed'),
+                                content: SizedBox(
+                                    width:
+                                        MediaQuery.of(context).size.width * 0.7,
+                                    child: Text(
+                                        'Once enrolled, you’ll get full access to the course materials. Do you want to proceed?')),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () =>
+                                        Navigator.of(context).pop(),
+                                    child: Text('No'),
+                                  ),
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.push(
+                                          (context),
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  CheckoutScreen()));
+                                    },
+                                    child: Text('Yes'),
+                                  ),
+                                ],
+                              );
+                            },
+                          );
+                        },
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(5),
                   ),

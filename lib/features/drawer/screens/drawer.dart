@@ -1,3 +1,4 @@
+import 'package:etutor/features/profile/screens/edit_profile.dart';
 import 'package:etutor/features/drawer/screens/about_us.dart';
 import 'package:etutor/features/drawer/screens/privacy_policy.dart';
 import 'package:etutor/features/drawer/screens/terms&conditions.dart';
@@ -53,41 +54,57 @@ class SideDrawer extends StatelessWidget {
           Expanded(
             child: Container(
               color: AppColor.whiteColor,
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
+              padding: const EdgeInsets.symmetric(horizontal: 16),
               child: ListView(
                 children: [
-                  Row(
-                    children: const [
-                      CircleAvatar(
-                        radius: 36,
-                        backgroundImage:
-                            AssetImage('assets/images/smriti1.jpeg'),
-                      ),
-                      SizedBox(width: 16),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "Hollo Yukihira",
-                            style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 18,
-                                fontWeight: FontWeight.w500),
-                          ),
-                          SizedBox(height: 4),
-                          Text(
-                            "INK3322",
-                            style: TextStyle(color: Colors.black, fontSize: 14),
-                          ),
-                        ],
-                      ),
-                    ],
+                  GestureDetector(
+                    onTap: () => {
+                      Navigator.push(
+                          (context),
+                          MaterialPageRoute(
+                              builder: (context) => EditProfile()))
+                    },
+                    child: Row(
+                      children: const [
+                        CircleAvatar(
+                          radius: 36,
+                          backgroundImage:
+                              AssetImage('assets/images/smriti1.jpeg'),
+                        ),
+                        SizedBox(width: 16),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "Hollo Yukihira",
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w500),
+                            ),
+                            SizedBox(height: 4),
+                            Text(
+                              "yukhira3322@gmail.com",
+                              style:
+                                  TextStyle(color: Colors.black, fontSize: 12),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                   const SizedBox(height: 24),
                   const DrawerItem(
                     icon: Icons.edit,
                     title: "Edit Profile",
                   ),
+//                   const DrawerItem(
+//                       icon: Icons.notifications, title: "About Us"),
+//                   const DrawerItem(
+//                       icon: Icons.help_outline, title: "Terms & Conditions"),
+//                   const DrawerItem(icon: Icons.policy, title: "Privacy Policy"),
+//                   DrawerItem(
+
                     DrawerItem(
                     icon: Icons.notifications,
                     title: "About Us",
@@ -117,71 +134,70 @@ class SideDrawer extends StatelessWidget {
                     title: "Help & Support",
                     onTap: () {
                       showDialog(
-                      context: context,
-                      builder: (context) => AlertDialog(
-                        title: const Text("Help & Support"),
-                        content: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: const [
-                          Text("Phone: +91 8113813377"),
-                          SizedBox(height: 8),
-                          Text("Email: pskeduventures@gmail.com"),
-                        ],
-                        ),
-                        actions: [
-                        Align(
-                          alignment: Alignment.bottomRight,
-                          child: TextButton(
-                          onPressed: () => Navigator.of(context).pop(),
-                          child: const Text("OK"),
-                          ),
-                        ),
-                        ],
-                      ),
-                      );
-                    },
-                    ),
-                  DrawerItem(
-                      icon: Icons.delete,
-                       title: "Delete Account",
-                       onTap: () {
-                        showDialog(
-                          context: context,
-                          builder: (context) => AlertDialog(
-                            title: const Text("Are you sure you want to delete your account?",
-                                style: TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w500)),
-                            content: const Text("This action cannot be undone."),
-                            actions: [
-                              TextButton(
-                                onPressed: () => Navigator.of(context).pop(),
-                                child: const Text("Cancel"),
-                              ),
-                              TextButton(
-                                onPressed: () {
-                                  Navigator.of(context).pop();
-                                  // Add your delete account logic here
-                                },
-                                child: const Text("Delete"),
-                              ),
+                        context: context,
+                        builder: (context) => AlertDialog(
+                          title: const Text("Help & Support"),
+                          content: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: const [
+                              Text("Phone: +91 8113813377"),
+                              SizedBox(height: 8),
+                              Text("Email: pskeduventures@gmail.com"),
                             ],
                           ),
-                        );
-                       },),
-                   DrawerItem(
+                          actions: [
+                            Align(
+                              alignment: Alignment.bottomRight,
+                              child: TextButton(
+                                onPressed: () => Navigator.of(context).pop(),
+                                child: const Text("OK"),
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                  ),
+                  DrawerItem(
+                    icon: Icons.delete,
+                    title: "Delete Account",
+                    onTap: () {
+                      showDialog(
+                        context: context,
+                        builder: (context) => AlertDialog(
+                          title: const Text(
+                              "Are you sure you want to delete your account?",
+                              style: TextStyle(
+                                  fontSize: 16, fontWeight: FontWeight.w500)),
+                          content: const Text("This action cannot be undone."),
+                          actions: [
+                            TextButton(
+                              onPressed: () => Navigator.of(context).pop(),
+                              child: const Text("Cancel"),
+                            ),
+                            TextButton(
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                                // Add your delete account logic here
+                              },
+                              child: const Text("Delete"),
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                  ),
+                  DrawerItem(
                     icon: Icons.logout,
                     title: "Logout Account",
                     onTap: () {
                       showDialog(
                         context: context,
                         builder: (context) => AlertDialog(
-                          title:
-                              const Text("Are you sure you want to log out?",
-                                  style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w500)),
+                          title: const Text("Are you sure you want to log out?",
+                              style: TextStyle(
+                                  fontSize: 16, fontWeight: FontWeight.w500)),
                           actions: [
                             TextButton(
                               onPressed: () => Navigator.of(context).pop(),
