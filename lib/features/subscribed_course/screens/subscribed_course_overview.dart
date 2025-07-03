@@ -2,6 +2,7 @@ import 'package:etutor/common/constants/app_constants.dart';
 import 'package:etutor/common/widgets/back_button.dart';
 import 'package:etutor/features/subscribed_course/screens/subscribed_course_all_subjects.dart';
 import 'package:etutor/features/subscribed_course/screens/subscribed_course_content.dart';
+import 'package:etutor/features/subscribed_course/screens/subscribed_course_subject.dart';
 import 'package:etutor/features/subscribed_course/widgets/course_card.dart';
 import 'package:fluentui_emoji_icon/fluentui_emoji_icon.dart';
 import 'package:flutter/material.dart';
@@ -131,12 +132,25 @@ class _SubscribedCourseOverviewState extends State<SubscribedCourseOverview> {
               padding: const EdgeInsets.symmetric(horizontal: 15.0),
               child: ListView.builder(
                 itemCount: courseoverview.length,
-                itemBuilder: (context, index) => CourseCard(
-                    title: courseoverview[index].title,
-                    subtitle: courseoverview[index].subtitle,
-                    icon: courseoverview[index].icon,
-                    iconBgColor: courseoverview[index].iconBgcolor,
-                    onPressed: courseoverview[index].onPressed),
+                itemBuilder: (context, index) => GestureDetector(
+                  onTap: (){
+                       Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => SubscribedCourseSubject()));
+                    },
+                  child: GestureDetector(
+                    onTap: () {
+                      
+                    },
+                    child: CourseCard(
+                        title: courseoverview[index].title,
+                        subtitle: courseoverview[index].subtitle,
+                        icon: courseoverview[index].icon,
+                        iconBgColor: courseoverview[index].iconBgcolor,
+                        onPressed: courseoverview[index].onPressed),
+                  ),
+                ),
               ),
             ),
           ),

@@ -82,13 +82,15 @@ class _SubscribedCourseMaterialsState extends State<SubscribedCourseMaterials> {
               Expanded(
                 child: ListView.builder(
                   itemCount: materials.length,
-                  itemBuilder: (context, index) => CourseCard(
-                      title: materials[index].title,
-                      subtitle: materials[index].subtitle,
-                      icon: materials[index].icon,
-                      iconBgColor: materials[index].iconBgcolor,
-                      onPressed: () => materials[index].onPressed(context),
-                      ),
+                  itemBuilder: (context, index) => GestureDetector(
+                    child: CourseCard(
+                        title: materials[index].title,
+                        subtitle: materials[index].subtitle,
+                        icon: materials[index].icon,
+                        iconBgColor: materials[index].iconBgcolor,
+                        onPressed: () => materials[index].onPressed(context),
+                        ),
+                  ),
                 ),
               )
             ],

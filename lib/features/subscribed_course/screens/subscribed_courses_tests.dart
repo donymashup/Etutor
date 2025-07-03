@@ -3,6 +3,8 @@ import 'package:etutor/common/widgets/back_button.dart';
 import 'package:etutor/features/quiz/screens/quiz_instruction_screen.dart';
 import 'package:etutor/features/subscribed_course/widgets/course_card.dart';
 import 'package:flutter/material.dart';
+import 'package:iconify_flutter/iconify_flutter.dart';
+import 'package:iconify_flutter/icons/mdi.dart';
 
 class SubscribedCoursesTests extends StatefulWidget {
   const SubscribedCoursesTests({super.key});
@@ -17,7 +19,7 @@ class Tests {
   Widget icon;
   Color iconBgcolor;
   void Function() onPressed;
-  
+
   Tests(
       {required this.title,
       required this.subtitle,
@@ -27,7 +29,6 @@ class Tests {
 }
 
 class _SubscribedCoursesTestsState extends State<SubscribedCoursesTests> {
-
   late List<Tests> tests;
 
   @override
@@ -37,25 +38,35 @@ class _SubscribedCoursesTestsState extends State<SubscribedCoursesTests> {
       Tests(
         title: "Sample Test 1",
         subtitle: "Tap to attend the test",
-        icon: Icon(Icons.calendar_month),
+        icon: Iconify(
+          Mdi.timer,
+          size: 30,
+          color: AppColor.testIconColourDark,
+        ),
         iconBgcolor: AppColor.lightVioletCardBackground,
         onPressed: () {
-          // Navigate to test details or perform some action
-          Navigator.push(context, MaterialPageRoute(builder: (context) => QuizInstructionPage()));
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => QuizInstructionPage()));
         },
       ),
       Tests(
         title: "Sample Test 2",
         subtitle: "Tap to attend the test",
-        icon: Icon(Icons.calendar_month),
+        icon: Iconify(
+          Mdi.timer,
+          size: 30,
+          color: AppColor.testIconColourDark
+        ),
         iconBgcolor: AppColor.lightVioletCardBackground,
         onPressed: () {
           // Navigate to test details or perform some action
-          Navigator.push(context, MaterialPageRoute(builder: (context) => QuizInstructionPage()));
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => QuizInstructionPage()));
         },
       ),
     ];
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -64,7 +75,7 @@ class _SubscribedCoursesTestsState extends State<SubscribedCoursesTests> {
         backgroundColor: AppColor.whiteColor,
         title: Text(
           "Tests",
-          style: TextStyle(fontWeight: FontWeight.w500,fontSize: 18),
+          style: TextStyle(fontWeight: FontWeight.w500, fontSize: 18),
         ),
         leading: Padding(
           padding: const EdgeInsets.only(left: 20.0),
@@ -76,21 +87,16 @@ class _SubscribedCoursesTestsState extends State<SubscribedCoursesTests> {
           padding: const EdgeInsets.all(12.0),
           child: Column(
             children: [
-              // Text(
-              //   "Tests",
-              //   style: TextStyle(fontSize: 22, fontWeight: FontWeight.w500),
-              //   textAlign: TextAlign.center,
-              // ),
               Expanded(
                 child: ListView.builder(
                   itemCount: tests.length,
                   itemBuilder: (context, index) => CourseCard(
-                      title: tests[index].title,
-                      subtitle: tests[index].subtitle,
-                      icon: tests[index].icon,
-                      iconBgColor: tests[index].iconBgcolor,
-                      onPressed: tests[index].onPressed,
-                      ),
+                    title: tests[index].title,
+                    subtitle: tests[index].subtitle,
+                    icon: tests[index].icon,
+                    iconBgColor: tests[index].iconBgcolor,
+                    onPressed: tests[index].onPressed,
+                  ),
                 ),
               )
             ],
