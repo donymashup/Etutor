@@ -14,7 +14,9 @@ class Subject {
   String subjectName;
   String subjectImage;
 
-  Subject({required this.subjectName, required this.subjectImage});
+  Subject({
+    required this.subjectName, 
+    required this.subjectImage});
 }
 
 class _SubscribedCourseSubjectState extends State<SubscribedCourseSubject> {

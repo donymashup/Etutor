@@ -3,10 +3,12 @@ import 'package:etutor/common/constants/app_constants.dart';
 import 'package:etutor/common/widgets/custom_button.dart';
 import 'package:etutor/features/quiz/model/data_model.dart';
 import 'package:etutor/features/quiz/model/quiz_model.dart';
+import 'package:etutor/features/quiz/screens/quiz_completion_screen.dart';
 import 'package:etutor/features/quiz/styles/texView_styles.dart';
 import 'package:etutor/features/quiz/widgets/options_builder.dart';
 import 'package:etutor/features/quiz/widgets/quiz_drawer.dart';
 import 'package:etutor/features/quiz/widgets/quiz_nav_button.dart';
+import 'package:etutor/features/quiz/widgets/submission_row.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_tex/flutter_tex.dart';
 
@@ -63,7 +65,7 @@ class _TexViewQuizScreenState extends State<TexViewQuizScreen>
             children: [
               Container(
                 decoration: BoxDecoration(
-                  color: Colors.indigo,
+                  color: AppColor.primaryColor,
                   boxShadow: [
                     BoxShadow(
                       color: Colors.black.withOpacity(0.1),
@@ -174,7 +176,72 @@ class _TexViewQuizScreenState extends State<TexViewQuizScreen>
                           SizedBox(
                               width: MediaQuery.of(context).size.width * 0.4,
                               child: CustomButton(
-                                  onpressed: () {},
+                                  onpressed: () {
+                                    showModalBottomSheet<void>(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return SizedBox(
+                                          height: MediaQuery.of(context)
+                                                  .size
+                                                  .height *
+                                              0.4,
+                                          child: Center(
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 40.0),
+                                              child: Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                mainAxisSize: MainAxisSize.min,
+                                                children: <Widget>[
+                                                  SizedBox(
+                                                    width:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .width *
+                                                            0.6,
+                                                    child: const Text(
+                                                      'Are you sure you want End the test?',
+                                                      style: TextStyle(
+                                                          fontSize: 25,
+                                                          fontWeight:
+                                                              FontWeight.w500),
+                                                    ),
+                                                  ),
+                                                  SizedBox(height: 20),
+                                                  SubmissionRow("Total Questions", "5", Icons.question_mark_rounded),
+                                                  SizedBox(height: 10),
+                                                  SubmissionRow("Questions Answered", "3", Icons.check),
+                                                  SizedBox(height: 10),
+                                                  SubmissionRow("Questions Unanswered", "1", Icons.close),
+                                                  SizedBox(height: 10),
+                                                  SubmissionRow("Total Questions Unattended", "1", Icons.warning_amber_outlined),
+                                                  SizedBox(height: 20),
+                                                  CustomButton(
+                                                      onpressed: () {
+                                                        Navigator.of(context)
+                                                            .pushReplacement(
+                                                                MaterialPageRoute(
+                                                                    builder:
+                                                                        (context) =>
+                                                                            QuizCompletionScreen()));
+                                                      },
+                                                      text: "Submit Test",
+                                                      buttoncolor: AppColor
+                                                          .secondaryColor,
+                                                      textColor:
+                                                          AppColor.whiteColor)
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                    );
+                                  },
                                   text: "Submit",
                                   buttoncolor: AppColor.fileIconColour,
                                   textColor: AppColor.whiteColor)),
@@ -280,7 +347,7 @@ class _TexViewQuizScreenState extends State<TexViewQuizScreen>
               'Question ${currentQuizIndex + 1} of ${DataModel.quizList.length}',
               style: const TextStyle(
                   fontSize: 16,
-                  fontWeight: FontWeight.bold,
+                  fontWeight: FontWeight.w600,
                   color: Colors.orange),
             ),
           ),
@@ -442,8 +509,8 @@ class _TexViewQuizScreenState extends State<TexViewQuizScreen>
                               ),
                               focusedBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(8),
-                                borderSide:
-                                    BorderSide(color: Colors.indigo, width: 2),
+                                borderSide: BorderSide(
+                                    color: AppColor.primaryColor, width: 2),
                               ),
                               contentPadding: EdgeInsets.symmetric(
                                 horizontal: 15,
@@ -625,7 +692,7 @@ class _TexViewQuizScreenState extends State<TexViewQuizScreen>
 
     // Case 3: Not selected but answered
     if (isAnswered) {
-      return Colors.blue.shade50; // You can choose another color if you'd like
+      return Colors.blue.shade100; // You can choose another color if you'd like
     }
 
     // Case 4: Default
@@ -723,7 +790,7 @@ class _TexViewQuizScreenState extends State<TexViewQuizScreen>
                 Row(
                   children: [
                     Container(
-                        height: 10, width: 10, color: Colors.blue.shade50),
+                        height: 10, width: 10, color: Colors.blue.shade100),
                     SizedBox(width: 10),
                     Text("Answered")
                   ],
@@ -769,7 +836,7 @@ class _TexViewQuizScreenState extends State<TexViewQuizScreen>
                           style: TextStyle(
                             fontSize: 18,
                             color: AppColor.primaryColor,
-                            fontWeight: FontWeight.bold,
+                            fontWeight: FontWeight.w600,
                           ),
                         ),
                       ],
@@ -791,7 +858,7 @@ class _TexViewQuizScreenState extends State<TexViewQuizScreen>
                           style: TextStyle(
                             fontSize: 18,
                             color: Colors.green[600],
-                            fontWeight: FontWeight.bold,
+                            fontWeight: FontWeight.w600,
                           ),
                         ),
                       ],

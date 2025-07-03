@@ -21,8 +21,8 @@ class Assignments {
   Color iconBgcolor;
   void Function() onPressed;
 
-  Assignments(
-      {required this.title,
+  Assignments({
+    required this.title,
       required this.subtitle,
       required this.icon,
       required this.iconBgcolor,
@@ -43,7 +43,7 @@ class _SubscribedCourseAssignmentScreenState
     title: "Chapter 1 Notes", 
     subtitle: "Tap to view this notes", 
     icon: Iconify(Mdi.pdf_box,size: 30,color: AppColor.redBarGraph,),
-        iconBgcolor: AppColor.lightRedCardBackground,
+    iconBgcolor: AppColor.lightRedCardBackground,
     onPressed: (){}),
     Assignments(
     title: "Figure 7.2", 

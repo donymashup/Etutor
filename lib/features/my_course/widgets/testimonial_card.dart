@@ -26,7 +26,7 @@ class _TestimonialCardState extends State<TestimonialCard> {
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
             border: Border.all(color: AppColor.greyStroke),
-            color: AppColor.lightorange),
+            color: AppColor.whiteColor),
         width: MediaQuery.of(context).size.width * .9,
         // height: MediaQuery.of(context).size.width *.34,
         child: Column(

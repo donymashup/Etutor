@@ -1,6 +1,5 @@
 import 'package:etutor/common/screens/splash_screen.dart';
 import 'package:etutor/common/constants/app_constants.dart';
-import 'package:etutor/features/payment/controller/payment_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_tex/flutter_tex.dart';
 import 'package:provider/provider.dart';
@@ -25,6 +24,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       home: SplashScreen(),
+      
     );
   }
 }
