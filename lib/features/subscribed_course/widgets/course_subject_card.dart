@@ -135,7 +135,7 @@ class CourseSubjectCard extends StatelessWidget {
                                   MaterialPageRoute(builder: (context) => const ChapterAnalysisScreen()),
                                 );
                               },
-                              text: "chapter analysis",
+                              text: "Chapter Analysis",
                               buttoncolor: AppColor.fileIconColour,
                               textColor: AppColor.whiteColor,
                             ),

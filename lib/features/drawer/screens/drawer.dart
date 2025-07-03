@@ -1,3 +1,6 @@
+import 'package:etutor/features/drawer/screens/about_us.dart';
+import 'package:etutor/features/drawer/screens/privacy_policy.dart';
+import 'package:etutor/features/drawer/screens/terms&conditions.dart';
 import 'package:flutter/material.dart';
 import 'package:etutor/common/constants/app_constants.dart';
 import 'package:etutor/features/drawer/widgets/drawer_item.dart';
@@ -85,13 +88,30 @@ class SideDrawer extends StatelessWidget {
                     icon: Icons.edit,
                     title: "Edit Profile",
                   ),
-                  const DrawerItem(
-                      icon: Icons.notifications, title: "About Us"),
-                  const DrawerItem(
-                      icon: Icons.help_outline, title: "Terms & Conditions"),
-                  const DrawerItem(
-                      icon: Icons.policy, title: "Privacy Policy"),
+                    DrawerItem(
+                    icon: Icons.notifications,
+                    title: "About Us",
+                    onTap: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => AboutUsScreen()));
+                    },
+                    ),
+
+
+                  DrawerItem(
+                      icon: Icons.help_outline,
+                       title: "Terms & Conditions",
+                       onTap: () {
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => TermsAndConditionsScreen()));
+                       },
+                  ),
                   
+                   DrawerItem(
+                      icon: Icons.policy, title: "Privacy Policy",
+                      onTap: () {
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => PrivacyPolicyScreen()));
+                      },
+                    ),
+                    
                     DrawerItem(
                     icon: Icons.info_outline,
                     title: "Help & Support",
