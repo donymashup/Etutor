@@ -17,15 +17,13 @@ class SubscribedCourseAssignmentScreen extends StatefulWidget {
 class Assignments {
   String title;
   String subtitle;
-  Widget icon;
-  Color iconBgcolor;
+  String type;
   void Function() onPressed;
 
-  Assignments({
-    required this.title,
+  Assignments(
+      {required this.title,
       required this.subtitle,
-      required this.icon,
-      required this.iconBgcolor,
+      required this.type,
       required this.onPressed});
 }
 
@@ -33,35 +31,25 @@ class _SubscribedCourseAssignmentScreenState
     extends State<SubscribedCourseAssignmentScreen> {
   List<Assignments> assignments = [
     Assignments(
-    title: "Experiment 2", 
-    subtitle: "Tap to view this video", 
-    icon: Iconify(Bxs.video, size: 30, 
-    color: AppColor.videoIconColor,),
-    iconBgcolor: AppColor.lighBlueBackground, 
-    onPressed: (){}),
+        title: "Experiment 2",
+        subtitle: "Tap to view this video",
+        type: "video",
+        onPressed: () {}),
     Assignments(
-    title: "Chapter 1 Notes", 
-    subtitle: "Tap to view this notes", 
-    icon: Iconify(Mdi.pdf_box,size: 30,color: AppColor.redBarGraph,),
-    iconBgcolor: AppColor.lightRedCardBackground,
-    onPressed: (){}),
+        title: "Chapter 1 Notes",
+        subtitle: "Tap to view this notes",
+        type: "pdf",
+        onPressed: () {}),
     Assignments(
-    title: "Figure 7.2", 
-    subtitle: "Tap to view this image", 
-    icon: Icon(Icons.image,color: AppColor.greenBarGraph,size: 30,),
-    iconBgcolor: AppColor.lightGreenCardBackground, 
-    onPressed: (){}),
+        title: "Figure 7.2",
+        subtitle: "Tap to view this image",
+        type: "image",
+        onPressed: () {}),
     Assignments(
-    title: "Sample Tests", 
-    subtitle: "Tap to attend this test", 
-    icon: Iconify(
-      Mdi.timer, 
-      size: 30,      
-      color: AppColor.testIconColour, 
-    ),
-    iconBgcolor: AppColor.lightVioletCardBackground, 
-    onPressed: (){}),
-    
+        title: "Sample Tests",
+        subtitle: "Tap to attend this test",
+        type: "test",
+        onPressed: () {}),
   ];
 
   @override
@@ -85,8 +73,7 @@ class _SubscribedCourseAssignmentScreenState
                         itemBuilder: (context, index) => CourseCard(
                           title: assignments[index].title,
                           subtitle: assignments[index].subtitle,
-                          icon: assignments[index].icon,
-                          iconBgColor: assignments[index].iconBgcolor,
+                          type: assignments[index].type,
                           onPressed: assignments[index].onPressed,
                         ),
                       ),
