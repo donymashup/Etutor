@@ -277,19 +277,18 @@ class _HomePageState extends State<HomePage> {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    GestureDetector(
-                      onTap: () => Navigator.push(
+                    TextButton(
+                      onPressed: () =>  Navigator.push(
                           context,
                           MaterialPageRoute(
                             builder: (context) => const SeeMoreCourses(),
-                          )),
-                      child: Text(
-                        "See more",
-                        style: TextStyle(
-                          color: AppColor.primaryColor,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500,
+                          ),
                         ),
+                      child: Text("See More",style: TextStyle(
+                        color: AppColor.primaryColor,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500,
+                      ),
                       ),
                     ),
                   ],
@@ -345,12 +344,6 @@ class _HomePageState extends State<HomePage> {
                   itemCount: popularCourses.length,
                   itemBuilder: (context, index) {
                     final course = popularCourses[index];
-                    // return CoursesList(
-                    //   imagePath: course['imagePath'],
-                    //   rating: course['rating'],
-                    //   title: course['title'],
-                    // );
-
                     return GestureDetector(
                       onTap: () {
                         Navigator.push(
@@ -393,11 +386,6 @@ class _HomePageState extends State<HomePage> {
                   itemCount: mockCourses.length,
                   itemBuilder: (context, index) {
                     final course = mockCourses[index];
-                    // return CoursesList(
-                    //   imagePath: course['imagePath'],
-                    //   rating: course['rating'],
-                    //   title: course['title'],
-                    // );
                     return GestureDetector(
                       onTap: () {
                         Navigator.push(

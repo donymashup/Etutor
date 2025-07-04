@@ -2,6 +2,7 @@ import 'package:etutor/features/profile/screens/edit_profile.dart';
 import 'package:etutor/features/drawer/screens/about_us.dart';
 import 'package:etutor/features/drawer/screens/privacy_policy.dart';
 import 'package:etutor/features/drawer/screens/terms&conditions.dart';
+import 'package:etutor/features/profile/screens/profile.dart';
 import 'package:flutter/material.dart';
 import 'package:etutor/common/constants/app_constants.dart';
 import 'package:etutor/features/drawer/widgets/drawer_item.dart';
@@ -62,7 +63,7 @@ class SideDrawer extends StatelessWidget {
                       Navigator.push(
                           (context),
                           MaterialPageRoute(
-                              builder: (context) => EditProfile()))
+                              builder: (context) => Profile()))
                     },
                     child: Row(
                       children: const [
@@ -94,9 +95,12 @@ class SideDrawer extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 24),
-                  const DrawerItem(
+                   DrawerItem(
                     icon: Icons.edit,
                     title: "Edit Profile",
+                    onTap: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => EditProfile()));
+                    },
                   ),
                     DrawerItem(
                     icon: Icons.notifications,
@@ -105,8 +109,6 @@ class SideDrawer extends StatelessWidget {
                       Navigator.push(context, MaterialPageRoute(builder: (context) => AboutUsScreen()));
                     },
                     ),
-
-
                   DrawerItem(
                       icon: Icons.help_outline,
                        title: "Terms & Conditions",
