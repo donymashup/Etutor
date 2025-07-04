@@ -34,7 +34,7 @@ class SideDrawer extends StatelessWidget {
             child: Column(
               children: [
                 Image.asset(
-                  "assets/images/logo.png", // replace with your actual logo
+                  "assets/images/logo.png", 
                   height: 60,
                 ),
                 const SizedBox(height: 12),

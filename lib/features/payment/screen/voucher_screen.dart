@@ -1,14 +1,17 @@
 import 'package:etutor/common/constants/app_constants.dart';
 import 'package:etutor/common/widgets/back_button.dart';
 import 'package:etutor/common/widgets/custom_button.dart';
+import 'package:etutor/features/payment/controller/payment_provider.dart';
 import 'package:etutor/features/payment/widgets/no_vouchers.dart';
 import 'package:flutter/material.dart';
 import 'package:iconify_flutter/iconify_flutter.dart';
 import 'package:iconify_flutter/icons/mdi.dart';
+import 'package:provider/provider.dart';
 
 class VoucherScreen extends StatefulWidget {
   VoucherScreen({super.key});
 
+  
   @override
   State<VoucherScreen> createState() => _VoucherScreenState();
 }
@@ -30,6 +33,13 @@ class _VoucherScreenState extends State<VoucherScreen> {
       "valid": "Valid until 05 Jun 2025  ",
     }
   ];
+
+  @override
+  void initState() {
+    super.initState();
+    final provider = Provider.of<PaymentProvider>(context, listen: false);
+    _selectedOption = provider.selectedVoucher;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -237,6 +247,7 @@ class _VoucherScreenState extends State<VoucherScreen> {
                       onpressed: _selectedOption == null
                         ? () {}
                         : () {
+                            context.read<PaymentProvider>().setVoucher(_selectedOption!);
                             Navigator.pop(context);
                           },
                       text: "Confirm",
