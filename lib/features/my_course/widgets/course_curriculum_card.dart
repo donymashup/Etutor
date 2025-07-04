@@ -85,7 +85,6 @@
 
 import 'package:etutor/common/constants/app_constants.dart';
 import 'package:etutor/features/payment/screen/checkout_screen.dart';
-import 'package:etutor/features/payment/screen/payment_method.dart';
 import 'package:etutor/features/subscribed_course/screens/video_player_screen.dart';
 import 'package:flutter/material.dart';
 
