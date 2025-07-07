@@ -17,4 +17,9 @@ String? get selectedVoucher => _selectedVoucher;
     _selectedVoucher = voucher;
     notifyListeners();
   }
+
+  void clearVoucher() {
+    _selectedVoucher = null;
+    notifyListeners();
+  }
 }

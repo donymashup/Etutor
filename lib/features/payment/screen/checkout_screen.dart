@@ -175,7 +175,11 @@ class CheckoutScreen extends StatelessWidget {
                                     ],
                                   ),
                                 ),
-                                IconButton(
+                                selectedVoucher != null ? 
+                                TextButton(
+                                  onPressed: () =>  context.read<PaymentProvider>().clearVoucher(),
+                                  child: Text("remove",style: TextStyle(color: AppColor.primaryColor,fontSize: 13),))
+                                :IconButton(
                                   onPressed: () {
                                     Navigator.push(
                                       context,
