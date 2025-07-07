@@ -18,6 +18,7 @@ class VoucherScreen extends StatefulWidget {
 
 class _VoucherScreenState extends State<VoucherScreen> {
   String? _selectedOption;
+  List<Map<String, String>> filteredPromo = [];
 
   List<Map<String, String>> promo = [
     {
@@ -34,13 +35,31 @@ class _VoucherScreenState extends State<VoucherScreen> {
     }
   ];
 
+
   @override
   void initState() {
     super.initState();
     final provider = Provider.of<PaymentProvider>(context, listen: false);
     _selectedOption = provider.selectedVoucher;
+     filteredPromo = promo; 
   }
 
+
+  void _filterByDiscount(String query) {
+    if (query.isEmpty) {
+      setState(() {
+        filteredPromo = promo; // Reset to full list
+      });
+    } else {
+      setState(() {
+        filteredPromo = promo.where((item) {
+          return item['discount']!
+              .toLowerCase()
+              .contains(query.toLowerCase());
+        }).toList();
+      });
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -58,9 +77,8 @@ class _VoucherScreenState extends State<VoucherScreen> {
           child: CustomBackButton(),
         ),
       ),
-      body: promo.isEmpty ?  NoVoucherCard()
-      :
-      SizedBox.expand(
+      body: promo.isEmpty ?  NoVoucherCard(text: "Sorry, you don’t have voucher",)
+      :SizedBox.expand(
         child: Stack(
           children: [
             Padding(
@@ -76,47 +94,26 @@ class _VoucherScreenState extends State<VoucherScreen> {
                         ),
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
-                          child: Row(
-                            children: [
-                              Expanded(
-                                child: TextFormField(
-                                  decoration: InputDecoration(
-                                    hintText: "Apply Promo Code",
-                                    hintStyle:
-                                        TextStyle(color: AppColor.greyText,fontSize: 13),
-                                    enabledBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(8),
-                                        borderSide: BorderSide(
-                                            color: AppColor.primaryColor)),
-                                    focusedBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(8),
-                                        borderSide: BorderSide(
-                                            color: AppColor.primaryColor)),
-                                    prefixIcon: Icon(Icons.discount_outlined,color: AppColor.greyIcon,size: 15,),
-                                  ),
-                                ),
-                              ),
-                              SizedBox(width: 10),
-                              SizedBox(
-                                height: 45,
-                                child: ElevatedButton(
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor: AppColor.primaryColor,
-                                    // padding: EdgeInsets.symmetric(horizontal: 20),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(8),
-                                    ),
-                                  ),
-                                  onPressed: () {},
-                                  child: Text("Apply",
-                                      style: TextStyle(
-                                          color: AppColor.whiteColor)),
-                                ),
-                              ),
-                            ],
+                          child: TextFormField(
+                            onChanged: _filterByDiscount,
+                            decoration: InputDecoration(
+                              hintText: "Apply Promo Code",
+                              hintStyle:
+                                  TextStyle(color: AppColor.greyText,fontSize: 13),
+                              enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(8),
+                                  borderSide: BorderSide(
+                                      color: AppColor.primaryColor)),
+                              focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(8),
+                                  borderSide: BorderSide(
+                                      color: AppColor.primaryColor)),
+                              prefixIcon: Icon(Icons.discount_outlined,color: AppColor.greyIcon,size: 15,),
+                            ),
                           ),
                         )
                         ),
+                    filteredPromo.isEmpty ?  NoVoucherCard(text:"No matching promo found" ,):
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 15.0),
                       child: Container(
@@ -134,17 +131,19 @@ class _VoucherScreenState extends State<VoucherScreen> {
                                 Text("Voucher Available for you",style: TextStyle(color: AppColor.primaryColor,fontSize: 13),),
                               ],
                             ),
+                            
                             Container(
                               decoration: BoxDecoration(
                                 color: AppColor.whiteColor,
                                 borderRadius: BorderRadius.circular(10),
                               ),
-                              child: ListView.builder(
+                              child:
+                               ListView.builder(
                                 shrinkWrap: true,
                                 physics: NeverScrollableScrollPhysics(),
-                                itemCount: promo.length,
+                                itemCount: filteredPromo.length,
                                 itemBuilder: (context, index) {
-                                  final promos = promo[index];
+                                  final promos = filteredPromo[index];
                                   return Container(
                                     margin: EdgeInsets.all(10),
                                     decoration: BoxDecoration(
