@@ -36,7 +36,7 @@ class CheckoutScreen extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(15.0),
               child: SingleChildScrollView(
-                child: Column(
+                child: Column( 
                   children: [
                     // Course card
                     Container(
@@ -214,7 +214,7 @@ class CheckoutScreen extends StatelessWidget {
                               Image.asset("assets/icons/clipIcon.png"),
                               SizedBox(width: 5),
                               Text("Payment Method"),
-                            ],
+                            ],   
                           ),
                           selected == null
                               ? Padding(

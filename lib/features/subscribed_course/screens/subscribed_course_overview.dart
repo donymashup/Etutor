@@ -93,7 +93,7 @@ class _SubscribedCourseOverviewState extends State<SubscribedCourseOverview> {
                 width: double.infinity,
                 decoration: const BoxDecoration(
                   image: DecorationImage(
-                      image: AssetImage('assets/images/etutor1.png'),
+                      image: AssetImage('assets/images/oly1.jpg'),
                       fit: BoxFit.cover),
                 ),
               ),
@@ -116,7 +116,8 @@ class _SubscribedCourseOverviewState extends State<SubscribedCourseOverview> {
                 ),
                 child: Expanded(
                     child: Text(
-                  "Bridge Senior Class 6-7",
+                  // "Bridge Senior Class 6-7",
+                  "International Social Studies Olympiad",
                   style: TextStyle(fontWeight: FontWeight.w500, fontSize: 25),
                 )),
               )
