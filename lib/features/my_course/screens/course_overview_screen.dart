@@ -36,7 +36,8 @@ class _CourseOverviewState extends State<CourseOverviewScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text("Class 06 Foundation 25-26",style: TextStyle(fontSize: 30,fontWeight: FontWeight.bold),),
+                  //Text("Class 06 Foundation 25-26",style: TextStyle(fontSize: 30,fontWeight: FontWeight.bold),),
+                  Text("International Social Studies Olympiad",style: TextStyle(fontSize: 30,fontWeight: FontWeight.bold),),
                   SizedBox(height: 10),
                   Text("Fundamental Concepts and Skills for Beginners",style: TextStyle(fontSize: 18,fontWeight: FontWeight.w600)),
                   SizedBox(height: 10),

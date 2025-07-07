@@ -20,22 +20,22 @@ class _HomePageState extends State<HomePage> {
 
   final List<Map<String, dynamic>> activeCourses = [
     {
-      'imagePath': 'assets/images/course1.png',
+      'imagePath': 'assets/images/oly1.jpg',
       'title': 'International Social Studies Olympiad (ISSO)',
       'rating': 4.5,
     },
     {
-      'imagePath': 'assets/images/course2.png',
+      'imagePath': 'assets/images/oly2.jpg',
       'title': ' International General Knowledge Olympiad (IGKO)',
       'rating': 4.6,
     },
     {
-      'imagePath': 'assets/images/course3.png',
+      'imagePath': 'assets/images/oly3.jpeg',
       'title': 'International Commerce Olympiad (ICO)',
       'rating': 4.4,
     },
     {
-      'imagePath': 'assets/images/course4.png',
+      'imagePath': 'assets/images/oly4.jpg',
       'title': 'International English Olympiad (IEO)',
       'rating': 4.7,
     },
@@ -43,22 +43,22 @@ class _HomePageState extends State<HomePage> {
 
   final List<Map<String, dynamic>> popularCourses = [
     {
-      'imagePath': 'assets/images/course4.png',
-      'title': 'International Mathematics Olympiad (IMO)',
-      'rating': 4.8,
-    },
-    {
-      'imagePath': 'assets/images/course3.png',
-      'title': 'National Science Olympiad (NSO)',
-      'rating': 4.6,
-    },
-    {
-      'imagePath': 'assets/images/course2.png',
+      'imagePath': 'assets/images/oly6.jpeg',
       'title': 'National Interactive Maths Olympiad [NIMO]',
       'rating': 4.9,
     },
     {
-      'imagePath': 'assets/images/course1.png',
+      'imagePath': 'assets/images/oly5.webp',
+      'title': 'International Mathematics Olympiad (IMO)',
+      'rating': 4.8,
+    },
+    {
+      'imagePath': 'assets/images/oly7.png',
+      'title': 'National Science Olympiad (NSO)',
+      'rating': 4.6,
+    },
+    {
+      'imagePath': 'assets/images/oly6.jpeg',
       'title': 'English Smart Series',
       'rating': 4.3,
     },
@@ -66,25 +66,26 @@ class _HomePageState extends State<HomePage> {
 
   final List<Map<String, dynamic>> mockCourses = [
     {
-      'imagePath': 'assets/images/course3.png',
+      'imagePath': 'assets/images/oly8.jpg',
       'title': 'Mental Ability 25-26',
       'rating': 4.8,
     },
     {
-      'imagePath': 'assets/images/course1.png',
+      'imagePath': 'assets/images/oly11.jpg',
+      'title': ' International Hindi Olympiad (IEO)',
+      'rating': 4.3,
+    },
+    {
+      'imagePath': 'assets/images/oly9.jpg',
       'title': 'Math Olympiad 25-26',
       'rating': 4.6,
     },
     {
-      'imagePath': 'assets/images/course2.png',
+      'imagePath': 'assets/images/oly10.jpg',
       'title': 'Spell Bee (CSB) ',
       'rating': 4.9,
     },
-    {
-      'imagePath': 'assets/images/course4.png',
-      'title': ' International English Olympiad (IEO)',
-      'rating': 4.3,
-    },
+    
   ];
 
   @override
@@ -126,15 +127,14 @@ class _HomePageState extends State<HomePage> {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                        builder: (context) =>
-                                            const Profile(),
+                                        builder: (context) => const Profile(),
                                       ),
                                     );
                                   },
                                   child: const CircleAvatar(
-                                  radius: 30,
-                                  backgroundImage:
-                                    AssetImage('assets/images/smriti1.jpeg'),
+                                    radius: 30,
+                                    backgroundImage: AssetImage(
+                                        'assets/images/smriti1.jpeg'),
                                   ),
                                 ),
                                 const SizedBox(width: 12),
@@ -173,7 +173,7 @@ class _HomePageState extends State<HomePage> {
                           Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                               Stack(
+                              Stack(
                                 alignment: Alignment.topRight,
                                 children: [
                                   GestureDetector(
@@ -203,17 +203,17 @@ class _HomePageState extends State<HomePage> {
                                   ),
                                 ],
                               ),
-                             IconButton(
-                              icon: Image.asset(
-                                "assets/icons/menu.png",
-                                width: 24,
-                                height: 24,
+                              IconButton(
+                                icon: Image.asset(
+                                  "assets/icons/menu.png",
+                                  width: 24,
+                                  height: 24,
+                                ),
+                                onPressed: () {
+                                  // Implement menu functionality
+                                  _scaffoldKey.currentState?.openEndDrawer();
+                                },
                               ),
-                              onPressed: () {
-                                // Implement menu functionality
-                                _scaffoldKey.currentState?.openEndDrawer();
-                              },
-                            ),
                             ],
                           ),
                         ],
@@ -237,22 +237,20 @@ class _HomePageState extends State<HomePage> {
                                 ),
                               ),
                             ),
-                            
-                             Container(
-                                width: 40,
-                                height: 40,
-                               // margin: const EdgeInsets.only(right: 12),
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: Colors.white,
-                                  image: const DecorationImage(
-                                    image:
-                                        AssetImage('assets/images/gpt (2).png'),
-                                    fit: BoxFit.cover,
-                                  ),
+                            Container(
+                              width: 40,
+                              height: 40,
+                              // margin: const EdgeInsets.only(right: 12),
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: Colors.white,
+                                image: const DecorationImage(
+                                  image:
+                                      AssetImage('assets/images/gpt (2).png'),
+                                  fit: BoxFit.cover,
                                 ),
                               ),
-
+                            ),
                           ],
                         ),
                       ),
@@ -278,17 +276,19 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ),
                     TextButton(
-                      onPressed: () =>  Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const SeeMoreCourses(),
-                          ),
+                      onPressed: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const SeeMoreCourses(),
                         ),
-                      child: Text("See More",style: TextStyle(
-                        color: AppColor.primaryColor,
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
                       ),
+                      child: Text(
+                        "See More",
+                        style: TextStyle(
+                          color: AppColor.primaryColor,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                        ),
                       ),
                     ),
                   ],

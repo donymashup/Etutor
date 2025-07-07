@@ -14,7 +14,7 @@ import 'package:flutter/material.dart';
 
 class MyCoursePage extends StatefulWidget {
   const MyCoursePage({super.key});
-
+ 
   @override
   State<MyCoursePage> createState() => _MyCoursePageState();
 }
@@ -23,42 +23,80 @@ class _MyCoursePageState extends State<MyCoursePage> {
   bool isGrid = true;
 
   final List<Map<String, dynamic>> courses = const [
+
     {
-      'title': 'MENTAL ABILITY',
-      'image': 'assets/images/course1.png',
+      'title': 'International Social Studies Olympiad (ISSO)',
+      'image': 'assets/images/oly1.jpg',
+      'isFree': false,
+      'rating': 4.5,
+    },
+    // {
+    //   'title': ' International General Knowledge Olympiad (IGKO)',
+    //   'image': 'assets/images/oly2.jpg',
+    //   'isFree': false,
+    //   'rating': 4.6,
+    // },
+    // {
+    //   'title': 'International Commerce Olympiad (ICO)',
+    //   'image': 'assets/images/oly3.jpeg',
+    //   'isFree': false,
+    //   'rating': 4.4,
+    // },
+    {
+      'title': 'International English Olympiad (IEO)',
+      'image': 'assets/images/oly4.jpg',
+      'isFree': false,
+      'rating': 4.7,
+    },
+
+    {
+      'title': 'Mental Ability 25-26',
+      'image': 'assets/images/oly8.jpg',
+      'isFree': false,
+      'rating': 4.8,
+    },
+    {
+      'title': ' International Hindi Olympiad (IEO)',
+      'image': 'assets/images/oly11.jpg',
+      'isFree': false,
+      'rating': 4.3,
+    },
+    { 
+      'title': 'Math Olympiad 25-26',
+      'image': 'assets/images/oly9.jpg',
+      'rating': 4.6,
       'isFree': true,
-      'rating': 4.5
     },
     {
-      'title': 'NMMS',
-      'image': 'assets/images/course2.png',
+      'title': 'Spell Bee (CSB) ',
+      'image': 'assets/images/oly10.jpg',
+      'rating': 4.9,
       'isFree': false,
-      'rating': 4.5
     },
-    {
-      'title': 'USS',
-      'image': 'assets/images/course3.png',
-      'isFree': false,
-      'rating': 4.5
-    },
-    {
-      'title': 'MENTAL ABILITY',
-      'image': 'assets/images/course1.png',
-      'isFree': true,
-      'rating': 4.5
-    },
-    {
-      'title': 'NMMS',
-      'image': 'assets/images/course2.png',
-      'isFree': false,
-      'rating': 4.5
-    },
-    {
-      'title': 'USS',
-      'image': 'assets/images/course3.png',
-      'isFree': false,
-      'rating': 4.5
-    },
+    // {
+    //   'title': 'National Interactive Maths Olympiad [NIMO]',
+    //   'image': 'assets/images/oly6.jpeg',
+    //   'isFree': false,
+    //   'rating': 4.9,
+    // },
+    // {
+    //   'title': 'International Mathematics Olympiad (IMO)',
+    //   'image': 'assets/images/oly5.webp',
+    //   'isFree': false,
+    //   'rating': 4.8,
+    // },
+    // {
+    //   'image': 'assets/images/oly7.png',
+    //   'title': 'National Science Olympiad (NSO)',
+    //   'isFree': false,
+    //   'rating': 4.6,
+    // },
+    // {
+    //   'title': 'English Smart Series',
+    //   'image': 'assets/images/oly6.jpeg',
+    //   'isFree': false,
+    //   'rating': 4.3,
+    // },
   ];
 
   final List<String> infoCardImages = const [

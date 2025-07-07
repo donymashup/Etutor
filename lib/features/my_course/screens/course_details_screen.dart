@@ -56,7 +56,7 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen>
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(20),
                     image: DecorationImage(
-                        image: AssetImage('assets/images/course2.png'),
+                        image: AssetImage('assets/images/oly1.jpg'),
                         fit: BoxFit.cover),
                   ),
                 ),
