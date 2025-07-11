@@ -153,7 +153,7 @@ class _VoucherScreenState extends State<VoucherScreen> {
                                                 color: AppColor.primaryColor)
                                             : Border.all(
                                                 color: AppColor.greyStroke)),
-                                    child: Padding(
+                                     child: Padding(
                                       padding: const EdgeInsets.all(8.0),
                                       child: Row(
                                         mainAxisAlignment:
