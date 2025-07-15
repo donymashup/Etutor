@@ -6,6 +6,7 @@ import 'package:etutor/features/profile/screens/profile.dart';
 import 'package:flutter/material.dart';
 import 'package:etutor/common/constants/app_constants.dart';
 import 'package:etutor/features/drawer/widgets/drawer_item.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class SideDrawer extends StatelessWidget {
   const SideDrawer({super.key});
@@ -35,12 +36,12 @@ class SideDrawer extends StatelessWidget {
             child: Column(
               children: [
                 Image.asset(
-                  "assets/images/logo.png", 
+                  "assets/images/dreamthemlogo.png", 
                   height: 60,
                 ),
                 const SizedBox(height: 12),
                 const Text(
-                  "Dedicated. Real. Marvellous.",
+                  "reach.direct.mould.",
                   style: TextStyle(
                     color: AppColor.whiteColor,
                     fontSize: 14,
@@ -95,6 +96,13 @@ class SideDrawer extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 24),
+                    DrawerItem(
+                    icon: FontAwesomeIcons.coins,
+                    title: "Dream Coins",
+                    onTap: () {
+                      //Navigator.push(context, MaterialPageRoute(builder: (context) => DreamCoinPage()));
+                    },
+                  ),
                    DrawerItem(
                     icon: Icons.edit,
                     title: "Edit Profile",

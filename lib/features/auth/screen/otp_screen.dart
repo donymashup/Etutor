@@ -49,6 +49,7 @@ class OtpScreen extends StatelessWidget {
                   SizedBox(
                     height: 15,
                   ),
+
                   Pinput(
                     length: 6,
                     keyboardType: TextInputType.number,
@@ -63,16 +64,20 @@ class OtpScreen extends StatelessWidget {
                     showCursor: true,
                     //pinputAutovalidateMode: PinputAutovalidateMode.onSubmit,
                   ),
+
                   SizedBox(
                     height: 10,
                   ),
+
                   whiteButton(
                     text: "Login",
                     onpressed: () {},
                   ),
+
                   SizedBox(
                     height: 5,
                   ),
+
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -96,18 +101,22 @@ class OtpScreen extends StatelessWidget {
                       )
                     ],
                   ),
+
                 ],
               ),
             ),
+
             SizedBox(
               height: 35,
             ),
+
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 Image.asset("assets/images/arrow_bottomright.png"),
               ],
             ),
+            
           ],
         ),
       ),

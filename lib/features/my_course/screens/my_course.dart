@@ -190,7 +190,7 @@ class _MyCoursePageState extends State<MyCoursePage> {
                   child: Divider(
                     color: AppColor.greyStroke,
                     thickness: 1.5,
-                    height: 20,
+                    height: 20,  
                   ),
                 ),
               ),

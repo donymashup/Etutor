@@ -28,7 +28,7 @@ class PhoneNumberAuth extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 25),
               child: Column(
                 children: [
-                  Image.asset("assets/images/logo.png"),
+                  Image.asset("assets/images/dreamthemlogo.png"),
                   SizedBox(
                     height: 20,
                   ),
