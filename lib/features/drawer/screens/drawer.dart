@@ -1,3 +1,4 @@
+import 'package:etutor/features/drawer/screens/redeemed_sucessfully';
 import 'package:etutor/features/profile/screens/edit_profile.dart';
 import 'package:etutor/features/drawer/screens/about_us.dart';
 import 'package:etutor/features/drawer/screens/privacy_policy.dart';
@@ -7,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:etutor/common/constants/app_constants.dart';
 import 'package:etutor/features/drawer/widgets/drawer_item.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:lottie/lottie.dart';
 
 class SideDrawer extends StatelessWidget {
   const SideDrawer({super.key});
@@ -23,7 +25,6 @@ class SideDrawer extends StatelessWidget {
       ),
       child: Column(
         children: [
-          // Top White Section
           Container(
             decoration: const BoxDecoration(
               color: AppColor.primaryColor,
@@ -36,7 +37,7 @@ class SideDrawer extends StatelessWidget {
             child: Column(
               children: [
                 Image.asset(
-                  "assets/images/dreamthemlogo.png", 
+                  "assets/images/dreamthemlogo.png",
                   height: 60,
                 ),
                 const SizedBox(height: 12),
@@ -52,7 +53,6 @@ class SideDrawer extends StatelessWidget {
             ),
           ),
 
-          // Bottom Blue Section
           Expanded(
             child: Container(
               color: AppColor.whiteColor,
@@ -61,10 +61,8 @@ class SideDrawer extends StatelessWidget {
                 children: [
                   GestureDetector(
                     onTap: () => {
-                      Navigator.push(
-                          (context),
-                          MaterialPageRoute(
-                              builder: (context) => Profile()))
+                      Navigator.push((context),
+                          MaterialPageRoute(builder: (context) => Profile()))
                     },
                     child: Row(
                       children: const [
@@ -96,43 +94,90 @@ class SideDrawer extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 24),
-                    DrawerItem(
+
+                  DrawerItem(
                     icon: FontAwesomeIcons.coins,
                     title: "Dream Coins",
-                    onTap: () {
-                      //Navigator.push(context, MaterialPageRoute(builder: (context) => DreamCoinPage()));
+                    onTap: () async {
+                      showDialog(
+                        context: context,
+                        barrierDismissible: false,
+                        builder: (context) => Dialog(
+                          backgroundColor: Colors.transparent,
+                          elevation: 0,
+                          child: Center(
+                            child: Lottie.asset(
+                              'assets/lottie/rupee_coins_falling.json',
+                              width: double.infinity,
+                              height: double.infinity,
+                              repeat: true,
+                            ),
+                          ),
+                        ),
+                      );
+
+                      await Future.delayed(const Duration(seconds: 5));
+
+                      Navigator.of(context).pop(); 
+
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => CoinRedeemedSuccessPage()),
+                      );
                     },
                   ),
-                   DrawerItem(
+
+                  //   DrawerItem(
+                  //   icon: FontAwesomeIcons.coins,
+                  //   title: "Dream Coins",
+                  //   onTap: () {
+                  //     Navigator.push(context, MaterialPageRoute(builder: (context) => EditProfile()));
+                  //   },
+                  // ),
+                  DrawerItem(
                     icon: Icons.edit,
                     title: "Edit Profile",
                     onTap: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => EditProfile()));
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => EditProfile()));
                     },
                   ),
-                    DrawerItem(
+                  DrawerItem(
                     icon: Icons.notifications,
                     title: "About Us",
                     onTap: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => AboutUsScreen()));
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => AboutUsScreen()));
                     },
-                    ),
-                  DrawerItem(
-                      icon: Icons.help_outline,
-                       title: "Terms & Conditions",
-                       onTap: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => TermsAndConditionsScreen()));
-                       },
                   ),
-                  
-                   DrawerItem(
-                      icon: Icons.policy, title: "Privacy Policy",
-                      onTap: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => PrivacyPolicyScreen()));
-                      },
-                    ),
-                    
-                    DrawerItem(
+                  DrawerItem(
+                    icon: Icons.help_outline,
+                    title: "Terms & Conditions",
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  TermsAndConditionsScreen()));
+                    },
+                  ),
+
+                  DrawerItem(
+                    icon: Icons.policy,
+                    title: "Privacy Policy",
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => PrivacyPolicyScreen()));
+                    },
+                  ),
+
+                  DrawerItem(
                     icon: Icons.info_outline,
                     title: "Help & Support",
                     onTap: () {
@@ -182,7 +227,6 @@ class SideDrawer extends StatelessWidget {
                             TextButton(
                               onPressed: () {
                                 Navigator.of(context).pop();
-                                // Add your delete account logic here
                               },
                               child: const Text("Delete"),
                             ),
@@ -209,7 +253,6 @@ class SideDrawer extends StatelessWidget {
                             TextButton(
                               onPressed: () {
                                 Navigator.of(context).pop();
-                                // Add your logout logic here
                               },
                               child: const Text("Log Out"),
                             ),
