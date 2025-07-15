@@ -53,7 +53,7 @@ class _RegistrationState extends State<Registration> {
                       children: [
                         Center(
                           child: Image.asset(
-                            "assets/images/logo.png",
+                            "assets/images/dreamthemlogo.png",
                             height: 50,
                             width: 100,
                             alignment: Alignment.center,

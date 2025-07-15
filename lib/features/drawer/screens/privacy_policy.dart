@@ -24,7 +24,7 @@ class _PrivacyPolicyScreenState extends State<PrivacyPolicyScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("PZrivacy Policy"),
+        title: Text("Privacy Policy"),
         backgroundColor: AppColor.whiteColor,
         leading: Padding(
           padding: const EdgeInsets.all(10.0),
