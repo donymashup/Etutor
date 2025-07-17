@@ -88,58 +88,60 @@ class _TexViewQuizScreenState extends State<TexViewQuizScreen>
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          SingleChildScrollView(
-                            scrollDirection: Axis.horizontal,
-                            child: Wrap(
-                              spacing: 5,
-                              children: [
-                                Container(
-                                  decoration: BoxDecoration(
-                                      border: Border.all(
-                                          width: 2,
-                                          color: AppColor.fileIconColour),
-                                      borderRadius: BorderRadius.circular(10),
-                                      color: AppColor.whiteColor),
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 15.0, vertical: 10),
-                                    child: Text(
-                                      "Section 1",
-                                      style: TextStyle(fontSize: 14),
+                          Expanded(
+                            child: SingleChildScrollView(
+                              scrollDirection: Axis.horizontal,
+                              child: Wrap(
+                                spacing: 5,
+                                children: [
+                                  Container(
+                                    decoration: BoxDecoration(
+                                        border: Border.all(
+                                            width: 2,
+                                            color: AppColor.fileIconColour),
+                                        borderRadius: BorderRadius.circular(10),
+                                        color: AppColor.whiteColor),
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 15.0, vertical: 10),
+                                      child: Text(
+                                        "Section 1",
+                                        style: TextStyle(fontSize: 14),
+                                      ),
                                     ),
                                   ),
-                                ),
-                                Container(
-                                  decoration: BoxDecoration(
-                                      border: Border.all(
-                                          width: 2, color: AppColor.greyText),
-                                      borderRadius: BorderRadius.circular(10),
-                                      color: AppColor.whiteColor),
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 15.0, vertical: 10),
-                                    child: Text(
-                                      "Section 2",
-                                      style: TextStyle(fontSize: 14),
+                                  Container(
+                                    decoration: BoxDecoration(
+                                        border: Border.all(
+                                            width: 2, color: AppColor.greyText),
+                                        borderRadius: BorderRadius.circular(10),
+                                        color: AppColor.whiteColor),
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 15.0, vertical: 10),
+                                      child: Text(
+                                        "Section 2",
+                                        style: TextStyle(fontSize: 14),
+                                      ),
                                     ),
                                   ),
-                                ),
-                                Container(
-                                  decoration: BoxDecoration(
-                                      border: Border.all(
-                                          width: 2, color: AppColor.greyText),
-                                      borderRadius: BorderRadius.circular(10),
-                                      color: AppColor.whiteColor),
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 15.0, vertical: 10),
-                                    child: Text(
-                                      "Section 3",
-                                      style: TextStyle(fontSize: 14),
+                                  Container(
+                                    decoration: BoxDecoration(
+                                        border: Border.all(
+                                            width: 2, color: AppColor.greyText),
+                                        borderRadius: BorderRadius.circular(10),
+                                        color: AppColor.whiteColor),
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 15.0, vertical: 10),
+                                      child: Text(
+                                        "Section 3",
+                                        style: TextStyle(fontSize: 14),
+                                      ),
                                     ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
                           ),
                           IconButton(
@@ -190,51 +192,53 @@ class _TexViewQuizScreenState extends State<TexViewQuizScreen>
                                               padding:
                                                   const EdgeInsets.symmetric(
                                                       horizontal: 40.0),
-                                              child: Column(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                mainAxisSize: MainAxisSize.min,
-                                                children: <Widget>[
-                                                  SizedBox(
-                                                    width:
-                                                        MediaQuery.of(context)
-                                                                .size
-                                                                .width *
-                                                            0.6,
-                                                    child: const Text(
-                                                      'Are you sure you want End the test?',
-                                                      style: TextStyle(
-                                                          fontSize: 25,
-                                                          fontWeight:
-                                                              FontWeight.w500),
+                                              child: SingleChildScrollView(
+                                                child: Column(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  mainAxisSize: MainAxisSize.min,
+                                                  children: <Widget>[
+                                                    SizedBox(
+                                                      width:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width *
+                                                              0.6,
+                                                      child: const Text(
+                                                        'Are you sure you want End the test?',
+                                                        style: TextStyle(
+                                                            fontSize: 25,
+                                                            fontWeight:
+                                                                FontWeight.w500),
+                                                      ),
                                                     ),
-                                                  ),
-                                                  SizedBox(height: 20),
-                                                  SubmissionRow("Total Questions", "5", Icons.question_mark_rounded),
-                                                  SizedBox(height: 10),
-                                                  SubmissionRow("Questions Answered", "3", Icons.check),
-                                                  SizedBox(height: 10),
-                                                  SubmissionRow("Questions Unanswered", "1", Icons.close),
-                                                  SizedBox(height: 10),
-                                                  SubmissionRow("Total Questions Unattended", "1", Icons.warning_amber_outlined),
-                                                  SizedBox(height: 20),
-                                                  CustomButton(
-                                                      onpressed: () {
-                                                        Navigator.of(context)
-                                                            .pushReplacement(
-                                                                MaterialPageRoute(
-                                                                    builder:
-                                                                        (context) =>
-                                                                            QuizCompletionScreen()));
-                                                      },
-                                                      text: "Submit Test",
-                                                      buttoncolor: AppColor
-                                                          .secondaryColor,
-                                                      textColor:
-                                                          AppColor.whiteColor)
-                                                ],
+                                                    SizedBox(height: 20),
+                                                    SubmissionRow("Total Questions", "5", Icons.question_mark_rounded),
+                                                    SizedBox(height: 10),
+                                                    SubmissionRow("Questions Answered", "3", Icons.check),
+                                                    SizedBox(height: 10),
+                                                    SubmissionRow("Questions Unanswered", "1", Icons.close),
+                                                    SizedBox(height: 10),
+                                                    SubmissionRow("Total Questions Unattended", "1", Icons.warning_amber_outlined),
+                                                    SizedBox(height: 20),
+                                                    CustomButton(
+                                                        onpressed: () {
+                                                          Navigator.of(context)
+                                                              .pushReplacement(
+                                                                  MaterialPageRoute(
+                                                                      builder:
+                                                                          (context) =>
+                                                                              QuizCompletionScreen()));
+                                                        },
+                                                        text: "Submit Test",
+                                                        buttoncolor: AppColor
+                                                            .secondaryColor,
+                                                        textColor:
+                                                            AppColor.whiteColor)
+                                                  ],
+                                                ),
                                               ),
                                             ),
                                           ),
