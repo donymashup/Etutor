@@ -8,7 +8,7 @@ import 'package:slide_to_act/slide_to_act.dart';
 
 
 class DreamCoins extends StatefulWidget {
-  DreamCoins({super.key});
+DreamCoins({super.key});
 
   @override
   State<DreamCoins> createState() => _DreamCoinsState();
@@ -222,7 +222,7 @@ class _DreamCoinsState extends State<DreamCoins> {
                         children: [
                           Image.asset("assets/icons/star.png",width: 20,height:20 ,),
                           SizedBox(width :5),
-                          Text("₹95",style:TextStyle(fontSize: 18,fontWeight: FontWeight.w600)),
+                          Text("95",style:TextStyle(fontSize: 18,fontWeight: FontWeight.w600)),
                         ],
                       )
                     ],

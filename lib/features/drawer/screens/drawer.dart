@@ -101,7 +101,6 @@ class SideDrawer extends StatelessWidget {
                     title: "Dream Coins",
 //                     onTap: () {
 //                       Navigator.push(context, MaterialPageRoute(builder: (context) => DreamCoins()));
-
                     onTap: () async {
                       showDialog(
                         context: context,
