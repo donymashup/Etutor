@@ -97,8 +97,10 @@ class SideDrawer extends StatelessWidget {
                   DrawerItem(
                     icon: FontAwesomeIcons.coins,
                     title: "Dream Coins",
+
                     onTap: () {
                       Navigator.push(context, MaterialPageRoute(builder: (context) => DreamCoins()));
+
                     },
                   ),
                   DrawerItem(
