@@ -23,6 +23,7 @@ class AppColor {
   static const Color fileIconColour = Color(0xFFFC961E);
   static const Color orangeBarGraph = Color(0xFFFFB800);
   static const Color lightYellowBg = Color(0x26FFB800);
+  static const Color secondaryColorLight = Color(0xFFFFCD68);
 
   //blue and violet color
   static const Color videoIconColor = Color(0xFF079DFF);
