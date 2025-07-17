@@ -36,7 +36,7 @@ class CoinRedeemedSuccessPage extends StatelessWidget {
                 ),
               ],
             ),
-            child: Column(
+            child: Column(  
               mainAxisSize: MainAxisSize.min,
               children: [
                 Lottie.asset(
