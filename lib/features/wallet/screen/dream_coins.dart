@@ -8,8 +8,7 @@ import 'package:etutor/features/wallet/widgets/parabola_shaphed_painter.dart';
 
 
 class DreamCoins extends StatefulWidget {
-
-DreamCoins({super.key});
+  const DreamCoins({super.key});
 
   @override
   State<DreamCoins> createState() => _DreamCoinsState();
@@ -179,68 +178,6 @@ class _DreamCoinsState extends State<DreamCoins> {
             ),
             Padding(
               padding: const EdgeInsets.all(10.0),
-              child:  history.isEmpty ? SizedBox.shrink()
-              : Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text("Reward History",style:TextStyle(fontSize: 18,fontWeight: FontWeight.w500),),
-                      Row(
-                        children: [
-                          Image.asset("assets/icons/star.png",width: 20,height:20 ,),
-                          SizedBox(width :5),
-                          Text("95",style:TextStyle(fontSize: 18,fontWeight: FontWeight.w600)),
-                        ],
-                      )
-                    ],
-                  ),
-                  SizedBox(height: 20,),
-                  ...List.generate(
-                      history.length,
-                      (index) {
-                        final historyList = history[index];
-                        if (historyList['type'] == 'reward') {          // row for rewards
-                          return Padding(
-                            padding: const EdgeInsets.all(5.0),
-                            child: Row(
-                              children: [
-                                Expanded(
-                                  child: Row(
-                                    children: [
-                                      ClipRRect(
-                                        borderRadius: BorderRadius.circular(5),
-                                        child: Image.asset("assets/images/targetupsc.png", width: 40,)),
-                                        SizedBox(width: 5,),
-                                      Expanded(
-                                        child: Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: [
-                                            Text(historyList['name']!,),
-                                            Text(historyList['date']!,style: TextStyle(fontWeight: FontWeight.w300,fontSize: 13))
-                                          ],
-                                        ),
-                                      ),
-                                      ],
-                                  ),
-                                ),
-                                SizedBox(width: 10,),
-                                  Row(
-                                    children: [
-                                      Image.asset("assets/icons/star.png",width: 20,),
-                                       SizedBox(width: 5,),
-                                      Text(historyList['amt']!,style: TextStyle(fontWeight: FontWeight.w500))
-                                    ],
-                                  ),
-                                  
-                              ],
-                            ),
-                          );
-                        } else if (historyList['type'] == 'redemption') {   //Row for redeem
-                         return Padding(
-                            padding: const EdgeInsets.all(5.0),
-                            child: Row(
-
               child: history.isEmpty
                   ? const SizedBox.shrink()
                   : Column(
