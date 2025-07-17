@@ -1,4 +1,3 @@
-import 'package:etutor/features/drawer/screens/redeemed_sucessfully';
 import 'package:etutor/features/profile/screens/edit_profile.dart';
 import 'package:etutor/features/drawer/screens/about_us.dart';
 import 'package:etutor/features/drawer/screens/privacy_policy.dart';
@@ -95,48 +94,15 @@ class SideDrawer extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 24),
-
                   DrawerItem(
                     icon: FontAwesomeIcons.coins,
                     title: "Dream Coins",
-//                     onTap: () {
-//                       Navigator.push(context, MaterialPageRoute(builder: (context) => DreamCoins()));
-                    onTap: () async {
-                      showDialog(
-                        context: context,
-                        barrierDismissible: false,
-                        builder: (context) => Dialog(
-                          backgroundColor: Colors.transparent,
-                          elevation: 0,
-                          child: Center(
-                            child: Lottie.asset(
-                              'assets/lottie/rupee_coins_falling.json',
-                              width: double.infinity,
-                              height: double.infinity,
-                              repeat: true,
-                            ),
-                          ),
-                        ),
-                      );
 
-                      await Future.delayed(const Duration(seconds: 5));
+                    onTap: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => DreamCoins()));
 
-                      Navigator.of(context).pop(); 
-
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => CoinRedeemedSuccessPage()),
-                      );
                     },
                   ),
-
-                  //   DrawerItem(
-                  //   icon: FontAwesomeIcons.coins,
-                  //   title: "Dream Coins",
-                  //   onTap: () {
-                  //     Navigator.push(context, MaterialPageRoute(builder: (context) => EditProfile()));
-                  //   },
-                  // ),
                   DrawerItem(
                     icon: Icons.edit,
                     title: "Edit Profile",

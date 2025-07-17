@@ -15,7 +15,7 @@ class CheckoutScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final selected = context.watch<PaymentProvider>().selectedPayment;
     final selectedVoucher = context.watch<PaymentProvider>().selectedVoucher;
-
+    bool isCoinApplied = false;
     return Scaffold(
       backgroundColor: AppColor.greyBackground,
       appBar: AppBar(
@@ -36,7 +36,7 @@ class CheckoutScreen extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(15.0),
               child: SingleChildScrollView(
-                child: Column( 
+                child: Column(
                   children: [
                     // Course card
                     Container(
@@ -65,7 +65,8 @@ class CheckoutScreen extends StatelessWidget {
                                   borderRadius: BorderRadius.circular(10),
                                   child: Image.asset(
                                     "assets/images/course1.png",
-                                    width: MediaQuery.of(context).size.width * .3,
+                                    width:
+                                        MediaQuery.of(context).size.width * .3,
                                   ),
                                 ),
                                 SizedBox(width: 5),
@@ -83,7 +84,8 @@ class CheckoutScreen extends StatelessWidget {
                           ),
                           Divider(color: AppColor.greyStroke),
                           Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 10.0),
                             child: Align(
                               alignment: Alignment.centerLeft,
                               child: RichText(
@@ -93,7 +95,8 @@ class CheckoutScreen extends StatelessWidget {
                                     TextSpan(
                                       text: "Price Course ",
                                       style: TextStyle(
-                                          color: AppColor.greyText, fontSize: 13),
+                                          color: AppColor.greyText,
+                                          fontSize: 13),
                                     ),
                                     TextSpan(
                                       text: "₹10000",
@@ -147,7 +150,8 @@ class CheckoutScreen extends StatelessWidget {
                                         height: 40,
                                         width: 40,
                                         decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(5),
+                                          borderRadius:
+                                              BorderRadius.circular(5),
                                           color: AppColor.fileIconColour,
                                         ),
                                         child: Icon(
@@ -175,21 +179,29 @@ class CheckoutScreen extends StatelessWidget {
                                     ],
                                   ),
                                 ),
-                                selectedVoucher != null ? 
-                                TextButton(
-                                  onPressed: () =>  context.read<PaymentProvider>().clearVoucher(),
-                                  child: Text("remove",style: TextStyle(color: AppColor.primaryColor,fontSize: 13),))
-                                :IconButton(
-                                  onPressed: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => VoucherScreen()),
-                                    );
-                                  },
-                                  icon:
-                                      Icon(Icons.arrow_forward_ios_outlined),
-                                ),
+                                selectedVoucher != null
+                                    ? TextButton(
+                                        onPressed: () => context
+                                            .read<PaymentProvider>()
+                                            .clearVoucher(),
+                                        child: Text(
+                                          "remove",
+                                          style: TextStyle(
+                                              color: AppColor.primaryColor,
+                                              fontSize: 13),
+                                        ))
+                                    : IconButton(
+                                        onPressed: () {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    VoucherScreen()),
+                                          );
+                                        },
+                                        icon: Icon(
+                                            Icons.arrow_forward_ios_outlined),
+                                      ),
                               ],
                             ),
                           ),
@@ -218,7 +230,7 @@ class CheckoutScreen extends StatelessWidget {
                               Image.asset("assets/icons/clipIcon.png"),
                               SizedBox(width: 5),
                               Text("Payment Method"),
-                            ],   
+                            ],
                           ),
                           selected == null
                               ? Padding(
@@ -419,30 +431,76 @@ class CheckoutScreen extends StatelessWidget {
             // Bottom confirm button
             Positioned(
               bottom: 0,
-              child: Container(
-                width: MediaQuery.of(context).size.width,
-                alignment: Alignment.bottomCenter,
-                color: AppColor.whiteColor,
-                child: Padding(
-                  padding: const EdgeInsets.only(
-                      left: 10.0, right: 10.0, top: 10.0, bottom: 20),
-                  child: CustomButton(
-                      onpressed: () {
-                        if (selected != null) {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => PaymentSuccesfull()));
-                        }
-                      },
-                      text: "Pay  ₹10000",
-                      buttoncolor: selected != null
-                          ? AppColor.primaryColor
-                          : AppColor.greyButton,
-                      textColor: AppColor.whiteColor),
+              child: StatefulBuilder(
+                builder: (context, setState) => Container(
+                  width: MediaQuery.of(context).size.width,
+                  color: AppColor.whiteColor,
+                  child: Padding(
+                    padding: const EdgeInsets.only(
+                        left: 10.0, right: 10.0, top: 10.0, bottom: 20),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        // Checkbox with label
+                        Row(
+                          children: [
+                            Checkbox(
+                              value: isCoinApplied,
+                              activeColor: AppColor.primaryColor,
+                              onChanged: (value) {
+                                setState(() {
+                                  isCoinApplied = value!;
+                                });
+                              },
+                            ),
+                            const SizedBox(width: 8),
+                            Row(
+                              children: [
+                                const Text(
+                                  "Apply ",
+                                  style: TextStyle(fontSize: 14),
+                                ),
+                                Icon(
+                                  Icons.monetization_on,
+                                  size: 14,
+                                  color: AppColor.secondaryColor, // Make sure this is defined in AppColor
+                                ),
+                                const Text(
+                                  "125 Dream Coin",
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 10),
+                        // Confirm button
+                        CustomButton(
+                          onpressed: () {
+                            if (selected != null) {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => PaymentSuccesfull()),
+                              );
+                            }
+                          },
+                          text:
+                              "Pay  ₹10000", // Update if amount changes with Dream Coin
+                          buttoncolor: selected != null
+                              ? AppColor.primaryColor
+                              : AppColor.greyButton,
+                          textColor: AppColor.whiteColor,
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
               ),
-            )
+            ),
           ],
         ),
       ),
