@@ -4,6 +4,7 @@ import 'package:etutor/features/drawer/screens/about_us.dart';
 import 'package:etutor/features/drawer/screens/privacy_policy.dart';
 import 'package:etutor/features/drawer/screens/terms&conditions.dart';
 import 'package:etutor/features/profile/screens/profile.dart';
+import 'package:etutor/features/wallet/screen/dream_coins.dart';
 import 'package:flutter/material.dart';
 import 'package:etutor/common/constants/app_constants.dart';
 import 'package:etutor/features/drawer/widgets/drawer_item.dart';
@@ -98,6 +99,9 @@ class SideDrawer extends StatelessWidget {
                   DrawerItem(
                     icon: FontAwesomeIcons.coins,
                     title: "Dream Coins",
+//                     onTap: () {
+//                       Navigator.push(context, MaterialPageRoute(builder: (context) => DreamCoins()));
+
                     onTap: () async {
                       showDialog(
                         context: context,

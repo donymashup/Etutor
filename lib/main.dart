@@ -2,6 +2,7 @@ import 'package:etutor/common/screens/splash_screen.dart';
 import 'package:etutor/common/constants/app_constants.dart';
 import 'package:etutor/features/home/screen/see_more_courses.dart';
 import 'package:etutor/features/payment/controller/payment_provider.dart';
+import 'package:etutor/features/wallet/screen/dream_coins.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_tex/flutter_tex.dart';
 import 'package:provider/provider.dart';
