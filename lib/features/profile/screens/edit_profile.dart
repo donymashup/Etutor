@@ -1,8 +1,11 @@
+import 'dart:io';
+
 import 'package:etutor/common/constants/app_constants.dart';
 import 'package:etutor/common/widgets/back_button.dart';
 import 'package:etutor/common/widgets/custom_button.dart';
 import 'package:etutor/features/profile/widgets/u_shaped_painter.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 class EditProfile extends StatefulWidget {
   const EditProfile({super.key});
@@ -14,6 +17,8 @@ class EditProfile extends StatefulWidget {
 class _EditProfileState extends State<EditProfile> {
   String? classDropdownValue = "class 6";
   String? syllabusDropdownValue = "Kerala State";
+  File? _image;
+  final picker = ImagePicker();
   final List<String> _class = [
     "class 5",
     "class 6",
@@ -54,6 +59,19 @@ class _EditProfileState extends State<EditProfile> {
     super.dispose();
   }
 
+  Future<void> _pickImage(ImageSource source) async {
+    final pickedFile = await picker.pickImage(source: source);
+
+    if (pickedFile != null) {
+      setState(() {
+        _image = File(pickedFile.path);
+      });
+    } else {
+     // print('No image selected.');
+    }
+  }
+
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -88,29 +106,43 @@ class _EditProfileState extends State<EditProfile> {
                     Stack(children: [
                       ClipRRect(
                         borderRadius: BorderRadius.circular(50),
-                        child: Image.asset(
+                        child: _image == null
+                         ?  Image.asset(
                           "assets/images/basil.jpg",
                           width: 100,
                           height: 100,
                           fit: BoxFit.cover,
-                        ),
+                        )
+                        : Image.file(_image!,
+                         width: 100,
+                          height: 100,
+                          fit: BoxFit.cover,),
+                        
                       ),
                       Positioned(
                           bottom: 0,
                           right: 0,
                           child: Container(
-                              margin: EdgeInsets.all(3),
+                            width: 30,
+                            height:30,
+                              //margin: EdgeInsets.all(3),
                               decoration: BoxDecoration(
                                   color: AppColor.greyCardBackground,
-                                  borderRadius: BorderRadius.circular(15),
+                                  borderRadius: BorderRadius.circular(30),
                                   border:
                                       Border.all(color: AppColor.greyStroke)),
                               child: Padding(
-                                padding: const EdgeInsets.all(5.0),
-                                child: Icon(
-                                  Icons.edit,
-                                  size: 20,
-                                  color: AppColor.greyIconDark,
+                                padding: const EdgeInsets.all(0.0),
+                                child: IconButton(
+                                  onPressed:  () {
+                                    showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) => _buildImagePickerDialog(context),
+                                    );
+                                  },
+                                  icon: Icon(Icons.edit,size: 15,
+                                  color: AppColor.greyIconDark,),
+                                  
                                 ),
                               )))
                     ]),
@@ -188,6 +220,55 @@ class _EditProfileState extends State<EditProfile> {
       ),
     );
   }
+
+// dialog box for imagepicker
+Widget _buildImagePickerDialog(BuildContext context) {
+  return Dialog(
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(20),
+    ),
+    child: Padding(
+      padding: const EdgeInsets.all(20.0),
+      child: Column(
+        mainAxisSize: MainAxisSize.min, 
+        children: [
+          Text("Choose an option", style: TextStyle(fontSize: 18)),
+          SizedBox(height: 20),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Expanded(
+                child: FloatingActionButton.extended(
+                  backgroundColor: AppColor.greyButton,
+                  heroTag: "gallery",
+                  onPressed: () {
+                    Navigator.pop(context);
+                    _pickImage(ImageSource.gallery);
+                  },
+                  icon: Icon(Icons.photo),
+                  label: Text("Gallery"),
+                ),
+              ),
+              SizedBox(width: 10),
+              Expanded(
+                child: FloatingActionButton.extended(
+                  backgroundColor: AppColor.greyButton,
+                  heroTag: "camera",
+                  onPressed: () {
+                    Navigator.pop(context);
+                    _pickImage(ImageSource.camera);
+                  },
+                  icon: Icon(Icons.camera_alt),
+                  label: Text("Camera"),
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    ),
+  );
+}
 
   //dropdown
   DropdownButtonFormField<String> dropdown(
