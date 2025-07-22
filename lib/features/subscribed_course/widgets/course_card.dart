@@ -6,12 +6,12 @@ import 'package:iconify_flutter/icons/bxs.dart';
 import 'package:iconify_flutter/icons/mdi.dart';
 
 class CourseCard extends StatefulWidget {
-  String title;
-  String subtitle;
-  String type;
-  void Function() onPressed;
+  final String title;
+  final String subtitle;
+  final String type;
+  final void Function() onPressed;
 
-  CourseCard({
+  const CourseCard({
     super.key,
     required this.title,
     required this.subtitle,

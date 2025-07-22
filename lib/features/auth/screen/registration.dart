@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 
 class Registration extends StatefulWidget {
-  Registration({super.key});
+ const Registration({super.key});
 
   @override
   State<Registration> createState() => _RegistrationState();
@@ -429,10 +429,16 @@ class _RegistrationState extends State<Registration> {
   }
 }
 
-// label widget
-class label extends StatelessWidget {
+
+
+//widget for lable of the textfield
+class Label extends StatelessWidget {
   final String labelText;
-  const label({super.key, required this.labelText});
+  const Label({
+    super.key,
+    required this.labelText,
+  });
+
 
   @override
   Widget build(BuildContext context) {
@@ -446,15 +452,12 @@ class label extends StatelessWidget {
   }
 }
 
-// Custom grey stroke textfield with validator and controller
-class greystokeTextfield extends StatelessWidget {
+// custom textformfield with greystroke
+class GreystokeTextfield extends StatelessWidget {
   final String hintText;
   final IconData iconData;
   final bool isPassword;
-  final TextEditingController controller;
-  final String? Function(String?)? validator;
-
-  const greystokeTextfield({
+ const GreystokeTextfield({
     super.key,
     required this.hintText,
     required this.iconData,

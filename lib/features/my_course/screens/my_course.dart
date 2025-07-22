@@ -6,7 +6,6 @@ import 'package:etutor/features/my_course/widgets/mycoursecard.dart';
 import 'package:etutor/features/my_course/widgets/nomycourse.dart';
 import 'package:etutor/features/performace_index/screens/performance_index_screen.dart';
 import 'package:etutor/features/my_course/widgets/my_course_listview.dart';
-import 'package:etutor/features/quiz/screen/new_test_page.dart';
 import 'package:etutor/features/quiz/screens/quiz_instruction_screen.dart';
 import 'package:etutor/features/subscribed_course/screens/subscribed_course_overview.dart';
 import 'package:etutor/features/timeline/screens/timeline_screen.dart';

@@ -1,5 +1,4 @@
 import 'package:etutor/common/constants/app_constants.dart';
-import 'package:etutor/common/widgets/back_button.dart';
 import 'package:flutter/material.dart';
 
 class CourseOverviewScreen extends StatefulWidget {

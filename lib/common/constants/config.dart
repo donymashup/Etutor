@@ -1,2 +1,3 @@
-const baseUrl = 'https://alphaacademyonline.in/api/';
-const userLoginUrl = '${baseUrl}userlogin';
+const baseUrl = "https://alphaacademyonline.in/";
+const loginUrl = "api/userlogin";
+

@@ -3,11 +3,7 @@ import 'package:etutor/common/widgets/back_button.dart';
 import 'package:etutor/features/chapter_analysis/widgets/materials_status_chart.dart';
 import 'package:etutor/features/chapter_analysis/widgets/test_analysis_chart.dart';
 import 'package:etutor/features/chapter_analysis/widgets/video_status_chart.dart';
-import 'package:etutor/features/performace_index/widgets/catergory_progress.dart';
-import 'package:etutor/features/performace_index/widgets/course_progress.dart';
-import 'package:etutor/features/performace_index/widgets/monthly_progress.dart';
 import 'package:etutor/features/performace_index/widgets/overall_progress.dart';
-import 'package:etutor/features/performace_index/widgets/weekly_progress.dart';
 import 'package:flutter/material.dart';
 
 class ChapterAnalysisScreen extends StatelessWidget {

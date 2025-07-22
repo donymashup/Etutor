@@ -2,9 +2,9 @@ import 'package:etutor/common/constants/app_constants.dart';
 import 'package:flutter/material.dart';
 
 class whiteButton extends StatelessWidget {
-  String text;
-  void Function() onpressed;
-  whiteButton({
+ final  String text;
+ final  void Function() onpressed;
+  const whiteButton({
     required this.onpressed,
     required this.text,
     super.key,

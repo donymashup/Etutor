@@ -3,12 +3,12 @@ import 'package:etutor/common/constants/app_constants.dart';
 import 'package:flutter/material.dart';
 
 class VideoCard extends StatelessWidget {
-  String title;
-  String img;
-  String duration;
-  double progress;
+  final String title;
+  final String img;
+  final String duration;
+  final double progress;
 
-  VideoCard({
+  const VideoCard({
     super.key,
     required this.duration,
     required this.img,
