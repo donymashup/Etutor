@@ -3,6 +3,7 @@ import 'package:etutor/common/widgets/back_button.dart';
 import 'package:etutor/common/widgets/bottom_navigation_bar.dart';
 import 'package:etutor/common/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
+import 'package:intl_phone_field/intl_phone_field.dart';
 
 class Registration extends StatefulWidget {
   Registration({super.key});
@@ -12,9 +13,23 @@ class Registration extends StatefulWidget {
 }
 
 class _RegistrationState extends State<Registration> {
+  final _formKey = GlobalKey<FormState>();
+
+  final TextEditingController firstNameController = TextEditingController();
+  final TextEditingController lastNameController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController schoolController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  final TextEditingController confirmPasswordController =
+      TextEditingController();
+
+  String? phoneNumber;
   String? classDropdownValue;
   String? syllabusDropdownValue;
   bool isChecked = false;
+  bool _obscurePassword = true;
+  bool _obscureConfirmPassword = true;
+
   final List<String> _class = [
     "class 5",
     "class 6",
@@ -26,17 +41,18 @@ class _RegistrationState extends State<Registration> {
     "class 12",
     "Others"
   ];
+
   final List<String> _syllabus = [
     "Kerala State",
     "CBSE",
     "ICSE",
   ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Container(
               color: AppColor.primaryColor,
@@ -47,7 +63,6 @@ class _RegistrationState extends State<Registration> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    
                     Stack(
                       alignment: Alignment.center,
                       children: [
@@ -56,14 +71,12 @@ class _RegistrationState extends State<Registration> {
                             "assets/images/dreamthemlogo.png",
                             height: 50,
                             width: 100,
-                            alignment: Alignment.center,
                           ),
                         ),
-                        
                         CustomBackButton(),
                       ],
                     ),
-                    SizedBox(height: 20),
+                    const SizedBox(height: 20),
                     Text(
                       "Create Your Account",
                       style: TextStyle(
@@ -83,122 +96,288 @@ class _RegistrationState extends State<Registration> {
             ),
             Padding(
               padding: const EdgeInsets.all(20.0),
-              child: Column(
-                children: [
-                  //first name
-                  label(labelText: "First Name",),
-                  SizedBox(height: 5,),
-                  greystokeTextfield(
-                    hintText: "First Name",
-                    iconData: Icons.person_outline_rounded,
-                  ),
-                  SizedBox(height: 10,),
-
-                  // last name
-                  label(labelText: "Last Name",),
-                  SizedBox(height: 5,),
-                  greystokeTextfield(
-                    hintText: "Last Name",
-                    iconData: Icons.person_outline_rounded,
-                  ),
-                  SizedBox(height: 10,),
-
-                  //email
-                  label(labelText: "Email", ),
-                  SizedBox( height: 5, ),
-                  greystokeTextfield(
-                    hintText: "Email",
-                    iconData: Icons.email_outlined,
-                  ),
-                  SizedBox( height: 10,),
-
-                  //phone number
-                  label( labelText: "Phone Number",),
-                  SizedBox(height: 5,),
-                  greystokeTextfield(
-                    hintText: "Phone Number",
-                    iconData: Icons.email_outlined,
-                  ),
-                  SizedBox( height: 10, ),
-
-                  //class
-                  label(labelText: "Class",),
-                  SizedBox( height: 5,),
-                  dropdown(Icons.school_outlined, "Class", _class,classDropdownValue),
-                  SizedBox(  height: 10,),
-
-                  //syllabus
-                  label(labelText: "Syllabus",),
-                  SizedBox(height: 5,),
-                  dropdown(Icons.description_outlined, "Syllabus", _syllabus, syllabusDropdownValue),
-                  SizedBox( height: 10,),
-
-                  //school
-                  label(labelText: "School",),
-                  SizedBox(height: 5,),
-                  greystokeTextfield(
-                    hintText: "School",
-                    iconData: Icons.business_outlined,
-                  ),
-                  SizedBox(height: 10,),
-
-                  //password
-                  label( labelText: "Password",),
-                  SizedBox( height: 5,),
-                  greystokeTextfield(
-                    hintText: "Password",
-                    iconData: Icons.lock_outline_rounded,
-                    isPassword: true,
-                  ),
-                  SizedBox(height: 10,),
-
-                  //confirm password
-                  label( labelText: "Confirm Password",),
-                  SizedBox( height: 5,),
-                  greystokeTextfield(
-                    hintText: "Confirm Password",
-                    iconData: Icons.lock_outline_rounded,
-                    isPassword: true,
-                  ),
-                  SizedBox(  height: 20, ),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Checkbox(
-                        activeColor:  AppColor.primaryColor,
-                        value: isChecked, 
-                        onChanged: (bool? value){
-                          setState(() {
-                            isChecked = value ?? false;
-                          });
-                        },
-                       ),
-                      Expanded(
-                        child: RichText(
-                          text: TextSpan(
-                            style: TextStyle(fontFamily: "Poppins"),
-                           children: [
-                            TextSpan(text: "By Signing up, you accept with out ",style: TextStyle(color: AppColor.greyText)),
-                            TextSpan(text: "Terms of Service ",style: TextStyle(color: AppColor.primaryColor,fontWeight: FontWeight.w500)),
-                            TextSpan(text: "and ",style: TextStyle(color: AppColor.greyText)),
-                            TextSpan(text: "Privacy Policy",style: TextStyle(color: AppColor.primaryColor,fontWeight: FontWeight.w500)),
-                           ]
-                        )),
-                      )
-                    ],
-                  ),
-                  SizedBox(height: 25,),
-                  
-                  CustomButton(
-                    onpressed: () {
-                       Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => BottomNavBarScreen()));
-                    },
-                    text: "Get Started",
-                    buttoncolor:AppColor.primaryColor,textColor: AppColor.whiteColor,)                                   
-                ],
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  children: [
+                    label(labelText: "First Name"),
+                    const SizedBox(height: 5),
+                    greystokeTextfield(
+                      hintText: "First Name",
+                      iconData: Icons.person_outline_rounded,
+                      controller: firstNameController,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter first name';
+                        }
+                        return null;
+                      },
+                    ),
+                    const SizedBox(height: 10),
+                    label(labelText: "Last Name"),
+                    const SizedBox(height: 5),
+                    greystokeTextfield(
+                      hintText: "Last Name",
+                      iconData: Icons.person_outline_rounded,
+                      controller: lastNameController,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter last name';
+                        }
+                        return null;
+                      },
+                    ),
+                    const SizedBox(height: 10),
+                    label(labelText: "Email"),
+                    const SizedBox(height: 5),
+                    greystokeTextfield(
+                      hintText: "Email",
+                      iconData: Icons.email_outlined,
+                      controller: emailController,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter email';
+                        } else if (!RegExp(r'^[^@]+@[^@]+\.[^@]+')
+                            .hasMatch(value)) {
+                          return 'Enter valid email';
+                        }
+                        return null;
+                      },
+                    ),
+                    const SizedBox(height: 10),
+                    label(labelText: "Phone Number"),
+                    const SizedBox(height: 5),
+                    IntlPhoneField(
+                      decoration: InputDecoration(
+                        hintText: 'Phone Number',
+                        hintStyle: TextStyle(color: AppColor.greyText),
+                        focusedBorder: const OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                          borderSide: BorderSide(
+                            color: AppColor.greyStroke,
+                            width: 1.0,
+                          ),
+                        ),
+                        enabledBorder: const OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                          borderSide: BorderSide(
+                            color: AppColor.greyStroke,
+                            width: 1.0,
+                          ),
+                        ),
+                        prefixIcon: Icon(
+                          Icons.phone_android_outlined,
+                          color: AppColor.greyIcon,
+                          size: 18,
+                        ),
+                      ),
+                      initialCountryCode: 'IN',
+                      onChanged: (phone) {
+                        phoneNumber = phone.completeNumber;
+                      },
+                      validator: (phone) {
+                        if (phone == null || phone.number.isEmpty) {
+                          return 'Enter phone number';
+                        }
+                        return null;
+                      },
+                    ),
+                    const SizedBox(height: 10),
+                    label(labelText: "Class"),
+                    const SizedBox(height: 5),
+                    dropdown(Icons.school_outlined, "Class", _class,
+                        classDropdownValue, (value) {
+                      classDropdownValue = value;
+                    }),
+                    const SizedBox(height: 10),
+                    label(labelText: "Syllabus"),
+                    const SizedBox(height: 5),
+                    dropdown(Icons.description_outlined, "Syllabus", _syllabus,
+                        syllabusDropdownValue, (value) {
+                      syllabusDropdownValue = value;
+                    }),
+                    const SizedBox(height: 10),
+                    label(labelText: "School"),
+                    const SizedBox(height: 5),
+                    greystokeTextfield(
+                      hintText: "School",
+                      iconData: Icons.business_outlined,
+                      controller: schoolController,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter school name';
+                        }
+                        return null;
+                      },
+                    ),
+                    const SizedBox(height: 10),
+                    label(labelText: "Password"),
+                    const SizedBox(height: 5),
+                    TextFormField(
+                      obscureText: _obscurePassword,
+                      controller: passwordController,
+                      validator: (value) {
+                        if (value == null || value.length < 6) {
+                          return 'Password must be at least 6 characters';
+                        }
+                        return null;
+                      },
+                      decoration: InputDecoration(
+                        hintText: "Password",
+                        hintStyle: const TextStyle(color: AppColor.greyText),
+                        focusedBorder: const OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                          borderSide: BorderSide(
+                              color: AppColor.greyStroke, width: 1.0),
+                        ),
+                        enabledBorder: const OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                          borderSide: BorderSide(
+                              color: AppColor.greyStroke, width: 1.0),
+                        ),
+                        prefixIcon: Icon(Icons.lock_outline_rounded,
+                            color: AppColor.greyIcon, size: 18),
+                        suffixIcon: IconButton(
+                          icon: Icon(
+                            _obscurePassword
+                                ? Icons.visibility_off_outlined
+                                : Icons.visibility_outlined,
+                            color: AppColor.greyIcon,
+                            size: 18,
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              _obscurePassword = !_obscurePassword;
+                            });
+                          },
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    label(labelText: "Confirm Password"),
+                    const SizedBox(height: 5),
+                    TextFormField(
+                      obscureText: _obscureConfirmPassword,
+                      controller: confirmPasswordController,
+                      validator: (value) {
+                        if (value != passwordController.text) {
+                          return 'Passwords do not match';
+                        }
+                        return null;
+                      },
+                      decoration: InputDecoration(
+                        hintText: "Confirm Password",
+                        hintStyle: const TextStyle(color: AppColor.greyText),
+                        focusedBorder: const OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                          borderSide: BorderSide(
+                              color: AppColor.greyStroke, width: 1.0),
+                        ),
+                        enabledBorder: const OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                          borderSide: BorderSide(
+                              color: AppColor.greyStroke, width: 1.0),
+                        ),
+                        prefixIcon: Icon(Icons.lock_outline_rounded,
+                            color: AppColor.greyIcon, size: 18),
+                        suffixIcon: IconButton(
+                          icon: Icon(
+                            _obscureConfirmPassword
+                                ? Icons.visibility_off_outlined
+                                : Icons.visibility_outlined,
+                            color: AppColor.greyIcon,
+                            size: 18,
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              _obscureConfirmPassword =
+                                  !_obscureConfirmPassword;
+                            });
+                          },
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Checkbox(
+                          activeColor: AppColor.primaryColor,
+                          value: isChecked,
+                          onChanged: (bool? value) {
+                            setState(() {
+                              isChecked = value ?? false;
+                            });
+                          },
+                        ),
+                        Expanded(
+                          child: RichText(
+                            text: TextSpan(
+                              style: const TextStyle(fontFamily: "Poppins"),
+                              children: [
+                                TextSpan(
+                                  text: "By Signing up, you accept our ",
+                                  style: TextStyle(color: AppColor.greyText),
+                                ),
+                                TextSpan(
+                                  text: "Terms of Service ",
+                                  style: TextStyle(
+                                    color: AppColor.primaryColor,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                                TextSpan(
+                                  text: "and ",
+                                  style: TextStyle(color: AppColor.greyText),
+                                ),
+                                TextSpan(
+                                  text: "Privacy Policy",
+                                  style: TextStyle(
+                                    color: AppColor.primaryColor,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 25),
+                    CustomButton(
+                      onpressed: () {
+                        if (_formKey.currentState!.validate() &&
+                            isChecked &&
+                            classDropdownValue != null &&
+                            syllabusDropdownValue != null) {
+                          // Proceed to next screen
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => BottomNavBarScreen()),
+                          );
+                        } else if (!isChecked) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text(
+                                  'Please accept Terms and Conditions to continue'),
+                            ),
+                          );
+                        } else if (classDropdownValue == null ||
+                            syllabusDropdownValue == null) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('Please select class and syllabus'),
+                            ),
+                          );
+                        }
+                      },
+                      text: "Get Started",
+                      buttoncolor: AppColor.primaryColor,
+                      textColor: AppColor.whiteColor,
+                    )
+                  ],
+                ),
               ),
             ),
           ],
@@ -207,125 +386,104 @@ class _RegistrationState extends State<Registration> {
     );
   }
 
-//method for dropdown
-  DropdownButtonFormField<String> dropdown(IconData iconData, String hint,
-      List<String> item, String? dropdownValue) {
+  // Dropdown widget with validation
+  DropdownButtonFormField<String> dropdown(
+    IconData iconData,
+    String hint,
+    List<String> item,
+    String? dropdownValue,
+    Function(String?) onChanged,
+  ) {
     return DropdownButtonFormField<String>(
-      icon: Icon(Icons.keyboard_arrow_down_outlined,color: AppColor.greyText),
-      style: TextStyle(fontWeight: FontWeight.w400, fontSize: 18,),
+      icon: Icon(Icons.keyboard_arrow_down_outlined, color: AppColor.greyText),
+      style: const TextStyle(fontWeight: FontWeight.w400, fontSize: 18),
       dropdownColor: AppColor.greyBackground,
       decoration: InputDecoration(
         focusedBorder: const OutlineInputBorder(
           borderRadius: BorderRadius.all(Radius.circular(10)),
-          borderSide: BorderSide(
-            color: AppColor.greyStroke,
-            width: 1.0,
-          ),
+          borderSide: BorderSide(color: AppColor.greyStroke, width: 1.0),
         ),
         enabledBorder: const OutlineInputBorder(
           borderRadius: BorderRadius.all(Radius.circular(10)),
-          borderSide: BorderSide(
-            color: AppColor.greyStroke,
-            width: 1.0,
-          ),
+          borderSide: BorderSide(color: AppColor.greyStroke, width: 1.0),
         ),
-        prefixIcon: Icon(
-          iconData,
-          color: AppColor.greyIcon,
-          size: 18,
-        ),
+        prefixIcon: Icon(iconData, color: AppColor.greyIcon, size: 18),
       ),
-      hint: Text(
-        hint,
-        style: TextStyle(color: AppColor.greyText, fontWeight: FontWeight.w400),
-      ),
+      hint: Text(hint,
+          style:
+              TextStyle(color: AppColor.greyText, fontWeight: FontWeight.w400)),
       value: dropdownValue,
       onChanged: (String? newValue) {
         setState(() {
-          dropdownValue = newValue!;
+          onChanged(newValue);
         });
       },
-      items: item.map<DropdownMenuItem<String>>((String value) {
+      validator: (value) => value == null ? 'Please select $hint' : null,
+      items: item.map((String value) {
         return DropdownMenuItem<String>(
           value: value,
-          child: Text(value,
-          style: TextStyle(color: Colors.black,fontFamily: 'Poppins')),
+          child: Text(value, style: const TextStyle(fontFamily: 'Poppins')),
         );
       }).toList(),
     );
   }
 }
 
-
-//widget for lable of the textfield
+// label widget
 class label extends StatelessWidget {
-  String labelText;
-  label({
-    super.key,
-    required this.labelText,
-  });
+  final String labelText;
+  const label({super.key, required this.labelText});
 
   @override
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Text(
-          "*",
-          style: TextStyle(color: Colors.red),
-        ),
-        SizedBox(
-          width: 5,
-        ),
+        const Text("*", style: TextStyle(color: Colors.red)),
+        const SizedBox(width: 5),
         Text(labelText),
       ],
     );
   }
 }
 
-// custom textformfield with greystroke
+// Custom grey stroke textfield with validator and controller
 class greystokeTextfield extends StatelessWidget {
-  String hintText;
-  IconData iconData;
-  bool isPassword;
-  greystokeTextfield({
+  final String hintText;
+  final IconData iconData;
+  final bool isPassword;
+  final TextEditingController controller;
+  final String? Function(String?)? validator;
+
+  const greystokeTextfield({
     super.key,
     required this.hintText,
     required this.iconData,
+    required this.controller,
     this.isPassword = false,
+    this.validator,
   });
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      obscureText: isPassword ? true : false,
+      obscureText: isPassword,
+      controller: controller,
+      validator: validator,
       decoration: InputDecoration(
         hintText: hintText,
         hintStyle: const TextStyle(color: AppColor.greyText),
         focusedBorder: const OutlineInputBorder(
           borderRadius: BorderRadius.all(Radius.circular(10)),
-          borderSide: BorderSide(
-            color: AppColor.greyStroke,
-            width: 1.0,
-          ),
+          borderSide: BorderSide(color: AppColor.greyStroke, width: 1.0),
         ),
         enabledBorder: const OutlineInputBorder(
           borderRadius: BorderRadius.all(Radius.circular(10)),
-          borderSide: BorderSide(
-            color: AppColor.greyStroke,
-            width: 1.0,
-          ),
+          borderSide: BorderSide(color: AppColor.greyStroke, width: 1.0),
         ),
-        prefixIcon: Icon(
-          iconData,
-          color: AppColor.greyIcon,
-          size: 18,
-        ),
+        prefixIcon: Icon(iconData, color: AppColor.greyIcon, size: 18),
         suffixIcon: isPassword
-            ? Icon(
-                Icons.visibility_off_outlined,
-                color: AppColor.greyIcon,
-                size: 18,
-              )
+            ? Icon(Icons.visibility_off_outlined,
+                color: AppColor.greyIcon, size: 18)
             : null,
       ),
     );
