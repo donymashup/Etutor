@@ -20,8 +20,7 @@ class _RegistrationState extends State<Registration> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController schoolController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-  final TextEditingController confirmPasswordController =
-      TextEditingController();
+  final TextEditingController confirmPasswordController = TextEditingController();
 
   String? phoneNumber;
   String? classDropdownValue;
@@ -235,6 +234,14 @@ class _RegistrationState extends State<Registration> {
                           borderSide: BorderSide(
                               color: AppColor.greyStroke, width: 1.0),
                         ),
+                         errorBorder: const OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                        borderSide: BorderSide(color: Colors.red, width: 1.0),
+                      ),
+                      focusedErrorBorder: const OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                        borderSide: BorderSide(color: Colors.red, width: 1.0),
+                      ),
                         prefixIcon: Icon(Icons.lock_outline_rounded,
                             color: AppColor.greyIcon, size: 18),
                         suffixIcon: IconButton(
@@ -260,7 +267,7 @@ class _RegistrationState extends State<Registration> {
                       obscureText: _obscureConfirmPassword,
                       controller: confirmPasswordController,
                       validator: (value) {
-                        if (value != passwordController.text) {
+                        if (value != passwordController.text || value!.isEmpty) {
                           return 'Passwords do not match';
                         }
                         return null;
@@ -277,6 +284,14 @@ class _RegistrationState extends State<Registration> {
                           borderRadius: BorderRadius.all(Radius.circular(10)),
                           borderSide: BorderSide(
                               color: AppColor.greyStroke, width: 1.0),
+                        ),
+                         errorBorder: const OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                          borderSide: BorderSide(color: Colors.red, width: 1.0),
+                        ),
+                        focusedErrorBorder: const OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                          borderSide: BorderSide(color: Colors.red, width: 1.0),
                         ),
                         prefixIcon: Icon(Icons.lock_outline_rounded,
                             color: AppColor.greyIcon, size: 18),
@@ -407,6 +422,14 @@ class _RegistrationState extends State<Registration> {
           borderRadius: BorderRadius.all(Radius.circular(10)),
           borderSide: BorderSide(color: AppColor.greyStroke, width: 1.0),
         ),
+         errorBorder: const OutlineInputBorder(
+          borderRadius: BorderRadius.all(Radius.circular(10)),
+          borderSide: BorderSide(color: Colors.red, width: 1.0),
+        ),
+        focusedErrorBorder: const OutlineInputBorder(
+          borderRadius: BorderRadius.all(Radius.circular(10)),
+          borderSide: BorderSide(color: Colors.red, width: 1.0),
+        ),
         prefixIcon: Icon(iconData, color: AppColor.greyIcon, size: 18),
       ),
       hint: Text(hint,
@@ -485,6 +508,14 @@ class GreystokeTextfield extends StatelessWidget {
         enabledBorder: const OutlineInputBorder(
           borderRadius: BorderRadius.all(Radius.circular(10)),
           borderSide: BorderSide(color: AppColor.greyStroke, width: 1.0),
+        ),
+         errorBorder: const OutlineInputBorder(
+          borderRadius: BorderRadius.all(Radius.circular(10)),
+          borderSide: BorderSide(color: Colors.red, width: 1.0),
+        ),
+        focusedErrorBorder: const OutlineInputBorder(
+          borderRadius: BorderRadius.all(Radius.circular(10)),
+          borderSide: BorderSide(color: Colors.red, width: 1.0),
         ),
         prefixIcon: Icon(iconData, color: AppColor.greyIcon, size: 18),
         suffixIcon: isPassword

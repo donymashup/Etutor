@@ -8,11 +8,17 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class PasswordScreen extends StatelessWidget {
-  const PasswordScreen({super.key});
+  final String phone;
+  final String code;
+  const PasswordScreen({super.key,required this.phone,required this.code});
 
   @override
   Widget build(BuildContext context) {
+    final TextEditingController passwordController = TextEditingController();
     final isLoading = context.watch<LoginProvider>().isLoding;
+    final _formKey = GlobalKey<FormState>();
+
+
     return Scaffold(
       backgroundColor: AppColor.primaryColor,
       body:isLoading ? 
@@ -56,26 +62,42 @@ class PasswordScreen extends StatelessWidget {
                   SizedBox(
                     height: 15,
                   ),
-                  WhiteStrokeTextField(
-                    hind: "Enter your Password",
-                    isPassword: true,
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  whiteButton(
-                    text: "Login",
-                    onpressed: ()async{
-                      final provider = context.read<LoginProvider>();
-                       await provider.login(context, '9496370108', '91', '123456');
-                      if (provider.isLogin.isNotEmpty )
-                      {
-                     Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                          builder: (context) => BottomNavBarScreen()));
-                      }                  
-                    },
+                  Form(
+                    key: _formKey,
+                    child: Column(
+                      children: [
+                        WhiteStrokeTextField(
+                          hind: "Enter your Password",
+                          isPassword: true,
+                          controller: passwordController,
+                          validator: (value) {
+                              if (value == null || value.length < 6) {
+                                return 'Password must be at least 6 characters';
+                              }
+                              return null;
+                            },
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        whiteButton(
+                          text: "Login",
+                          onpressed: ()async{
+                            final provider = context.read<LoginProvider>();
+                             if (_formKey.currentState!.validate()){
+                             await provider.login(context, phone, code, passwordController.text);
+                            if (provider.isLogin.isNotEmpty )
+                            {
+                           Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                builder: (context) => BottomNavBarScreen()));
+                            } 
+                            }              
+                          },
+                        ),
+                      ],
+                    ),
                   ),
                   SizedBox(
                     height: 5,
