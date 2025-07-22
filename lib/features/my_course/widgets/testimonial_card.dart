@@ -2,12 +2,11 @@ import 'package:etutor/common/constants/app_constants.dart';
 import 'package:flutter/material.dart';
 
 class TestimonialCard extends StatefulWidget {
-  String username;
-  // IconData rating;
-  String userimage;
-  String description;
+  final String username;
+  final String userimage;
+  final String description;
 
-  TestimonialCard(
+  const TestimonialCard(
       {required this.username,
       required this.description,
       required this.userimage,

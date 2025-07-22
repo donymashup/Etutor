@@ -3,8 +3,6 @@ import 'package:etutor/common/widgets/back_button.dart';
 import 'package:etutor/features/quiz/screens/quiz_instruction_screen.dart';
 import 'package:etutor/features/subscribed_course/widgets/course_card.dart';
 import 'package:flutter/material.dart';
-import 'package:iconify_flutter/iconify_flutter.dart';
-import 'package:iconify_flutter/icons/mdi.dart';
 
 class SubscribedCoursesTests extends StatefulWidget {
   const SubscribedCoursesTests({super.key});

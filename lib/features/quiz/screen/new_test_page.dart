@@ -6,7 +6,6 @@ import 'package:etutor/features/quiz/model/quiz_model.dart';
 import 'package:etutor/features/quiz/screens/quiz_completion_screen.dart';
 import 'package:etutor/features/quiz/styles/texView_styles.dart';
 import 'package:etutor/features/quiz/widgets/options_builder.dart';
-import 'package:etutor/features/quiz/widgets/quiz_drawer.dart';
 import 'package:etutor/features/quiz/widgets/quiz_nav_button.dart';
 import 'package:etutor/features/quiz/widgets/submission_row.dart';
 import 'package:flutter/material.dart';
@@ -585,7 +584,7 @@ class _TexViewQuizScreenState extends State<TexViewQuizScreen>
                                   String numericalAnswer =
                                       _numericalController.text.trim();
                                   // You can store this answer in your data model or process it as needed
-                                  print("Numerical answer: $numericalAnswer");
+                                  debugPrint("Numerical answer: $numericalAnswer");
 
                                   // Optional: Store in your data model
                                   // currentQuestion.numericalAnswer = numericalAnswer;

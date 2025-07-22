@@ -2,9 +2,9 @@ import 'package:etutor/common/constants/app_constants.dart';
 import 'package:flutter/material.dart';
 
 class WhiteStrokeTextField extends StatelessWidget {
-  String hind;
-  bool isPassword;
-  WhiteStrokeTextField({
+  final String hind;
+  final bool isPassword;
+  const WhiteStrokeTextField({
     super.key,
     required this.hind,
     this.isPassword = false,

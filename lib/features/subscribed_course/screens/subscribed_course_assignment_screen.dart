@@ -1,10 +1,6 @@
-import 'package:etutor/common/constants/app_constants.dart';
 import 'package:etutor/features/subscribed_course/screens/no_assigments.dart';
 import 'package:etutor/features/subscribed_course/widgets/course_card.dart';
 import 'package:flutter/material.dart';
-import 'package:iconify_flutter/iconify_flutter.dart';
-import 'package:iconify_flutter/icons/bxs.dart';
-import 'package:iconify_flutter/icons/mdi.dart';
 
 class SubscribedCourseAssignmentScreen extends StatefulWidget {
   const SubscribedCourseAssignmentScreen({super.key});

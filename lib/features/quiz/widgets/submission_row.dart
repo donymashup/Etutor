@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
 class SubmissionRow extends StatelessWidget {
-  String label;
-  String count;
-  IconData icon;
-  SubmissionRow(this.label, this.count, this.icon, {super.key});
+  final String label;
+  final  String count;
+  final IconData icon;
+  const SubmissionRow(this.label, this.count, this.icon, {super.key});
 
   @override
   Widget build(BuildContext context) {

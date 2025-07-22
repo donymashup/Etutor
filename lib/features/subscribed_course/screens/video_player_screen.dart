@@ -1,6 +1,5 @@
 import 'package:better_player/better_player.dart';
 import 'package:etutor/common/constants/app_constants.dart';
-import 'package:etutor/features/my_course/screens/course_overview_screen.dart';
 import 'package:etutor/features/my_course/widgets/testimonial_card.dart';
 import 'package:flutter/material.dart';
 

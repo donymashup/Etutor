@@ -1,20 +1,25 @@
 import 'package:etutor/common/constants/app_constants.dart';
 import 'package:etutor/common/widgets/bottom_navigation_bar.dart';
+import 'package:etutor/features/auth/provider/login_provider.dart';
 import 'package:etutor/features/auth/screen/forgot_password.dart';
-import 'package:etutor/features/auth/screen/registration.dart';
 import 'package:etutor/features/auth/widgets/white_button.dart';
 import 'package:etutor/features/auth/widgets/whitestroke_textfield.dart';
-import 'package:etutor/features/home/screen/home_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class PasswordScreen extends StatelessWidget {
   const PasswordScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final isLoading = context.watch<LoginProvider>().isLoding;
     return Scaffold(
       backgroundColor: AppColor.primaryColor,
-      body: SingleChildScrollView(
+      body:isLoading ? 
+        Center(
+          child: CircularProgressIndicator(),
+        )
+      : SingleChildScrollView(
         child: Column(
           children: [
             SizedBox(
@@ -60,11 +65,16 @@ class PasswordScreen extends StatelessWidget {
                   ),
                   whiteButton(
                     text: "Login",
-                    onpressed: () {
-                       Navigator.push(
+                    onpressed: ()async{
+                      final provider = context.read<LoginProvider>();
+                       await provider.login(context, '9496370108', '91', '123456');
+                      if (provider.isLogin.isNotEmpty )
+                      {
+                     Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => BottomNavBarScreen()));
+                          builder: (context) => BottomNavBarScreen()));
+                      }                  
                     },
                   ),
                   SizedBox(

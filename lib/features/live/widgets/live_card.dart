@@ -2,11 +2,11 @@ import 'package:etutor/common/constants/app_constants.dart';
 import 'package:flutter/material.dart';
 
 class LiveCard extends StatelessWidget {
-  String img;
-  String title;
-  String date;
-  String time;
-   LiveCard({
+  final String img;
+  final String title;
+  final String date;
+  final String time;
+  const LiveCard({
     super.key,
     required this.date,
     required this.img,

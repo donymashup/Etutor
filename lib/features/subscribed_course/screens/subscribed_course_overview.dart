@@ -4,7 +4,6 @@ import 'package:etutor/features/subscribed_course/screens/subscribed_course_all_
 import 'package:etutor/features/subscribed_course/screens/subscribed_course_content.dart';
 import 'package:etutor/features/subscribed_course/screens/subscribed_course_subject.dart';
 import 'package:etutor/features/subscribed_course/widgets/course_card.dart';
-import 'package:fluentui_emoji_icon/fluentui_emoji_icon.dart';
 import 'package:flutter/material.dart';
 
 class SubscribedCourseOverview extends StatefulWidget {

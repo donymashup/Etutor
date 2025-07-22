@@ -149,17 +149,17 @@ class _EditProfileState extends State<EditProfile> {
                     SizedBox(
                       height: 30,
                     ),
-                    greystokeTextfield(
+                    GreystokeTextfield(
                         controller: firstnameController, text: "First Name"),
                     SizedBox(
                       height: 15,
                     ),
-                    greystokeTextfield(
+                    GreystokeTextfield(
                         controller: lastnameController, text: "last Name"),
                     SizedBox(
                       height: 15,
                     ),
-                    greystokeTextfield(
+                    GreystokeTextfield(
                         controller: emailController, text: "Email"),
                     SizedBox(
                       height: 15,
@@ -181,7 +181,7 @@ class _EditProfileState extends State<EditProfile> {
                     SizedBox(
                       height: 15,
                     ),
-                    greystokeTextfield(
+                    GreystokeTextfield(
                         controller: schoolController, text: "school"),
                     SizedBox(
                       height: 20,
@@ -315,10 +315,10 @@ Widget _buildImagePickerDialog(BuildContext context) {
 }
 
 // custom textformfield with greystroke
-class greystokeTextfield extends StatelessWidget {
-  TextEditingController controller;
-  String text;
-  greystokeTextfield({
+class GreystokeTextfield extends StatelessWidget {
+  final TextEditingController controller;
+  final String text;
+  const GreystokeTextfield({
     super.key,
     required this.controller,
     required this.text,

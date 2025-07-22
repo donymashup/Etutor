@@ -2,11 +2,11 @@ import 'package:etutor/common/constants/app_constants.dart';
 import 'package:flutter/material.dart';
 
 class SubjectOverviewCard extends StatefulWidget {
-  String title;
-  String description;
-  String subjectImage;
+  final String title;
+  final String description;
+  final String subjectImage;
 
-  SubjectOverviewCard(
+  const SubjectOverviewCard(
       {required this.title,
       required this.description,
       required this.subjectImage,

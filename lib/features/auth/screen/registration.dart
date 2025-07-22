@@ -5,7 +5,7 @@ import 'package:etutor/common/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
 
 class Registration extends StatefulWidget {
-  Registration({super.key});
+ const Registration({super.key});
 
   @override
   State<Registration> createState() => _RegistrationState();
@@ -86,66 +86,66 @@ class _RegistrationState extends State<Registration> {
               child: Column(
                 children: [
                   //first name
-                  label(labelText: "First Name",),
+                  Label(labelText: "First Name",),
                   SizedBox(height: 5,),
-                  greystokeTextfield(
+                  GreystokeTextfield(
                     hintText: "First Name",
                     iconData: Icons.person_outline_rounded,
                   ),
                   SizedBox(height: 10,),
 
                   // last name
-                  label(labelText: "Last Name",),
+                  Label(labelText: "Last Name",),
                   SizedBox(height: 5,),
-                  greystokeTextfield(
+                  GreystokeTextfield(
                     hintText: "Last Name",
                     iconData: Icons.person_outline_rounded,
                   ),
                   SizedBox(height: 10,),
 
                   //email
-                  label(labelText: "Email", ),
+                  Label(labelText: "Email", ),
                   SizedBox( height: 5, ),
-                  greystokeTextfield(
+                  GreystokeTextfield(
                     hintText: "Email",
                     iconData: Icons.email_outlined,
                   ),
                   SizedBox( height: 10,),
 
                   //phone number
-                  label( labelText: "Phone Number",),
+                  Label( labelText: "Phone Number",),
                   SizedBox(height: 5,),
-                  greystokeTextfield(
+                  GreystokeTextfield(
                     hintText: "Phone Number",
                     iconData: Icons.email_outlined,
                   ),
                   SizedBox( height: 10, ),
 
                   //class
-                  label(labelText: "Class",),
+                  Label(labelText: "Class",),
                   SizedBox( height: 5,),
                   dropdown(Icons.school_outlined, "Class", _class,classDropdownValue),
                   SizedBox(  height: 10,),
 
                   //syllabus
-                  label(labelText: "Syllabus",),
+                  Label(labelText: "Syllabus",),
                   SizedBox(height: 5,),
                   dropdown(Icons.description_outlined, "Syllabus", _syllabus, syllabusDropdownValue),
                   SizedBox( height: 10,),
 
                   //school
-                  label(labelText: "School",),
+                  Label(labelText: "School",),
                   SizedBox(height: 5,),
-                  greystokeTextfield(
+                  GreystokeTextfield(
                     hintText: "School",
                     iconData: Icons.business_outlined,
                   ),
                   SizedBox(height: 10,),
 
                   //password
-                  label( labelText: "Password",),
+                  Label( labelText: "Password",),
                   SizedBox( height: 5,),
-                  greystokeTextfield(
+                  GreystokeTextfield(
                     hintText: "Password",
                     iconData: Icons.lock_outline_rounded,
                     isPassword: true,
@@ -153,9 +153,9 @@ class _RegistrationState extends State<Registration> {
                   SizedBox(height: 10,),
 
                   //confirm password
-                  label( labelText: "Confirm Password",),
+                  Label( labelText: "Confirm Password",),
                   SizedBox( height: 5,),
-                  greystokeTextfield(
+                  GreystokeTextfield(
                     hintText: "Confirm Password",
                     iconData: Icons.lock_outline_rounded,
                     isPassword: true,
@@ -258,9 +258,9 @@ class _RegistrationState extends State<Registration> {
 
 
 //widget for lable of the textfield
-class label extends StatelessWidget {
-  String labelText;
-  label({
+class Label extends StatelessWidget {
+  final String labelText;
+  const Label({
     super.key,
     required this.labelText,
   });
@@ -283,11 +283,11 @@ class label extends StatelessWidget {
 }
 
 // custom textformfield with greystroke
-class greystokeTextfield extends StatelessWidget {
-  String hintText;
-  IconData iconData;
-  bool isPassword;
-  greystokeTextfield({
+class GreystokeTextfield extends StatelessWidget {
+  final String hintText;
+  final IconData iconData;
+  final bool isPassword;
+ const GreystokeTextfield({
     super.key,
     required this.hintText,
     required this.iconData,

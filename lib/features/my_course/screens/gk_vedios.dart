@@ -76,10 +76,10 @@ GkVedios({super.key});
 
 //card for gk video
 class VideooCard extends StatelessWidget {
-  String title;
-  String img;
-  String duration;
-  VideooCard({
+  final String title;
+  final String img;
+  final String duration;
+  const VideooCard({
     super.key,
     required this.duration,
     required this.img,

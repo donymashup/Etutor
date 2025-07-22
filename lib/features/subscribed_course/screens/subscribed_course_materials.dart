@@ -3,8 +3,6 @@ import 'package:etutor/common/widgets/back_button.dart';
 import 'package:etutor/features/subscribed_course/screens/pdf_viewer.dart';
 import 'package:etutor/features/subscribed_course/widgets/course_card.dart';
 import 'package:flutter/material.dart';
-import 'package:iconify_flutter/iconify_flutter.dart';
-import 'package:iconify_flutter/icons/mdi.dart';
 
 class SubscribedCourseMaterials extends StatefulWidget {
   const SubscribedCourseMaterials({super.key});
