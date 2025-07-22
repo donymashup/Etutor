@@ -100,9 +100,9 @@ class _RegistrationState extends State<Registration> {
                 key: _formKey,
                 child: Column(
                   children: [
-                    label(labelText: "First Name"),
+                    Label(labelText: "First Name"),
                     const SizedBox(height: 5),
-                    greystokeTextfield(
+                    GreystokeTextfield(
                       hintText: "First Name",
                       iconData: Icons.person_outline_rounded,
                       controller: firstNameController,
@@ -114,9 +114,9 @@ class _RegistrationState extends State<Registration> {
                       },
                     ),
                     const SizedBox(height: 10),
-                    label(labelText: "Last Name"),
+                    Label(labelText: "Last Name"),
                     const SizedBox(height: 5),
-                    greystokeTextfield(
+                    GreystokeTextfield(
                       hintText: "Last Name",
                       iconData: Icons.person_outline_rounded,
                       controller: lastNameController,
@@ -128,9 +128,9 @@ class _RegistrationState extends State<Registration> {
                       },
                     ),
                     const SizedBox(height: 10),
-                    label(labelText: "Email"),
+                    Label(labelText: "Email"),
                     const SizedBox(height: 5),
-                    greystokeTextfield(
+                    GreystokeTextfield(
                       hintText: "Email",
                       iconData: Icons.email_outlined,
                       controller: emailController,
@@ -145,7 +145,7 @@ class _RegistrationState extends State<Registration> {
                       },
                     ),
                     const SizedBox(height: 10),
-                    label(labelText: "Phone Number"),
+                    Label(labelText: "Phone Number"),
                     const SizedBox(height: 5),
                     IntlPhoneField(
                       decoration: InputDecoration(
@@ -183,23 +183,23 @@ class _RegistrationState extends State<Registration> {
                       },
                     ),
                     const SizedBox(height: 10),
-                    label(labelText: "Class"),
+                    Label(labelText: "Class"),
                     const SizedBox(height: 5),
                     dropdown(Icons.school_outlined, "Class", _class,
                         classDropdownValue, (value) {
                       classDropdownValue = value;
                     }),
                     const SizedBox(height: 10),
-                    label(labelText: "Syllabus"),
+                    Label(labelText: "Syllabus"),
                     const SizedBox(height: 5),
                     dropdown(Icons.description_outlined, "Syllabus", _syllabus,
                         syllabusDropdownValue, (value) {
                       syllabusDropdownValue = value;
                     }),
                     const SizedBox(height: 10),
-                    label(labelText: "School"),
+                    Label(labelText: "School"),
                     const SizedBox(height: 5),
-                    greystokeTextfield(
+                    GreystokeTextfield(
                       hintText: "School",
                       iconData: Icons.business_outlined,
                       controller: schoolController,
@@ -211,7 +211,7 @@ class _RegistrationState extends State<Registration> {
                       },
                     ),
                     const SizedBox(height: 10),
-                    label(labelText: "Password"),
+                    Label(labelText: "Password"),
                     const SizedBox(height: 5),
                     TextFormField(
                       obscureText: _obscurePassword,
@@ -254,7 +254,7 @@ class _RegistrationState extends State<Registration> {
                       ),
                     ),
                     const SizedBox(height: 10),
-                    label(labelText: "Confirm Password"),
+                    Label(labelText: "Confirm Password"),
                     const SizedBox(height: 5),
                     TextFormField(
                       obscureText: _obscureConfirmPassword,
@@ -457,6 +457,9 @@ class GreystokeTextfield extends StatelessWidget {
   final String hintText;
   final IconData iconData;
   final bool isPassword;
+  final TextEditingController controller;
+  final String? Function(String?)? validator;
+
  const GreystokeTextfield({
     super.key,
     required this.hintText,
