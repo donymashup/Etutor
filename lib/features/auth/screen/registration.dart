@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 
 class Registration extends StatefulWidget {
- const Registration({super.key});
+  const Registration({super.key});
 
   @override
   State<Registration> createState() => _RegistrationState();
@@ -20,11 +20,17 @@ class _RegistrationState extends State<Registration> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController schoolController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-  final TextEditingController confirmPasswordController = TextEditingController();
+  final TextEditingController confirmPasswordController =
+      TextEditingController();
+  final TextEditingController genderController = TextEditingController();
+  final TextEditingController dobController = TextEditingController();
+
+  DateTime? selectedDate;
 
   String? phoneNumber;
   String? classDropdownValue;
   String? syllabusDropdownValue;
+  String? selectedGender;
   bool isChecked = false;
   bool _obscurePassword = true;
   bool _obscureConfirmPassword = true;
@@ -46,6 +52,12 @@ class _RegistrationState extends State<Registration> {
     "CBSE",
     "ICSE",
   ];
+
+  @override
+  void dispose() {
+    dobController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -125,6 +137,107 @@ class _RegistrationState extends State<Registration> {
                         }
                         return null;
                       },
+                    ),
+                    const SizedBox(height: 10),
+                    Label(labelText: "Gender"),
+                    const SizedBox(height: 5),
+                    FormField<String>(
+                      validator: (value) {
+                        if (selectedGender == null) {
+                          return 'Please select a gender';
+                        }
+                        return null;
+                      },
+                      builder: (formFieldState) {
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              children:
+                                  ['Male', 'Female', 'Other'].map((gender) {
+                                return Row(
+                                  children: [
+                                    Radio<String>(
+                                      value: gender,
+                                      groupValue: selectedGender,
+                                      onChanged: (value) {
+                                        setState(() {
+                                          selectedGender = value;
+                                          formFieldState.didChange(value);
+                                        });
+                                      },
+                                    ),
+                                    Text(
+                                      gender,
+                                      style: TextStyle(
+                                        color: selectedGender == gender
+                                            ? AppColor.blackColor
+                                            : AppColor.greyText,
+                                      ),
+                                    ),
+                                    const SizedBox(width: 10),
+                                  ],
+                                );
+                              }).toList(),
+                            ),
+                            if (formFieldState.hasError)
+                              Padding(
+                                padding:
+                                    const EdgeInsets.only(left: 8.0, top: 4),
+                                child: Text(
+                                  formFieldState.errorText!,
+                                  style: const TextStyle(color: Colors.red),
+                                ),
+                              ),
+                          ],
+                        );
+                      },
+                    ),
+                    const SizedBox(height: 10),
+                    Label(labelText: "Date of Birth"),
+                    const SizedBox(height: 5),
+                    GestureDetector(
+                      onTap: () async {
+                        final DateTime? pickedDate = await showDatePicker(
+                          context: context,
+                          initialDate: DateTime(2000),
+                          firstDate: DateTime(1900),
+                          lastDate: DateTime.now(),
+                          builder: (context, child) {
+                            return Theme(
+                              data: Theme.of(context).copyWith(
+                                colorScheme: const ColorScheme.light(
+                                  primary: AppColor.primaryColor,
+                                  onPrimary: Colors.white,
+                                  onSurface: AppColor.primaryColor,
+                                ),
+                              ),
+                              child: child!,
+                            );
+                          },
+                        );
+
+                        if (pickedDate != null) {
+                          setState(() {
+                            selectedDate = pickedDate;
+                            dobController.text =
+                                "${pickedDate.day}/${pickedDate.month}/${pickedDate.year}";
+                          });
+                        }
+                      },
+                      child: AbsorbPointer(
+                        child: GreystokeTextfield(
+                          hintText: "Select your date of birth",
+                          iconData: Icons.calendar_today,
+                          controller: dobController,
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please select your date of birth';
+                            }
+                            return null;
+                          },
+                        ),
+                      ),
                     ),
                     const SizedBox(height: 10),
                     Label(labelText: "Email"),
@@ -234,14 +347,14 @@ class _RegistrationState extends State<Registration> {
                           borderSide: BorderSide(
                               color: AppColor.greyStroke, width: 1.0),
                         ),
-                         errorBorder: const OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                        borderSide: BorderSide(color: Colors.red, width: 1.0),
-                      ),
-                      focusedErrorBorder: const OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                        borderSide: BorderSide(color: Colors.red, width: 1.0),
-                      ),
+                        errorBorder: const OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                          borderSide: BorderSide(color: Colors.red, width: 1.0),
+                        ),
+                        focusedErrorBorder: const OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                          borderSide: BorderSide(color: Colors.red, width: 1.0),
+                        ),
                         prefixIcon: Icon(Icons.lock_outline_rounded,
                             color: AppColor.greyIcon, size: 18),
                         suffixIcon: IconButton(
@@ -267,7 +380,8 @@ class _RegistrationState extends State<Registration> {
                       obscureText: _obscureConfirmPassword,
                       controller: confirmPasswordController,
                       validator: (value) {
-                        if (value != passwordController.text || value!.isEmpty) {
+                        if (value != passwordController.text ||
+                            value!.isEmpty) {
                           return 'Passwords do not match';
                         }
                         return null;
@@ -285,7 +399,7 @@ class _RegistrationState extends State<Registration> {
                           borderSide: BorderSide(
                               color: AppColor.greyStroke, width: 1.0),
                         ),
-                         errorBorder: const OutlineInputBorder(
+                        errorBorder: const OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(10)),
                           borderSide: BorderSide(color: Colors.red, width: 1.0),
                         ),
@@ -365,7 +479,6 @@ class _RegistrationState extends State<Registration> {
                             isChecked &&
                             classDropdownValue != null &&
                             syllabusDropdownValue != null) {
-                          // Proceed to next screen
                           Navigator.push(
                             context,
                             MaterialPageRoute(
@@ -422,7 +535,7 @@ class _RegistrationState extends State<Registration> {
           borderRadius: BorderRadius.all(Radius.circular(10)),
           borderSide: BorderSide(color: AppColor.greyStroke, width: 1.0),
         ),
-         errorBorder: const OutlineInputBorder(
+        errorBorder: const OutlineInputBorder(
           borderRadius: BorderRadius.all(Radius.circular(10)),
           borderSide: BorderSide(color: Colors.red, width: 1.0),
         ),
@@ -452,8 +565,6 @@ class _RegistrationState extends State<Registration> {
   }
 }
 
-
-
 //widget for lable of the textfield
 class Label extends StatelessWidget {
   final String labelText;
@@ -461,7 +572,6 @@ class Label extends StatelessWidget {
     super.key,
     required this.labelText,
   });
-
 
   @override
   Widget build(BuildContext context) {
@@ -483,7 +593,7 @@ class GreystokeTextfield extends StatelessWidget {
   final TextEditingController controller;
   final String? Function(String?)? validator;
 
- const GreystokeTextfield({
+  const GreystokeTextfield({
     super.key,
     required this.hintText,
     required this.iconData,
@@ -509,7 +619,7 @@ class GreystokeTextfield extends StatelessWidget {
           borderRadius: BorderRadius.all(Radius.circular(10)),
           borderSide: BorderSide(color: AppColor.greyStroke, width: 1.0),
         ),
-         errorBorder: const OutlineInputBorder(
+        errorBorder: const OutlineInputBorder(
           borderRadius: BorderRadius.all(Radius.circular(10)),
           borderSide: BorderSide(color: Colors.red, width: 1.0),
         ),
