@@ -350,7 +350,6 @@ class _RegistrationState extends State<Registration> {
                             isChecked &&
                             classDropdownValue != null &&
                             syllabusDropdownValue != null) {
-                          // Proceed to next screen
                           Navigator.push(
                             context,
                             MaterialPageRoute(
