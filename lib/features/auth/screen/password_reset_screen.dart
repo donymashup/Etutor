@@ -5,9 +5,11 @@ import 'package:flutter/material.dart';
 
 class PasswordResetScreen extends StatelessWidget {
   const PasswordResetScreen({super.key});
-
   @override
   Widget build(BuildContext context) {
+    
+  final TextEditingController passwordController = TextEditingController();
+  final TextEditingController confirmPasswordController = TextEditingController();
     return Scaffold(
       backgroundColor: AppColor.primaryColor,
       body: SingleChildScrollView(
@@ -44,6 +46,13 @@ class PasswordResetScreen extends StatelessWidget {
                   WhiteStrokeTextField(
                     hind: "Enter your new Password",
                      isPassword: true,
+                     controller: passwordController,
+                     validator: (value) {
+                        if (value == null || value.length < 6) {
+                          return 'Password must be at least 6 characters';
+                        }
+                        return null;
+                      },
                   ),
                   SizedBox(
                     height: 10,
@@ -51,6 +60,13 @@ class PasswordResetScreen extends StatelessWidget {
                   WhiteStrokeTextField(
                     hind: "confirm Password",
                     isPassword: true,
+                    controller:confirmPasswordController ,
+                    validator: (value) {
+                      if (value != confirmPasswordController.text) {
+                            return 'Passwords do not match';
+                           }
+                     return null;
+                    },
                   ),
                   SizedBox(
                     height: 15,

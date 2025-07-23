@@ -48,9 +48,9 @@ class ForgotPassword extends StatelessWidget {
                   SizedBox(
                     height: 15,
                   ),
-                  WhiteStrokeTextField(
-                    hind: "Enter your Mobile number",
-                  ),
+                  // WhiteStrokeTextField(
+                  //   hind: "Enter your Mobile number",
+                  // ),
                   SizedBox(
                     height: 10,
                   ),

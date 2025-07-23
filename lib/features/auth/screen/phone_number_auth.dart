@@ -15,7 +15,10 @@ class PhoneNumberAuth extends StatefulWidget {
 class _PhoneNumberAuthState extends State<PhoneNumberAuth> {
   final _formKey = GlobalKey<FormState>();
   String phoneNumber = '';
+  String code = '';
 
+  String? errorText;
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -89,7 +92,8 @@ class _PhoneNumberAuthState extends State<PhoneNumberAuth> {
                         ),
                       ),
                       onChanged: (phone) {
-                        phoneNumber = phone.completeNumber;
+                        phoneNumber = phone.number;
+                        code = phone.countryCode.replaceAll('+', '');
                       },
                       validator: (phone) {
                         if (phone == null || phone.number.isEmpty) {
@@ -114,11 +118,18 @@ class _PhoneNumberAuthState extends State<PhoneNumberAuth> {
                     child: whiteButton(
                       text: "Verify Phone Number",
                       onpressed: () {
-                        if (_formKey.currentState!.validate()) {
+                        if (_formKey.currentState!.validate() && phoneNumber != "" && code != "") {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => PasswordScreen()),
+                                builder: (context) => PasswordScreen(phone:phoneNumber, code: code,)),
+                          );
+                        }else{
+                           ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text(
+                                  'Please enter a valid phone number'),
+                            ),
                           );
                         }
                       },
