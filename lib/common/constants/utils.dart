@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'package:etutor/common/constants/app_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -25,27 +24,3 @@ void showSnackbar(BuildContext context, String text) {
     return await request.send();
   }
 
-
-  Future<T?> parseJsonResponse<T>({
-  required http.StreamedResponse response,
-  required BuildContext context,
-  required T Function(Map<String, dynamic>) fromJson,
-}) async {
-  try {
-    final responseString = await response.stream.bytesToString();
-    final jsonResponse = json.decode(responseString);
-
-    debugPrint("jsonResponse: $jsonResponse");
-
-    if (jsonResponse is Map<String, dynamic> && jsonResponse.isNotEmpty) {
-      return fromJson(jsonResponse);
-    } else {
-      showSnackbar(context, 'Invalid or empty response from server');
-      return null;
-    }
-  } catch (e) {
-    debugPrint('JSON Parse Error: $e');
-    showSnackbar(context, 'Failed to parse server response');
-    return null;
-  }
-}

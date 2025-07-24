@@ -1,3 +1,4 @@
-const baseUrl = "https://alphaacademyonline.in/";
-const loginUrl = "api/userlogin";
+const baseUrl = "https://olympiad.dreamthem.in/";
+const loginUrl = "Authapi/login";
+const checkMobileNumberExixt = 'Authapi/checkMobileNumberExists';
 

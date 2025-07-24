@@ -1,9 +1,11 @@
 import 'package:etutor/common/constants/app_constants.dart';
+import 'package:etutor/features/auth/provider/login_provider.dart';
 import 'package:etutor/features/auth/screen/password_screen.dart';
 import 'package:etutor/features/auth/screen/registration.dart';
 import 'package:etutor/features/auth/widgets/white_button.dart';
 import 'package:flutter/material.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
+import 'package:provider/provider.dart';
 
 class PhoneNumberAuth extends StatefulWidget {
   const PhoneNumberAuth({super.key});
@@ -93,7 +95,7 @@ class _PhoneNumberAuthState extends State<PhoneNumberAuth> {
                       ),
                       onChanged: (phone) {
                         phoneNumber = phone.number;
-                        code = phone.countryCode.replaceAll('+', '');
+                        code = phone.countryCode.replaceAll(RegExp(r'\D'), '');
                       },
                       validator: (phone) {
                         if (phone == null || phone.number.isEmpty) {
@@ -117,12 +119,15 @@ class _PhoneNumberAuthState extends State<PhoneNumberAuth> {
                     },
                     child: whiteButton(
                       text: "Verify Phone Number",
-                      onpressed: () {
+                      onpressed: ()async {
                         if (_formKey.currentState!.validate() && phoneNumber != "" && code != "") {
+                          context.read<LoginProvider>().setPhoneNumber(phoneNumber, code);
+                          await context.read<LoginProvider>().checkMobileExist(context);
+                        //  context.watch<LoginProvider>().check;
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => PasswordScreen(phone:phoneNumber, code: code,)),
+                                builder: (context) => PasswordScreen()),
                           );
                         }else{
                            ScaffoldMessenger.of(context).showSnackBar(

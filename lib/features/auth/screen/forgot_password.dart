@@ -1,7 +1,6 @@
 import 'package:etutor/common/constants/app_constants.dart';
 import 'package:etutor/features/auth/screen/password_reset_otp.dart';
 import 'package:etutor/features/auth/widgets/white_button.dart';
-import 'package:etutor/features/auth/widgets/whitestroke_textfield.dart';
 import 'package:flutter/material.dart';
 
 class ForgotPassword extends StatelessWidget {

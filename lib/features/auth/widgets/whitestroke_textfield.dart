@@ -25,6 +25,7 @@ class _WhiteStrokeTextFieldState extends State<WhiteStrokeTextField> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      controller: controller,     
       style: const TextStyle(color: Colors.white),
       controller: widget.controller,
       obscureText: widget.isPassword ? _obscureText : false,
