@@ -8,16 +8,14 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class PasswordScreen extends StatelessWidget {
-  final String phone;
-  final String code;
-  const PasswordScreen({super.key,required this.phone,required this.code});
+  const PasswordScreen({super.key,});
 
   @override
   Widget build(BuildContext context) {
     final TextEditingController passwordController = TextEditingController();
     final isLoading = context.watch<LoginProvider>().isLoding;
-    final _formKey = GlobalKey<FormState>();
-
+    final formKey = GlobalKey<FormState>();
+    
 
     return Scaffold(
       backgroundColor: AppColor.primaryColor,
@@ -63,7 +61,7 @@ class PasswordScreen extends StatelessWidget {
                     height: 15,
                   ),
                   Form(
-                    key: _formKey,
+                    key: formKey,
                     child: Column(
                       children: [
                         WhiteStrokeTextField(
@@ -84,8 +82,8 @@ class PasswordScreen extends StatelessWidget {
                           text: "Login",
                           onpressed: ()async{
                             final provider = context.read<LoginProvider>();
-                             if (_formKey.currentState!.validate()){
-                             await provider.login(context, phone, code, passwordController.text);
+                             if (formKey.currentState!.validate()){
+                             await provider.login(context, passwordController.text);
                             if (provider.isLogin.isNotEmpty )
                             {
                            Navigator.push(

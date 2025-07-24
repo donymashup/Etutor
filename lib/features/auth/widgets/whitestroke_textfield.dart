@@ -17,6 +17,7 @@ class WhiteStrokeTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      controller: controller,     
       style: const TextStyle(color: Colors.white),
       obscureText: isPassword ? true :false,
       decoration: InputDecoration(
