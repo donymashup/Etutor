@@ -39,7 +39,7 @@ class _PhoneNumberAuthState extends State<PhoneNumberAuth> {
               padding: const EdgeInsets.symmetric(horizontal: 25),
               child: Column(
                 children: [
-                  Image.asset("assets/images/dreamthemlogo.png"),
+                  Image.asset("assets/images/logo_without_bg.png"),
                   const SizedBox(height: 20),
                   Text(
                     "Welcome Learner!",
