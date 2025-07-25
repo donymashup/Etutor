@@ -14,7 +14,7 @@ required code,
 })async{
   try{
    final response = await sendPostRequest(
-        url: '$baseUrl$loginUrl',
+        url: '$baseUrl$checkMobileNumberExixt',
         fields: {
           'phone':phone,
           'country':code,
