@@ -84,7 +84,36 @@ required code,
     }
   }
 
-
+// fuction to get all dropdownoption in registration
+   Future<DropDownOptionModel?> dropDowmOption({
+    required BuildContext context,
+  }) async {
+    try {
+      final response = await sendGetRequest(url: '$baseUrl$dropDownOption');
+      if (response.statusCode == 200) {
+        final jsonResponse = json.decode(await response.stream.bytesToString());
+        if (jsonResponse == null || jsonResponse.isEmpty) {
+          showSnackbar(context, 'Invalid response from server');
+          return null;
+        } else {
+          final dropDownOptionModel = DropDownOptionModel.fromJson(jsonResponse);
+           debugPrint(dropDownOptionModel.type );
+          if (dropDownOptionModel.type == 'success') {
+            return dropDownOptionModel;
+          } else {
+            showSnackbar(context, dropDownOptionModel.type!);
+            return null;
+          }
+        }
+      } else {
+        debugPrint("Failed to fetch drop down options : ${response.statusCode}");
+        return null;
+      }
+    } catch (e) {
+      showSnackbar(context, "Error : $e");
+      return null;
+    }
+  }
 
   //future function to call register api
   Future<RegisterModel?>register({
@@ -117,13 +146,6 @@ required code,
           'phone': phone,
         },
       );
-
-  // fuction to get all dropdownoption in registration
-   Future<DropDownOptionModel?> dropDowmOption({
-    required BuildContext context,
-  }) async {
-    try {
-      final response = await sendGetRequest(url: '$baseUrl$dropDownOption');
       if (response.statusCode == 200) {
         final jsonResponse = json.decode(await response.stream.bytesToString());
         if (jsonResponse == null || jsonResponse.isEmpty) {
@@ -136,18 +158,11 @@ required code,
             return registerModel;
           } else {
             showSnackbar(context, registerModel.message!);
-          final dropDownOptionModel = DropDownOptionModel.fromJson(jsonResponse);
-           debugPrint(dropDownOptionModel.type );
-          if (dropDownOptionModel.type == 'success') {
-            return dropDownOptionModel;
-          } else {
-            showSnackbar(context, dropDownOptionModel.type!);
             return null;
           }
         }
       } else {
         debugPrint("Failed to register: ${response.statusCode}");
-        debugPrint("Failed to fetch drop down options : ${response.statusCode}");
         return null;
       }
     } catch (e) {
@@ -157,4 +172,4 @@ required code,
   }
 }
 
-      
+
