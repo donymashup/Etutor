@@ -524,7 +524,7 @@ class _RegistrationState extends State<Registration> {
   ) {
     return DropdownButtonFormField<String>(
       icon: Icon(Icons.keyboard_arrow_down_outlined, color: AppColor.greyText),
-      style: const TextStyle(fontWeight: FontWeight.w400, fontSize: 18),
+      style: const TextStyle(fontWeight: FontWeight.w400, fontSize: 18,color: AppColor.blackColor),
       dropdownColor: AppColor.greyBackground,
       decoration: InputDecoration(
         focusedBorder: const OutlineInputBorder(
