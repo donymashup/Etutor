@@ -1,13 +1,21 @@
+import 'dart:ffi';
+
 import 'package:etutor/common/constants/app_constants.dart';
+import 'package:etutor/features/auth/provider/login_provider.dart';
 import 'package:etutor/features/auth/widgets/pinput_theme.dart';
 import 'package:etutor/features/auth/widgets/white_button.dart';
 import 'package:flutter/material.dart';
 import 'package:pinput/pinput.dart';
+import 'package:provider/provider.dart';
 
 class OtpScreen extends StatelessWidget {
-  const OtpScreen({super.key});
+  OtpScreen({super.key});
+
+  int? otpPin;
+
   @override
   Widget build(BuildContext context) {
+     final loginProvider = context.read<LoginProvider>();
     return Scaffold(
       backgroundColor: AppColor.primaryColor,
       body: SingleChildScrollView(
@@ -60,7 +68,9 @@ class OtpScreen extends StatelessWidget {
                       }
                       return null;
                     },
-                    onCompleted: (pin) {},
+                    onCompleted: (pin) {
+                        otpPin = int.tryParse(pin);
+                    },
                     showCursor: true,
                     //pinputAutovalidateMode: PinputAutovalidateMode.onSubmit,
                   ),
@@ -71,7 +81,11 @@ class OtpScreen extends StatelessWidget {
 
                   whiteButton(
                     text: "Login",
-                    onpressed: () {},
+                    onpressed: () {
+                      // if ()
+                      // final otp_final = context.watch<LoginProvider>().otp;
+                      
+                    },
                   ),
 
                   SizedBox(
