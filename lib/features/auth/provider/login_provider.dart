@@ -3,8 +3,6 @@ import 'package:etutor/features/auth/models/login_model.dart';
 import 'package:etutor/features/auth/models/register_model.dart';
 import 'package:etutor/features/auth/service/auth_service.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:intl_phone_field/countries.dart';
 
 
 class LoginProvider extends ChangeNotifier{
@@ -82,8 +80,6 @@ Future login (BuildContext context,String password) async {
     ) async {
     isLoding = true;
     notifyListeners();
-
-    try {
       final response = await AuthService().register(
         context: context,
         phone: _phone,
@@ -98,26 +94,20 @@ Future login (BuildContext context,String password) async {
         password: password,
       );
       if (response != null) {
-        _register = response;
+        _register = [response];
         debugPrint("Registration successful: ${response.type}");
       } else {
-        _register = null;
+        _register = [];
         debugPrint("Registration failed");
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text("Registration failed, please try again.")),
         );
       } 
-    }
-      catch (e) {
-        debugPrint("Error occurred during registration: $e");
-        _register = null;
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text("An error occurred, please try again.")),
-        );
-      }
       isLoding = false;
       notifyListeners();
     }
+
+
   Future dropDownOptions(BuildContext context) async {
     final response = await AuthService().dropDowmOption(
       context: context, );
@@ -129,7 +119,6 @@ Future login (BuildContext context,String password) async {
       _syllabus = response.data!.syllabus!;
     } 
   }
-
 
 }
 
