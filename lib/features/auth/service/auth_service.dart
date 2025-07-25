@@ -3,6 +3,7 @@ import 'package:etutor/common/constants/config.dart';
 import 'package:etutor/common/constants/utils.dart';
 import 'package:etutor/features/auth/models/check_mobile_number_exist.dart';
 import 'package:etutor/features/auth/models/login_model.dart';
+import 'package:etutor/features/auth/models/register_model.dart';
 import 'package:flutter/material.dart';
 
 class AuthService {
@@ -81,4 +82,63 @@ required code,
       return null;
     }
   }
+
+
+  //future function to call register api
+  Future<RegisterModel?>register({
+    required BuildContext context,
+    required String firstName,
+    required String lastName,
+    required String email,
+    required String gender,
+    required String userClass,
+    required String syllabus,
+    required String school,
+    required String phone,
+    required String code,
+    required String password,
+
+  })async {
+    try {
+      final response = await sendPostRequest(
+        url: '$baseUrl$registerUrl',
+        fields: {
+          'first_name': firstName,
+          'last_name': lastName,
+          'email': email,
+          'gender': gender,
+          'class': userClass,
+          'syllabus': syllabus,
+          'school': school,
+          'password': password,
+          'country': code,
+          'phone': phone,
+        },
+      );
+      if (response.statusCode == 200) {
+        final jsonResponse = json.decode(await response.stream.bytesToString());
+        if (jsonResponse == null || jsonResponse.isEmpty) {
+          showSnackbar(context, 'Invalid response from server');
+          return null;
+        } else {
+          final registerModel = RegisterModel.fromJson(jsonResponse);
+          debugPrint(registerModel.type);
+          if (registerModel.type == 'success') {
+            return registerModel;
+          } else {
+            showSnackbar(context, registerModel.message!);
+            return null;
+          }
+        }
+      } else {
+        debugPrint("Failed to register: ${response.statusCode}");
+        return null;
+      }
+    } catch (e) {
+      showSnackbar(context, "Error : $e");
+      return null;
+    }
+  }
 }
+
+      

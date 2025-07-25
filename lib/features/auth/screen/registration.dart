@@ -36,14 +36,14 @@ class _RegistrationState extends State<Registration> {
   bool _obscureConfirmPassword = true;
 
   final List<String> _class = [
-    "class 5",
-    "class 6",
-    "class 7",
-    "class 8",
-    "class 9",
-    "class 10",
-    "class 11",
-    "class 12",
+    "Class 5",
+    "Class 6",
+    "Class 7",
+    "Class 8",
+    "Class 9",
+    "Class 10",
+    "Class 11",
+    "Class 12",
     "Others"
   ];
 
@@ -66,45 +66,53 @@ class _RegistrationState extends State<Registration> {
         child: Column(
           children: [
             Container(
+              decoration: const BoxDecoration(
               color: AppColor.primaryColor,
+              borderRadius: BorderRadius.only(
+                bottomLeft: Radius.circular(20),
+                bottomRight: Radius.circular(20),
+              ),
+              ),
               width: MediaQuery.of(context).size.width,
               height: 200,
               child: Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
+              padding: const EdgeInsets.all(20.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                Stack(
+                  alignment: Alignment.center,
                   children: [
-                    Stack(
-                      alignment: Alignment.center,
-                      children: [
-                        Center(
-                          child: Image.asset(
-                            "assets/images/logo_without_bg.png",
-                            height: 50,
-                            width: 100,
-                          ),
-                        ),
-                        CustomBackButton(),
-                      ],
+                  Center(
+                    child: Image.asset(
+                    "assets/images/logo_without_bg.png",
+                    height: 80,
+                    width: 160,
+                    fit: BoxFit.contain,
                     ),
-                    const SizedBox(height: 20),
-                    Text(
-                      "Create Your Account",
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.w500,
-                        color: AppColor.whiteColor,
-                      ),
-                    ),
-                    Text(
-                      "Looks like you’re new here. Complete your\n registration to begin learning",
-                      style: TextStyle(color: AppColor.whiteColor),
-                      textAlign: TextAlign.center,
-                    ),
+                  ),
+                  CustomBackButton(),
                   ],
                 ),
+                //const SizedBox(height: 20),
+                Text(
+                  "Create Your Account",
+                  style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.w500,
+                  color: AppColor.whiteColor,
+                  ),
+                ),
+                Text(
+                  "Looks like you’re new here. Complete your\n registration to begin learning",
+                  style: TextStyle(color: AppColor.whiteColor),
+                  textAlign: TextAlign.center,
+                ),
+                ],
+              ),
               ),
             ),
+            
             Padding(
               padding: const EdgeInsets.all(20.0),
               child: Form(

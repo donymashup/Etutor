@@ -16,7 +16,7 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
     Timer(
-        Duration(seconds: 2),
+        Duration(seconds: 4),
         () => Navigator.pushReplacement(context,
             MaterialPageRoute(builder: (context) => PhoneNumberAuth())));
   }
@@ -39,8 +39,8 @@ class _SplashScreenState extends State<SplashScreen> {
           Center(
             child: Image.asset(
               "assets/images/logo_without_bg.png",
-              height: MediaQuery.of(context).size.height * 0.3,
-              width: MediaQuery.of(context).size.width * 0.4,
+              height: MediaQuery.of(context).size.height * 0.5,
+              width: MediaQuery.of(context).size.width * 0.5,
             ),
           ),
         ],

@@ -34,7 +34,7 @@ class OtpScreen extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 25),
               child: Column(
                 children: [
-                  Image.asset("assets/images/logo.png"),
+                  Image.asset("assets/images/logo_without_bg.png"),
                   SizedBox(
                     height: 20,
                   ),
