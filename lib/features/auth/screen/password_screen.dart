@@ -5,6 +5,7 @@ import 'package:etutor/features/auth/screen/forgot_password.dart';
 import 'package:etutor/features/auth/widgets/white_button.dart';
 import 'package:etutor/features/auth/widgets/whitestroke_textfield.dart';
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 
 class PasswordScreen extends StatelessWidget {
@@ -20,9 +21,7 @@ class PasswordScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: AppColor.primaryColor,
       body:isLoading ? 
-        Center(
-          child: CircularProgressIndicator(),
-        )
+       Center(child: Lottie.asset('assets/lottie/lottieloading1.json'))
       : SingleChildScrollView(
         child: Column(
           children: [

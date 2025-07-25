@@ -2,6 +2,7 @@ import 'package:etutor/common/constants/app_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
+// function for  custom snackbar
 void showSnackbar(BuildContext context, String text) {
   ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(
@@ -15,6 +16,7 @@ void showSnackbar(BuildContext context, String text) {
   );
 }
 
+// function for post request
   Future<http.StreamedResponse> sendPostRequest({
     required String url,
     required Map<String, String> fields,
@@ -24,3 +26,10 @@ void showSnackbar(BuildContext context, String text) {
     return await request.send();
   }
 
+// function for get request
+Future<http.StreamedResponse> sendGetRequest({
+  required String url,
+}) async {
+  final request = http.Request('GET', Uri.parse(url));
+  return await request.send();
+}

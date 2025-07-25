@@ -1,4 +1,5 @@
 import 'package:etutor/common/constants/app_constants.dart';
+import 'package:etutor/common/constants/utils.dart';
 import 'package:etutor/features/auth/provider/login_provider.dart';
 import 'package:etutor/features/auth/screen/otp_screen.dart';
 import 'package:etutor/features/auth/screen/password_screen.dart';
@@ -6,6 +7,7 @@ import 'package:etutor/features/auth/screen/registration.dart';
 import 'package:etutor/features/auth/widgets/white_button.dart';
 import 'package:flutter/material.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
+import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 
 class PhoneNumberAuth extends StatefulWidget {
@@ -20,6 +22,7 @@ class _PhoneNumberAuthState extends State<PhoneNumberAuth> {
   TextEditingController phoneNumberController = TextEditingController();
   String phoneNumber = '';
   String code = '';
+  String countrysign = '';
 
  // String? errorText;
 
@@ -29,7 +32,7 @@ class _PhoneNumberAuthState extends State<PhoneNumberAuth> {
     return Scaffold(
       backgroundColor: AppColor.primaryColor,
       body: isLoading
-          ? Center(child: CircularProgressIndicator())
+          ?  Center(child: Lottie.asset('assets/lottie/lottieloading1.json'))
           : SingleChildScrollView(
               child: Column(
                 children: [                 
@@ -101,6 +104,7 @@ class _PhoneNumberAuthState extends State<PhoneNumberAuth> {
                             ),
                             onChanged: (phone) {
                               phoneNumber = phone.number;
+                              countrysign =  phone.countryCode;
                               code = phone.countryCode
                                   .replaceAll(RegExp(r'\D'), '');
                             },
@@ -133,18 +137,13 @@ class _PhoneNumberAuthState extends State<PhoneNumberAuth> {
                                   code != "") {
                                 final loginProvider =
                                     context.read<LoginProvider>();
-                                loginProvider.setPhoneNumber(phoneNumber, code);
+                                loginProvider.setPhoneNumber(phoneNumber, code, countrysign);
 
                                 await loginProvider.checkMobileExist(
                                     context, phoneNumber, code);
                                 if (loginProvider.isExist != null) {
                                   if (loginProvider.isExist! == true) {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      const SnackBar(
-                                        content: Text(
-                                            'Welcome Back, Enter password to complete login'),
-                                      ),
-                                    );
+                                    showSnackbar(context, 'Welcome Back, Enter password to complete login');
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
@@ -152,12 +151,7 @@ class _PhoneNumberAuthState extends State<PhoneNumberAuth> {
                                               PasswordScreen()),
                                     );
                                   } else {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      const SnackBar(
-                                        content:
-                                            Text('Enter the otp to proceed'),
-                                      ),
-                                    );
+                                    showSnackbar(context, 'Enter the OTP to proceed');
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
@@ -165,20 +159,10 @@ class _PhoneNumberAuthState extends State<PhoneNumberAuth> {
                                     );
                                   }
                                 } else {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                      content: Text(
-                                          'Something went wrong could not proceed try again'),
-                                    ),
-                                  );
+                                 showSnackbar(context, 'Something went wrong could not proceed try again');
                                 }
                               } else {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                    content: Text(
-                                        'Please enter a valid phone number'),
-                                  ),
-                                );
+                               showSnackbar(context, 'Please enter a valid phone number');
                               }
                             },
                           ),

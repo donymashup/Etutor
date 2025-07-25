@@ -1,7 +1,7 @@
-import 'dart:ffi';
-
 import 'package:etutor/common/constants/app_constants.dart';
+import 'package:etutor/common/constants/utils.dart';
 import 'package:etutor/features/auth/provider/login_provider.dart';
+import 'package:etutor/features/auth/screen/registration.dart';
 import 'package:etutor/features/auth/widgets/pinput_theme.dart';
 import 'package:etutor/features/auth/widgets/white_button.dart';
 import 'package:flutter/material.dart';
@@ -9,13 +9,15 @@ import 'package:pinput/pinput.dart';
 import 'package:provider/provider.dart';
 
 class OtpScreen extends StatelessWidget {
-  OtpScreen({super.key});
-
-  int? otpPin;
+  const OtpScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
      final loginProvider = context.read<LoginProvider>();
+     final phoneNumber = loginProvider.phone;
+     final code = loginProvider.countrysign;
+     int? otpPin;
+
     return Scaffold(
       backgroundColor: AppColor.primaryColor,
       body: SingleChildScrollView(
@@ -47,7 +49,7 @@ class OtpScreen extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    "Enter the OTP send to your mobile number \n+91 9994499449",
+                    "Enter the OTP send to your mobile number \n$code $phoneNumber",
                     style: TextStyle(
                       color: AppColor.whiteColor,
                     ),
@@ -72,65 +74,68 @@ class OtpScreen extends StatelessWidget {
                         otpPin = int.tryParse(pin);
                     },
                     showCursor: true,
-                    //pinputAutovalidateMode: PinputAutovalidateMode.onSubmit,
                   ),
-
                   SizedBox(
                     height: 10,
                   ),
-
                   whiteButton(
                     text: "Login",
                     onpressed: () {
-                      // if ()
-                      // final otp_final = context.watch<LoginProvider>().otp;
-                      
+                      final otpFinal = loginProvider.otp;
+                      if (otpFinal == otpPin){
+                           showSnackbar(context, "Verification Successful");
+                           Navigator.push(context, MaterialPageRoute(builder: (context) =>
+                                              Registration() ));
+                      }else{
+                        showSnackbar(context, "Verification failed. Try again");
+                      }      
                     },
                   ),
-
                   SizedBox(
                     height: 5,
                   ),
-
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      RichText(
-                        text: TextSpan(
-                          children: [
+                      GestureDetector(
+                        onTap: () async {
+                           showSnackbar(context, "OTP Resend");
+                           await loginProvider.checkMobileExist(
+                                    context, phoneNumber, code);        
+                        },
+                        child: RichText(
+                          text: TextSpan(
+                            children: [
+                              TextSpan(
+                              text:"Didn’t receive an OTP? " ,
+                              style: TextStyle(fontSize: 12,
+                                    color: AppColor.whiteColor,
+                                    fontFamily:'Poppins',
+                                    )
+                            ),
                             TextSpan(
-                            text:"Didn’t receive an OTP?" ,
-                            style: TextStyle(fontSize: 12,
-                                  color: AppColor.whiteColor,
-                                  fontFamily:'Poppins',
-                                  )
-                          ),
-                          TextSpan(
-                            text:"Send Again" ,
-                            style: TextStyle(fontSize: 12,
-                            color: AppColor.secondaryColor,
-                            fontFamily:'Poppins',)
-                          )]  
-                        )
+                              text:"Send Again" ,
+                              style: TextStyle(fontSize: 12,
+                              color: AppColor.secondaryColor,
+                              fontFamily:'Poppins',)
+                            )]  
+                          )
+                        ),
                       )
                     ],
                   ),
-
                 ],
               ),
             ),
-
             SizedBox(
               height: 35,
             ),
-
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 Image.asset("assets/images/arrow_bottomright.png"),
               ],
-            ),
-            
+            ),           
           ],
         ),
       ),
