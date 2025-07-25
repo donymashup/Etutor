@@ -2,8 +2,12 @@ import 'package:etutor/common/constants/app_constants.dart';
 import 'package:etutor/common/widgets/back_button.dart';
 import 'package:etutor/common/widgets/bottom_navigation_bar.dart';
 import 'package:etutor/common/widgets/custom_button.dart';
+import 'package:etutor/features/auth/models/drop_down_option_model.dart';
+import 'package:etutor/features/auth/provider/login_provider.dart';
+import 'package:etutor/features/auth/widgets/grey_stroke_textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
+import 'package:provider/provider.dart';
 
 class Registration extends StatefulWidget {
   const Registration({super.key});
@@ -20,43 +24,45 @@ class _RegistrationState extends State<Registration> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController schoolController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-  final TextEditingController confirmPasswordController =
-      TextEditingController();
+  final TextEditingController confirmPasswordController = TextEditingController();
   final TextEditingController genderController = TextEditingController();
   final TextEditingController dobController = TextEditingController();
+  final TextEditingController phoneController = TextEditingController();
 
   DateTime? selectedDate;
-
-  String? phoneNumber;
+  String? code;
   String? classDropdownValue;
   String? syllabusDropdownValue;
   String? selectedGender;
   bool isChecked = false;
   bool _obscurePassword = true;
   bool _obscureConfirmPassword = true;
-
-  final List<String> _class = [
-    "Class 5",
-    "Class 6",
-    "Class 7",
-    "Class 8",
-    "Class 9",
-    "Class 10",
-    "Class 11",
-    "Class 12",
-    "Others"
-  ];
-
-  final List<String> _syllabus = [
-    "Kerala State",
-    "CBSE",
-    "ICSE",
-  ];
+  List<Classes> _class = [];
+  List<Syllabus> _syllabus = [];
 
   @override
   void dispose() {
     dobController.dispose();
+    firstNameController.dispose();
+    lastNameController.dispose();
+    emailController.dispose();
+    phoneController.dispose();
+    schoolController.dispose();
+    passwordController.dispose();
+    confirmPasswordController.dispose();
+    genderController.dispose();
     super.dispose();
+  }
+
+@override
+  void initState(){
+    super.initState();
+    final loginProvider = context.read<LoginProvider>();   
+    loginProvider.dropDownOptions(context);
+    _class = loginProvider.classes;
+    _syllabus = loginProvider.syllabus;
+     phoneController.text = loginProvider.phone;
+     code = loginProvider.countrysign;
   }
 
   @override
@@ -267,52 +273,35 @@ class _RegistrationState extends State<Registration> {
                     const SizedBox(height: 10),
                     Label(labelText: "Phone Number"),
                     const SizedBox(height: 5),
-                    IntlPhoneField(
+                    TextFormField(
+                      textAlign: TextAlign.left,
+                      style: TextStyle(color: AppColor.blackColor),
+                      controller: phoneController,
+                      enabled: false,
                       decoration: InputDecoration(
-                        hintText: 'Phone Number',
-                        hintStyle: TextStyle(color: AppColor.greyText),
-                        focusedBorder: const OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(10)),
-                          borderSide: BorderSide(
-                            color: AppColor.greyStroke,
-                            width: 1.0,
-                          ),
-                        ),
-                        enabledBorder: const OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(10)),
-                          borderSide: BorderSide(
-                            color: AppColor.greyStroke,
-                            width: 1.0,
-                          ),
-                        ),
+                        border: OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(10)),borderSide: BorderSide(color:AppColor.greyStroke, width: 1)),
+                         prefix: Text(
+                            '$code ',
+                            style: TextStyle(color: Colors.black,),
+                          ), 
                         prefixIcon: Icon(
                           Icons.phone_android_outlined,
                           color: AppColor.greyIcon,
                           size: 18,
                         ),
                       ),
-                      initialCountryCode: 'IN',
-                      onChanged: (phone) {
-                        phoneNumber = phone.completeNumber;
-                      },
-                      validator: (phone) {
-                        if (phone == null || phone.number.isEmpty) {
-                          return 'Enter phone number';
-                        }
-                        return null;
-                      },
                     ),
                     const SizedBox(height: 10),
                     Label(labelText: "Class"),
                     const SizedBox(height: 5),
-                    dropdown(Icons.school_outlined, "Class", _class,
+                    dropdown(Icons.school_outlined, "Class", _class.map((classmodel) => classmodel.name ?? "").toList(),
                         classDropdownValue, (value) {
                       classDropdownValue = value;
                     }),
                     const SizedBox(height: 10),
                     Label(labelText: "Syllabus"),
                     const SizedBox(height: 5),
-                    dropdown(Icons.description_outlined, "Syllabus", _syllabus,
+                    dropdown(Icons.description_outlined, "Syllabus", _syllabus.map((syllabusmodel) =>syllabusmodel.name ?? "").toList(),
                         syllabusDropdownValue, (value) {
                       syllabusDropdownValue = value;
                     }),
@@ -593,54 +582,3 @@ class Label extends StatelessWidget {
   }
 }
 
-// custom textformfield with greystroke
-class GreystokeTextfield extends StatelessWidget {
-  final String hintText;
-  final IconData iconData;
-  final bool isPassword;
-  final TextEditingController controller;
-  final String? Function(String?)? validator;
-
-  const GreystokeTextfield({
-    super.key,
-    required this.hintText,
-    required this.iconData,
-    required this.controller,
-    this.isPassword = false,
-    this.validator,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return TextFormField(
-      obscureText: isPassword,
-      controller: controller,
-      validator: validator,
-      decoration: InputDecoration(
-        hintText: hintText,
-        hintStyle: const TextStyle(color: AppColor.greyText),
-        focusedBorder: const OutlineInputBorder(
-          borderRadius: BorderRadius.all(Radius.circular(10)),
-          borderSide: BorderSide(color: AppColor.greyStroke, width: 1.0),
-        ),
-        enabledBorder: const OutlineInputBorder(
-          borderRadius: BorderRadius.all(Radius.circular(10)),
-          borderSide: BorderSide(color: AppColor.greyStroke, width: 1.0),
-        ),
-        errorBorder: const OutlineInputBorder(
-          borderRadius: BorderRadius.all(Radius.circular(10)),
-          borderSide: BorderSide(color: Colors.red, width: 1.0),
-        ),
-        focusedErrorBorder: const OutlineInputBorder(
-          borderRadius: BorderRadius.all(Radius.circular(10)),
-          borderSide: BorderSide(color: Colors.red, width: 1.0),
-        ),
-        prefixIcon: Icon(iconData, color: AppColor.greyIcon, size: 18),
-        suffixIcon: isPassword
-            ? Icon(Icons.visibility_off_outlined,
-                color: AppColor.greyIcon, size: 18)
-            : null,
-      ),
-    );
-  }
-}

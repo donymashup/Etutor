@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:etutor/common/constants/config.dart';
 import 'package:etutor/common/constants/utils.dart';
 import 'package:etutor/features/auth/models/check_mobile_number_exist.dart';
+import 'package:etutor/features/auth/models/drop_down_option_model.dart';
 import 'package:etutor/features/auth/models/login_model.dart';
 import 'package:etutor/features/auth/models/register_model.dart';
 import 'package:flutter/material.dart';
@@ -84,6 +85,7 @@ required code,
   }
 
 
+
   //future function to call register api
   Future<RegisterModel?>register({
     required BuildContext context,
@@ -115,6 +117,13 @@ required code,
           'phone': phone,
         },
       );
+
+  // fuction to get all dropdownoption in registration
+   Future<DropDownOptionModel?> dropDowmOption({
+    required BuildContext context,
+  }) async {
+    try {
+      final response = await sendGetRequest(url: '$baseUrl$dropDownOption');
       if (response.statusCode == 200) {
         final jsonResponse = json.decode(await response.stream.bytesToString());
         if (jsonResponse == null || jsonResponse.isEmpty) {
@@ -127,11 +136,18 @@ required code,
             return registerModel;
           } else {
             showSnackbar(context, registerModel.message!);
+          final dropDownOptionModel = DropDownOptionModel.fromJson(jsonResponse);
+           debugPrint(dropDownOptionModel.type );
+          if (dropDownOptionModel.type == 'success') {
+            return dropDownOptionModel;
+          } else {
+            showSnackbar(context, dropDownOptionModel.type!);
             return null;
           }
         }
       } else {
         debugPrint("Failed to register: ${response.statusCode}");
+        debugPrint("Failed to fetch drop down options : ${response.statusCode}");
         return null;
       }
     } catch (e) {
