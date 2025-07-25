@@ -72,45 +72,53 @@ class _RegistrationState extends State<Registration> {
         child: Column(
           children: [
             Container(
+              decoration: const BoxDecoration(
               color: AppColor.primaryColor,
+              borderRadius: BorderRadius.only(
+                bottomLeft: Radius.circular(20),
+                bottomRight: Radius.circular(20),
+              ),
+              ),
               width: MediaQuery.of(context).size.width,
               height: 200,
               child: Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
+              padding: const EdgeInsets.all(20.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                Stack(
+                  alignment: Alignment.center,
                   children: [
-                    Stack(
-                      alignment: Alignment.center,
-                      children: [
-                        Center(
-                          child: Image.asset(
-                            "assets/images/logo_without_bg.png",
-                            height: 50,
-                            width: 100,
-                          ),
-                        ),
-                        CustomBackButton(),
-                      ],
+                  Center(
+                    child: Image.asset(
+                    "assets/images/logo_without_bg.png",
+                    height: 80,
+                    width: 160,
+                    fit: BoxFit.contain,
                     ),
-                    const SizedBox(height: 20),
-                    Text(
-                      "Create Your Account",
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.w500,
-                        color: AppColor.whiteColor,
-                      ),
-                    ),
-                    Text(
-                      "Looks like you’re new here. Complete your\n registration to begin learning",
-                      style: TextStyle(color: AppColor.whiteColor),
-                      textAlign: TextAlign.center,
-                    ),
+                  ),
+                  CustomBackButton(),
                   ],
                 ),
+                //const SizedBox(height: 20),
+                Text(
+                  "Create Your Account",
+                  style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.w500,
+                  color: AppColor.whiteColor,
+                  ),
+                ),
+                Text(
+                  "Looks like you’re new here. Complete your\n registration to begin learning",
+                  style: TextStyle(color: AppColor.whiteColor),
+                  textAlign: TextAlign.center,
+                ),
+                ],
+              ),
               ),
             ),
+            
             Padding(
               padding: const EdgeInsets.all(20.0),
               child: Form(
@@ -513,7 +521,7 @@ class _RegistrationState extends State<Registration> {
   ) {
     return DropdownButtonFormField<String>(
       icon: Icon(Icons.keyboard_arrow_down_outlined, color: AppColor.greyText),
-      style: const TextStyle(fontWeight: FontWeight.w400, fontSize: 18,color:AppColor.blackColor),
+      style: const TextStyle(fontWeight: FontWeight.w400, fontSize: 18,color: AppColor.blackColor),
       dropdownColor: AppColor.greyBackground,
       decoration: InputDecoration(
         focusedBorder: const OutlineInputBorder(

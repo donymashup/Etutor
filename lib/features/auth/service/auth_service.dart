@@ -4,6 +4,7 @@ import 'package:etutor/common/constants/utils.dart';
 import 'package:etutor/features/auth/models/check_mobile_number_exist.dart';
 import 'package:etutor/features/auth/models/drop_down_option_model.dart';
 import 'package:etutor/features/auth/models/login_model.dart';
+import 'package:etutor/features/auth/models/register_model.dart';
 import 'package:flutter/material.dart';
 
 class AuthService {
@@ -83,6 +84,40 @@ required code,
     }
   }
 
+
+
+  //future function to call register api
+  Future<RegisterModel?>register({
+    required BuildContext context,
+    required String firstName,
+    required String lastName,
+    required String email,
+    required String gender,
+    required String userClass,
+    required String syllabus,
+    required String school,
+    required String phone,
+    required String code,
+    required String password,
+
+  })async {
+    try {
+      final response = await sendPostRequest(
+        url: '$baseUrl$registerUrl',
+        fields: {
+          'first_name': firstName,
+          'last_name': lastName,
+          'email': email,
+          'gender': gender,
+          'class': userClass,
+          'syllabus': syllabus,
+          'school': school,
+          'password': password,
+          'country': code,
+          'phone': phone,
+        },
+      );
+
   // fuction to get all dropdownoption in registration
    Future<DropDownOptionModel?> dropDowmOption({
     required BuildContext context,
@@ -95,6 +130,12 @@ required code,
           showSnackbar(context, 'Invalid response from server');
           return null;
         } else {
+          final registerModel = RegisterModel.fromJson(jsonResponse);
+          debugPrint(registerModel.type);
+          if (registerModel.type == 'success') {
+            return registerModel;
+          } else {
+            showSnackbar(context, registerModel.message!);
           final dropDownOptionModel = DropDownOptionModel.fromJson(jsonResponse);
            debugPrint(dropDownOptionModel.type );
           if (dropDownOptionModel.type == 'success') {
@@ -105,6 +146,7 @@ required code,
           }
         }
       } else {
+        debugPrint("Failed to register: ${response.statusCode}");
         debugPrint("Failed to fetch drop down options : ${response.statusCode}");
         return null;
       }
@@ -114,3 +156,5 @@ required code,
     }
   }
 }
+
+      
