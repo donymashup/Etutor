@@ -38,7 +38,7 @@ class _SplashScreenState extends State<SplashScreen> {
           ),
           Center(
             child: Image.asset(
-              "assets/images/dreamthemlogo.png",
+              "assets/images/logo_without_bg.png",
               height: MediaQuery.of(context).size.height * 0.3,
               width: MediaQuery.of(context).size.width * 0.4,
             ),

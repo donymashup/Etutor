@@ -33,12 +33,30 @@ class _PhoneNumberAuthState extends State<PhoneNumberAuth> {
           : SingleChildScrollView(
               child: Column(
                 children: [
+
+                  Image.asset("assets/images/logo_without_bg.png"),
+                  const SizedBox(height: 20),
+                  Text(
+                    "Welcome Learner!",
+                    style: TextStyle(
+                      fontSize: 20,
+                      color: AppColor.whiteColor,
+                    ),
+                  ),
+                  Text(
+                    "Enter your mobile number to get started ",
+                    style: TextStyle(
+                      color: AppColor.whiteColor,
+                      fontWeight: FontWeight.w500,
+                    ),
+
                   const SizedBox(height: 30),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Image.asset("assets/images/arrow_topLeft.png"),
                     ],
+
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 25),
