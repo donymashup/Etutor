@@ -4,9 +4,11 @@ import 'package:etutor/common/widgets/bottom_navigation_bar.dart';
 import 'package:etutor/common/widgets/custom_button.dart';
 import 'package:etutor/features/auth/models/drop_down_option_model.dart';
 import 'package:etutor/features/auth/provider/login_provider.dart';
+import 'package:etutor/features/auth/screen/password_screen.dart';
 import 'package:etutor/features/auth/widgets/grey_stroke_textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
+import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 
 class Registration extends StatefulWidget {
@@ -24,7 +26,8 @@ class _RegistrationState extends State<Registration> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController schoolController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-  final TextEditingController confirmPasswordController = TextEditingController();
+  final TextEditingController confirmPasswordController =
+      TextEditingController();
   final TextEditingController genderController = TextEditingController();
   final TextEditingController dobController = TextEditingController();
   final TextEditingController phoneController = TextEditingController();
@@ -54,71 +57,74 @@ class _RegistrationState extends State<Registration> {
     super.dispose();
   }
 
-@override
-  void initState(){
+  @override
+  void initState() {
     super.initState();
-    final loginProvider = context.read<LoginProvider>();   
+    final loginProvider = context.read<LoginProvider>();
     loginProvider.dropDownOptions(context);
-    _class = loginProvider.classes;
-    _syllabus = loginProvider.syllabus;
-     phoneController.text = loginProvider.phone;
-     code = loginProvider.countrysign;
+    phoneController.text = loginProvider.phone;
+    code = loginProvider.countrysign;
   }
 
   @override
   Widget build(BuildContext context) {
+    _class = context.watch<LoginProvider>().classes;
+    _syllabus = context.watch<LoginProvider>().syllabus;
+    final isLoading = context.watch<LoginProvider>().isLoding;
     return Scaffold(
-      body: SingleChildScrollView(
+      body:isLoading ? 
+      Center(
+        child: Lottie.asset("assets/lottie/lottieloading1.json"))
+      :SingleChildScrollView(
         child: Column(
           children: [
             Container(
               decoration: const BoxDecoration(
-              color: AppColor.primaryColor,
-              borderRadius: BorderRadius.only(
-                bottomLeft: Radius.circular(20),
-                bottomRight: Radius.circular(20),
-              ),
+                color: AppColor.primaryColor,
+                borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(20),
+                  bottomRight: Radius.circular(20),
+                ),
               ),
               width: MediaQuery.of(context).size.width,
               height: 200,
               child: Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                Stack(
-                  alignment: Alignment.center,
+                padding: const EdgeInsets.all(20.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                  Center(
-                    child: Image.asset(
-                    "assets/images/logo_without_bg.png",
-                    height: 80,
-                    width: 160,
-                    fit: BoxFit.contain,
+                    Stack(
+                      alignment: Alignment.center,
+                      children: [
+                        Center(
+                          child: Image.asset(
+                            "assets/images/logo_without_bg.png",
+                            height: 80,
+                            width: 160,
+                            fit: BoxFit.contain,
+                          ),
+                        ),
+                        CustomBackButton(),
+                      ],
                     ),
-                  ),
-                  CustomBackButton(),
+                    //const SizedBox(height: 20),
+                    Text(
+                      "Create Your Account",
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w500,
+                        color: AppColor.whiteColor,
+                      ),
+                    ),
+                    Text(
+                      "Looks like you’re new here. Complete your\n registration to begin learning",
+                      style: TextStyle(color: AppColor.whiteColor),
+                      textAlign: TextAlign.center,
+                    ),
                   ],
                 ),
-                //const SizedBox(height: 20),
-                Text(
-                  "Create Your Account",
-                  style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w500,
-                  color: AppColor.whiteColor,
-                  ),
-                ),
-                Text(
-                  "Looks like you’re new here. Complete your\n registration to begin learning",
-                  style: TextStyle(color: AppColor.whiteColor),
-                  textAlign: TextAlign.center,
-                ),
-                ],
-              ),
               ),
             ),
-            
             Padding(
               padding: const EdgeInsets.all(20.0),
               child: Form(
@@ -279,11 +285,16 @@ class _RegistrationState extends State<Registration> {
                       controller: phoneController,
                       enabled: false,
                       decoration: InputDecoration(
-                        border: OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(10)),borderSide: BorderSide(color:AppColor.greyStroke, width: 1)),
-                         prefix: Text(
-                            '$code ',
-                            style: TextStyle(color: Colors.black,),
-                          ), 
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(10)),
+                            borderSide: BorderSide(
+                                color: AppColor.greyStroke, width: 1)),
+                        prefix: Text(
+                          '$code ',
+                          style: TextStyle(
+                            color: Colors.black,
+                          ),
+                        ),
                         prefixIcon: Icon(
                           Icons.phone_android_outlined,
                           color: AppColor.greyIcon,
@@ -294,14 +305,24 @@ class _RegistrationState extends State<Registration> {
                     const SizedBox(height: 10),
                     Label(labelText: "Class"),
                     const SizedBox(height: 5),
-                    dropdown(Icons.school_outlined, "Class", _class.map((classmodel) => classmodel.name ?? "").toList(),
+                    dropdown(
+                        Icons.school_outlined,
+                        "Class",
+                        _class
+                            .map((classmodel) => classmodel.name ?? "")
+                            .toList(),
                         classDropdownValue, (value) {
                       classDropdownValue = value;
                     }),
                     const SizedBox(height: 10),
                     Label(labelText: "Syllabus"),
                     const SizedBox(height: 5),
-                    dropdown(Icons.description_outlined, "Syllabus", _syllabus.map((syllabusmodel) =>syllabusmodel.name ?? "").toList(),
+                    dropdown(
+                        Icons.description_outlined,
+                        "Syllabus",
+                        _syllabus
+                            .map((syllabusmodel) => syllabusmodel.name ?? "")
+                            .toList(),
                         syllabusDropdownValue, (value) {
                       syllabusDropdownValue = value;
                     }),
@@ -471,16 +492,36 @@ class _RegistrationState extends State<Registration> {
                     ),
                     const SizedBox(height: 25),
                     CustomButton(
-                      onpressed: () {
+                      onpressed: () async {
                         if (_formKey.currentState!.validate() &&
                             isChecked &&
                             classDropdownValue != null &&
                             syllabusDropdownValue != null) {
-                          Navigator.push(
+                          final provider = context.read<LoginProvider>();
+                          await provider.register(
                             context,
-                            MaterialPageRoute(
-                                builder: (context) => BottomNavBarScreen()),
+                            firstNameController.text.trim(),
+                            lastNameController.text.trim(),
+                            emailController.text.trim(),
+                            selectedGender!,
+                            classDropdownValue!,
+                            syllabusDropdownValue!,
+                            schoolController.text.trim(),
+                            passwordController.text.trim(),
+                            dobController.text,
                           );
+
+                          // Check if registration is successful
+                          if (provider.registerResponse.isNotEmpty &&
+                              provider.registerResponse.first.type ==
+                                  'success') {
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => PasswordScreen(),
+                              ),
+                            );
+                          }
                         } else if (!isChecked) {
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
@@ -521,7 +562,10 @@ class _RegistrationState extends State<Registration> {
   ) {
     return DropdownButtonFormField<String>(
       icon: Icon(Icons.keyboard_arrow_down_outlined, color: AppColor.greyText),
-      style: const TextStyle(fontWeight: FontWeight.w400, fontSize: 18,color: AppColor.blackColor),
+      style: const TextStyle(
+          fontWeight: FontWeight.w400,
+          fontSize: 18,
+          color: AppColor.blackColor),
       dropdownColor: AppColor.greyBackground,
       decoration: InputDecoration(
         focusedBorder: const OutlineInputBorder(
@@ -581,4 +625,3 @@ class Label extends StatelessWidget {
     );
   }
 }
-

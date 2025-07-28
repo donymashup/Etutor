@@ -77,6 +77,7 @@ Future login (BuildContext context,String password) async {
     String syllabus,
     String school,
     String password,
+    String dob,
     ) async {
     isLoding = true;
     notifyListeners();
@@ -92,6 +93,8 @@ Future login (BuildContext context,String password) async {
         syllabus: syllabus,
         school: school,
         password: password,
+        dob: dob,
+
       );
       if (response != null) {
         _register = [response];
@@ -118,6 +121,7 @@ Future login (BuildContext context,String password) async {
       _class = response!.data!.classes!;
       _syllabus = response.data!.syllabus!;
     } 
+    notifyListeners();
   }
 
 }
