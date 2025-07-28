@@ -3,31 +3,35 @@ import 'package:etutor/features/auth/models/login_model.dart';
 import 'package:etutor/features/auth/models/register_model.dart';
 import 'package:etutor/features/auth/service/auth_service.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 
 class LoginProvider extends ChangeNotifier{
   bool isLoding = false;
   String _phone = "";
   String _code = "";
-   String _countrysign = "";
+  String _countrysign = "";
+  String? _token ;
   int? _otp;
   bool? _isExist;
   List<LoginModel> _login = [];
   List <RegisterModel> _register =[];
   List<Syllabus> _syllabus =[];
   List<Classes> _class = [];
+  final FlutterSecureStorage _secureStorage = const FlutterSecureStorage();
 
  
   List<LoginModel> get isLogin => _login;
   String get phone => _phone;
   String get code => _code;
   String get countrysign => _countrysign;
+  String? get token => _token;
   bool? get isExist => _isExist;
   int? get otp => _otp;
   List<RegisterModel> get registerResponse => _register;
   List<Syllabus> get syllabus => _syllabus;
   List<Classes> get classes => _class;
-
+  
 Future login (BuildContext context,String password) async {
     isLoding = true;
     notifyListeners();
@@ -36,9 +40,16 @@ Future login (BuildContext context,String password) async {
       phone: _phone, 
       code: _code, 
       password: password);
-   _login = response != null ? [response] : [];
-    isLoding = false;
-    notifyListeners();
+      if (response != null ){
+       _login = [response]; 
+       await _secureStorage.write(key: 'token', value: response.token);
+       _token = await _secureStorage.read(key: 'token');
+       debugPrint(_token);
+      }else{
+         _login = [];
+        } 
+      isLoding = false;
+      notifyListeners();
   }
 
   Future checkMobileExist (BuildContext context,String phoneNumber,String code) async {
@@ -123,6 +134,13 @@ Future login (BuildContext context,String password) async {
       _syllabus = response.data!.syllabus!;
     } 
     notifyListeners();
+  }
+
+ Future<void> logout() async {
+    await _secureStorage.delete(key: 'token');
+    _login = [];
+    notifyListeners();
+
   }
 
 }

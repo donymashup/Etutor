@@ -1,4 +1,5 @@
 import 'package:etutor/common/constants/app_constants.dart';
+import 'package:etutor/common/constants/utils.dart';
 import 'package:etutor/common/widgets/bottom_navigation_bar.dart';
 import 'package:etutor/features/auth/provider/login_provider.dart';
 import 'package:etutor/features/auth/screen/forgot_password.dart';
@@ -85,7 +86,8 @@ class PasswordScreen extends StatelessWidget {
                              await provider.login(context, passwordController.text);
                             if (provider.isLogin.isNotEmpty )
                             {
-                           Navigator.push(
+                              showSnackbar(context,'Login successful');
+                              Navigator.push(
                                 context,
                                 MaterialPageRoute(
                                 builder: (context) => BottomNavBarScreen()));
