@@ -128,6 +128,9 @@ required code,
     required String phone,
     required String code,
     required String password,
+    required String dob,
+
+    
 
   })async {
     try {
@@ -138,12 +141,13 @@ required code,
           'last_name': lastName,
           'email': email,
           'gender': gender,
-          'class': userClass,
+          'qualification': userClass,
           'syllabus': syllabus,
           'school': school,
           'password': password,
           'country': code,
           'phone': phone,
+          'dob': dob,
         },
       );
       if (response.statusCode == 200) {

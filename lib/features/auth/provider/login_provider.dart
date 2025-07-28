@@ -88,9 +88,11 @@ Future login (BuildContext context,String password) async {
     String syllabus,
     String school,
     String password,
+    String dob,
     ) async {
     isLoding = true;
     notifyListeners();
+    
       final response = await AuthService().register(
         context: context,
         phone: _phone,
@@ -103,6 +105,8 @@ Future login (BuildContext context,String password) async {
         syllabus: syllabus,
         school: school,
         password: password,
+        dob: dob,
+
       );
       if (response != null) {
         _register = [response];
@@ -136,6 +140,7 @@ Future login (BuildContext context,String password) async {
     await _secureStorage.delete(key: 'token');
     _login = [];
     notifyListeners();
+
   }
 
 }
