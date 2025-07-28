@@ -58,15 +58,15 @@ class _RegistrationState extends State<Registration> {
   void initState(){
     super.initState();
     final loginProvider = context.read<LoginProvider>();   
-    loginProvider.dropDownOptions(context);
-    _class = loginProvider.classes;
-    _syllabus = loginProvider.syllabus;
+    loginProvider.dropDownOptions(context);   
      phoneController.text = loginProvider.phone;
      code = loginProvider.countrysign;
   }
 
   @override
   Widget build(BuildContext context) {
+    _class = context.watch<LoginProvider>().classes;
+    _syllabus = context.watch<LoginProvider>().syllabus;
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
