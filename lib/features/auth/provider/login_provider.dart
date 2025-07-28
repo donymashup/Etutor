@@ -81,6 +81,7 @@ Future login (BuildContext context,String password) async {
     ) async {
     isLoding = true;
     notifyListeners();
+    
       final response = await AuthService().register(
         context: context,
         phone: _phone,
