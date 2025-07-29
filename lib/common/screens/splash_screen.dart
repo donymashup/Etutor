@@ -1,12 +1,10 @@
 import 'dart:async';
 
 import 'package:etutor/common/constants/app_constants.dart';
-import 'package:etutor/features/auth/provider/login_provider.dart';
 import 'package:etutor/features/auth/screen/phone_number_auth.dart';
 import 'package:etutor/features/home/screen/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:provider/provider.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -21,19 +19,7 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    _checkToken();
-    // final FlutterSecureStorage secureStorage = const FlutterSecureStorage();
-    //  final token = secureStorage.read(key: 'token');
-    //  if (token != null && token.isNotEmpty){
-    //     Timer(
-    //     Duration(seconds: 3),
-    //     () => Navigator.pushReplacement(context,
-    //         MaterialPageRoute(builder: (context) =>HomePage())));
-    //  }else{
-    //   Timer(
-    //     Duration(seconds: 3),
-    //     () => Navigator.pushReplacement(context,
-    //         MaterialPageRoute(builder: (context) => PhoneNumberAuth())));}
+    _checkToken(); 
   }
  Future<void> _checkToken() async {
   final secureStorage = const FlutterSecureStorage();
@@ -55,6 +41,7 @@ class _SplashScreenState extends State<SplashScreen> {
     );
   }
 }
+
  
   @override
   Widget build(BuildContext context) {
