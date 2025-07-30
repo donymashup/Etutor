@@ -1,6 +1,10 @@
 import 'dart:async';
 
 import 'package:etutor/common/constants/app_constants.dart';
+
+import 'package:etutor/common/widgets/bottom_navigation_bar.dart';
+import 'package:etutor/features/auth/provider/login_provider.dart';
+
 import 'package:etutor/features/auth/screen/phone_number_auth.dart';
 import 'package:etutor/features/home/screen/home_screen.dart';
 import 'package:flutter/material.dart';
@@ -30,9 +34,9 @@ class _SplashScreenState extends State<SplashScreen> {
   if (!mounted) return;
 
   if (token != null && token.isNotEmpty) {
-    Navigator.pushReplacement(
+    Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => const HomePage()),
+      MaterialPageRoute(builder: (context) => const BottomNavBarScreen()),
     );
   } else {
     Navigator.pushReplacement(
