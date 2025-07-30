@@ -1,3 +1,5 @@
+import 'package:etutor/common/provider/network_provider.dart';
+import 'package:etutor/common/screens/network_dialog.dart';
 import 'package:etutor/common/screens/splash_screen.dart';
 import 'package:etutor/common/constants/app_constants.dart';
 import 'package:etutor/features/auth/provider/login_provider.dart';
@@ -14,7 +16,11 @@ void main() async {
       providers:[
         ChangeNotifierProvider(create: (_) => PaymentProvider()),
         ChangeNotifierProvider(create: (_) => LoginProvider()),
+
         ChangeNotifierProvider(create: (_) => UserDetailsProvider()),
+
+        ChangeNotifierProvider(create: (_) => NetworkProvider()),
+
       ],
       child: MyApp(),
       ),
@@ -31,6 +37,21 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: AppColor.whiteColor),
         useMaterial3: true,
       ),
+       builder: (context, child) {
+        return Stack(
+          children: [
+            child!,
+            Consumer<NetworkProvider>(
+              builder: (context, provider, _) {
+                if (!provider.hasConnection) {
+                  return const NoInternetDialog();
+                }
+                return const SizedBox.shrink();
+              },
+            ),
+          ],
+        );
+      },
       home: SplashScreen(),   
     );
   }

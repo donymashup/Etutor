@@ -1,14 +1,15 @@
 import 'dart:async';
 
 import 'package:etutor/common/constants/app_constants.dart';
+
 import 'package:etutor/common/widgets/bottom_navigation_bar.dart';
 import 'package:etutor/features/auth/provider/login_provider.dart';
+
 import 'package:etutor/features/auth/screen/phone_number_auth.dart';
 import 'package:etutor/features/home/provider/user_details_provider.dart';
 import 'package:etutor/features/home/screen/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:provider/provider.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -23,7 +24,7 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    _checkToken();
+    _checkToken(); 
   }
  Future<void> _checkToken() async {
   // await context.read<UserDetailsProvider>().loadUserDetails(context);
@@ -51,6 +52,7 @@ class _SplashScreenState extends State<SplashScreen> {
     );
   }
 }
+
  
   @override
   Widget build(BuildContext context) {
