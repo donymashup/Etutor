@@ -1,4 +1,5 @@
 import 'package:etutor/features/home/model/user_details_model.dart';
+import 'package:etutor/features/home/widgets/carousel.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -161,8 +162,8 @@ class _HomePageState extends State<HomePage> {
                                       Text(
                                         context.watch<UserDetailsProvider>().isLoading
                                             ? "Loading..."
-                                            : userProvider?.userDetails?.data?.firstName != null
-                                                ? "Hello, ${userProvider?.userDetails!.data!.firstName}!"
+                                            : (userProvider.userDetails.data ?? Data()).firstName != null
+                                                ? "Hello, ${(userProvider.userDetails.data ?? Data()).firstName}!"
                                                 : "Hello, User!",
                                         style: const TextStyle(
                                           fontSize: 20,
@@ -170,6 +171,7 @@ class _HomePageState extends State<HomePage> {
                                           color: Colors.white,
                                         ),
                                         overflow: TextOverflow.ellipsis,
+                                        
                                       ),
                                       const SizedBox(height: 4),
                                       const Text(
@@ -261,22 +263,22 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
               ),
-
-              const CategoryButtonList(),
+               CarouselScreen(),
+               // Popular Courses
+              sectionHeader("Popular Courses"),
+              courseList(popularCourses),
+             SizedBox(height: 10,)   ,    
+             const CategoryButtonList(),
 
               // Active Courses
               sectionHeader("Active Courses (${activeCourses.length})", () {
                 Navigator.push(context, MaterialPageRoute(builder: (_) => const SeeMoreCourses()));
-              }),
-              courseList(activeCourses),
-
-              // Popular Courses
-              sectionHeader("Popular Courses"),
-              courseList(popularCourses),
-
-              // Mock Courses
-              sectionHeader("Mock Courses"),
-              courseList(mockCourses),
+              }),   
+               courseList(activeCourses), 
+             
+              // // Mock Courses
+              // sectionHeader("Mock Courses"),
+              // courseList(mockCourses),
             ],
           ),
         ),
@@ -286,7 +288,7 @@ class _HomePageState extends State<HomePage> {
 
   Widget sectionHeader(String title, [VoidCallback? onSeeMore]) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+       padding: const EdgeInsets.fromLTRB(16, 12, 16, 4),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -299,17 +301,21 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
           if (onSeeMore != null)
-            TextButton(
-              onPressed: onSeeMore,
-              child: Text(
-                "See More",
-                style: TextStyle(
-                  color: AppColor.primaryColor,
-                  fontSize: 16,
-                  fontWeight: FontWeight.w500,
+                      SizedBox(
+              height: 30, // set your desired height
+              child: TextButton(
+                onPressed: onSeeMore,
+                child: Text(
+                  "See More",
+                  style: TextStyle(
+                    color: AppColor.primaryColor,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500,
+                  ),
                 ),
               ),
             )
+
         ],
       ),
     );

@@ -13,7 +13,7 @@ class UserDetailsProvider extends ChangeNotifier {
   Future<UserDetailsModel?> loadUserDetails(BuildContext context) async {
     _isLoading = true;
     notifyListeners();
-    debugPrint("Loading user details...");
+    debugPrint("Loading user details...");  
     try {
       final data = await UserDetailsService().fetchUserDetails(context: context);
       if (data != null && data.type == "success") {
@@ -34,12 +34,12 @@ class UserDetailsProvider extends ChangeNotifier {
     return null;
   }
 
-  // Optional: Refresh method
+  // Refresh method
   Future<void> refreshUserDetails(BuildContext context) async {
     await loadUserDetails(context);
   }
 
-  // Optional: Clear data on logout
+  // Clear data on logout
   void clearUserDetails() {
     _userDetails = UserDetailsModel();
     notifyListeners();
