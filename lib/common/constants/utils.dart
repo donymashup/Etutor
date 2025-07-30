@@ -33,3 +33,17 @@ Future<http.StreamedResponse> sendGetRequest({
   final request = http.Request('GET', Uri.parse(url));
   return await request.send();
 }
+
+
+// Function for GET request with token
+Future<http.StreamedResponse> sendGetRequestWithToken({
+  required String url,
+  required String token,
+}) async {
+  final request = http.Request('GET', Uri.parse(url));
+  request.headers.addAll({
+    'Authorization': 'Bearer $token',
+  });
+
+  return await request.send();
+}
