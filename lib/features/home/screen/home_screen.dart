@@ -2,7 +2,6 @@ import 'package:etutor/features/home/model/user_details_model.dart';
 import 'package:etutor/features/home/widgets/carousel.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
 import 'package:etutor/common/constants/app_constants.dart';
 import 'package:etutor/features/drawer/screens/drawer.dart';
 import 'package:etutor/features/home/provider/user_details_provider.dart';
@@ -151,7 +150,7 @@ class _HomePageState extends State<HomePage> {
                                     radius: 30,
                                     backgroundImage: ((userProvider.userDetails.data ?? Data()).image != null && ((userProvider.userDetails.data ?? Data()).image ?? "").isNotEmpty)
                                         ? NetworkImage((userProvider.userDetails.data ?? Data()).image ?? "")
-                                        : const AssetImage('assets/images/arjun.webp') as ImageProvider,
+                                        : const AssetImage('assets/images/default_user_image.png') as ImageProvider,
                                   ),
                                 ),
                                 const SizedBox(width: 12),
