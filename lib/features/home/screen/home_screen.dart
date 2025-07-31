@@ -161,9 +161,9 @@ class _HomePageState extends State<HomePage> {
                                       Text(
                                         context.watch<UserDetailsProvider>().isLoading
                                             ? "Loading..."
-                                            : userProvider?.userDetails?.data?.firstName != null
-                                                ? "Hello, ${userProvider?.userDetails!.data!.firstName}!"
-                                                : "Hello, User!",
+                                            : (userProvider.userDetails.data ?? Data()).firstName != null
+                                                ? "Hello, ${(userProvider.userDetails.data ?? Data()).firstName}!"
+                                                :"Hello, User!",
                                         style: const TextStyle(
                                           fontSize: 20,
                                           fontWeight: FontWeight.bold,
