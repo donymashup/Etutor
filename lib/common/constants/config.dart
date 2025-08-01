@@ -4,6 +4,8 @@ const checkMobileNumberExixt = 'Authapi/checkMobileNumberExists';
 const registerUrl = 'Authapi/register';
 const dropDownOption = 'Authapi/getAllDropDownOptions';
 const getUserDetails = 'Newapi/getUserDetails';
+const getLiveCourse ='Newapi/getLiveCourses';
+const getBannerImage ='Newapi/getBannerImages';
 
 
 

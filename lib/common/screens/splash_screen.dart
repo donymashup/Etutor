@@ -6,6 +6,7 @@ import 'package:etutor/common/widgets/bottom_navigation_bar.dart';
 import 'package:etutor/features/auth/provider/login_provider.dart';
 
 import 'package:etutor/features/auth/screen/phone_number_auth.dart';
+import 'package:etutor/features/home/provider/user_details_provider.dart';
 import 'package:etutor/features/home/screen/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -26,10 +27,16 @@ class _SplashScreenState extends State<SplashScreen> {
     _checkToken(); 
   }
  Future<void> _checkToken() async {
-  final secureStorage = const FlutterSecureStorage();
-  final token = await secureStorage.read(key: 'token'); // await here
+  // await context.read<UserDetailsProvider>().loadUserDetails(context);
+   final secureStorage = const FlutterSecureStorage();
+  //  UserDetailsProvider userProvider = UserDetailsProvider();
+  //  userProvider = Provider.of<UserDetailsProvider>(context, listen: true);
+  //  if (userProvider.userDetails.type == 'danger'){
+  //    await secureStorage.write(key: 'token', value: '');
+  //  }
 
-  await Future.delayed(const Duration(seconds: 3)); // splash delay
+  final token = await secureStorage.read(key: 'token'); 
+  await Future.delayed(const Duration(seconds: 3)); 
 
   if (!mounted) return;
 

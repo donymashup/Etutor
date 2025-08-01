@@ -13,9 +13,9 @@ class CategoryButton extends StatelessWidget {
       width:  MediaQuery.of(context).size.width * 0.15 < 120
       ?120
       : MediaQuery.of(context).size.width * 0.15, 
-      height: 70, 
+      height: 60, 
       margin: const EdgeInsets.only(right: 12),
-      padding: const EdgeInsets.symmetric(vertical: 10),
+     // padding: const EdgeInsets.symmetric(vertical: 10),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(16),
@@ -44,7 +44,7 @@ class CategoryButtonList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 120,
+    height: 60,
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
         padding: const EdgeInsets.symmetric(horizontal: 16),
