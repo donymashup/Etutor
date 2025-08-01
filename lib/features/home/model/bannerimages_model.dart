@@ -11,7 +11,6 @@ class BannerImageModel {
     if (json['data'] != null) {
       data = <Banner>[];
       json['data'].forEach((v) {
-        debugPrint("hii");
         data!.add(Banner.fromJson(v));
       });
     }

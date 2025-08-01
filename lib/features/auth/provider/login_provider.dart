@@ -140,7 +140,6 @@ Future login (BuildContext context,String password) async {
     await _secureStorage.delete(key: 'token');
     _login = [];
     notifyListeners();
-
   }
 
 }

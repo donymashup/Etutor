@@ -87,7 +87,7 @@ class PasswordScreen extends StatelessWidget {
                             if (provider.isLogin.isNotEmpty )
                             {
                               showSnackbar(context,'Login successful');
-                              Navigator.push(
+                              Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
                                 builder: (context) => BottomNavBarScreen()));

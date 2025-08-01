@@ -22,9 +22,8 @@ class UserDetailsService {
         url: "$baseUrl$getUserDetails",
         token: token,
       );
-
+         final jsonResponse = json.decode(await response.stream.bytesToString());
        if (response.statusCode == 200) {
-        final jsonResponse = json.decode(await response.stream.bytesToString());
         if (jsonResponse == null || jsonResponse.isEmpty) {
           showSnackbar(context, 'Invalid response from server');
           return null;
@@ -40,6 +39,7 @@ class UserDetailsService {
         }
       } else {
         debugPrint("Failed fetch user details: ${response.statusCode}");
+        await storage.write(key: 'isLogin', value:'false');
         return null;
       }
     } catch (e) {
