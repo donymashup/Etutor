@@ -1,5 +1,7 @@
 import 'package:etutor/common/constants/app_constants.dart';
 import 'package:etutor/common/widgets/back_button.dart';
+import 'package:etutor/features/auth/provider/login_provider.dart';
+import 'package:etutor/features/auth/screen/phone_number_auth.dart';
 import 'package:etutor/features/profile/screens/edit_profile.dart';
 import 'package:etutor/features/profile/widgets/custom_wave_painter.dart';
 import 'package:etutor/features/home/provider/user_details_provider.dart';
@@ -42,22 +44,53 @@ class Profile extends StatelessWidget {
                           padding: const EdgeInsets.only(top: 30.0),
                           child: Row(
                             children: [
-                              ClipRRect(
-                                borderRadius: BorderRadius.circular(50),
-                                child: userDetails.image != null &&
-                                        userDetails.image!.isNotEmpty
-                                    ? Image.network(
-                                        userDetails.image!,
-                                        width: 100,
-                                        height: 100,
-                                        fit: BoxFit.cover,
-                                      )
-                                    : Image.asset(
-                                        "assets/images/default_profile.png",
-                                        width: 100,
-                                        height: 100,
-                                        fit: BoxFit.cover,
+                              GestureDetector(
+                                onTap: () {
+                                  showDialog(
+                                    context: context,
+                                    builder: (_) => Dialog(
+                                      backgroundColor: Colors.transparent,
+                                      insetPadding: const EdgeInsets.all(10),
+                                      child: GestureDetector(
+                                        onTap: () => Navigator.pop(context),
+                                        child: InteractiveViewer(
+                                          child: ClipRRect(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            child: userDetails.image != null &&
+                                                    userDetails
+                                                        .image!.isNotEmpty
+                                                ? Image.network(
+                                                    userDetails.image!,
+                                                    fit: BoxFit.contain,
+                                                  )
+                                                : Image.asset(
+                                                    "assets/images/default_profile.png",
+                                                    fit: BoxFit.contain,
+                                                  ),
+                                          ),
+                                        ),
                                       ),
+                                    ),
+                                  );
+                                },
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(50),
+                                  child: userDetails.image != null &&
+                                          userDetails.image!.isNotEmpty
+                                      ? Image.network(
+                                          userDetails.image!,
+                                          width: 100,
+                                          height: 100,
+                                          fit: BoxFit.cover,
+                                        )
+                                      : Image.asset(
+                                          "assets/images/default_profile.png",
+                                          width: 100,
+                                          height: 100,
+                                          fit: BoxFit.cover,
+                                        ),
+                                ),
                               ),
                               const SizedBox(width: 10),
                               Column(
@@ -107,10 +140,7 @@ class Profile extends StatelessWidget {
                                   userDetails.state,
                                   userDetails.zipCode,
                                   userDetails.parsedCountry
-                                ]
-                                    .where(
-                                        (e) => e.trim().isNotEmpty)
-                                    .join(", ")),    
+                                ].where((e) => e.trim().isNotEmpty).join(", ")),
                             _buildInfoRow(
                                 Icons.email, userDetails.email ?? 'N/A'),
                             _buildInfoRow(Icons.cake, userDetails.dob ?? 'N/A'),
@@ -139,11 +169,51 @@ class Profile extends StatelessWidget {
                                     }),
                                 const SizedBox(height: 10),
                                 _buildActionButton(
-                                    text: "Log out",
-                                    color: AppColor.secondaryColor,
-                                    onPressed: () {
-                                      // handle logout
-                                    }),
+                                  text: "Log out",
+                                  color: AppColor.secondaryColor,
+                                  onPressed: () async {
+                                    showDialog(
+                                      context: context,
+                                      builder: (context) => AlertDialog(
+                                        title: const Text(
+                                          "Are you sure you want to log out?",
+                                          style: TextStyle(
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.w500),
+                                        ),
+                                        actions: [
+                                          TextButton(
+                                            onPressed: () =>
+                                                Navigator.of(context).pop(),
+                                            child: const Text("Cancel"),
+                                          ),
+                                          TextButton(
+                                            onPressed: () async {
+                                              Navigator.of(context)
+                                                  .pop(); // Close the dialog
+
+                                              // Call logout from provider
+                                              await Provider.of<LoginProvider>(
+                                                      context,
+                                                      listen: false)
+                                                  .logout();
+
+                                              // Navigate to LoginScreen
+                                              Navigator.of(context)
+                                                  .pushAndRemoveUntil(
+                                                MaterialPageRoute(
+                                                    builder: (_) =>
+                                                        const PhoneNumberAuth()),
+                                                (route) => false,
+                                              );
+                                            },
+                                            child: const Text("Log Out"),
+                                          ),
+                                        ],
+                                      ),
+                                    );
+                                  },
+                                )
                               ],
                             ),
                           ),

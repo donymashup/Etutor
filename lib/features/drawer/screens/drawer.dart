@@ -1,3 +1,5 @@
+import 'package:etutor/features/auth/provider/login_provider.dart';
+import 'package:etutor/features/auth/screen/phone_number_auth.dart';
 import 'package:etutor/features/home/provider/user_details_provider.dart';
 import 'package:etutor/features/profile/screens/edit_profile.dart';
 import 'package:etutor/features/drawer/screens/about_us.dart';
@@ -56,7 +58,6 @@ class SideDrawer extends StatelessWidget {
               ],
             ),
           ),
-
           Expanded(
             child: Container(
               color: AppColor.whiteColor,
@@ -75,7 +76,8 @@ class SideDrawer extends StatelessWidget {
                           backgroundImage: userDetails?.image != null &&
                                   userDetails!.image!.isNotEmpty
                               ? NetworkImage(userDetails.image!)
-                              : const AssetImage('assets/images/default_user_image.png')
+                              : const AssetImage(
+                                      'assets/images/default_user_image.png')
                                   as ImageProvider,
                         ),
                         const SizedBox(width: 16),
@@ -128,7 +130,8 @@ class SideDrawer extends StatelessWidget {
                     onTap: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => AboutUsScreen()),
+                        MaterialPageRoute(
+                            builder: (context) => AboutUsScreen()),
                       );
                     },
                   ),
@@ -209,7 +212,7 @@ class SideDrawer extends StatelessWidget {
                             ),
                           ],
                         ),
-                      );  
+                      );
                     },
                   ),
                   DrawerItem(
@@ -219,17 +222,31 @@ class SideDrawer extends StatelessWidget {
                       showDialog(
                         context: context,
                         builder: (context) => AlertDialog(
-                          title: const Text("Are you sure you want to log out?",
-                              style: TextStyle(
-                                  fontSize: 16, fontWeight: FontWeight.w500)),
+                          title: const Text(
+                            "Are you sure you want to log out?",
+                            style: TextStyle(
+                                fontSize: 16, fontWeight: FontWeight.w500),
+                          ),
                           actions: [
                             TextButton(
                               onPressed: () => Navigator.of(context).pop(),
                               child: const Text("Cancel"),
                             ),
                             TextButton(
-                              onPressed: () {
-                                Navigator.of(context).pop();
+                              onPressed: () async {
+                                Navigator.of(context).pop(); // Close the dialog
+
+                                // Call logout function from LoginProvider
+                                await Provider.of<LoginProvider>(context,
+                                        listen: false)
+                                    .logout();
+
+                                // Navigate to LoginScreen and clear back stack
+                                Navigator.of(context).pushAndRemoveUntil(
+                                  MaterialPageRoute(
+                                      builder: (_) => const PhoneNumberAuth()),
+                                  (route) => false,
+                                );
                               },
                               child: const Text("Log Out"),
                             ),
