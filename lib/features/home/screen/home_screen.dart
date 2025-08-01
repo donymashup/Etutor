@@ -300,20 +300,17 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
           if (onSeeMore != null)
-                      SizedBox(
-              height: 30, // set your desired height
-              child: TextButton(
-                onPressed: onSeeMore,
-                child: Text(
-                  "See More",
-                  style: TextStyle(
-                    color: AppColor.primaryColor,
-                    fontSize: 16,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-              ),
-            )
+                      TextButton(
+                        onPressed: onSeeMore,
+                        child: Text(
+                          "See More",
+                          style: TextStyle(
+                            color: AppColor.primaryColor,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      )
 
         ],
       ),
