@@ -1,3 +1,4 @@
+import 'package:etutor/features/home/provider/user_details_provider.dart';
 import 'package:etutor/features/profile/screens/edit_profile.dart';
 import 'package:etutor/features/drawer/screens/about_us.dart';
 import 'package:etutor/features/drawer/screens/privacy_policy.dart';
@@ -8,12 +9,16 @@ import 'package:flutter/material.dart';
 import 'package:etutor/common/constants/app_constants.dart';
 import 'package:etutor/features/drawer/widgets/drawer_item.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
 
 class SideDrawer extends StatelessWidget {
   const SideDrawer({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final userDetails =
+        Provider.of<UserDetailsProvider>(context).userDetails.data;
+
     return Drawer(
       backgroundColor: AppColor.whiteColor,
       shape: const RoundedRectangleBorder(
@@ -59,33 +64,37 @@ class SideDrawer extends StatelessWidget {
               child: ListView(
                 children: [
                   GestureDetector(
-                    onTap: () => {
-                      Navigator.push((context),
-                          MaterialPageRoute(builder: (context) => Profile()))
-                    },
+                    onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const Profile()),
+                    ),
                     child: Row(
-                      children: const [
+                      children: [
                         CircleAvatar(
                           radius: 36,
-                          backgroundImage:
-                              AssetImage('assets/images/smriti1.jpeg'),
+                          backgroundImage: userDetails?.image != null &&
+                                  userDetails!.image!.isNotEmpty
+                              ? NetworkImage(userDetails.image!)
+                              : const AssetImage('assets/images/default_user_image.png')
+                                  as ImageProvider,
                         ),
-                        SizedBox(width: 16),
+                        const SizedBox(width: 16),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              "Hollo Yukihira",
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w500),
+                              userDetails?.firstName ?? 'No Name',
+                              style: const TextStyle(
+                                color: Colors.black,
+                                fontSize: 18,
+                                fontWeight: FontWeight.w500,
+                              ),
                             ),
-                            SizedBox(height: 4),
+                            const SizedBox(height: 4),
                             Text(
-                              "yukhira3322@gmail.com",
-                              style:
-                                  TextStyle(color: Colors.black, fontSize: 12),
+                              userDetails?.email ?? 'No Email',
+                              style: const TextStyle(
+                                  color: Colors.black, fontSize: 12),
                             ),
                           ],
                         ),
@@ -96,10 +105,11 @@ class SideDrawer extends StatelessWidget {
                   DrawerItem(
                     icon: FontAwesomeIcons.coins,
                     title: "Dream Coins",
-
                     onTap: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => DreamCoins()));
-
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => DreamCoins()),
+                      );
                     },
                   ),
                   DrawerItem(
@@ -107,9 +117,9 @@ class SideDrawer extends StatelessWidget {
                     title: "Edit Profile",
                     onTap: () {
                       Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => EditProfile()));
+                        context,
+                        MaterialPageRoute(builder: (context) => EditProfile()),
+                      );
                     },
                   ),
                   DrawerItem(
@@ -117,9 +127,9 @@ class SideDrawer extends StatelessWidget {
                     title: "About Us",
                     onTap: () {
                       Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => AboutUsScreen()));
+                        context,
+                        MaterialPageRoute(builder: (context) => AboutUsScreen()),
+                      );
                     },
                   ),
                   DrawerItem(
@@ -127,24 +137,23 @@ class SideDrawer extends StatelessWidget {
                     title: "Terms & Conditions",
                     onTap: () {
                       Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) =>
-                                  TermsAndConditionsScreen()));
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => TermsAndConditionsScreen()),
+                      );
                     },
                   ),
-
                   DrawerItem(
                     icon: Icons.policy,
                     title: "Privacy Policy",
                     onTap: () {
                       Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => PrivacyPolicyScreen()));
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => PrivacyPolicyScreen()),
+                      );
                     },
                   ),
-
                   DrawerItem(
                     icon: Icons.info_outline,
                     title: "Help & Support",
@@ -200,7 +209,7 @@ class SideDrawer extends StatelessWidget {
                             ),
                           ],
                         ),
-                      );
+                      );  
                     },
                   ),
                   DrawerItem(

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 class UserDetailsModel {
   String? type;
   Data? data;
@@ -6,16 +8,14 @@ class UserDetailsModel {
 
   UserDetailsModel.fromJson(Map<String, dynamic> json) {
     type = json['type'];
-    data = json['data'] != null ? new Data.fromJson(json['data']) : null;
+    data = json['data'] != null ? Data.fromJson(json['data']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['type'] = this.type;
-    if (this.data != null) {
-      data['data'] = this.data!.toJson();
-    }
-    return data;
+    return {
+      'type': type,
+      'data': data?.toJson(),
+    };
   }
 }
 
@@ -29,37 +29,46 @@ class Data {
   String? password;
   String? dob;
   String? gender;
-  String? address;
+  String? address; // Raw address string (JSON)
   String? image;
   String? school;
   String? syllabus;
-  Null qualification;
+  dynamic qualification;
   String? firebaseId;
   String? onesignalId;
   String? created;
   String? status;
   String? countryCode;
 
-  Data(
-      {this.id,
-      this.firstName,
-      this.lastName,
-      this.country,
-      this.phone,
-      this.email,
-      this.password,
-      this.dob,
-      this.gender,
-      this.address,
-      this.image,
-      this.school,
-      this.syllabus,
-      this.qualification,
-      this.firebaseId,
-      this.onesignalId,
-      this.created,
-      this.status,
-      this.countryCode});
+  // Parsed address fields
+  String parsedAddress = '';
+  String state = '';
+  String zipCode = '';
+  String parsedCountry = '';
+
+  Data({
+    this.id,
+    this.firstName,
+    this.lastName,
+    this.country,
+    this.phone,
+    this.email,
+    this.password,
+    this.dob,
+    this.gender,
+    this.address,
+    this.image,
+    this.school,
+    this.syllabus,
+    this.qualification,
+    this.firebaseId,
+    this.onesignalId,
+    this.created,
+    this.status,
+    this.countryCode,
+  }) {
+    _parseAddress();
+  }
 
   Data.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -81,29 +90,48 @@ class Data {
     created = json['created'];
     status = json['status'];
     countryCode = json['country_code'];
+
+    _parseAddress();
+  }
+
+  void _parseAddress() {
+    if (address != null && address!.isNotEmpty) {
+      try {
+        final decoded = jsonDecode(address!);
+        parsedAddress = decoded['address'] ?? '';
+        state = decoded['state'] ?? '';
+        zipCode = decoded['zipCode'] ?? '';
+        parsedCountry = decoded['country'] ?? '';
+      } catch (e) {
+        parsedAddress = '';
+        state = '';
+        zipCode = '';
+        parsedCountry = '';
+      }
+    }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['first_name'] = this.firstName;
-    data['last_name'] = this.lastName;
-    data['country'] = this.country;
-    data['phone'] = this.phone;
-    data['email'] = this.email;
-    data['password'] = this.password;
-    data['dob'] = this.dob;
-    data['gender'] = this.gender;
-    data['address'] = this.address;
-    data['image'] = this.image;
-    data['school'] = this.school;
-    data['syllabus'] = this.syllabus;
-    data['qualification'] = this.qualification;
-    data['firebase_id'] = this.firebaseId;
-    data['onesignal_id'] = this.onesignalId;
-    data['created'] = this.created;
-    data['status'] = this.status;
-    data['country_code'] = this.countryCode;
-    return data;
+    return {
+      'id': id,
+      'first_name': firstName,
+      'last_name': lastName,
+      'country': country,
+      'phone': phone,
+      'email': email,
+      'password': password,
+      'dob': dob,
+      'gender': gender,
+      'address': address,
+      'image': image,
+      'school': school,
+      'syllabus': syllabus,
+      'qualification': qualification,
+      'firebase_id': firebaseId,
+      'onesignal_id': onesignalId,
+      'created': created,
+      'status': status,
+      'country_code': countryCode,
+    };
   }
 }
