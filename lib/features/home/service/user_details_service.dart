@@ -22,7 +22,6 @@ class UserDetailsService {
         url: "$baseUrl$getUserDetails",
         token: token,
       );
-
        if (response.statusCode == 200) {
         final jsonResponse = json.decode(await response.stream.bytesToString());
         if (jsonResponse == null || jsonResponse.isEmpty) {
