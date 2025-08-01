@@ -1,4 +1,5 @@
-const baseUrl = "https://olympiad.dreamthem.in/";
+// const baseUrl = "https://olympiad.dreamthem.in/";
+const baseUrl = "https://dreamthemetutor.in/";
 const loginUrl = "Authapi/login";
 const checkMobileNumberExixt = 'Authapi/checkMobileNumberExists';
 const registerUrl = 'Authapi/register';
