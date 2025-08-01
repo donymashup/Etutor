@@ -1,5 +1,8 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:etutor/features/home/model/user_details_model.dart';
 import 'package:etutor/features/home/widgets/carousel.dart';
+import 'package:etutor/features/home/widgets/sample.dart';
+import 'package:etutor/features/my_course/widgets/mycoursecard.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:etutor/common/constants/app_constants.dart';
@@ -55,6 +58,26 @@ class _HomePageState extends State<HomePage> {
       'title': 'International English Olympiad (IEO)',
       'rating': 4.7,
     },
+    {
+      'imagePath': 'assets/images/oly1.jpg',
+      'title': 'International Social Studies Olympiad (ISSO)',
+      'rating': 4.5,
+    },
+    {
+      'imagePath': 'assets/images/oly2.jpg',
+      'title': 'International General Knowledge Olympiad (IGKO)',
+      'rating': 4.6,
+    },
+    {
+      'imagePath': 'assets/images/oly3.jpeg',
+      'title': 'International Commerce Olympiad (ICO)',
+      'rating': 4.4,
+    },
+    {
+      'imagePath': 'assets/images/oly4.jpg',
+      'title': 'International English Olympiad (IEO)',
+      'rating': 4.7,
+    },
   ];
 
   final List<Map<String, dynamic>> popularCourses = [
@@ -77,29 +100,6 @@ class _HomePageState extends State<HomePage> {
       'imagePath': 'assets/images/oly6.jpeg',
       'title': 'English Smart Series',
       'rating': 4.3,
-    },
-  ];
-
-  final List<Map<String, dynamic>> mockCourses = [
-    {
-      'imagePath': 'assets/images/oly8.jpg',
-      'title': 'Mental Ability 25-26',
-      'rating': 4.8,
-    },
-    {
-      'imagePath': 'assets/images/oly11.jpg',
-      'title': 'International Hindi Olympiad (IEO)',
-      'rating': 4.3,
-    },
-    {
-      'imagePath': 'assets/images/oly9.jpg',
-      'title': 'Math Olympiad 25-26',
-      'rating': 4.6,
-    },
-    {
-      'imagePath': 'assets/images/oly10.jpg',
-      'title': 'Spell Bee (CSB)',
-      'rating': 4.9,
     },
   ];
 
@@ -149,7 +149,7 @@ class _HomePageState extends State<HomePage> {
                                   child: CircleAvatar(
                                     radius: 30,
                                     backgroundImage: ((userProvider.userDetails.data ?? Data()).image != null && ((userProvider.userDetails.data ?? Data()).image ?? "").isNotEmpty)
-                                        ? NetworkImage((userProvider.userDetails.data ?? Data()).image ?? "")
+                                        ? NetworkImage( (userProvider.userDetails.data ?? Data()).image ?? "") 
                                         : const AssetImage('assets/images/default_user_image.png') as ImageProvider,
                                   ),
                                 ),
@@ -273,11 +273,8 @@ class _HomePageState extends State<HomePage> {
               sectionHeader("Active Courses (${activeCourses.length})", () {
                 Navigator.push(context, MaterialPageRoute(builder: (_) => const SeeMoreCourses()));
               }),   
-               courseList(activeCourses), 
-             
-              // // Mock Courses
-              // sectionHeader("Mock Courses"),
-              // courseList(mockCourses),
+             // courseList(activeCourses), 
+              CoursesGridWidget(courses:activeCourses,)
             ],
           ),
         ),
@@ -344,3 +341,5 @@ class _HomePageState extends State<HomePage> {
     );
   }
 }
+
+ 

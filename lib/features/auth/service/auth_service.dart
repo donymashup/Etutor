@@ -76,6 +76,7 @@ required code,
         }
       } else {
         debugPrint("Failed to login: ${response.statusCode}");
+        showSnackbar(context, "Invalid cedential");
         return null;
       }
     } catch (e) {
@@ -167,6 +168,7 @@ required code,
         }
       } else {
         debugPrint("Failed to register: ${response.statusCode}");
+        showSnackbar(context, "Failed to register");
         return null;
       }
     } catch (e) {
