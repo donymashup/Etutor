@@ -128,19 +128,12 @@ class _SubscribedCourseOverviewState extends State<SubscribedCourseOverview> {
               child: ListView.builder(
                 itemCount: courseoverview.length,
                 itemBuilder: (context, index) => GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => SubscribedCourseSubject()));
-                  },
-                  child: GestureDetector(
-                    onTap: () {},
-                    child: CourseCard(
-                        title: courseoverview[index].title,
-                        subtitle: courseoverview[index].subtitle,
-                        type: courseoverview[index].type,
-                        onPressed: courseoverview[index].onPressed),
+                  onTap: courseoverview[index].onPressed,
+                  child: CourseCard(
+                    title: courseoverview[index].title,
+                    subtitle: courseoverview[index].subtitle,
+                    type: courseoverview[index].type,
+                    onPressed: courseoverview[index].onPressed,
                   ),
                 ),
               ),
