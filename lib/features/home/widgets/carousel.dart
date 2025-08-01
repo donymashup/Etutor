@@ -103,10 +103,13 @@
 // }/
 
 import 'dart:async';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:etutor/common/constants/app_constants.dart';
 import 'package:etutor/features/home/model/bannerimages_model.dart';
 import 'package:etutor/features/home/provider/homepage_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shimmer/shimmer.dart';
 
 class CarouselScreen extends StatefulWidget {
   @override
@@ -125,11 +128,10 @@ class _CarouselScreenState extends State<CarouselScreen> {
   }
 
   void _startAutoScroll(int imageCount) {
-    // Cancel existing timer if any
     _timer?.cancel();
     
     if (imageCount > 1) {
-      _timer = Timer.periodic(Duration(seconds: 3), (Timer timer) {
+      _timer = Timer.periodic(Duration(seconds: 4), (Timer timer) {
         if (_currentPage < imageCount - 1) {
           _currentPage++;
         } else {
@@ -150,8 +152,6 @@ class _CarouselScreenState extends State<CarouselScreen> {
   Future<void> _bannerImages() async {
     final homepageProvider = context.read<HomepageProvider>();
     await homepageProvider.bannerimages(context);
-    
-    // Start auto-scroll after images are loaded
     if (mounted) {
       final imageCount = homepageProvider.bannerurl.length;
       if (imageCount > 0) {
@@ -208,28 +208,25 @@ class _CarouselScreenState extends State<CarouselScreen> {
                 controller: _controller,
                 itemCount: imagePaths.length,
                 onPageChanged: (index) {
-                  setState(() => _currentPage = index);
+                   homepageProvider.setCurrentCarouselPage(index);
                 },
                 itemBuilder: (context, index) {
                   return Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 12.0),
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(5),
-                      child: Image.network(
-                        imagePaths[index].image ?? 'https://d2p9rkckgtge3j.cloudfront.net/slider/1ec100f76c901d96518667fc71cd821d9UID1.png',
+                      child: CachedNetworkImage(
+                        imageUrl :imagePaths[index].image ?? 'https://d2p9rkckgtge3j.cloudfront.net/slider/1ec100f76c901d96518667fc71cd821d9UID1.png',
                         fit: BoxFit.cover,
                         width: double.infinity,
-                        loadingBuilder: (context, child, loadingProgress) {
-                          if (loadingProgress == null) return child;
-                          return Center(
-                            child: CircularProgressIndicator(
-                              value: loadingProgress.expectedTotalBytes != null
-                                  ? loadingProgress.cumulativeBytesLoaded /
-                                      loadingProgress.expectedTotalBytes!
-                                  : null,
-                            ),
-                          );
-                        },
+                        placeholder: (context, url) => Shimmer.fromColors(
+                        baseColor: Colors.grey[300]!,
+                        highlightColor: Colors.grey[100]!,
+                        child: Container(
+                          color: Colors.white,
+                        ),
+                      ),
+                      errorWidget: (context, url, error) => Icon(Icons.error),
                       ),
                     ),
                   );
@@ -237,21 +234,22 @@ class _CarouselScreenState extends State<CarouselScreen> {
               ),
             ),
             SizedBox(height: 10),
-            if (imagePaths.length > 1)
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: List.generate(imagePaths.length, (index) {
-                  return Container(
-                    margin: EdgeInsets.symmetric(horizontal: 4),
-                    width: _currentPage == index ? 12 : 8,
-                    height: 8,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: _currentPage == index ? Colors.blue : Colors.grey,
-                    ),
-                  );
-                }),
-              ),
+        if (imagePaths.length > 1)
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: List.generate(imagePaths.length, (index) {
+              return AnimatedContainer(
+                duration: Duration(milliseconds: 300),
+                margin: EdgeInsets.symmetric(horizontal: 3),
+                width: _currentPage == index ? 24 : 12,
+                height: 4,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(2),
+                  color: _currentPage == index ? AppColor.primaryColor : const Color.fromARGB(255, 211, 211, 211),
+                ),
+              );
+            }),
+          ),
           ],
         );
       },

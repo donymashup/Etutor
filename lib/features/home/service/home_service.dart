@@ -70,10 +70,8 @@ final storage = const FlutterSecureStorage();
           showSnackbar(context, 'Invalid response from server');
           return null;
         } else {
-          debugPrint("From Json");
           final bannerImageModel = await BannerImageModel.fromJson(jsonResponse);
           if (bannerImageModel.type == 'success') {
-            debugPrint((bannerImageModel.data ?? []).first.toString());
             return bannerImageModel;
           } else {
             showSnackbar(context, bannerImageModel.type!);
