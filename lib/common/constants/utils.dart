@@ -47,3 +47,25 @@ Future<http.StreamedResponse> sendGetRequestWithToken({
 
   return await request.send();
 }
+
+//fuction to convert ratings to star
+Widget ratingtoStar (double rating){
+ int wholeStar = rating.floor();
+ double halfStar = rating-wholeStar;
+  return Row(
+   mainAxisSize: MainAxisSize.min,
+   children: [
+ 
+    ...List.generate(5, (index) {
+      if(index < wholeStar ){
+        return Icon(Icons.star,color: Colors.amber,size:18);
+      }else if (halfStar >= .5){
+        halfStar =0.0;
+        return Icon(Icons.star_half,color: Colors.amber,size: 18,);
+      }else{
+        return Icon(Icons.star,color: Colors.grey,size: 18,);
+      }
+    })
+   ],
+  );
+}

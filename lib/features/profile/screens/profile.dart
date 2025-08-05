@@ -65,7 +65,7 @@ class Profile extends StatelessWidget {
                                                     fit: BoxFit.contain,
                                                   )
                                                 : Image.asset(
-                                                    "assets/images/default_profile.png",
+                                                    "assets/images/default_user_image.png",
                                                     fit: BoxFit.contain,
                                                   ),
                                           ),
@@ -93,23 +93,25 @@ class Profile extends StatelessWidget {
                                 ),
                               ),
                               const SizedBox(width: 10),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    "${userDetails.firstName ?? ''} ${userDetails.lastName ?? ''}",
-                                    style: const TextStyle(
-                                        fontWeight: FontWeight.w600,
-                                        fontSize: 16),
-                                  ),
-                                  Text(
-                                    "Class ${userDetails.syllabus ?? ''}",
-                                    style: TextStyle(
-                                        color: AppColor.greyText, fontSize: 13),
-                                  ),
-                                ],
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                       "${userDetails.firstName ?? ''} ${userDetails.lastName ?? ''}",
+                                      style: const TextStyle(
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 16),
+                                    ),
+                                    Text(
+                                       " ${userDetails.qualification ?? ''}",
+                                      style: TextStyle(
+                                          color: AppColor.greyText, fontSize: 13),
+                                    ),
+                                  ],
+                                ),
                               ),
-                              const Spacer(),
+                            // const Spacer(),
                               IconButton(
                                 onPressed: () {
                                   Navigator.push(
