@@ -1,4 +1,5 @@
 import 'package:etutor/common/constants/app_constants.dart';
+import 'package:etutor/common/constants/utils.dart';
 import 'package:flutter/material.dart';
 
 class MyCourseCard extends StatelessWidget {
@@ -90,12 +91,7 @@ class MyCourseCard extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Row(
-                        children: List.generate(5, (index) {
-                          return const Icon(Icons.star,
-                              color: Colors.amber, size: 14);
-                        }),
-                      ),
+                     ratingtoStar(rating),
                       Text(
                         rating.toString(),
                         style: const TextStyle(

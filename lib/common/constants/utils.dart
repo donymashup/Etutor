@@ -61,9 +61,9 @@ Widget ratingtoStar (double rating){
         return Icon(Icons.star,color: Colors.amber,size:18);
       }else if (halfStar >= .5){
         halfStar =0.0;
-        return Icon(Icons.star_half,color: Colors.amber,size: 18,);
+        return Icon(Icons.star_half_outlined,color: Colors.amber,size: 18,);
       }else{
-        return Icon(Icons.star,color: Colors.grey,size: 18,);
+        return Icon(Icons.star_border_outlined,color: Colors.amber,size: 18,);
       }
     })
    ],
