@@ -1,7 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:etutor/features/home/model/user_details_model.dart';
 import 'package:etutor/features/home/widgets/carousel.dart';
-import 'package:etutor/features/home/widgets/sample.dart';
+import 'package:etutor/features/home/widgets/course_grid.dart';
 import 'package:etutor/features/my_course/widgets/mycoursecard.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -56,27 +56,27 @@ class _HomePageState extends State<HomePage> {
     {
       'imagePath': 'assets/images/oly4.jpg',
       'title': 'International English Olympiad (IEO)',
-      'rating': 4.7,
+      'rating': 2.7,
     },
     {
       'imagePath': 'assets/images/oly1.jpg',
       'title': 'International Social Studies Olympiad (ISSO)',
-      'rating': 4.5,
+      'rating': 4.0,
     },
     {
       'imagePath': 'assets/images/oly2.jpg',
       'title': 'International General Knowledge Olympiad (IGKO)',
-      'rating': 4.6,
+      'rating': 1.6,
     },
     {
       'imagePath': 'assets/images/oly3.jpeg',
       'title': 'International Commerce Olympiad (ICO)',
-      'rating': 4.4,
+      'rating': 3.4,
     },
     {
       'imagePath': 'assets/images/oly4.jpg',
       'title': 'International English Olympiad (IEO)',
-      'rating': 4.7,
+      'rating': 3.7,
     },
   ];
 
@@ -84,7 +84,7 @@ class _HomePageState extends State<HomePage> {
     {
       'imagePath': 'assets/images/oly6.jpeg',
       'title': 'National Interactive Maths Olympiad [NIMO]',
-      'rating': 4.9,
+      'rating': 3.9,
     },
     {
       'imagePath': 'assets/images/oly5.webp',
@@ -94,12 +94,12 @@ class _HomePageState extends State<HomePage> {
     {
       'imagePath': 'assets/images/oly7.png',
       'title': 'National Science Olympiad (NSO)',
-      'rating': 4.6,
+      'rating': 2.6,
     },
     {
       'imagePath': 'assets/images/oly6.jpeg',
       'title': 'English Smart Series',
-      'rating': 4.3,
+      'rating': .3,
     },
   ];
 
@@ -148,8 +148,10 @@ class _HomePageState extends State<HomePage> {
                                   },
                                   child: CircleAvatar(
                                     radius: 30,
-                                    backgroundImage: ((userProvider.userDetails.data ?? Data()).image != null && ((userProvider.userDetails.data ?? Data()).image ?? "").isNotEmpty)
-                                        ? NetworkImage( (userProvider.userDetails.data ?? Data()).image ?? "") 
+                                    backgroundImage: context.watch<UserDetailsProvider>().isLoading
+                                    ? const AssetImage('assets/images/default_user_image.png') as ImageProvider
+                                    :((userProvider.userDetails.data ?? Data()).image != null && ((userProvider.userDetails.data ?? Data()).image ?? "").isNotEmpty)
+                                        ? NetworkImage( (userProvider.userDetails.data ?? Data()).image!) 
                                         : const AssetImage('assets/images/default_user_image.png') as ImageProvider,
                                   ),
                                 ),
