@@ -185,7 +185,7 @@ void showRatingDialog(BuildContext context) {
         "Investment",
         "Car",
         "Two Wheeler",
-        "To many calls",
+        "To many calls",  
         "Customer Care",
         "Incorrect Policy",
         "Policy Issue",
@@ -352,7 +352,7 @@ void showRatingDialog(BuildContext context) {
                       child: const Text("Submit"),
                     ),
                   const SizedBox(height: 16),
-                ],
+                ], 
               ),
             ),
           );
