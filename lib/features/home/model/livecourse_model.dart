@@ -189,7 +189,7 @@ class PackageDetails {
     }
     return data;
   }
-}
+} 
 
 class Package {
   String? id;

@@ -104,7 +104,7 @@ class Profile extends StatelessWidget {
                                           fontSize: 16),
                                     ),
                                     Text(
-                                       " ${userDetails.qualification ?? ''}",
+                                       " ${context.read<LoginProvider>().getClassNameById(userDetails.qualification ?? '')}",
                                       style: TextStyle(
                                           color: AppColor.greyText, fontSize: 13),
                                     ),

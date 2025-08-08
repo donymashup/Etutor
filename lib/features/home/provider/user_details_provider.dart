@@ -1,29 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:etutor/features/home/model/user_details_model.dart';
 import 'package:etutor/features/home/service/user_details_service.dart';
+import 'package:etutor/features/profile/model/update_profile_model.dart';
 
 class UserDetailsProvider extends ChangeNotifier {
   UserDetailsModel _userDetails = UserDetailsModel();
   bool _isLoading = false;
+  bool _isUpdating = false;
 
   UserDetailsModel get userDetails => _userDetails;
   bool get isLoading => _isLoading;
+  bool get isUpdating => _isUpdating;
 
   // Load user details from the service
   Future<UserDetailsModel?> loadUserDetails(BuildContext context) async {
     _isLoading = true;
     notifyListeners();
-    debugPrint("Loading user details...");  
     try {
       final data = await UserDetailsService().fetchUserDetails(context: context);
       if (data != null && data.type == "success") {
-        debugPrint("User details loaded successfully: ${data.data?.firstName}");
         _userDetails = data;
         _isLoading = false;
         notifyListeners();
         return data;
-      } else {
-        debugPrint("User details not loaded or invalid response.");
       }
     } catch (e) {
       debugPrint("Error loading user details: $e");
@@ -43,5 +42,45 @@ class UserDetailsProvider extends ChangeNotifier {
   void clearUserDetails() {
     _userDetails = UserDetailsModel();
     notifyListeners();
+  }
+
+  // Update profile method
+  Future<UpdateProfile?> updateUserProfile({
+    required BuildContext context,
+    required String firstName,
+    required String lastName,
+    required String email,
+    required String userClass,
+    required String syllabus,
+    required String school,
+  }) async {
+    _isUpdating = true;
+    notifyListeners();
+
+    try {
+      final response = await UserDetailsService().updateUserProfile(
+        context: context,
+        firstName: firstName,
+        lastName: lastName,
+        email: email,
+        userClass: userClass,
+        syllabus: syllabus,
+        school: school,
+      );
+
+      if (response != null && response.type == "success") {
+        // Refresh user details after successful update
+        await loadUserDetails(context);
+      }
+
+      _isUpdating = false;
+      notifyListeners();
+      return response;
+    } catch (e) {
+      debugPrint("Error updating profile: $e");
+      _isUpdating = false;
+      notifyListeners();
+      return null;
+    }
   }
 }

@@ -446,8 +446,8 @@ class _RegistrationState extends State<Registration> {
                                   lastNameController.text.trim(),
                                   emailController.text.trim(),
                                   selectedGender!,
-                                  classDropdownValue!,
-                                  syllabusDropdownValue!,
+                                  provider.getClassIdByName(classDropdownValue)?? "",
+                                  provider.getSyllabusIdByName(syllabusDropdownValue) ?? "",
                                   schoolController.text.trim(),
                                   passwordController.text.trim(),
                                   DateFormat('yyyy-MM-dd')
