@@ -19,8 +19,11 @@ class LoginProvider extends ChangeNotifier{
   List<Syllabus> _syllabus =[];
   List<Classes> _class = [];
   final FlutterSecureStorage _secureStorage = const FlutterSecureStorage();
-
- 
+  String? _classDropdown ;
+  String? _syllabusDropdown ;
+  
+  String? get classDropdown => _classDropdown;
+  String? get syllabusDropdown => _syllabusDropdown;
   List<LoginModel> get isLogin => _login;
   String get phone => _phone;
   String get code => _code;
@@ -135,6 +138,18 @@ Future login (BuildContext context,String password) async {
     } 
     notifyListeners();
   }
+
+   void updateClassDropdown(String newValue) {
+    _classDropdown = newValue;
+    notifyListeners();
+  }
+  
+  void updateSyllabusDropdown(String newValue) {
+    _syllabusDropdown = newValue;
+    notifyListeners();
+  }
+
+  
 
  Future<void> logout() async {
     await _secureStorage.delete(key: 'token');

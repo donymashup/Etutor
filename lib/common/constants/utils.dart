@@ -48,6 +48,21 @@ Future<http.StreamedResponse> sendGetRequestWithToken({
   return await request.send();
 }
 
+// Function for POST request with token
+Future<http.StreamedResponse> sendPostRequestWithToken({
+  required String url,
+  required String token,
+  required Map<String, String> fields,
+}) async {
+  final request = http.MultipartRequest('POST', Uri.parse(url));
+  request.fields.addAll(fields);
+  request.headers.addAll({
+    'Authorization': 'Bearer $token',
+  });
+
+  return await request.send();
+}
+
 //fuction to convert ratings to star
 Widget ratingtoStar (double rating){
  int wholeStar = rating.floor();
