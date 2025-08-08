@@ -3,9 +3,13 @@ import 'dart:io';
 import 'package:etutor/common/constants/app_constants.dart';
 import 'package:etutor/common/widgets/back_button.dart';
 import 'package:etutor/common/widgets/custom_button.dart';
+import 'package:etutor/features/auth/models/drop_down_option_model.dart';
+import 'package:etutor/features/auth/provider/login_provider.dart';
+import 'package:etutor/features/home/provider/user_details_provider.dart';
 import 'package:etutor/features/profile/widgets/u_shaped_painter.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
 
 class EditProfile extends StatefulWidget {
   const EditProfile({super.key});
@@ -14,39 +18,24 @@ class EditProfile extends StatefulWidget {
   State<EditProfile> createState() => _EditProfileState();
 }
 
+
 class _EditProfileState extends State<EditProfile> {
-  String? classDropdownValue = "class 6";
-  String? syllabusDropdownValue = "Kerala State";
   File? _image;
   final picker = ImagePicker();
-  final List<String> _class = [
-    "class 5",
-    "class 6",
-    "class 7",
-    "class 8",
-    "class 9",
-    "class 10",
-    "class 11",
-    "class 12",
-    "Others"
-  ];
-  final List<String> _syllabus = [
-    "Kerala State",
-    "CBSE",
-    "ICSE",
-  ];
-  final TextEditingController firstnameController =
-      TextEditingController(text: "Basil");
-  final TextEditingController lastnameController =
-      TextEditingController(text: "Joseph");
-  final TextEditingController emailController =
-      TextEditingController(text: "josephbasil@gmail.com");
-  final TextEditingController classController =
-      TextEditingController(text: "class 6");
-  final TextEditingController syllabusController =
-      TextEditingController(text: "Kerala State");
-  final TextEditingController schoolController =
-      TextEditingController(text: "Kerala State");
+  List<Classes> _class = [];
+  List<Syllabus> _syllabus = [];
+
+  String? selectedClass;
+  String? selectedSyllabus;
+
+
+  final TextEditingController firstnameController = TextEditingController();
+  final TextEditingController lastnameController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController classController = TextEditingController();
+  final TextEditingController syllabusController = TextEditingController();
+  final TextEditingController schoolController = TextEditingController();
+  
 
   @override
   void dispose() {
@@ -59,6 +48,23 @@ class _EditProfileState extends State<EditProfile> {
     super.dispose();
   }
 
+  @override
+  void initState() {
+    super.initState();
+    // final userDetails =
+    //    context.watch<UserDetailsProvider>().userDetails.data;
+    //   firstnameController.text = userDetails!.firstName!;
+    // _class = context.watch<LoginProvider>().classes;
+    // _syllabus = context.watch<LoginProvider>().syllabus;
+    final userDetails = context.read<UserDetailsProvider>().userDetails.data!;
+    firstnameController.text = userDetails.firstName!;
+    lastnameController.text = userDetails.lastName!;
+    emailController.text = userDetails.email!;
+    schoolController.text = userDetails.school!;
+  }
+
+
+
   Future<void> _pickImage(ImageSource source) async {
     final pickedFile = await picker.pickImage(source: source);
 
@@ -70,12 +76,18 @@ class _EditProfileState extends State<EditProfile> {
      // print('No image selected.');
     }
   }
-
   
   @override
   Widget build(BuildContext context) {
+     final userDetails =
+        Provider.of<UserDetailsProvider>(context).userDetails.data;
+           _class = context.watch<LoginProvider>().classes;
+          _syllabus = context.watch<LoginProvider>().syllabus;
+      // _class =   Provider.of<LoginProvider>(context).classes ;
+      //  _syllabus =   Provider.of<LoginProvider>(context).syllabus ;
     return Scaffold(
       appBar: AppBar(
+
         backgroundColor: AppColor.primaryColor,
         leading: Padding(
           padding: const EdgeInsets.only(left: 20.0),
@@ -150,12 +162,12 @@ class _EditProfileState extends State<EditProfile> {
                       height: 30,
                     ),
                     GreystokeTextfield(
-                        controller: firstnameController, text: "First Name"),
+                        controller: firstnameController, text:" First Name"),
                     SizedBox(
                       height: 15,
                     ),
                     GreystokeTextfield(
-                        controller: lastnameController, text: "last Name"),
+                        controller: lastnameController, text: "Last Name"),
                     SizedBox(
                       height: 15,
                     ),
@@ -169,20 +181,31 @@ class _EditProfileState extends State<EditProfile> {
                       children: [
                         Expanded(
                             child:
-                                dropdown("Class", _class, classDropdownValue)),
+                                dropdown(
+                                  "Class",
+                                 _class
+                                  .map((classmodel) => classmodel.name ?? "")
+                                  .toList(),
+                                  userDetails?.qualification
+                                )),
                         SizedBox(
                           width: 10,
                         ),
                         Expanded(
                             child: dropdown(
-                                "Syllabus", _syllabus, syllabusDropdownValue)),
+                                "Syllabus", 
+                                _syllabus
+                                  .map((syllabusmodel) =>
+                                      syllabusmodel.name ?? "")
+                                  .toList(),
+                                  userDetails?.syllabus
+                                )),
                       ],
                     ),
                     SizedBox(
                       height: 15,
                     ),
-                    GreystokeTextfield(
-                        controller: schoolController, text: "school"),
+                    GreystokeTextfield(controller: schoolController, text: userDetails?.school ?? ""),
                     SizedBox(
                       height: 20,
                     ),
@@ -272,7 +295,11 @@ Widget _buildImagePickerDialog(BuildContext context) {
 
   //dropdown
   DropdownButtonFormField<String> dropdown(
-      String text, List<String> item, String? dropdownValue) {
+      String text,
+      List<String> item, 
+      String? dropdownValue,
+    //  Function(String?) onChanged,
+      ) {
     return DropdownButtonFormField<String>(
       icon: Icon(Icons.keyboard_arrow_down_outlined, color: AppColor.greyText),
       style: TextStyle(
