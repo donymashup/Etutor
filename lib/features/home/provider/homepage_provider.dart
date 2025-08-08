@@ -1,17 +1,21 @@
-import 'package:etutor/features/home/model/bannerimages_model.dart' as bannerModel;
+import 'package:etutor/features/home/model/bannerimages_model.dart' as banner_model;
 import 'package:etutor/features/home/model/live_course_model.dart' as live_course_model;
+import 'package:etutor/features/home/model/syllabus_based_livecourse.dart' as syllabus_live_corse;
 import 'package:etutor/features/home/service/home_service.dart';
 import 'package:flutter/material.dart';
 
 class HomepageProvider extends ChangeNotifier {
   bool isLoading =false;
   List<live_course_model.Data> _liveCourse = [];
-  List<bannerModel.Banner> _banner = [];
- int _currentCarouselPage = 0;
+  List<banner_model.Banner> _banner = [];
+  List<syllabus_live_corse.Data> _syllabusCourse = [];
+  int _currentCarouselPage = 0;
 
   List<live_course_model.Data> get livecourse => _liveCourse;
-  List<bannerModel.Banner> get bannerurl => _banner;
+  List<banner_model.Banner> get bannerurl => _banner;
+  List<syllabus_live_corse.Data> get syllabusCourse => _syllabusCourse;
   int get currentCarouselPage => _currentCarouselPage;
+
 
   //get live courses 
   Future liveCourse (BuildContext context) async {
@@ -60,4 +64,27 @@ class HomepageProvider extends ChangeNotifier {
     _currentCarouselPage = page;
     notifyListeners();
   }
+   
+   // fetch syllabus based live courses
+   Future syllabusBasedLiveCourses (BuildContext context) async {
+    isLoading = true;
+    notifyListeners();
+   try { 
+    final response = await HomeService().getSyllabusLiveCourses(
+      syllabusId: '1',
+      context: context);
+      if ( response != null && response.data != null ){
+        _syllabusCourse = response.data ?? [];
+         notifyListeners();
+      }else{
+        _syllabusCourse  = [];
+        } 
+       }catch (e) {
+          debugPrint('Error fetching syllabus based live courses: $e');
+          _syllabusCourse = [];
+        }
+      isLoading = false;
+      notifyListeners();
+  }
+
 }
