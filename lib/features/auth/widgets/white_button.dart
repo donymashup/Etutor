@@ -20,7 +20,7 @@ class whiteButton extends StatelessWidget {
         style: ElevatedButton.styleFrom(
           backgroundColor: AppColor.whiteColor,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(30),
+            borderRadius: BorderRadius.circular(18),
           ),
         ),
         child: Text(text,

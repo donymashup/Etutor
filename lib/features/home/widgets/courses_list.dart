@@ -1,5 +1,7 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:etutor/common/constants/utils.dart';
 import 'package:flutter/material.dart';
+import 'package:shimmer/shimmer.dart';
 
 class CoursesList extends StatelessWidget {
   final String imagePath;
@@ -27,11 +29,17 @@ class CoursesList extends StatelessWidget {
             height: MediaQuery.of(context).size.width * 0.22,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(16),
-              image: DecorationImage(
-                image: AssetImage(imagePath),
-                fit: BoxFit.cover,
-              ),
             ),
+            child: CachedNetworkImage(
+                imageUrl: imagePath,
+                placeholder: (context, url) => Shimmer.fromColors(
+                        baseColor: Colors.grey[300]!,
+                        highlightColor: Colors.grey[100]!,
+                        child: Container(
+                          color: Colors.white,
+                        ),
+                      ),
+                      errorWidget: (context, url, error) => Icon(Icons.error),)
           ),
 
           const SizedBox(height: 8),

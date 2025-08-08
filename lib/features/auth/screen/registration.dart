@@ -1,11 +1,11 @@
 import 'package:etutor/common/constants/app_constants.dart';
 import 'package:etutor/common/widgets/back_button.dart';
-import 'package:etutor/common/widgets/bottom_navigation_bar.dart';
 import 'package:etutor/common/widgets/custom_button.dart';
 import 'package:etutor/features/auth/models/drop_down_option_model.dart';
 import 'package:etutor/features/auth/provider/login_provider.dart';
 import 'package:etutor/features/auth/screen/password_screen.dart';
 import 'package:etutor/features/auth/widgets/grey_stroke_textfield.dart';
+import 'package:etutor/features/auth/widgets/label_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:lottie/lottie.dart';
@@ -35,8 +35,6 @@ class _RegistrationState extends State<Registration> {
 
   DateTime? selectedDate;
   String? code;
-  String? classDropdownValue;
-  String? syllabusDropdownValue;
   String? selectedGender;
   bool isChecked = false;
   bool _obscurePassword = true;
@@ -70,7 +68,10 @@ class _RegistrationState extends State<Registration> {
   @override
   Widget build(BuildContext context) {
     _class = context.watch<LoginProvider>().classes;
-    _syllabus = context.watch<LoginProvider>().syllabus;
+    _syllabus = context.watch<LoginProvider>().syllabus;   
+  String? classDropdownValue = context.watch<LoginProvider>().classDropdown ;
+  String? syllabusDropdownValue = context.watch<LoginProvider>().syllabusDropdown;
+
     final isLoading = context.watch<LoginProvider>().isLoding;
     return Scaffold(
       body: isLoading
@@ -78,6 +79,7 @@ class _RegistrationState extends State<Registration> {
           : SingleChildScrollView(
               child: Column(
                 children: [
+                  //header part with blue background
                   Container(
                     decoration: const BoxDecoration(
                       color: AppColor.primaryColor,
@@ -107,7 +109,6 @@ class _RegistrationState extends State<Registration> {
                               CustomBackButton(),
                             ],
                           ),
-                          //const SizedBox(height: 20),
                           Text(
                             "Create Your Account",
                             style: TextStyle(
@@ -125,12 +126,14 @@ class _RegistrationState extends State<Registration> {
                       ),
                     ),
                   ),
+
                   Padding(
                     padding: const EdgeInsets.all(20.0),
                     child: Form(
                       key: _formKey,
                       child: Column(
                         children: [
+                          // first name
                           Label(labelText: "First Name"),
                           const SizedBox(height: 5),
                           GreystokeTextfield(
@@ -145,6 +148,8 @@ class _RegistrationState extends State<Registration> {
                             },
                           ),
                           const SizedBox(height: 10),
+
+                          //last name
                           Label(labelText: "Last Name"),
                           const SizedBox(height: 5),
                           GreystokeTextfield(
@@ -159,6 +164,8 @@ class _RegistrationState extends State<Registration> {
                             },
                           ),
                           const SizedBox(height: 10),
+
+                          //gender radio button
                           Label(labelText: "Gender"),
                           const SizedBox(height: 5),
                           FormField<String>(
@@ -215,6 +222,8 @@ class _RegistrationState extends State<Registration> {
                             },
                           ),
                           const SizedBox(height: 10),
+
+                          // dob field
                           Label(labelText: "Date of Birth"),
                           const SizedBox(height: 5),
                           GestureDetector(
@@ -258,6 +267,8 @@ class _RegistrationState extends State<Registration> {
                             ),
                           ),
                           const SizedBox(height: 10),
+
+                          // email
                           Label(labelText: "Email"),
                           const SizedBox(height: 5),
                           GreystokeTextfield(
@@ -275,6 +286,8 @@ class _RegistrationState extends State<Registration> {
                             },
                           ),
                           const SizedBox(height: 10),
+
+                          // phone number
                           Label(labelText: "Phone Number"),
                           const SizedBox(height: 5),
                           TextFormField(
@@ -302,6 +315,8 @@ class _RegistrationState extends State<Registration> {
                             ),
                           ),
                           const SizedBox(height: 10),
+
+                          // class dropdown
                           Label(labelText: "Class"),
                           const SizedBox(height: 5),
                           dropdown(
@@ -310,10 +325,15 @@ class _RegistrationState extends State<Registration> {
                               _class
                                   .map((classmodel) => classmodel.name ?? "")
                                   .toList(),
-                              classDropdownValue, (value) {
-                            classDropdownValue = value;
+                                classDropdownValue,
+                              (value) {
+                            context
+                                .read<LoginProvider>()
+                                .updateClassDropdown(value!);
                           }),
                           const SizedBox(height: 10),
+
+                          //syllabus dropdown
                           Label(labelText: "Syllabus"),
                           const SizedBox(height: 5),
                           dropdown(
@@ -323,10 +343,15 @@ class _RegistrationState extends State<Registration> {
                                   .map((syllabusmodel) =>
                                       syllabusmodel.name ?? "")
                                   .toList(),
-                              syllabusDropdownValue, (value) {
-                            syllabusDropdownValue = value;
+                              syllabusDropdownValue,
+                              (value) {
+                            context
+                                .read<LoginProvider>()
+                                .updateSyllabusDropdown(value!);
                           }),
                           const SizedBox(height: 10),
+
+                          // school
                           Label(labelText: "School"),
                           const SizedBox(height: 5),
                           GreystokeTextfield(
@@ -341,124 +366,20 @@ class _RegistrationState extends State<Registration> {
                             },
                           ),
                           const SizedBox(height: 10),
+
+                          //password
                           Label(labelText: "Password"),
                           const SizedBox(height: 5),
-                          TextFormField(
-                            obscureText: _obscurePassword,
-                            controller: passwordController,
-                            validator: (value) {
-                              if (value == null || value.length < 6) {
-                                return 'Password must be at least 6 characters';
-                              }
-                              return null;
-                            },
-                            decoration: InputDecoration(
-                              hintText: "Password",
-                              hintStyle:
-                                  const TextStyle(color: AppColor.greyText),
-                              focusedBorder: const OutlineInputBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(10)),
-                                borderSide: BorderSide(
-                                    color: AppColor.greyStroke, width: 1.0),
-                              ),
-                              enabledBorder: const OutlineInputBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(10)),
-                                borderSide: BorderSide(
-                                    color: AppColor.greyStroke, width: 1.0),
-                              ),
-                              errorBorder: const OutlineInputBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(10)),
-                                borderSide:
-                                    BorderSide(color: Colors.red, width: 1.0),
-                              ),
-                              focusedErrorBorder: const OutlineInputBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(10)),
-                                borderSide:
-                                    BorderSide(color: Colors.red, width: 1.0),
-                              ),
-                              prefixIcon: Icon(Icons.lock_outline_rounded,
-                                  color: AppColor.greyIcon, size: 18),
-                              suffixIcon: IconButton(
-                                icon: Icon(
-                                  _obscurePassword
-                                      ? Icons.visibility_off_outlined
-                                      : Icons.visibility_outlined,
-                                  color: AppColor.greyIcon,
-                                  size: 18,
-                                ),
-                                onPressed: () {
-                                  setState(() {
-                                    _obscurePassword = !_obscurePassword;
-                                  });
-                                },
-                              ),
-                            ),
-                          ),
+                          passwordTextField(),
                           const SizedBox(height: 10),
+
+                          // confirm password
                           Label(labelText: "Confirm Password"),
                           const SizedBox(height: 5),
-                          TextFormField(
-                            obscureText: _obscureConfirmPassword,
-                            controller: confirmPasswordController,
-                            validator: (value) {
-                              if (value != passwordController.text ||
-                                  value!.isEmpty) {
-                                return 'Passwords do not match';
-                              }
-                              return null;
-                            },
-                            decoration: InputDecoration(
-                              hintText: "Confirm Password",
-                              hintStyle:
-                                  const TextStyle(color: AppColor.greyText),
-                              focusedBorder: const OutlineInputBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(10)),
-                                borderSide: BorderSide(
-                                    color: AppColor.greyStroke, width: 1.0),
-                              ),
-                              enabledBorder: const OutlineInputBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(10)),
-                                borderSide: BorderSide(
-                                    color: AppColor.greyStroke, width: 1.0),
-                              ),
-                              errorBorder: const OutlineInputBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(10)),
-                                borderSide:
-                                    BorderSide(color: Colors.red, width: 1.0),
-                              ),
-                              focusedErrorBorder: const OutlineInputBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(10)),
-                                borderSide:
-                                    BorderSide(color: Colors.red, width: 1.0),
-                              ),
-                              prefixIcon: Icon(Icons.lock_outline_rounded,
-                                  color: AppColor.greyIcon, size: 18),
-                              suffixIcon: IconButton(
-                                icon: Icon(
-                                  _obscureConfirmPassword
-                                      ? Icons.visibility_off_outlined
-                                      : Icons.visibility_outlined,
-                                  color: AppColor.greyIcon,
-                                  size: 18,
-                                ),
-                                onPressed: () {
-                                  setState(() {
-                                    _obscureConfirmPassword =
-                                        !_obscureConfirmPassword;
-                                  });
-                                },
-                              ),
-                            ),
-                          ),
+                          confirmPasswordTextField(),
                           const SizedBox(height: 20),
+
+                          // checkbox with terms and condition
                           Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -508,6 +429,8 @@ class _RegistrationState extends State<Registration> {
                             ],
                           ),
                           const SizedBox(height: 25),
+
+                          // register button
                           CustomButton(
                             onpressed: () async {
                               if (_formKey.currentState!.validate() &&
@@ -515,14 +438,16 @@ class _RegistrationState extends State<Registration> {
                                   classDropdownValue != null &&
                                   syllabusDropdownValue != null) {
                                 final provider = context.read<LoginProvider>();
+                                debugPrint("class = $classDropdownValue");
+                                debugPrint(" syllabus = $syllabusDropdownValue");
                                 await provider.register(
                                   context,
                                   firstNameController.text.trim(),
                                   lastNameController.text.trim(),
                                   emailController.text.trim(),
                                   selectedGender!,
-                                  classDropdownValue!,
-                                  syllabusDropdownValue!,
+                                  provider.getClassIdByName(classDropdownValue)?? "",
+                                  provider.getSyllabusIdByName(syllabusDropdownValue) ?? "",
                                   schoolController.text.trim(),
                                   passwordController.text.trim(),
                                   DateFormat('yyyy-MM-dd')
@@ -571,6 +496,106 @@ class _RegistrationState extends State<Registration> {
     );
   }
 
+// method returing confirm Password TextField
+  TextFormField confirmPasswordTextField() {
+    return TextFormField(
+      obscureText: _obscureConfirmPassword,
+      controller: confirmPasswordController,
+      validator: (value) {
+        if (value != passwordController.text || value!.isEmpty) {
+          return 'Passwords do not match';
+        }
+        return null;
+      },
+      decoration: InputDecoration(
+        hintText: "Confirm Password",
+        hintStyle: const TextStyle(color: AppColor.greyText),
+        focusedBorder: const OutlineInputBorder(
+          borderRadius: BorderRadius.all(Radius.circular(10)),
+          borderSide: BorderSide(color: AppColor.greyStroke, width: 1.0),
+        ),
+        enabledBorder: const OutlineInputBorder(
+          borderRadius: BorderRadius.all(Radius.circular(10)),
+          borderSide: BorderSide(color: AppColor.greyStroke, width: 1.0),
+        ),
+        errorBorder: const OutlineInputBorder(
+          borderRadius: BorderRadius.all(Radius.circular(10)),
+          borderSide: BorderSide(color: Colors.red, width: 1.0),
+        ),
+        focusedErrorBorder: const OutlineInputBorder(
+          borderRadius: BorderRadius.all(Radius.circular(10)),
+          borderSide: BorderSide(color: Colors.red, width: 1.0),
+        ),
+        prefixIcon: Icon(Icons.lock_outline_rounded,
+            color: AppColor.greyIcon, size: 18),
+        suffixIcon: IconButton(
+          icon: Icon(
+            _obscureConfirmPassword
+                ? Icons.visibility_off_outlined
+                : Icons.visibility_outlined,
+            color: AppColor.greyIcon,
+            size: 18,
+          ),
+          onPressed: () {
+            setState(() {
+              _obscureConfirmPassword = !_obscureConfirmPassword;
+            });
+          },
+        ),
+      ),
+    );
+  }
+
+// method returing Password TextField
+  TextFormField passwordTextField() {
+    return TextFormField(
+      obscureText: _obscurePassword,
+      controller: passwordController,
+      validator: (value) {
+        if (value == null || value.length < 6) {
+          return 'Password must be at least 6 characters';
+        }
+        return null;
+      },
+      decoration: InputDecoration(
+        hintText: "Password",
+        hintStyle: const TextStyle(color: AppColor.greyText),
+        focusedBorder: const OutlineInputBorder(
+          borderRadius: BorderRadius.all(Radius.circular(10)),
+          borderSide: BorderSide(color: AppColor.greyStroke, width: 1.0),
+        ),
+        enabledBorder: const OutlineInputBorder(
+          borderRadius: BorderRadius.all(Radius.circular(10)),
+          borderSide: BorderSide(color: AppColor.greyStroke, width: 1.0),
+        ),
+        errorBorder: const OutlineInputBorder(
+          borderRadius: BorderRadius.all(Radius.circular(10)),
+          borderSide: BorderSide(color: Colors.red, width: 1.0),
+        ),
+        focusedErrorBorder: const OutlineInputBorder(
+          borderRadius: BorderRadius.all(Radius.circular(10)),
+          borderSide: BorderSide(color: Colors.red, width: 1.0),
+        ),
+        prefixIcon: Icon(Icons.lock_outline_rounded,
+            color: AppColor.greyIcon, size: 18),
+        suffixIcon: IconButton(
+          icon: Icon(
+            _obscurePassword
+                ? Icons.visibility_off_outlined
+                : Icons.visibility_outlined,
+            color: AppColor.greyIcon,
+            size: 18,
+          ),
+          onPressed: () {
+            setState(() {
+              _obscurePassword = !_obscurePassword;
+            });
+          },
+        ),
+      ),
+    );
+  }
+
   // Dropdown widget with validation
   DropdownButtonFormField<String> dropdown(
     IconData iconData,
@@ -610,9 +635,7 @@ class _RegistrationState extends State<Registration> {
               TextStyle(color: AppColor.greyText, fontWeight: FontWeight.w400)),
       value: dropdownValue,
       onChanged: (String? newValue) {
-        setState(() {
           onChanged(newValue);
-        });
       },
       validator: (value) => value == null ? 'Please select $hint' : null,
       items: item.map((String value) {
@@ -625,22 +648,4 @@ class _RegistrationState extends State<Registration> {
   }
 }
 
-//widget for lable of the textfield
-class Label extends StatelessWidget {
-  final String labelText;
-  const Label({
-    super.key,
-    required this.labelText,
-  });
 
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        const Text("*", style: TextStyle(color: Colors.red)),
-        const SizedBox(width: 5),
-        Text(labelText),
-      ],
-    );
-  }
-}

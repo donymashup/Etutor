@@ -1,8 +1,7 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:etutor/features/home/model/user_details_model.dart';
+import 'package:etutor/features/home/provider/homepage_provider.dart';
 import 'package:etutor/features/home/widgets/carousel.dart';
 import 'package:etutor/features/home/widgets/course_grid.dart';
-import 'package:etutor/features/my_course/widgets/mycoursecard.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:etutor/common/constants/app_constants.dart';
@@ -25,6 +24,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   UserDetailsProvider userProvider = UserDetailsProvider();
+  HomepageProvider homeProvider = HomepageProvider();
 
   @override
   void initState() {
@@ -33,8 +33,10 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<void> _userDetails() async {
-    final userDetailsProvider  = context.read<UserDetailsProvider>();
+    final userDetailsProvider = context.read<UserDetailsProvider>();
     await userDetailsProvider.loadUserDetails(context);
+    final homepageProvider = context.read<HomepageProvider>();
+    await homepageProvider.syllabusBasedLiveCourses(context);
   }
 
   final List<Map<String, dynamic>> activeCourses = [
@@ -106,7 +108,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     userProvider = Provider.of<UserDetailsProvider>(context, listen: true);
-
+    homeProvider = Provider.of<HomepageProvider>(context, listen: true);
     return Scaffold(
       key: _scaffoldKey,
       endDrawer: const SideDrawer(),
@@ -132,6 +134,7 @@ class _HomePageState extends State<HomePage> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+
                       // Profile and Notification Row
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -143,27 +146,52 @@ class _HomePageState extends State<HomePage> {
                                   onTap: () {
                                     Navigator.push(
                                       context,
-                                      MaterialPageRoute(builder: (_) => const Profile()),
+                                      MaterialPageRoute(
+                                          builder: (_) => const Profile()),
                                     );
                                   },
                                   child: CircleAvatar(
                                     radius: 30,
-                                    backgroundImage: context.watch<UserDetailsProvider>().isLoading
-                                    ? const AssetImage('assets/images/default_user_image.png') as ImageProvider
-                                    :((userProvider.userDetails.data ?? Data()).image != null && ((userProvider.userDetails.data ?? Data()).image ?? "").isNotEmpty)
-                                        ? NetworkImage( (userProvider.userDetails.data ?? Data()).image!) 
-                                        : const AssetImage('assets/images/default_user_image.png') as ImageProvider,
+                                    backgroundImage: context
+                                            .watch<UserDetailsProvider>()
+                                            .isLoading
+                                        ? const AssetImage(
+                                                'assets/images/default_user_image.png')
+                                            as ImageProvider
+                                        : ((userProvider.userDetails.data ??
+                                                            Data())
+                                                        .image !=
+                                                    null &&
+                                                ((userProvider.userDetails
+                                                                    .data ??
+                                                                Data())
+                                                            .image ??
+                                                        "")
+                                                    .isNotEmpty)
+                                            ? NetworkImage((userProvider
+                                                        .userDetails.data ??
+                                                    Data())
+                                                .image!)
+                                            : const AssetImage(
+                                                    'assets/images/default_user_image.png')
+                                                as ImageProvider,
                                   ),
                                 ),
                                 const SizedBox(width: 12),
                                 Expanded(
                                   child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        context.watch<UserDetailsProvider>().isLoading
+                                        context
+                                                .watch<UserDetailsProvider>()
+                                                .isLoading
                                             ? "Loading..."
-                                            : (userProvider.userDetails.data ?? Data()).firstName != null
+                                            : (userProvider.userDetails.data ??
+                                                            Data())
+                                                        .firstName !=
+                                                    null
                                                 ? "Hello, ${(userProvider.userDetails.data ?? Data()).firstName}!"
                                                 : "Hello, User!",
                                         style: const TextStyle(
@@ -172,7 +200,6 @@ class _HomePageState extends State<HomePage> {
                                           color: Colors.white,
                                         ),
                                         overflow: TextOverflow.ellipsis,
-                                        
                                       ),
                                       const SizedBox(height: 4),
                                       const Text(
@@ -198,10 +225,13 @@ class _HomePageState extends State<HomePage> {
                                     onTap: () {
                                       Navigator.push(
                                         context,
-                                        MaterialPageRoute(builder: (_) => const NotificationPage()),
+                                        MaterialPageRoute(
+                                            builder: (_) =>
+                                                const NotificationPage()),
                                       );
                                     },
-                                    child: const Icon(Icons.notifications, color: Colors.white),
+                                    child: const Icon(Icons.notifications,
+                                        color: Colors.white),
                                   ),
                                   Positioned(
                                     right: 0,
@@ -218,7 +248,8 @@ class _HomePageState extends State<HomePage> {
                                 ],
                               ),
                               IconButton(
-                                icon: Image.asset("assets/icons/menu.png", width: 24, height: 24),
+                                icon: Image.asset("assets/icons/menu.png",
+                                    width: 24, height: 24),
                                 onPressed: () {
                                   _scaffoldKey.currentState?.openEndDrawer();
                                 },
@@ -229,6 +260,7 @@ class _HomePageState extends State<HomePage> {
                       ),
 
                       const SizedBox(height: 20),
+                      //search field with ai assistant button
                       Container(
                         padding: const EdgeInsets.symmetric(horizontal: 16),
                         decoration: BoxDecoration(
@@ -252,7 +284,8 @@ class _HomePageState extends State<HomePage> {
                               decoration: const BoxDecoration(
                                 shape: BoxShape.circle,
                                 image: DecorationImage(
-                                  image: AssetImage('assets/images/gpt (2).png'),
+                                  image:
+                                      AssetImage('assets/images/gpt (2).png'),
                                   fit: BoxFit.cover,
                                 ),
                               ),
@@ -264,19 +297,37 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
               ),
-               CarouselScreen(),
-               // Popular Courses
+               // banner images
+              CarouselScreen(),
+
+              // Popular Courses
               sectionHeader("Popular Courses"),
               courseList(popularCourses),
-             SizedBox(height: 10,)   ,    
-             const CategoryButtonList(),
+              SizedBox(
+                height: 10,
+              ),
+              // category header
+              const CategoryButtonList(),
 
               // Active Courses
               sectionHeader("Active Courses (${activeCourses.length})", () {
-                Navigator.push(context, MaterialPageRoute(builder: (_) => const SeeMoreCourses()));
-              }),   
-             // courseList(activeCourses), 
-              CoursesGridWidget(courses:activeCourses,)
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (_) => const SeeMoreCourses()));
+              }),
+              // courseList(activeCourses),
+              CoursesGridWidget(
+                  courses: homeProvider.syllabusCourse
+                      .map((data) => {
+                            'id': data.id,
+                            'name': data.name,
+                            'price': data.price,
+                            'image': data.image,
+                            'discount': data.discount,
+                            'likesCount': data.likesCount,
+                            'avgStars': data.avgStars,
+                            'syllabus': data.syllabus,
+                          })
+                      .toList())
             ],
           ),
         ),
@@ -286,7 +337,7 @@ class _HomePageState extends State<HomePage> {
 
   Widget sectionHeader(String title, [VoidCallback? onSeeMore]) {
     return Padding(
-       padding: const EdgeInsets.fromLTRB(16, 12, 16, 4),
+      padding: const EdgeInsets.fromLTRB(16, 12, 16, 4),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -299,18 +350,17 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
           if (onSeeMore != null)
-                      TextButton(
-                        onPressed: onSeeMore,
-                        child: Text(
-                          "See More",
-                          style: TextStyle(
-                            color: AppColor.primaryColor,
-                            fontSize: 16,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                      )
-
+            TextButton(
+              onPressed: onSeeMore,
+              child: Text(
+                "See More",
+                style: TextStyle(
+                  color: AppColor.primaryColor,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            )
         ],
       ),
     );
@@ -343,5 +393,3 @@ class _HomePageState extends State<HomePage> {
     );
   }
 }
-
- 

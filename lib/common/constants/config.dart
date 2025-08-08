@@ -9,5 +9,6 @@ const getLiveCourse ='Newapi/getLiveCourses';
 const getBannerImage ='Newapi/getBannerImages';
 const getUserSubscriptions = 'Newapi/getUserSubscriptions';
 const updateProfile = 'Newapi/updateProfile';
+const syllabusLiveCourses = 'Newapi/getSyllabusBasedLiveCourse';
 
 

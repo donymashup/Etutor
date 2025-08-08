@@ -104,7 +104,7 @@ class Profile extends StatelessWidget {
                                           fontSize: 16),
                                     ),
                                     Text(
-                                       " ${userDetails.qualification ?? ''}",
+                                       " ${context.read<LoginProvider>().getClassNameById(userDetails.qualification ?? '')}",
                                       style: TextStyle(
                                           color: AppColor.greyText, fontSize: 13),
                                     ),
@@ -135,14 +135,6 @@ class Profile extends StatelessWidget {
                                 "${userDetails.firstName ?? ''} ${userDetails.lastName ?? ''}"),
                             _buildInfoRow(Icons.phone_android,
                                 userDetails.phone ?? 'N/A'),
-                            _buildInfoRow(
-                                Icons.location_on,
-                                [
-                                  userDetails.parsedAddress,
-                                  userDetails.state,
-                                  userDetails.zipCode,
-                                  userDetails.parsedCountry
-                                ].where((e) => e.trim().isNotEmpty).join(", ")),
                             _buildInfoRow(
                                 Icons.email, userDetails.email ?? 'N/A'),
                             _buildInfoRow(Icons.cake, userDetails.dob ?? 'N/A'),

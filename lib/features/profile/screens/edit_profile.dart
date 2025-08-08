@@ -18,31 +18,23 @@ class EditProfile extends StatefulWidget {
   State<EditProfile> createState() => _EditProfileState();
 }
 
-
 class _EditProfileState extends State<EditProfile> {
   File? _image;
   final picker = ImagePicker();
   List<Classes> _class = [];
   List<Syllabus> _syllabus = [];
-
   String? selectedClass;
   String? selectedSyllabus;
-
 
   final TextEditingController firstnameController = TextEditingController();
   final TextEditingController lastnameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
-  final TextEditingController classController = TextEditingController();
-  final TextEditingController syllabusController = TextEditingController();
   final TextEditingController schoolController = TextEditingController();
-  
 
   @override
   void dispose() {
     firstnameController.dispose();
     lastnameController.dispose();
-    classController.dispose();
-    syllabusController.dispose();
     emailController.dispose();
     schoolController.dispose();
     super.dispose();
@@ -51,19 +43,14 @@ class _EditProfileState extends State<EditProfile> {
   @override
   void initState() {
     super.initState();
-    // final userDetails =
-    //    context.watch<UserDetailsProvider>().userDetails.data;
-    //   firstnameController.text = userDetails!.firstName!;
-    // _class = context.watch<LoginProvider>().classes;
-    // _syllabus = context.watch<LoginProvider>().syllabus;
+    final loginProvider = context.read<LoginProvider>();
+    loginProvider.dropDownOptions(context);
     final userDetails = context.read<UserDetailsProvider>().userDetails.data!;
     firstnameController.text = userDetails.firstName!;
     lastnameController.text = userDetails.lastName!;
     emailController.text = userDetails.email!;
     schoolController.text = userDetails.school!;
   }
-
-
 
   Future<void> _pickImage(ImageSource source) async {
     final pickedFile = await picker.pickImage(source: source);
@@ -73,21 +60,22 @@ class _EditProfileState extends State<EditProfile> {
         _image = File(pickedFile.path);
       });
     } else {
-     // print('No image selected.');
+      // print('No image selected.');
     }
   }
-  
+
   @override
   Widget build(BuildContext context) {
-     final userDetails =
-        Provider.of<UserDetailsProvider>(context).userDetails.data;
-           _class = context.watch<LoginProvider>().classes;
-          _syllabus = context.watch<LoginProvider>().syllabus;
-      // _class =   Provider.of<LoginProvider>(context).classes ;
-      //  _syllabus =   Provider.of<LoginProvider>(context).syllabus ;
+     final loginProvider = context.read<LoginProvider>();
+    _class = context.watch<LoginProvider>().classes;
+    _syllabus = context.watch<LoginProvider>().syllabus;
+    String? classDropdownValue =loginProvider.getClassNameById(context.watch<UserDetailsProvider>().userDetails.data!.qualification!);
+    debugPrint(" class $classDropdownValue");
+    String? syllabusDropdownValue = loginProvider.getSyllabusNameById(context.watch<UserDetailsProvider>().userDetails.data!.syllabus!);
+    debugPrint(" syllabus $syllabusDropdownValue");
+
     return Scaffold(
       appBar: AppBar(
-
         backgroundColor: AppColor.primaryColor,
         leading: Padding(
           padding: const EdgeInsets.only(left: 20.0),
@@ -119,24 +107,25 @@ class _EditProfileState extends State<EditProfile> {
                       ClipRRect(
                         borderRadius: BorderRadius.circular(50),
                         child: _image == null
-                         ?  Image.asset(
-                          "assets/images/basil.jpg",
-                          width: 100,
-                          height: 100,
-                          fit: BoxFit.cover,
-                        )
-                        : Image.file(_image!,
-                         width: 100,
-                          height: 100,
-                          fit: BoxFit.cover,),
-                        
+                            ? Image.asset(
+                                "assets/images/basil.jpg",
+                                width: 100,
+                                height: 100,
+                                fit: BoxFit.cover,
+                              )
+                            : Image.file(
+                                _image!,
+                                width: 100,
+                                height: 100,
+                                fit: BoxFit.cover,
+                              ),
                       ),
                       Positioned(
                           bottom: 0,
                           right: 0,
                           child: Container(
-                            width: 30,
-                            height:30,
+                              width: 30,
+                              height: 30,
                               //margin: EdgeInsets.all(3),
                               decoration: BoxDecoration(
                                   color: AppColor.greyCardBackground,
@@ -146,15 +135,18 @@ class _EditProfileState extends State<EditProfile> {
                               child: Padding(
                                 padding: const EdgeInsets.all(0.0),
                                 child: IconButton(
-                                  onPressed:  () {
+                                  onPressed: () {
                                     showDialog(
                                       context: context,
-                                      builder: (BuildContext context) => _buildImagePickerDialog(context),
+                                      builder: (BuildContext context) =>
+                                          _buildImagePickerDialog(context),
                                     );
                                   },
-                                  icon: Icon(Icons.edit,size: 15,
-                                  color: AppColor.greyIconDark,),
-                                  
+                                  icon: Icon(
+                                    Icons.edit,
+                                    size: 15,
+                                    color: AppColor.greyIconDark,
+                                  ),
                                 ),
                               )))
                     ]),
@@ -162,7 +154,7 @@ class _EditProfileState extends State<EditProfile> {
                       height: 30,
                     ),
                     GreystokeTextfield(
-                        controller: firstnameController, text:" First Name"),
+                        controller: firstnameController, text: " First Name"),
                     SizedBox(
                       height: 15,
                     ),
@@ -180,32 +172,40 @@ class _EditProfileState extends State<EditProfile> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Expanded(
-                            child:
-                                dropdown(
-                                  "Class",
-                                 _class
+                          child: dropdown(
+                              "Class",
+                              _class
                                   .map((classmodel) => classmodel.name ?? "")
                                   .toList(),
-                                  userDetails?.qualification
-                                )),
+                              classDropdownValue, (value) {
+                            context
+                                .read<LoginProvider>()
+                                .updateClassDropdown(value!);
+                          }),
+                        ),
                         SizedBox(
                           width: 10,
                         ),
                         Expanded(
-                            child: dropdown(
-                                "Syllabus", 
-                                _syllabus
+                          child: dropdown(
+                              "Syllabus",
+                              _syllabus
                                   .map((syllabusmodel) =>
                                       syllabusmodel.name ?? "")
                                   .toList(),
-                                  userDetails?.syllabus
-                                )),
+                              syllabusDropdownValue, (value) {
+                            context
+                                .read<LoginProvider>()
+                                .updateSyllabusDropdown(value!);
+                          }),
+                        ),
                       ],
                     ),
                     SizedBox(
                       height: 15,
                     ),
-                    GreystokeTextfield(controller: schoolController, text: userDetails?.school ?? ""),
+                    GreystokeTextfield(
+                        controller: schoolController, text: "school"),
                     SizedBox(
                       height: 20,
                     ),
@@ -215,7 +215,7 @@ class _EditProfileState extends State<EditProfile> {
                             child: CustomButton(
                           buttoncolor: AppColor.greyButton,
                           onpressed: () {
-                           Navigator.pop(context);
+                            Navigator.pop(context);
                           },
                           text: 'Cancel',
                           textColor: AppColor.greyTextDark,
@@ -227,7 +227,7 @@ class _EditProfileState extends State<EditProfile> {
                             child: CustomButton(
                           buttoncolor: AppColor.primaryColor,
                           onpressed: () {
-                           Navigator.pop(context);
+                            Navigator.pop(context);
                           },
                           text: 'Update',
                           textColor: AppColor.whiteColor,
@@ -245,96 +245,93 @@ class _EditProfileState extends State<EditProfile> {
   }
 
 // dialog box for imagepicker
-Widget _buildImagePickerDialog(BuildContext context) {
-  return Dialog(
-    shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(20),
-    ),
-    child: Padding(
-      padding: const EdgeInsets.all(20.0),
-      child: Column(
-        mainAxisSize: MainAxisSize.min, 
-        children: [
-          Text("Choose an option", style: TextStyle(fontSize: 18)),
-          SizedBox(height: 20),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Expanded(
-                child: FloatingActionButton.extended(
-                  backgroundColor: AppColor.greyButton,
-                  heroTag: "gallery",
-                  onPressed: () {
-                    Navigator.pop(context);
-                    _pickImage(ImageSource.gallery);
-                  },
-                  icon: Icon(Icons.photo),
-                  label: Text("Gallery"),
-                ),
-              ),
-              SizedBox(width: 10),
-              Expanded(
-                child: FloatingActionButton.extended(
-                  backgroundColor: AppColor.greyButton,
-                  heroTag: "camera",
-                  onPressed: () {
-                    Navigator.pop(context);
-                    _pickImage(ImageSource.camera);
-                  },
-                  icon: Icon(Icons.camera_alt),
-                  label: Text("Camera"),
-                ),
-              ),
-            ],
-          ),
-        ],
+  Widget _buildImagePickerDialog(BuildContext context) {
+    return Dialog(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(20),
       ),
-    ),
-  );
-}
+      child: Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text("Choose an option", style: TextStyle(fontSize: 18)),
+            SizedBox(height: 20),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Expanded(
+                  child: FloatingActionButton.extended(
+                    backgroundColor: AppColor.greyButton,
+                    heroTag: "gallery",
+                    onPressed: () {
+                      Navigator.pop(context);
+                      _pickImage(ImageSource.gallery);
+                    },
+                    icon: Icon(Icons.photo),
+                    label: Text("Gallery"),
+                  ),
+                ),
+                SizedBox(width: 10),
+                Expanded(
+                  child: FloatingActionButton.extended(
+                    backgroundColor: AppColor.greyButton,
+                    heroTag: "camera",
+                    onPressed: () {
+                      Navigator.pop(context);
+                      _pickImage(ImageSource.camera);
+                    },
+                    icon: Icon(Icons.camera_alt),
+                    label: Text("Camera"),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
 
   //dropdown
   DropdownButtonFormField<String> dropdown(
-      String text,
-      List<String> item, 
-      String? dropdownValue,
-    //  Function(String?) onChanged,
-      ) {
+    String hint,
+    List<String> item,
+    String? dropdownValue,
+    Function(String?) onChanged,
+  ) {
     return DropdownButtonFormField<String>(
       icon: Icon(Icons.keyboard_arrow_down_outlined, color: AppColor.greyText),
-      style: TextStyle(
-        fontWeight: FontWeight.w400,
-        fontSize: 18,
-      ),
+      style: const TextStyle(
+          fontWeight: FontWeight.w400,
+          fontSize: 18,
+          color: AppColor.blackColor),
       dropdownColor: AppColor.greyBackground,
       decoration: InputDecoration(
-        labelText: text,
         focusedBorder: const OutlineInputBorder(
           borderRadius: BorderRadius.all(Radius.circular(10)),
-          borderSide: BorderSide(
-            color: AppColor.greyStroke,
-            width: 1.0,
-          ),
+          borderSide: BorderSide(color: AppColor.greyStroke, width: 1.0),
         ),
         enabledBorder: const OutlineInputBorder(
           borderRadius: BorderRadius.all(Radius.circular(10)),
-          borderSide: BorderSide(
-            color: AppColor.greyStroke,
-            width: 1.0,
-          ),
+          borderSide: BorderSide(color: AppColor.greyStroke, width: 1.0),
         ),
       ),
+      hint: Text(hint,
+          style:
+              TextStyle(color: AppColor.greyText, fontWeight: FontWeight.w400)),
       value: dropdownValue,
       onChanged: (String? newValue) {
-        setState(() {
-          dropdownValue = newValue!;
-        });
+        onChanged(newValue);
       },
-      items: item.map<DropdownMenuItem<String>>((String value) {
+      validator: (value) => value == null ? 'Please select $hint' : null,
+      items: item.map((String value) {
         return DropdownMenuItem<String>(
           value: value,
-          child: Text(value,
-              style: TextStyle(color: Colors.black, fontFamily: 'Poppins')),
+          child: Text(
+            value,
+            style: const TextStyle(fontFamily: 'Poppins', fontSize: 14),
+          ),
         );
       }).toList(),
     );

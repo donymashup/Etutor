@@ -19,8 +19,15 @@ class LoginProvider extends ChangeNotifier{
   List<Syllabus> _syllabus =[];
   List<Classes> _class = [];
   final FlutterSecureStorage _secureStorage = const FlutterSecureStorage();
-
- 
+  String? _classDropdown ;
+  String? _syllabusDropdown ;
+  //  String? _selectedClassId;
+  // String? _selectedSyllabusId;
+  
+  String? get classDropdown => _classDropdown;
+  String? get syllabusDropdown => _syllabusDropdown;
+  //  String? get selectedClassId => _selectedClassId;
+  // String? get selectedSyllabusId => _selectedSyllabusId;
   List<LoginModel> get isLogin => _login;
   String get phone => _phone;
   String get code => _code;
@@ -122,7 +129,7 @@ Future login (BuildContext context,String password) async {
       notifyListeners();
     }
 
-
+// get dropdown values
   Future dropDownOptions(BuildContext context) async {
     final response = await AuthService().dropDowmOption(
       context: context, );
@@ -136,8 +143,58 @@ Future login (BuildContext context,String password) async {
     notifyListeners();
   }
 
+//  update class drop down value
+   void updateClassDropdown(String newValue) {
+    _classDropdown = newValue;
+    notifyListeners();
+  }
+  
+  // update syllabus dropdown value
+  void updateSyllabusDropdown(String newValue) {
+    _syllabusDropdown = newValue;
+    notifyListeners();
+  }
+
+// get class id by name
+  String? getClassIdByName(String className) {
+  try {
+    return classes.firstWhere((c) => c.name == className).id;
+  } catch (e) {
+    return null;
+  }
+}
+
+// get syllabus id by name
+String? getSyllabusIdByName(String syllabusName) {
+  try {
+    return syllabus.firstWhere((s) => s.name == syllabusName).id;
+  } catch (e) {
+    return null;
+  }
+}
+
+// get class name by id
+String? getClassNameById(String classId) {
+  try {
+    return classes.firstWhere((c) => c.id == classId).name;
+  } catch (e) {
+    return null;
+  }
+}
+
+// Get syllabus name by ID
+String? getSyllabusNameById(String syllabusId) {
+  try {
+    return syllabus.firstWhere((s) => s.id == syllabusId).name;
+  } catch (e) {
+    return null;
+  }
+}
+
  Future<void> logout() async {
     await _secureStorage.delete(key: 'token');
+    _classDropdown = null;
+    _syllabusDropdown = null;
     _login = [];
     notifyListeners();
   }
