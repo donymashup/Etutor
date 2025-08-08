@@ -328,7 +328,7 @@ class _RegistrationState extends State<Registration> {
                                 classDropdownValue,
                               (value) {
                             context
-                                .read<LoginProvider>()
+                                .read<LoginProvider>() 
                                 .updateClassDropdown(value!);
                           }),
                           const SizedBox(height: 10),

@@ -6,7 +6,7 @@ import 'package:shimmer/shimmer.dart';
 class CoursesList extends StatelessWidget {
   final String imagePath;
   final double rating;
-  final String title; 
+  final String title;
 
   const CoursesList({
     super.key,
@@ -25,21 +25,43 @@ class CoursesList extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // Course Image
+          // Container(
+          //   height: MediaQuery.of(context).size.width * 0.22,
+          //   decoration: BoxDecoration(
+          //     borderRadius: BorderRadius.circular(16),
+          //   ),
+          //   child: CachedNetworkImage(
+          //       imageUrl: imagePath,
+          //       placeholder: (context, url) => Shimmer.fromColors(
+          //               baseColor: Colors.grey[300]!,
+          //               highlightColor: Colors.grey[100]!,
+          //               child: Container(
+          //                 color: Colors.white,
+          //               ),
+          //             ),
+          //             errorWidget: (context, url, error) => Icon(Icons.error),)
+          // ),
           Container(
             height: MediaQuery.of(context).size.width * 0.22,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(16),
             ),
-            child: CachedNetworkImage(
-                imageUrl: imagePath,
-                placeholder: (context, url) => Shimmer.fromColors(
-                        baseColor: Colors.grey[300]!,
-                        highlightColor: Colors.grey[100]!,
-                        child: Container(
-                          color: Colors.white,
-                        ),
-                      ),
-                      errorWidget: (context, url, error) => Icon(Icons.error),)
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(16),
+              child: AspectRatio(
+                aspectRatio: 16 / 9, 
+                child: CachedNetworkImage(
+                  imageUrl: imagePath,
+                  fit: BoxFit.cover, 
+                  placeholder: (context, url) => Shimmer.fromColors(
+                    baseColor: Colors.grey[300]!,
+                    highlightColor: Colors.grey[100]!,
+                    child: Container(color: Colors.white),
+                  ),
+                  errorWidget: (context, url, error) => const Icon(Icons.error),
+                ),
+              ),
+            ),
           ),
 
           const SizedBox(height: 8),
