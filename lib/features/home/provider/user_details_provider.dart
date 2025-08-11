@@ -7,10 +7,12 @@ class UserDetailsProvider extends ChangeNotifier {
   UserDetailsModel _userDetails = UserDetailsModel();
   bool _isLoading = false;
   bool _isUpdating = false;
+  String? _syllabusId;
 
   UserDetailsModel get userDetails => _userDetails;
   bool get isLoading => _isLoading;
   bool get isUpdating => _isUpdating;
+  String? get syllabusId => _syllabusId;
 
   // Load user details from the service
   Future<UserDetailsModel?> loadUserDetails(BuildContext context) async {
@@ -20,6 +22,8 @@ class UserDetailsProvider extends ChangeNotifier {
       final data = await UserDetailsService().fetchUserDetails(context: context);
       if (data != null && data.type == "success") {
         _userDetails = data;
+        _syllabusId = _userDetails.data?.syllabus;
+        notifyListeners();
         _isLoading = false;
         notifyListeners();
         return data;

@@ -24,23 +24,6 @@ class CoursesList extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Course Image
-          // Container(
-          //   height: MediaQuery.of(context).size.width * 0.22,
-          //   decoration: BoxDecoration(
-          //     borderRadius: BorderRadius.circular(16),
-          //   ),
-          //   child: CachedNetworkImage(
-          //       imageUrl: imagePath,
-          //       placeholder: (context, url) => Shimmer.fromColors(
-          //               baseColor: Colors.grey[300]!,
-          //               highlightColor: Colors.grey[100]!,
-          //               child: Container(
-          //                 color: Colors.white,
-          //               ),
-          //             ),
-          //             errorWidget: (context, url, error) => Icon(Icons.error),)
-          // ),
           Container(
             height: MediaQuery.of(context).size.width * 0.22,
             decoration: BoxDecoration(

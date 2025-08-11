@@ -21,13 +21,9 @@ class LoginProvider extends ChangeNotifier{
   final FlutterSecureStorage _secureStorage = const FlutterSecureStorage();
   String? _classDropdown ;
   String? _syllabusDropdown ;
-  //  String? _selectedClassId;
-  // String? _selectedSyllabusId;
   
   String? get classDropdown => _classDropdown;
   String? get syllabusDropdown => _syllabusDropdown;
-  //  String? get selectedClassId => _selectedClassId;
-  // String? get selectedSyllabusId => _selectedSyllabusId;
   List<LoginModel> get isLogin => _login;
   String get phone => _phone;
   String get code => _code;
