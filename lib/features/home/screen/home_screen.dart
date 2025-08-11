@@ -1,3 +1,4 @@
+import 'package:etutor/features/auth/provider/login_provider.dart';
 import 'package:etutor/features/home/model/user_details_model.dart';
 import 'package:etutor/features/home/provider/homepage_provider.dart';
 import 'package:etutor/features/home/widgets/carousel.dart';
@@ -36,74 +37,33 @@ class _HomePageState extends State<HomePage> {
     final userDetailsProvider = context.read<UserDetailsProvider>();
     await userDetailsProvider.loadUserDetails(context);
     final homepageProvider = context.read<HomepageProvider>();
-    await homepageProvider.syllabusBasedLiveCourses(context);
+    await homepageProvider.syllabusBasedLiveCourses(context,userDetailsProvider.syllabusId!); 
+    await homepageProvider.popularCourses(context);  
   }
 
-  final List<Map<String, dynamic>> activeCourses = [
-    {
-      'imagePath': 'assets/images/oly1.jpg',
-      'title': 'International Social Studies Olympiad (ISSO)',
-      'rating': 4.5,
-    },
-    {
-      'imagePath': 'assets/images/oly2.jpg',
-      'title': 'International General Knowledge Olympiad (IGKO)',
-      'rating': 4.6,
-    },
-    {
-      'imagePath': 'assets/images/oly3.jpeg',
-      'title': 'International Commerce Olympiad (ICO)',
-      'rating': 4.4,
-    },
-    {
-      'imagePath': 'assets/images/oly4.jpg',
-      'title': 'International English Olympiad (IEO)',
-      'rating': 2.7,
-    },
-    {
-      'imagePath': 'assets/images/oly1.jpg',
-      'title': 'International Social Studies Olympiad (ISSO)',
-      'rating': 4.0,
-    },
-    {
-      'imagePath': 'assets/images/oly2.jpg',
-      'title': 'International General Knowledge Olympiad (IGKO)',
-      'rating': 1.6,
-    },
-    {
-      'imagePath': 'assets/images/oly3.jpeg',
-      'title': 'International Commerce Olympiad (ICO)',
-      'rating': 3.4,
-    },
-    {
-      'imagePath': 'assets/images/oly4.jpg',
-      'title': 'International English Olympiad (IEO)',
-      'rating': 3.7,
-    },
-  ];
 
-  final List<Map<String, dynamic>> popularCourses = [
-    {
-      'imagePath': 'assets/images/oly6.jpeg',
-      'title': 'National Interactive Maths Olympiad [NIMO]',
-      'rating': 3.9,
-    },
-    {
-      'imagePath': 'assets/images/oly5.webp',
-      'title': 'International Mathematics Olympiad (IMO)',
-      'rating': 4.8,
-    },
-    {
-      'imagePath': 'assets/images/oly7.png',
-      'title': 'National Science Olympiad (NSO)',
-      'rating': 2.6,
-    },
-    {
-      'imagePath': 'assets/images/oly6.jpeg',
-      'title': 'English Smart Series',
-      'rating': .3,
-    },
-  ];
+  // final List<Map<String, dynamic>> popularCourses = [
+  //   {
+  //     'imagePath': 'assets/images/oly6.jpeg',
+  //     'title': 'National Interactive Maths Olympiad [NIMO]',
+  //     'rating': 3.9,
+  //   },
+  //   {
+  //     'imagePath': 'assets/images/oly5.webp',
+  //     'title': 'International Mathematics Olympiad (IMO)',
+  //     'rating': 4.8,
+  //   },
+  //   {
+  //     'imagePath': 'assets/images/oly7.png',
+  //     'title': 'National Science Olympiad (NSO)',
+  //     'rating': 2.6,
+  //   },
+  //   {
+  //     'imagePath': 'assets/images/oly6.jpeg',
+  //     'title': 'English Smart Series',
+  //     'rating': .3,
+  //   },
+  // ];
 
   @override
   Widget build(BuildContext context) {
@@ -302,7 +262,18 @@ class _HomePageState extends State<HomePage> {
 
               // Popular Courses
               sectionHeader("Popular Courses"),
-              courseList(popularCourses),
+              courseList( homeProvider.popularCourse
+                      .map((data) => {
+                            'id': data.id,
+                            'name': data.name,
+                            'price': data.price,
+                            'image': data.image,
+                            'discount': data.discount,
+                            'likesCount': data.likesCount,
+                            'avgStars': data.avgStars,
+                            'syllabus': data.syllabus,
+                          })
+                      .toList()),
               SizedBox(
                 height: 10,
               ),
@@ -310,7 +281,7 @@ class _HomePageState extends State<HomePage> {
               const CategoryButtonList(),
 
               // Active Courses
-              sectionHeader("Active Courses (${activeCourses.length})", () {
+              sectionHeader("Active Courses (${homeProvider.syllabusCourse.length})", () {
                 Navigator.push(context,
                     MaterialPageRoute(builder: (_) => const SeeMoreCourses()));
               }),
@@ -367,6 +338,27 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget courseList(List<Map<String, dynamic>> courses) {
+    if (courses.isEmpty) {
+      return SizedBox(
+        child: Center(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(Icons.school_outlined, size: 60, color: Colors.grey[400]),
+              SizedBox(height: 16),
+              Text(
+                'No courses available',
+                style: TextStyle(
+                  fontSize: 16,
+                  color: Colors.grey[600],
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+    }
     return SizedBox(
       height: MediaQuery.of(context).size.width * 0.22 + 80,
       child: ListView.builder(
@@ -383,9 +375,9 @@ class _HomePageState extends State<HomePage> {
               );
             },
             child: CoursesList(
-              imagePath: course['imagePath'],
-              rating: course['rating'],
-              title: course['title'],
+              imagePath: course['image'],
+              rating: double.tryParse(course['avgStars'].toString()) ?? 0.0,
+              title: course['name'],
             ),
           );
         },
