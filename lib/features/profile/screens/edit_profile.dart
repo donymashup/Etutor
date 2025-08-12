@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:etutor/common/constants/app_constants.dart';
+import 'package:etutor/common/constants/utils.dart';
 import 'package:etutor/common/widgets/back_button.dart';
 import 'package:etutor/common/widgets/custom_button.dart';
 import 'package:etutor/features/auth/models/drop_down_option_model.dart';
@@ -9,6 +10,7 @@ import 'package:etutor/features/home/provider/user_details_provider.dart';
 import 'package:etutor/features/profile/widgets/u_shaped_painter.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 
 class EditProfile extends StatefulWidget {
@@ -23,16 +25,12 @@ class _EditProfileState extends State<EditProfile> {
 
   File? _image;
   final picker = ImagePicker();
-
   List<Classes> _class = [];
   List<Syllabus> _syllabus = [];
-
   String? selectedClass;
   String? selectedSyllabus;
   String? codeController;
-
   DateTime? selectedDate;
-
   String? _selectedGender;
 
   final TextEditingController firstnameController = TextEditingController();
@@ -41,7 +39,6 @@ class _EditProfileState extends State<EditProfile> {
   final TextEditingController schoolController = TextEditingController();
   final TextEditingController dobController = TextEditingController();
   final TextEditingController phoneController = TextEditingController();
-  // genderController is unused; _selectedGender is used instead
 
   @override
   void dispose() {
@@ -68,7 +65,6 @@ class _EditProfileState extends State<EditProfile> {
     schoolController.text = userDetails.school ?? '';
     codeController = userDetails.country ?? '';
     phoneController.text = userDetails.phone ?? '';
-
     _selectedGender = userDetails.gender?.toLowerCase().replaceAll(RegExp(r'\s+'), '');
 
     // Parse and set DOB text + selectedDate if available
@@ -95,16 +91,24 @@ class _EditProfileState extends State<EditProfile> {
   @override
   Widget build(BuildContext context) {
     final loginProvider = context.read<LoginProvider>();
+    final userDetailsProvider = context.watch<UserDetailsProvider>();
     _class = context.watch<LoginProvider>().classes;
     _syllabus = context.watch<LoginProvider>().syllabus;
-
     String? classDropdownValue = loginProvider.getClassNameById(
-      context.watch<UserDetailsProvider>().userDetails.data!.qualification!,
+      userDetailsProvider.userDetails.data!.qualification!,
     );
     String? syllabusDropdownValue = loginProvider.getSyllabusNameById(
-      context.watch<UserDetailsProvider>().userDetails.data!.syllabus!,
+     userDetailsProvider.userDetails.data!.syllabus!,
     );
-
+    bool isloading = userDetailsProvider.isUpdating;
+    
+    if (isloading) {
+      return Scaffold(
+        body: Center(
+          child: Lottie.asset('assets/lottie/lottieloading1.json'),
+        ),
+      );
+    }
     return Scaffold(
       appBar: AppBar(
         backgroundColor: AppColor.primaryColor,
@@ -215,21 +219,22 @@ class _EditProfileState extends State<EditProfile> {
                       },
                     ),
                     const SizedBox(height: 15),
-                    TextFormField(
+                    TextFormField(              
                       controller: phoneController,
-                      enabled: false, // <-- makes it read-only
-                      style: const TextStyle(color: AppColor.blackColor),
+                      enabled: false, 
+                      style: const TextStyle(color: AppColor.greyText),
                       decoration: InputDecoration(
                         labelText: "Phone Number",
+                        labelStyle: TextStyle(color: AppColor.greyText),
                         border: const OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(10)),
                           borderSide:
                               BorderSide(color: AppColor.greyStroke, width: 1),
                         ),
                         prefix: Text(
-                          '$codeController ', // still showing country code
+                          '$codeController ',
                           style: const TextStyle(
-                            color: Colors.black,
+                            color: AppColor.greyText,
                           ),
                         ),
                         prefixIcon: const Icon(
@@ -420,6 +425,7 @@ class _EditProfileState extends State<EditProfile> {
 
                                 if (updateProvider.userDetails.type ==
                                     'success') {
+                                  showSnackbar(context, "User Details Updated Successfully");    
                                   Navigator.pop(context);
                                 }
                               }
@@ -495,24 +501,27 @@ class _EditProfileState extends State<EditProfile> {
       icon: Icon(Icons.keyboard_arrow_down_outlined, color: AppColor.greyText),
       style: const TextStyle(
         fontWeight: FontWeight.w400,
-        fontSize: 18,
+        fontSize: 16,
         color: AppColor.blackColor,
+        overflow:  TextOverflow.ellipsis,
       ),
+      isExpanded: true,
       dropdownColor: AppColor.greyBackground,
-      decoration: const InputDecoration(
-        focusedBorder: OutlineInputBorder(
+      decoration: InputDecoration(
+        labelText: hint, 
+        focusedBorder: const OutlineInputBorder(
           borderRadius: BorderRadius.all(Radius.circular(10)),
           borderSide: BorderSide(color: AppColor.greyStroke, width: 1.0),
         ),
-        enabledBorder: OutlineInputBorder(
+        enabledBorder: const OutlineInputBorder(
           borderRadius: BorderRadius.all(Radius.circular(10)),
           borderSide: BorderSide(color: AppColor.greyStroke, width: 1.0),
         ),
-        errorBorder: OutlineInputBorder(
+        errorBorder: const OutlineInputBorder(
           borderRadius: BorderRadius.all(Radius.circular(10)),
           borderSide: BorderSide(color: Colors.red, width: 1.0),
         ),
-        focusedErrorBorder: OutlineInputBorder(
+        focusedErrorBorder: const OutlineInputBorder(
           borderRadius: BorderRadius.all(Radius.circular(10)),
           borderSide: BorderSide(color: Colors.red, width: 1.0),
         ),
@@ -527,10 +536,10 @@ class _EditProfileState extends State<EditProfile> {
           child: Text(
             value,
             style: const TextStyle(
-              fontSize: 14,
+              fontSize: 15,
             ),
             overflow: TextOverflow.ellipsis,
-            maxLines: 1,
+            maxLines:1 ,
           ),
         );
       }).toList(),

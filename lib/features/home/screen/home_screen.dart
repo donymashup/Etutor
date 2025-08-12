@@ -39,31 +39,8 @@ class _HomePageState extends State<HomePage> {
     final homepageProvider = context.read<HomepageProvider>();
     await homepageProvider.syllabusBasedLiveCourses(context,userDetailsProvider.syllabusId!); 
     await homepageProvider.popularCourses(context);  
+    await context.read<LoginProvider>().dropDownOptions(context);
   }
-
-
-  // final List<Map<String, dynamic>> popularCourses = [
-  //   {
-  //     'imagePath': 'assets/images/oly6.jpeg',
-  //     'title': 'National Interactive Maths Olympiad [NIMO]',
-  //     'rating': 3.9,
-  //   },
-  //   {
-  //     'imagePath': 'assets/images/oly5.webp',
-  //     'title': 'International Mathematics Olympiad (IMO)',
-  //     'rating': 4.8,
-  //   },
-  //   {
-  //     'imagePath': 'assets/images/oly7.png',
-  //     'title': 'National Science Olympiad (NSO)',
-  //     'rating': 2.6,
-  //   },
-  //   {
-  //     'imagePath': 'assets/images/oly6.jpeg',
-  //     'title': 'English Smart Series',
-  //     'rating': .3,
-  //   },
-  // ];
 
   @override
   Widget build(BuildContext context) {
@@ -360,7 +337,7 @@ class _HomePageState extends State<HomePage> {
       );
     }
     return SizedBox(
-      height: MediaQuery.of(context).size.width * 0.22 + 80,
+      height: MediaQuery.of(context).size.width * 0.22 + 100,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         padding: const EdgeInsets.symmetric(horizontal: 16),
