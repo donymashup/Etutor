@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:etutor/features/profile/model/upload_image_model.dart';
 import 'package:flutter/material.dart';
 import 'package:etutor/features/home/model/user_details_model.dart';
 import 'package:etutor/features/home/service/user_details_service.dart';
@@ -94,4 +97,39 @@ class UserDetailsProvider extends ChangeNotifier {
       notifyListeners();
     }
   }
+
+
+  UploadImageModel? _uploadImageResponse;
+bool _isUploadingImage = false;
+
+UploadImageModel? get uploadImageResponse => _uploadImageResponse;
+bool get isUploadingImage => _isUploadingImage;
+
+Future<void> uploadUserProfileImage({
+  required BuildContext context,
+  required File imageFile,
+}) async {
+  _isUploadingImage = true;
+  notifyListeners();
+
+  try {
+    final response = await UserDetailsService().uploadImage (
+      context: context,
+      imageFile: imageFile,
+    );
+
+    if (response != null && response.type == "success") {
+      _uploadImageResponse = response;
+      await loadUserDetails(context); // Refresh details after upload
+    }
+
+    _isUploadingImage = false;
+    notifyListeners();
+  } catch (e) {
+    debugPrint("Error uploading image: $e");
+    _isUploadingImage = false;
+    notifyListeners();
+  }
+}
+
 }
