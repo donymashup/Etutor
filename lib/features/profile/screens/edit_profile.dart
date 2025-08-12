@@ -111,6 +111,9 @@ class _EditProfileState extends State<EditProfile> {
      userDetailsProvider.userDetails.data!.syllabus!,
     );
     bool isloading = userDetailsProvider.isUpdating;
+
+    loginProvider.updateClassDropdown(classDropdownValue ?? "");
+    loginProvider.updateSyllabusDropdown(syllabusDropdownValue ?? "");
     
     if (isloading) {
       return Scaffold(
