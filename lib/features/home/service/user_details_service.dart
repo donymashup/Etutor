@@ -138,11 +138,11 @@ class UserDetailsService {
     // Multipart Request
     final request = http.MultipartRequest(
       'POST',
-      Uri.parse('$baseUrl$uploadImage'), // make sure $uploadImage is endpoint
+      Uri.parse('$baseUrl$uploadImage'), 
     );
     request.headers['Authorization'] = 'Bearer $token';
     request.files.add(await http.MultipartFile.fromPath(
-      'file', // <-- match your API's expected field name
+      'file', 
       imageFile.path,
     ));
 
