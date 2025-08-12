@@ -30,6 +30,7 @@ class _EditProfileState extends State<EditProfile> {
   String? selectedClass;
   String? selectedSyllabus;
   String? codeController;
+  String? _profileImageUrl;
 
   DateTime? selectedDate;
 
@@ -69,18 +70,20 @@ class _EditProfileState extends State<EditProfile> {
     codeController = userDetails.country ?? '';
     phoneController.text = userDetails.phone ?? '';
 
-    _selectedGender = userDetails.gender?.toLowerCase().replaceAll(RegExp(r'\s+'), '');
+    _selectedGender =
+        userDetails.gender?.toLowerCase().replaceAll(RegExp(r'\s+'), '');
 
     // Parse and set DOB text + selectedDate if available
     if (userDetails.dob != null && userDetails.dob!.isNotEmpty) {
       try {
         selectedDate = DateTime.parse(userDetails.dob!);
         dobController.text =
-            "${selectedDate!.day.toString().padLeft(2, '0')}/${selectedDate!.month.toString().padLeft(2, '0')}/${selectedDate!.year}";
+            "${selectedDate!.day.toString().padLeft(2, '0')}-${selectedDate!.month.toString().padLeft(2, '0')}-${selectedDate!.year}";
       } catch (e) {
         dobController.text = '';
       }
     }
+    _profileImageUrl = userDetails.image;
   }
 
   Future<void> _pickImage(ImageSource source) async {
@@ -89,6 +92,12 @@ class _EditProfileState extends State<EditProfile> {
       setState(() {
         _image = File(pickedFile.path);
       });
+      // Upload image via provider
+      await Provider.of<UserDetailsProvider>(context, listen: false)
+          .uploadUserProfileImage(
+        context: context,
+        imageFile: _image!,
+      );
     }
   }
 
@@ -138,19 +147,37 @@ class _EditProfileState extends State<EditProfile> {
                       children: [
                         ClipRRect(
                           borderRadius: BorderRadius.circular(50),
-                          child: _image == null
-                              ? Image.asset(
-                                  "assets/images/basil.jpg",
-                                  width: 100,
-                                  height: 100,
-                                  fit: BoxFit.cover,
-                                )
-                              : Image.file(
+                          child: _image != null
+                              ? Image.file(
                                   _image!,
                                   width: 100,
                                   height: 100,
                                   fit: BoxFit.cover,
-                                ),
+                                )
+                              : (_profileImageUrl != null &&
+                                      _profileImageUrl!.isNotEmpty)
+                                  ? Image.network(
+                                      _profileImageUrl!,
+                                      width: 100,
+                                      height: 100,
+                                      fit: BoxFit.cover,
+                                      errorBuilder:
+                                          (context, error, stackTrace) {
+                                        // fallback if image loading fails
+                                        return Image.asset(
+                                          "assets/images/basil.jpg",
+                                          width: 100,
+                                          height: 100,
+                                          fit: BoxFit.cover,
+                                        );
+                                      },
+                                    )
+                                  : Image.asset(
+                                      "assets/images/basil.jpg",
+                                      width: 100,
+                                      height: 100,
+                                      fit: BoxFit.cover,
+                                    ),
                         ),
                         Positioned(
                           bottom: 0,
@@ -267,7 +294,7 @@ class _EditProfileState extends State<EditProfile> {
                           setState(() {
                             selectedDate = pickedDate;
                             dobController.text =
-                                "${pickedDate.day.toString().padLeft(2, '0')}/${pickedDate.month.toString().padLeft(2, '0')}/${pickedDate.year}";
+                                "${pickedDate.day.toString().padLeft(2, '0')}-${pickedDate.month.toString().padLeft(2, '0')}-${pickedDate.year}";
                           });
                         }
                       },

@@ -1,10 +1,13 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:etutor/features/profile/model/update_profile_model.dart';
+import 'package:etutor/features/profile/model/upload_image_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:etutor/common/constants/config.dart';
 import 'package:etutor/common/constants/utils.dart';
 import 'package:etutor/features/home/model/user_details_model.dart';
+import 'package:http/http.dart' as http;
 
 class UserDetailsService {
   final storage = const FlutterSecureStorage();
@@ -119,4 +122,50 @@ class UserDetailsService {
       return null;
     }
   }
+
+  Future<UploadImageModel?> uploadImage({
+  required BuildContext context,
+  required File imageFile,
+}) async {
+  try {
+    final token = await storage.read(key: 'token');
+
+    if (token == null) {
+      showSnackbar(context, "Token not found. Please log in again.");
+      return null;
+    }
+
+    // Multipart Request
+    final request = http.MultipartRequest(
+      'POST',
+      Uri.parse('$baseUrl$uploadImage'), // make sure $uploadImage is endpoint
+    );
+    request.headers['Authorization'] = 'Bearer $token';
+    request.files.add(await http.MultipartFile.fromPath(
+      'file', // <-- match your API's expected field name
+      imageFile.path,
+    ));
+
+    final streamedResponse = await request.send();
+    final responseBody = await streamedResponse.stream.bytesToString();
+    final jsonResponse = json.decode(responseBody);
+
+    if (streamedResponse.statusCode == 200) {
+      if (jsonResponse == null || jsonResponse.isEmpty) {
+        showSnackbar(context, 'Invalid response from server');
+        return null;
+      } else {
+        final uploadImage = UploadImageModel.fromJson(jsonResponse);
+        debugPrint(uploadImage.type);
+        return uploadImage;
+      }
+    } else {
+      debugPrint("Failed to upload image: ${streamedResponse.statusCode}");
+      return null;
+    }
+  } catch (e) {
+    showSnackbar(context, "Error: $e");
+    return null;
+  }
+}  
 }
