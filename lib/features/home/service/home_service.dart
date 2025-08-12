@@ -90,7 +90,7 @@ final storage = const FlutterSecureStorage();
     }
   }
 
-    // fuction to fetch active courses
+    // fuction to fetch popular courses
   Future<PopularCoursesModel?> getPopularCourse({
     required BuildContext context,
   }) async {

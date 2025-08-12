@@ -115,6 +115,7 @@ class UserDetailsService {
         }
       } else {
         debugPrint("Failed to update profile: ${response.statusCode}");
+        showSnackbar(context, 'Fail to update the user deatails');
         return null;
       }
     } catch (e) {

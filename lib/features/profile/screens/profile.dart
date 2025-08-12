@@ -7,15 +7,17 @@ import 'package:etutor/features/profile/widgets/custom_wave_painter.dart';
 import 'package:etutor/features/home/provider/user_details_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:intl/intl.dart';
 
 class Profile extends StatelessWidget {
   const Profile({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final userDetails =
-        Provider.of<UserDetailsProvider>(context).userDetails.data;
-
+    final userDetails = Provider.of<UserDetailsProvider>(context).userDetails.data;
+      String? qualification = context.read<LoginProvider>().getClassNameById(userDetails?.qualification);
+      String? syllabus = context.read<LoginProvider>().getSyllabusNameById(userDetails!.syllabus!);    
+    
     return Scaffold(
       appBar: AppBar(
         backgroundColor: AppColor.primaryColor,
@@ -93,6 +95,7 @@ class Profile extends StatelessWidget {
                                 ),
                               ),
                               const SizedBox(width: 10),
+                    
                               Expanded(
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -104,10 +107,11 @@ class Profile extends StatelessWidget {
                                           fontSize: 16),
                                     ),
                                     Text(
-                                       " ${context.read<LoginProvider>().getClassNameById(userDetails.qualification ?? '')}",
+                                       qualification ?? "na",
                                       style: TextStyle(
                                           color: AppColor.greyText, fontSize: 13),
                                     ),
+                                   
                                   ],
                                 ),
                               ),
@@ -137,9 +141,8 @@ class Profile extends StatelessWidget {
                                 userDetails.phone ?? 'N/A'),
                             _buildInfoRow(
                                 Icons.email, userDetails.email ?? 'N/A'),
-                            _buildInfoRow(Icons.cake, userDetails.dob ?? 'N/A'),
-                            _buildInfoRow(Icons.class_rounded,
-                                "${userDetails.syllabus ?? ''} Standard"),
+                            _buildInfoRow(Icons.cake,convertDateFormat( userDetails.dob ?? 'N/A')),
+                            _buildInfoRow(Icons.class_rounded,syllabus ?? "N/A"),
                             _buildInfoRow(
                                 Icons.school, userDetails.school ?? 'N/A'),
                           ],
@@ -258,4 +261,16 @@ class Profile extends StatelessWidget {
       ),
     );
   }
+
+  String convertDateFormat(String dateString) {
+  try {
+    DateTime date = DateTime.parse(dateString);
+    String formattedDate = DateFormat('dd-MM-yyyy').format(date);
+    return formattedDate;
+  } catch (e) {
+    return dateString;
+  }
 }
+  
+}
+
