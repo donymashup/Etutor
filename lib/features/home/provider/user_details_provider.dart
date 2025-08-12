@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:etutor/features/home/model/user_details_model.dart';
 import 'package:etutor/features/home/service/user_details_service.dart';
-import 'package:etutor/features/profile/model/update_profile_model.dart';
 
 class UserDetailsProvider extends ChangeNotifier {
   UserDetailsModel _userDetails = UserDetailsModel();

@@ -29,25 +29,12 @@ class _MyCoursePageState extends State<MyCoursePage> {
       'isFree': false,
       'rating': 4.5,
     },
-    // {
-    //   'title': ' International General Knowledge Olympiad (IGKO)',
-    //   'image': 'assets/images/oly2.jpg',
-    //   'isFree': false,
-    //   'rating': 4.6,
-    // },
-    // {
-    //   'title': 'International Commerce Olympiad (ICO)',
-    //   'image': 'assets/images/oly3.jpeg',
-    //   'isFree': false,
-    //   'rating': 4.4,
-    // },
     {
       'title': 'International English Olympiad (IEO)',
       'image': 'assets/images/oly4.jpg',
       'isFree': false,
       'rating': 4.7,
     },
-
     {
       'title': 'Mental Ability 25-26',
       'image': 'assets/images/oly8.jpg',
@@ -72,30 +59,6 @@ class _MyCoursePageState extends State<MyCoursePage> {
       'rating': 4.9,
       'isFree': false,
     },
-    // {
-    //   'title': 'National Interactive Maths Olympiad [NIMO]',
-    //   'image': 'assets/images/oly6.jpeg',
-    //   'isFree': false,
-    //   'rating': 4.9,
-    // },
-    // {
-    //   'title': 'International Mathematics Olympiad (IMO)',
-    //   'image': 'assets/images/oly5.webp',
-    //   'isFree': false,
-    //   'rating': 4.8,
-    // },
-    // {
-    //   'image': 'assets/images/oly7.png',
-    //   'title': 'National Science Olympiad (NSO)',
-    //   'isFree': false,
-    //   'rating': 4.6,
-    // },
-    // {
-    //   'title': 'English Smart Series',
-    //   'image': 'assets/images/oly6.jpeg',
-    //   'isFree': false,
-    //   'rating': 4.3,
-    // },
   ];
 
   final List<String> infoCardImages = const [

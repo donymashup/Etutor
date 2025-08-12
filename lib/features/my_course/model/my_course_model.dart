@@ -1,11 +1,11 @@
-class UserSubcriptionModel {
+class MyCourseModel {
   String? type;
   List<Data>? data;
   String? message;
 
-  UserSubcriptionModel({this.type, this.data, this.message});
+  MyCourseModel({this.type, this.data, this.message});
 
-  UserSubcriptionModel.fromJson(Map<String, dynamic> json) {
+  MyCourseModel.fromJson(Map<String, dynamic> json) {
     type = json['type'];
     if (json['data'] != null) {
       data = <Data>[];
