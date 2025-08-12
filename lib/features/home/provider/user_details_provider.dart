@@ -45,7 +45,7 @@ class UserDetailsProvider extends ChangeNotifier {
   }
 
   // Update profile method
-  Future<UpdateProfile?> updateUserProfile({
+  Future<void> updateUserProfile({
     required BuildContext context,
     required String firstName,
     required String lastName,
@@ -53,6 +53,10 @@ class UserDetailsProvider extends ChangeNotifier {
     required String userClass,
     required String syllabus,
     required String school,
+    required String code,
+    required String phone,
+    required String gender,
+    required String dob,
   }) async {
     _isUpdating = true;
     notifyListeners();
@@ -66,8 +70,12 @@ class UserDetailsProvider extends ChangeNotifier {
         userClass: userClass,
         syllabus: syllabus,
         school: school,
+        code: code,
+        phone: phone,
+        gender: gender,
+        dob: dob,
       );
-
+     
       if (response != null && response.type == "success") {
         // Refresh user details after successful update
         await loadUserDetails(context);
@@ -75,12 +83,11 @@ class UserDetailsProvider extends ChangeNotifier {
 
       _isUpdating = false;
       notifyListeners();
-      return response;
+     // return response;
     } catch (e) {
       debugPrint("Error updating profile: $e");
       _isUpdating = false;
       notifyListeners();
-      return null;
     }
   }
 }

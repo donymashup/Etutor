@@ -52,7 +52,7 @@ class UserDetailsService {
     }
   }
 
-  Future<UpdateProfile?> updateUserProfile({
+  Future<UpdateProfileModel?> updateUserProfile({
     required BuildContext context,
     required String firstName,
     required String lastName,
@@ -60,6 +60,10 @@ class UserDetailsService {
     required String userClass,
     required String syllabus,
     required String school,
+    required String code,
+    required String phone,
+    required String gender,
+    required String dob,
   }) async {
     try {
       final token = await storage.read(key: 'token');
@@ -79,8 +83,22 @@ class UserDetailsService {
           'qualification': userClass,
           'syllabus': syllabus,
           'school': school,
+          'country': code,
+          'phone': phone,
+          'gender': gender,
+          'dob': dob,
+          'address': "",
+
         },
       );
+      
+      debugPrint(firstName);
+      debugPrint(lastName);
+      debugPrint(email);
+      debugPrint(userClass);
+      debugPrint(syllabus);
+      debugPrint(school);
+      debugPrint(gender);
 
       if (response.statusCode == 200) {
         final jsonResponse = json.decode(await response.stream.bytesToString());
@@ -88,7 +106,7 @@ class UserDetailsService {
           showSnackbar(context, 'Invalid response from server');
           return null;
         } else {
-          final updateProfile = UpdateProfile.fromJson(jsonResponse);
+          final updateProfile = UpdateProfileModel.fromJson(jsonResponse);
           debugPrint(updateProfile.type);
           return updateProfile;
         }

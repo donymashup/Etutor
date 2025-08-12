@@ -1,10 +1,10 @@
-class UpdateProfile {
+class UpdateProfileModel {
   String? type;
   String? message;
 
-  UpdateProfile({this.type, this.message});
+  UpdateProfileModel({this.type, this.message});
 
-  UpdateProfile.fromJson(Map<String, dynamic> json) {
+  UpdateProfileModel.fromJson(Map<String, dynamic> json) {
     type = json['type'];
     message = json['message'];
   }
