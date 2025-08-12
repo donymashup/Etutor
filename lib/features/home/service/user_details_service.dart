@@ -103,6 +103,8 @@ class UserDetailsService {
       debugPrint(school);
       debugPrint(gender);
 
+      debugPrint(response.statusCode.toString());
+
       if (response.statusCode == 200) {
         final jsonResponse = json.decode(await response.stream.bytesToString());
         if (jsonResponse == null || jsonResponse.isEmpty) {
