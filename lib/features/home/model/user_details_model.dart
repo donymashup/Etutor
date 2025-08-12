@@ -29,7 +29,7 @@ class Data {
   String? password;
   String? dob;
   String? gender;
-  String? address; // Raw address string (JSON)
+  String? address; 
   String? image;
   String? school;
   String? syllabus;
