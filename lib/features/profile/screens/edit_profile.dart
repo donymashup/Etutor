@@ -87,11 +87,12 @@ class _EditProfileState extends State<EditProfile> {
       setState(() {
         _image = File(pickedFile.path);
       });
+      
       // Upload image via provider
       await Provider.of<UserDetailsProvider>(context, listen: false)
           .uploadUserProfileImage(
         context: context,
-        imageFile: _image!,
+        file: _image!,
       );
     }
   }

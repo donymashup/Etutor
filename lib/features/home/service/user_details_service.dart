@@ -12,8 +12,10 @@ import 'package:http/http.dart' as http;
 class UserDetailsService {
   final storage = const FlutterSecureStorage();
 
-  Future<UserDetailsModel?> fetchUserDetails(
-      {required BuildContext context}) async {
+  /// Fetch user details
+  Future<UserDetailsModel?> fetchUserDetails({
+    required BuildContext context,
+  }) async {
     try {
       final token = await storage.read(key: 'token');
       debugPrint("Token: $token");
@@ -23,28 +25,29 @@ class UserDetailsService {
         return null;
       }
 
-      final response = await sendGetRequestWithToken(
-        url: "$baseUrl$getUserDetails",
-        token: token,
+      final response = await http.get(
+        Uri.parse("$baseUrl$getUserDetails"),
+        headers: {"Authorization": "Bearer $token"},
       );
-      final jsonResponse = json.decode(await response.stream.bytesToString());
+
+      debugPrint("Fetch status code: ${response.statusCode}");
       if (response.statusCode == 200) {
+        final jsonResponse = json.decode(response.body);
+
         if (jsonResponse == null || jsonResponse.isEmpty) {
           showSnackbar(context, 'Invalid response from server');
           return null;
+        }
+
+        final userDetailsModel = UserDetailsModel.fromJson(jsonResponse);
+        if (userDetailsModel.type == 'success') {
+          return userDetailsModel;
         } else {
-          final userDetailsModel = UserDetailsModel.fromJson(jsonResponse);
-          debugPrint(userDetailsModel.type);
-          if (userDetailsModel.type == 'success') {
-            return userDetailsModel;
-          } else {
-            showSnackbar(context,
-                "Failed to fetch user details: ${userDetailsModel.type}");
-            return null;
-          }
+          showSnackbar(context,
+              "Failed to fetch user details: ${userDetailsModel.type}");
+          return null;
         }
       } else {
-        debugPrint("Failed fetch user details: ${response.statusCode}");
         await storage.write(key: 'isLogin', value: 'false');
         return null;
       }
@@ -55,6 +58,7 @@ class UserDetailsService {
     }
   }
 
+  /// Update user profile
   Future<UpdateProfileModel?> updateUserProfile({
     required BuildContext context,
     required String firstName,
@@ -70,16 +74,19 @@ class UserDetailsService {
   }) async {
     try {
       final token = await storage.read(key: 'token');
+      final uploadedImageUrl = await storage.read(key: 'uploaded_image') ?? '';
 
       if (token == null) {
         showSnackbar(context, "Token not found. Please log in again.");
         return null;
       }
 
-      final response = await sendPostRequestWithToken(
-        url: '$baseUrl$updateProfile',
-        token: token, 
-        fields: {
+      final response = await http.post(
+        Uri.parse('$baseUrl$updateProfile'),
+        headers: {
+          "Authorization": "Bearer $token",
+        },
+        body: {
           'first_name': firstName,
           'last_name': lastName,
           'email': email,
@@ -91,33 +98,21 @@ class UserDetailsService {
           'gender': gender,
           'dob': dob,
           'address': "",
-
+          'image': uploadedImageUrl,
         },
       );
-      
-      debugPrint(firstName);
-      debugPrint(lastName);
-      debugPrint(email);
-      debugPrint(userClass);
-      debugPrint(syllabus);
-      debugPrint(school);
-      debugPrint(gender);
 
-      debugPrint(response.statusCode.toString());
+      debugPrint("Update status code: ${response.statusCode}");
 
       if (response.statusCode == 200) {
-        final jsonResponse = json.decode(await response.stream.bytesToString());
+        final jsonResponse = json.decode(response.body);
         if (jsonResponse == null || jsonResponse.isEmpty) {
           showSnackbar(context, 'Invalid response from server');
           return null;
-        } else {
-          final updateProfile = UpdateProfileModel.fromJson(jsonResponse);
-          debugPrint(updateProfile.type);
-          return updateProfile;
         }
+        return UpdateProfileModel.fromJson(jsonResponse);
       } else {
-        debugPrint("Failed to update profile: ${response.statusCode}");
-        showSnackbar(context, 'Fail to update the user deatails');
+        showSnackbar(context, 'Fail to update the user details');
         return null;
       }
     } catch (e) {
@@ -126,49 +121,45 @@ class UserDetailsService {
     }
   }
 
+  /// Upload profile image
   Future<UploadImageModel?> uploadImage({
-  required BuildContext context,
-  required File imageFile,
-}) async {
-  try {
-    final token = await storage.read(key: 'token');
-
-    if (token == null) {
-      showSnackbar(context, "Token not found. Please log in again.");
-      return null;
-    }
-
-    // Multipart Request
-    final request = http.MultipartRequest(
-      'POST',
-      Uri.parse('$baseUrl$uploadImage'), // make sure $uploadImage is endpoint
-    );
-    request.headers['Authorization'] = 'Bearer $token';
-    request.files.add(await http.MultipartFile.fromPath(
-      'file', // <-- match your API's expected field name
-      imageFile.path,
-    ));
-
-    final streamedResponse = await request.send();
-    final responseBody = await streamedResponse.stream.bytesToString();
-    final jsonResponse = json.decode(responseBody);
-
-    if (streamedResponse.statusCode == 200) {
-      if (jsonResponse == null || jsonResponse.isEmpty) {
-        showSnackbar(context, 'Invalid response from server');
+    required BuildContext context,
+    required File file,
+  }) async {
+    try {
+      final token = await storage.read(key: 'token');
+      if (token == null) {
+        showSnackbar(context, "Token not found. Please log in again.");
         return null;
-      } else {
-        final uploadImage = UploadImageModel.fromJson(jsonResponse);
-        debugPrint(uploadImage.type);
-        return uploadImage;
       }
-    } else {
-      debugPrint("Failed to upload image: ${streamedResponse.statusCode}");
+
+      final request = http.MultipartRequest(
+        'POST',
+        Uri.parse('$baseUrl$uploadImageUrl'),
+      );
+      request.headers['Authorization'] = 'Bearer $token';
+      request.files.add(await http.MultipartFile.fromPath('file', file.path));
+
+      final streamedResponse = await request.send();
+      final responseBody = await streamedResponse.stream.bytesToString();
+
+      debugPrint("Upload status code: ${streamedResponse.statusCode}");
+      debugPrint("Upload response: $responseBody");
+
+      if (streamedResponse.statusCode == 200) {
+        final jsonResponse = json.decode(responseBody);
+        final imageModel = UploadImageModel.fromJson(jsonResponse);
+
+        await storage.write(key: 'uploaded_image', value: imageModel.url);
+        return imageModel;
+      } else {
+        showSnackbar(context, 'Failed to upload image: $responseBody');
+        return null;
+      }
+    } catch (e) {
+      print(e);
+      showSnackbar(context, "Error: $e");
       return null;
     }
-  } catch (e) {
-    showSnackbar(context, "Error: $e");
-    return null;
   }
-}  
 }
