@@ -176,12 +176,24 @@ class _CarouselScreenState extends State<CarouselScreen> {
       builder: (context, homepageProvider, child) {
         // Show loading indicator while fetching data
         if (homepageProvider.isLoading) {
-          return SizedBox(
-            height: carouselHeight,
-            child: Center(
-              child: CircularProgressIndicator(),
+           return SizedBox(
+        height: carouselHeight,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 12.0),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(5),
+            child: Shimmer.fromColors(
+              baseColor: Colors.grey[300]!,
+              highlightColor: Colors.grey[100]!,
+              child: Container(
+                width: double.infinity,
+                height: carouselHeight,
+                color: Colors.white,
+              ),
             ),
-          );
+          ),
+        ),
+      );
         }
         final imagePaths = homepageProvider.bannerurl;
         // Show message if no images available

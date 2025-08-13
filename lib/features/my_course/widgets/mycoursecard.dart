@@ -1,12 +1,14 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:etutor/common/constants/app_constants.dart';
 import 'package:etutor/common/constants/utils.dart';
 import 'package:flutter/material.dart';
+import 'package:shimmer/shimmer.dart';
 
 class MyCourseCard extends StatelessWidget {
   final String title;
   final String imagePath;
   final double rating;
-  final bool isFree;
+ // final bool isFree;
   final double? imgHeight;
 
 
@@ -15,7 +17,7 @@ class MyCourseCard extends StatelessWidget {
     required this.title,
     required this.imagePath,
     required this.rating,
-    required this.isFree,
+   // required this.isFree,
     this.imgHeight,
   });
 
@@ -43,24 +45,30 @@ class MyCourseCard extends StatelessWidget {
                     topLeft: Radius.circular(16),
                     topRight: Radius.circular(16),
                   ),
-                  child: Image.asset(
-                    imagePath,
+                  child: CachedNetworkImage(
+                    imageUrl: imagePath,
                     width: double.infinity,
                     height: imgHeight,
                     fit: BoxFit.cover,
+                    placeholder: (context, url) => Shimmer.fromColors(
+                    baseColor: Colors.grey[300]!,
+                    highlightColor: Colors.grey[100]!,
+                    child: Container(color: Colors.white),
+                  ),
+                   errorWidget: (context, url, error) => const Icon(Icons.error),
                   ),
                 ),
                 //free bageeeeer
-                if (isFree)
-                  const Positioned(
-                    top: 10,
-                    left: 10,
-                    child: Banner(
-                      message: 'FREE',
-                      location: BannerLocation.topStart,
-                      color: Colors.red,
-                    ),
-                  ),
+                // if (isFree)
+                //   const Positioned(
+                //     top: 10,
+                //     left: 10,
+                //     child: Banner(
+                //       message: 'FREE',
+                //       location: BannerLocation.topStart,
+                //       color: Colors.red,
+                //     ),
+                //   ),
               ],
             ),
             

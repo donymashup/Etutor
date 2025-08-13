@@ -11,7 +11,7 @@ const getUserSubscriptions = 'Newapi/getUserSubscriptions';
 const updateProfile = 'Newapi/updateProfile';
 const syllabusLiveCourses = 'Newapi/getSyllabusBasedLiveCourse';
 const popularCourse ='Newapi/getPopularCourses';
-const getSubscribedCourse = 'Newapi/getUserSubscriptions';
+const subscribedCourse = 'Newapi/getUserSubscriptions';
 const uploadImage ='Newapi/uploadImage';
 
 

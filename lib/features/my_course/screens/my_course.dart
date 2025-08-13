@@ -1,4 +1,6 @@
 import 'package:etutor/common/constants/app_constants.dart';
+import 'package:etutor/common/widgets/grid_shimmer_loader.dart';
+import 'package:etutor/features/my_course/provider/my_course_provider.dart';
 import 'package:etutor/features/my_course/screens/gk_post_screen.dart';
 import 'package:etutor/features/my_course/screens/gk_vedios.dart';
 import 'package:etutor/features/my_course/widgets/feature_button.dart';
@@ -10,6 +12,7 @@ import 'package:etutor/features/quiz/screens/quiz_instruction_screen.dart';
 import 'package:etutor/features/subscribed_course/screens/subscribed_course_overview.dart';
 import 'package:etutor/features/timeline/screens/timeline_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class MyCoursePage extends StatefulWidget {
   const MyCoursePage({super.key});
@@ -20,46 +23,7 @@ class MyCoursePage extends StatefulWidget {
 
 class _MyCoursePageState extends State<MyCoursePage> {
   bool isGrid = true;
-
-  final List<Map<String, dynamic>> courses = const [
-
-    {
-      'title': 'International Social Studies Olympiad (ISSO)',
-      'image': 'assets/images/oly1.jpg',
-      'isFree': false,
-      'rating': 4.5,
-    },
-    {
-      'title': 'International English Olympiad (IEO)',
-      'image': 'assets/images/oly4.jpg',
-      'isFree': false,
-      'rating': 4.7,
-    },
-    {
-      'title': 'Mental Ability 25-26',
-      'image': 'assets/images/oly8.jpg',
-      'isFree': false,
-      'rating': 4.8,
-    },
-    {
-      'title': ' International Hindi Olympiad (IEO)',
-      'image': 'assets/images/oly11.jpg',
-      'isFree': false,
-      'rating': 4.3,
-    },
-    { 
-      'title': 'Math Olympiad 25-26',
-      'image': 'assets/images/oly9.jpg',
-      'rating': 4.6,
-      'isFree': true,
-    },
-    {
-      'title': 'Spell Bee (CSB) ',
-      'image': 'assets/images/oly10.jpg',
-      'rating': 4.9,
-      'isFree': false,
-    },
-  ];
+  MyCourseProvider courseProvider = MyCourseProvider();
 
   final List<String> infoCardImages = const [
     'assets/images/qburious.png',
@@ -74,9 +38,23 @@ class _MyCoursePageState extends State<MyCoursePage> {
     'assets/images/targetupsc.png',
     'assets/images/etutortest.png',
   ];
+  
+  @override
+  void initState() {
+    super.initState();
+    laodCourse();
+  }
+  
+  Future <void> laodCourse() async {
+     final mycourseprovider = context.read<MyCourseProvider>();
+     await mycourseprovider.subscribedCourses(context);
+  }
+
 
   @override
   Widget build(BuildContext context) {
+  courseProvider = context.watch<MyCourseProvider>();
+
     return Scaffold(
       backgroundColor: AppColor.whiteColor,
       body: SafeArea(
@@ -111,7 +89,9 @@ class _MyCoursePageState extends State<MyCoursePage> {
               ),
 
               /// Courses
-              courses.isEmpty
+              courseProvider.isLoading 
+              ? GridShimmeLoader()
+              :courseProvider.subscribedCourse.isEmpty
                   ? const Center(child: nomycourse())
                   : Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -119,8 +99,8 @@ class _MyCoursePageState extends State<MyCoursePage> {
                           ? Wrap(
                               spacing: 10,
                               runSpacing: 10,
-                              children: List.generate(courses.length, (index) {
-                                final course = courses[index];
+                              children: List.generate(courseProvider.subscribedCourse.length, (index) {
+                                final course = courseProvider.subscribedCourse[index];
                                 return GestureDetector(
                                   onTap: () {
                                     Navigator.push(
@@ -135,15 +115,25 @@ class _MyCoursePageState extends State<MyCoursePage> {
                                     imgHeight:
                                         MediaQuery.of(context).size.width *
                                             0.25,
-                                    title: course['title'],
-                                    imagePath: course['image'],
-                                    rating: course['rating'],
-                                    isFree: course['isFree'],
+                                    title: course.courseName ?? "",
+                                    imagePath: course.courseImage ?? "",
+                                    rating: course.avgStars ?? 0.0,
+                                    //isFree: course['isFree'],
                                   ),
                                 );
                               }),
                             )
-                          : MyCourseListView(courses: courses),
+                          : MyCourseListView(
+                            courses: courseProvider.subscribedCourse
+                              .map((data) => {
+                              'id': data.courseId,
+                              'name': data.courseName,
+                              'image': data.courseImage,
+                              'avgStars': data.avgStars,
+                              'enrollmentId': data.enrollmentId,
+                              'packageId': data.packageId,
+                              'batchId': data.batchId,
+                          }).toList()),
                     ),
               Padding(
                 padding:

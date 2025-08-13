@@ -5,7 +5,6 @@ import 'package:etutor/common/widgets/back_button.dart';
 import 'package:etutor/common/widgets/custom_button.dart';
 import 'package:etutor/features/auth/models/drop_down_option_model.dart';
 import 'package:etutor/features/auth/provider/login_provider.dart';
-import 'package:etutor/features/auth/widgets/label_widget.dart';
 import 'package:etutor/features/home/provider/user_details_provider.dart';
 import 'package:etutor/features/profile/widgets/u_shaped_painter.dart';
 import 'package:flutter/material.dart';
@@ -66,8 +65,7 @@ class _EditProfileState extends State<EditProfile> {
     schoolController.text = userDetails.school ?? '';
     codeController = userDetails.country ?? '';
     phoneController.text = userDetails.phone ?? '';
-    _selectedGender =
-        userDetails.gender?.toLowerCase().replaceAll(RegExp(r'\s+'), '');
+    _selectedGender = userDetails.gender?.toLowerCase().replaceAll(RegExp(r'\s+'), '');
 
 
     // Parse and set DOB text + selectedDate if available

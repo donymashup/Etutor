@@ -81,24 +81,28 @@ class SideDrawer extends StatelessWidget {
                                   as ImageProvider,
                         ),
                         const SizedBox(width: 16),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              userDetails?.firstName ?? 'No Name',
-                              style: const TextStyle(
-                                color: Colors.black,
-                                fontSize: 18,
-                                fontWeight: FontWeight.w500,
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                userDetails?.firstName ?? 'No Name',
+                                style: const TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w500,
+                                ),
                               ),
-                            ),
-                            const SizedBox(height: 4),
-                            Text(
-                              userDetails?.email ?? 'No Email',
-                              style: const TextStyle(
-                                  color: Colors.black, fontSize: 12),
-                            ),
-                          ],
+                              const SizedBox(height: 4),
+                              Text(
+                                userDetails?.email ?? 'No Email',
+                                style: const TextStyle(
+                                    color: Colors.black, fontSize: 12),
+                              //  maxLines: 1,  
+                              //  overflow: TextOverflow.ellipsis,  
+                              ),
+                            ],
+                          ),
                         ),
                       ],
                     ),
@@ -235,12 +239,12 @@ class SideDrawer extends StatelessWidget {
                             TextButton(
                               onPressed: () async {
                                 Navigator.of(context).pop(); // Close the dialog
-
+            
                                 // Call logout function from LoginProvider
                                 await Provider.of<LoginProvider>(context,
                                         listen: false)
                                     .logout();
-
+            
                                 // Navigate to LoginScreen and clear back stack
                                 Navigator.of(context).pushAndRemoveUntil(
                                   MaterialPageRoute(

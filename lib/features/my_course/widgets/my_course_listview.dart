@@ -29,7 +29,7 @@ class MyCourseListView extends StatelessWidget {
             title: course['title'],
             imagePath: course['image'],
             rating: course['rating'],
-            isFree: course['isFree'],
+            //isFree: course['isFree'],
           ),
         );
       },
