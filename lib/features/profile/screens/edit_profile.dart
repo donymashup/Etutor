@@ -5,7 +5,6 @@ import 'package:etutor/common/widgets/back_button.dart';
 import 'package:etutor/common/widgets/custom_button.dart';
 import 'package:etutor/features/auth/models/drop_down_option_model.dart';
 import 'package:etutor/features/auth/provider/login_provider.dart';
-import 'package:etutor/features/auth/widgets/label_widget.dart';
 import 'package:etutor/features/home/provider/user_details_provider.dart';
 import 'package:etutor/features/profile/widgets/u_shaped_painter.dart';
 import 'package:flutter/material.dart';
@@ -89,11 +88,12 @@ class _EditProfileState extends State<EditProfile> {
       setState(() {
         _image = File(pickedFile.path);
       });
+      
       // Upload image via provider
       await Provider.of<UserDetailsProvider>(context, listen: false)
           .uploadUserProfileImage(
         context: context,
-        imageFile: _image!,
+        file: _image!,
       );
     }
   }
