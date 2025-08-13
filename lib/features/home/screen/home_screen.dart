@@ -1,8 +1,10 @@
+import 'package:etutor/common/widgets/grid_shimmer_loader.dart';
 import 'package:etutor/features/auth/provider/login_provider.dart';
 import 'package:etutor/features/home/model/user_details_model.dart';
 import 'package:etutor/features/home/provider/homepage_provider.dart';
 import 'package:etutor/features/home/widgets/carousel.dart';
 import 'package:etutor/features/home/widgets/course_grid.dart';
+import 'package:etutor/features/home/widgets/horizondal_shimmer_loader.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:etutor/common/constants/app_constants.dart';
@@ -37,8 +39,8 @@ class _HomePageState extends State<HomePage> {
     final userDetailsProvider = context.read<UserDetailsProvider>();
     await userDetailsProvider.loadUserDetails(context);
     final homepageProvider = context.read<HomepageProvider>();
-    await homepageProvider.syllabusBasedLiveCourses(context,userDetailsProvider.syllabusId!); 
     await homepageProvider.popularCourses(context);  
+    await homepageProvider.syllabusBasedLiveCourses(context,userDetailsProvider.syllabusId!);   
     await context.read<LoginProvider>().dropDownOptions(context);
   }
 
@@ -239,7 +241,9 @@ class _HomePageState extends State<HomePage> {
 
               // Popular Courses
               sectionHeader("Popular Courses"),
-              courseList( homeProvider.popularCourse
+              homeProvider.isPopularLoading 
+              ? HorizondalShimmerLoader()
+              : courseList( homeProvider.popularCourse
                       .map((data) => {
                             'id': data.id,
                             'name': data.name,
@@ -263,7 +267,9 @@ class _HomePageState extends State<HomePage> {
                     MaterialPageRoute(builder: (_) => const SeeMoreCourses()));
               }),
               // courseList(activeCourses),
-              CoursesGridWidget(
+              homeProvider.isSyllabuscourseLoading
+              ? GridShimmeLoader()
+              : CoursesGridWidget(
                   courses: homeProvider.syllabusCourse
                       .map((data) => {
                             'id': data.id,
@@ -362,3 +368,5 @@ class _HomePageState extends State<HomePage> {
     );
   }
 }
+
+

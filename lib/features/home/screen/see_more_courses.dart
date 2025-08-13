@@ -221,7 +221,7 @@ void _filterByclass(String query) {
                           title: filteredclass[index]['title'],
                           imagePath: filteredclass[index]['image'],
                           rating: filteredclass[index]['rating'],
-                          isFree: filteredclass[index]['isFree'],
+                          //isFree: filteredclass[index]['isFree'],
                         ))
               ],
             ),

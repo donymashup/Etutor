@@ -7,6 +7,8 @@ import 'package:flutter/material.dart';
 
 class HomepageProvider extends ChangeNotifier {
   bool isLoading =false;
+  bool isSyllabuscourseLoading =false;
+  bool isPopularLoading =false;
   List<live_course_model.Data> _liveCourse = [];
   List<banner_model.Banner> _banner = [];
   List<syllabus_live_corse.Data> _syllabusCourse = [];
@@ -70,7 +72,7 @@ class HomepageProvider extends ChangeNotifier {
    
    // fetch syllabus based live courses
    Future syllabusBasedLiveCourses (BuildContext context,String syllabusId) async {
-    isLoading = true;
+    isSyllabuscourseLoading = true;
     notifyListeners();
    try { 
     final response = await HomeService().getSyllabusLiveCourses(
@@ -86,13 +88,13 @@ class HomepageProvider extends ChangeNotifier {
           debugPrint('Error fetching syllabus based live courses: $e');
           _syllabusCourse = [];
         }
-      isLoading = false;
+      isSyllabuscourseLoading = false;
       notifyListeners();
   }
 
    // fetch popular courses
    Future popularCourses (BuildContext context,) async {
-    isLoading = true;
+    isPopularLoading = true;
     notifyListeners();
    try { 
     final response = await HomeService().getPopularCourse(
@@ -107,7 +109,7 @@ class HomepageProvider extends ChangeNotifier {
           debugPrint('Error fetching popular courses: $e');
           _popularCourse = [];
         }
-      isLoading = false;
+      isPopularLoading = false;
       notifyListeners();
   }
 

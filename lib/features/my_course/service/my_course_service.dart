@@ -9,8 +9,8 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 class MyCourseService {
   final storage = const FlutterSecureStorage();
   
-  // fuction to subscribed courses
-  Future<MyCourseModel?> getPopularCourse({
+  // fuction to fetch subscribed courses
+  Future<MyCourseModel?> getSubscribedCourse({
     required BuildContext context,
   }) async {
     try {
@@ -20,7 +20,7 @@ class MyCourseService {
         return null;
       }
       final response = await sendGetRequestWithToken(
-        url: '$baseUrl$getSubscribedCourse',
+        url: '$baseUrl$subscribedCourse',
         token: token        
       );
       if (response.statusCode == 200) {
@@ -38,7 +38,7 @@ class MyCourseService {
           }
         }
       } else {
-        debugPrint("Failed to subscribed courses: ${response.statusCode}");
+        debugPrint("Failed to fetch subscribed courses: ${response.statusCode}");
         return null;
       }
     } catch (e) {

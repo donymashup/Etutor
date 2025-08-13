@@ -65,8 +65,7 @@ class _EditProfileState extends State<EditProfile> {
     schoolController.text = userDetails.school ?? '';
     codeController = userDetails.country ?? '';
     phoneController.text = userDetails.phone ?? '';
-    _selectedGender =
-        userDetails.gender?.toLowerCase().replaceAll(RegExp(r'\s+'), '');
+    _selectedGender = userDetails.gender?.toLowerCase().replaceAll(RegExp(r'\s+'), '');
 
 
     // Parse and set DOB text + selectedDate if available
