@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:etutor/common/constants/utils.dart';
 import 'package:etutor/features/profile/model/upload_image_model.dart';
 import 'package:flutter/material.dart';
 import 'package:etutor/features/home/model/user_details_model.dart';
@@ -21,7 +22,8 @@ class UserDetailsProvider extends ChangeNotifier {
     _isLoading = true;
     notifyListeners();
     try {
-      final data = await UserDetailsService().fetchUserDetails(context: context);
+      final data =
+          await UserDetailsService().fetchUserDetails(context: context);
       if (data != null && data.type == "success") {
         _userDetails = data;
         _syllabusId = _userDetails.data?.syllabus;
@@ -81,7 +83,7 @@ class UserDetailsProvider extends ChangeNotifier {
         gender: gender,
         dob: dob,
       );
-     
+
       if (response != null && response.type == "success") {
         // Refresh user details after successful update
         await loadUserDetails(context);
@@ -89,7 +91,7 @@ class UserDetailsProvider extends ChangeNotifier {
 
       _isUpdating = false;
       notifyListeners();
-     // return response;
+      // return response;
     } catch (e) {
       debugPrint("Error updating profile: $e");
       _isUpdating = false;
@@ -97,38 +99,40 @@ class UserDetailsProvider extends ChangeNotifier {
     }
   }
 
-
   UploadImageModel? _uploadImageResponse;
-bool _isUploadingImage = false;
+  bool _isUploadingImage = false;
 
-UploadImageModel? get uploadImageResponse => _uploadImageResponse;
-bool get isUploadingImage => _isUploadingImage;
+  UploadImageModel? get uploadImageResponse => _uploadImageResponse;
+  bool get isUploadingImage => _isUploadingImage;
+  Future<void> uploadUserProfileImage({
+    required BuildContext context,
+    required File file,
+  }) async {
+    _isUploadingImage = true;
+    notifyListeners();
 
-Future<void> uploadUserProfileImage({
-  required BuildContext context,
-  required File imageFile,
-}) async {
-  _isUploadingImage = true;
-  notifyListeners();
+    try {
+      final response = await UserDetailsService().uploadImage(
+        context: context,
+        file: file,
+      );
 
-  try {
-    final response = await UserDetailsService().uploadImage (
-      context: context,
-      imageFile: imageFile,
-    );
+      if (response != null && response.type == "Sucess") {
+        _uploadImageResponse = response;
 
-    if (response != null && response.type == "success") {
-      _uploadImageResponse = response;
-      await loadUserDetails(context); // Refresh details after upload
+        if (response.type == "success") {
+          await loadUserDetails(context); // Refresh after successful upload
+        } else {
+          showSnackbar(context, "Image upload failed: ${response.message}");
+        }
+      } else {
+        debugPrint("No response from image upload service.");
+      }
+    } catch (e) {
+      debugPrint("Error uploading image: $e");
+    } finally {
+      _isUploadingImage = false;
+      notifyListeners();
     }
-
-    _isUploadingImage = false;
-    notifyListeners();
-  } catch (e) {
-    debugPrint("Error uploading image: $e");
-    _isUploadingImage = false;
-    notifyListeners();
   }
-}
-
 }

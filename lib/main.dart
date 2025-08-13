@@ -23,6 +23,7 @@ void main() async {
         ChangeNotifierProvider(create: (_) => UserDetailsProvider()),
         ChangeNotifierProvider(create: (_) => NetworkProvider()),
         ChangeNotifierProvider(create: (_) => UserDetailsProvider()),
+        
 
       ],
       child: MyApp(),
