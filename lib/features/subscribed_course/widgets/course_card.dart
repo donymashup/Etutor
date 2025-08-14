@@ -1,4 +1,5 @@
 import 'package:etutor/common/constants/app_constants.dart';
+import 'package:etutor/features/subscribed_course/screens/subscribed_course_all_subjects.dart';
 import 'package:fluentui_emoji_icon/fluentui_emoji_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:iconify_flutter/iconify_flutter.dart';
@@ -8,15 +9,15 @@ import 'package:iconify_flutter/icons/mdi.dart';
 class CourseCard extends StatefulWidget {
   final String title;
   final String subtitle;
-  final String type;
-  final void Function() onPressed;
+  //final String type;
+//  final void Function() onPressed;
 
   const CourseCard({
     super.key,
     required this.title,
     required this.subtitle,
-    required this.type,
-    required this.onPressed,
+   // required this.type,
+   // required this.onPressed,
   });
 
   @override
@@ -82,7 +83,15 @@ Widget build(BuildContext context) {
   return Padding(
     padding: const EdgeInsets.all(6.0),
     child: GestureDetector(
-      onTap: widget.onPressed, 
+      onTap: (){
+        Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      SubscribedCourseAllSubjects(),
+                                ),
+                              );
+      }, 
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
@@ -94,7 +103,11 @@ Widget build(BuildContext context) {
           padding: const EdgeInsets.all(8.0),
           child: Row(
             children: [
-              cardIconContainer(widget.type),
+               leadingIconCard(FluentUiEmojiIcon(
+          fl: Fluents.flBlueBook,
+          h: 30,
+          w: 30,
+        ), AppColor.lighBlueBackground),
               Expanded(
                 child: Padding(
                   padding: const EdgeInsets.all(20.0),

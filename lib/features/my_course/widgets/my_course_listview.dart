@@ -20,7 +20,9 @@ class MyCourseListView extends StatelessWidget {
           onTap: () {
             Navigator.push(context,
               MaterialPageRoute(
-                builder: (context) => const SubscribedCourseClasses(),
+                builder: (context) =>  SubscribedCourseClasses(courseId:course['id'],image: course['image'],title: course['title'],
+
+                ),
               ),
             );
           },

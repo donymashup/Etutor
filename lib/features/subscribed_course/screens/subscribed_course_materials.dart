@@ -80,8 +80,8 @@ class _SubscribedCourseMaterialsState extends State<SubscribedCourseMaterials> {
                     child: CourseCard(
                       title: materials[index].title,
                       subtitle: materials[index].subtitle,
-                      type: materials[index].type,
-                      onPressed: () => materials[index].onPressed(context),
+                      // type: materials[index].type,
+                      // onPressed: () => materials[index].onPressed(context),
                     ),
                   ),
                 ),

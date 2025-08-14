@@ -79,8 +79,8 @@ class _SubscribedCoursesTestsState extends State<SubscribedCoursesTests> {
                   itemBuilder: (context, index) => CourseCard(
                     title: tests[index].title,
                     subtitle: tests[index].subtitle,
-                    type: tests[index].type,
-                    onPressed: tests[index].onPressed,
+                    // type: tests[index].type,
+                    // onPressed: tests[index].onPressed,
                   ),
                 ),
               )

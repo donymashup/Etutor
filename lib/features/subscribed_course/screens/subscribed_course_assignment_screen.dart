@@ -69,8 +69,8 @@ class _SubscribedCourseAssignmentScreenState
                         itemBuilder: (context, index) => CourseCard(
                           title: assignments[index].title,
                           subtitle: assignments[index].subtitle,
-                          type: assignments[index].type,
-                          onPressed: assignments[index].onPressed,
+                          // type: assignments[index].type,
+                          // onPressed: assignments[index].onPressed,
                         ),
                       ),
               )

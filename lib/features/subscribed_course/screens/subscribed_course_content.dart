@@ -99,8 +99,8 @@ class _SubscribedCourseContentState extends State<SubscribedCourseContent> {
                 itemBuilder: (context, index) => CourseCard(
                   title: coursecontent[index].title,
                   subtitle: coursecontent[index].subtitle,
-                  type: coursecontent[index].type,
-                  onPressed: coursecontent[index].onPressed,
+                  // type: coursecontent[index].type,
+                  // onPressed: coursecontent[index].onPressed,
                 ),
               ),
             ),
