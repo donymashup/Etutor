@@ -3,11 +3,11 @@ import 'package:etutor/common/widgets/back_button.dart';
 import 'package:etutor/features/subscribed_course/widgets/course_subject_card.dart';
 import 'package:flutter/material.dart';
 
-class SubscribedCourseSubject extends StatefulWidget {
-  const SubscribedCourseSubject({super.key});
+class SubscribedCourseChapters extends StatefulWidget {
+  const SubscribedCourseChapters({super.key});
 
   @override
-  State<SubscribedCourseSubject> createState() => _SubscribedCourseSubjectState();
+  State<SubscribedCourseChapters> createState() => _SubscribedCourseSubjectState();
 }
 
 class Subject {
@@ -19,7 +19,7 @@ class Subject {
     required this.subjectImage});
 }
 
-class _SubscribedCourseSubjectState extends State<SubscribedCourseSubject> {
+class _SubscribedCourseSubjectState extends State<SubscribedCourseChapters> {
   List<Subject> subject = [
     Subject(subjectName: "SEPERATION OF SUBSTANCES", subjectImage: 'assets/images/subname1.jpg'),
     Subject(subjectName: "SORTING MATERIALS", subjectImage: 'assets/images/subname2.jpg'),
