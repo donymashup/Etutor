@@ -28,9 +28,9 @@ class MyCourseListView extends StatelessWidget {
           },
           child: MyCourseCard(
             imgHeight: MediaQuery.of(context).size.width * 0.45,
-            title: course['title'],
+            title: course['name'],
             imagePath: course['image'],
-            rating: course['rating'],
+            rating: course['avgStars'],
             //isFree: course['isFree'],
           ),
         );

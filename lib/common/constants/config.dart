@@ -14,6 +14,6 @@ const popularCourse ='Newapi/getPopularCourses';
 const subscribedCourse = 'Newapi/getUserSubscriptions';
 const uploadImageUrl ='Newapi/uploadImage';
 const courseClasses = 'Newapi/courseClasses';
-
+const isCourseSub = 'Newapi/isCourseSubscribed';
 
 

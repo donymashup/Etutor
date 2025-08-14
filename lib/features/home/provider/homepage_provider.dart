@@ -9,13 +9,14 @@ class HomepageProvider extends ChangeNotifier {
   bool isLoading =false;
   bool isSyllabuscourseLoading =false;
   bool isPopularLoading =false;
-  List<live_course_model.Data> _liveCourse = [];
+  bool isSubscribed = false;
+//  List<live_course_model.Data> _liveCourse = [];
   List<banner_model.Banner> _banner = [];
   List<syllabus_live_corse.Data> _syllabusCourse = [];
   List<popular_course_model.Data> _popularCourse = [];
   int _currentCarouselPage = 0;
 
-  List<live_course_model.Data> get livecourse => _liveCourse;
+//  List<live_course_model.Data> get livecourse => _liveCourse;
   List<banner_model.Banner> get bannerurl => _banner;
   List<syllabus_live_corse.Data> get syllabusCourse => _syllabusCourse;
   int get currentCarouselPage => _currentCarouselPage;
@@ -112,5 +113,28 @@ class HomepageProvider extends ChangeNotifier {
       isPopularLoading = false;
       notifyListeners();
   }
+
+  // check if the course is subscribed or not
+Future<bool> iscourseSubscribed(BuildContext context, String courseId) async {
+  try {
+    final response = await HomeService().iscourseEnrolled(
+      context: context,
+      courseId: courseId,
+    );
+
+    if (response != null && response.data != null) {
+      isSubscribed = response.data!;
+      notifyListeners();
+      return isSubscribed;
+    } else {
+      isSubscribed = false;
+      return false;
+    }
+  } catch (e) {
+    debugPrint('Error checking the subscription: $e');
+    isSubscribed = false;
+    return false;
+  } 
+}
 
 }
