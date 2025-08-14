@@ -109,7 +109,7 @@ class _MyCoursePageState extends State<MyCoursePage> {
                                       context,
                                       MaterialPageRoute(
                                         builder: (context) =>
-                                            const SubscribedCourseClasses(),
+                                             SubscribedCourseClasses(courseId:course.courseId!,image: course.courseImage!,title: course.courseName!,)
                                       ),
                                     );
                                   },
