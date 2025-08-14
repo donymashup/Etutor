@@ -96,7 +96,9 @@ class _MyCoursePageState extends State<MyCoursePage> {
                   : Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 16.0),
                       child: isGrid
-                          ? Wrap(
+                          ? courseProvider.isLoading 
+                              ? GridShimmeLoader()
+                              :Wrap(
                               spacing: 10,
                               runSpacing: 10,
                               children: List.generate(courseProvider.subscribedCourse.length, (index) {
@@ -123,16 +125,16 @@ class _MyCoursePageState extends State<MyCoursePage> {
                                 );
                               }),
                             )
-                          : MyCourseListView(
+                              : MyCourseListView(
                             courses: courseProvider.subscribedCourse
                               .map((data) => {
-                              'id': data.courseId,
-                              'name': data.courseName,
-                              'image': data.courseImage,
-                              'avgStars': data.avgStars,
-                              'enrollmentId': data.enrollmentId,
-                              'packageId': data.packageId,
-                              'batchId': data.batchId,
+                              'id': data.courseId ?? '',
+                              'name': data.courseName ?? "",
+                              'image': data.courseImage ?? "",
+                              'avgStars': data.avgStars ?? "",
+                              'enrollmentId': data.enrollmentId ?? "",
+                              'packageId': data.packageId ?? "",
+                              'batchId': data.batchId ?? "",
                           }).toList()),
                     ),
               Padding(

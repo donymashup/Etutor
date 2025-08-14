@@ -5,7 +5,9 @@ import 'package:etutor/features/home/provider/homepage_provider.dart';
 import 'package:etutor/features/home/widgets/carousel.dart';
 import 'package:etutor/features/home/widgets/course_grid.dart';
 import 'package:etutor/features/home/widgets/horizondal_shimmer_loader.dart';
+import 'package:etutor/features/subscribed_course/screens/subscribed_course_all_subjects.dart';
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:etutor/common/constants/app_constants.dart';
 import 'package:etutor/features/drawer/screens/drawer.dart';
@@ -351,7 +353,16 @@ class _HomePageState extends State<HomePage> {
         itemBuilder: (context, index) {
           final course = courses[index];
           return GestureDetector(
-            onTap: () {
+            onTap: () async {
+               final homepageProvider = Provider.of<HomepageProvider>(context, listen: false);
+               final isSubscribed = await homepageProvider.iscourseSubscribed(context, course['id']);
+               if (!context.mounted) return;
+              //  final isSubscribed = homepageProvider.isSubscribed;
+              isSubscribed ? Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => const SubscribedCourseAllSubjects()),
+              )     
+              : 
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (_) => const CourseDetailsScreen()),
