@@ -1,5 +1,5 @@
 import 'package:etutor/common/constants/app_constants.dart';
-import 'package:etutor/features/subscribed_course/screens/subscribed_course_subject.dart';
+import 'package:etutor/features/subscribed_course/screens/subscribed_course_chapters.dart';
 import 'package:flutter/material.dart';
 
 class TestHome extends StatelessWidget {

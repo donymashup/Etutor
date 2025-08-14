@@ -6,11 +6,11 @@ import 'package:etutor/features/subscribed_course/widgets/course_card.dart';
 import 'package:etutor/features/subscribed_course/widgets/rating_modal.dart';
 import 'package:flutter/material.dart';
 
-class SubscribedCourseOverview extends StatefulWidget {
-  const SubscribedCourseOverview({super.key});
+class SubscribedCourseClasses extends StatefulWidget {
+  const SubscribedCourseClasses({super.key});
 
   @override
-  State<SubscribedCourseOverview> createState() =>
+  State<SubscribedCourseClasses> createState() =>
       _SubscribedCourseOverviewState();
 }
 
@@ -28,7 +28,7 @@ class CourseOverview {
   });
 }
 
-class _SubscribedCourseOverviewState extends State<SubscribedCourseOverview> {
+class _SubscribedCourseOverviewState extends State<SubscribedCourseClasses> {
   late List<CourseOverview> courseoverview;
 
   @override

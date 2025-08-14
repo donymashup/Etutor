@@ -1,4 +1,4 @@
-import 'package:etutor/features/subscribed_course/screens/subscribed_course_overview.dart';
+import 'package:etutor/features/subscribed_course/screens/subscribed_course_classes.dart';
 import 'package:flutter/material.dart';
 import 'mycoursecard.dart'; 
 
@@ -20,7 +20,7 @@ class MyCourseListView extends StatelessWidget {
           onTap: () {
             Navigator.push(context,
               MaterialPageRoute(
-                builder: (context) => const SubscribedCourseOverview(),
+                builder: (context) => const SubscribedCourseClasses(),
               ),
             );
           },
