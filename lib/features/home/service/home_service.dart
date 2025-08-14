@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:etutor/common/constants/config.dart';
 import 'package:etutor/common/constants/utils.dart';
 import 'package:etutor/features/home/model/bannerimages_model.dart';
+import 'package:etutor/features/home/model/is_course_subscribed_model.dart';
 import 'package:etutor/features/home/model/popular_course_model.dart';
 import 'package:etutor/features/home/model/syllabus_based_livecourse.dart';
 import 'package:flutter/material.dart';
@@ -120,6 +121,48 @@ final storage = const FlutterSecureStorage();
         }
       } else {
         debugPrint("Failed to fetch popular courses: ${response.statusCode}");
+        return null;
+      }
+    } catch (e) {
+      showSnackbar(context, "Error : $e");
+      return null;
+    }
+  }
+
+  // fuction to fetch banner images
+  Future<IsCouseSubscribedModel?> iscourseEnrolled({
+    required BuildContext context,
+    required courseId,
+  }) async {
+    try {
+      final token = await storage.read(key: 'token');
+      if (token == null) {
+        showSnackbar(context, "Token not found. Please log in again.");
+        return null;
+      }
+      final response = await sendPostRequestWithToken(
+        url: '$baseUrl$isCourseSub',
+        token: token,
+         fields: {
+          'courseid': courseId,
+         }
+      );
+      if (response.statusCode == 200) {
+        final jsonResponse = json.decode(await response.stream.bytesToString());
+        if (jsonResponse == null || jsonResponse.isEmpty) {
+          showSnackbar(context, 'Invalid response from server');
+          return null;
+        } else {
+          final isCouseSubscribedModel = IsCouseSubscribedModel.fromJson(jsonResponse);
+          if (isCouseSubscribedModel.type == 'success') {
+            return isCouseSubscribedModel;
+          } else {
+            showSnackbar(context, isCouseSubscribedModel.type!);
+            return null;
+          }
+        }
+      } else {
+        debugPrint("Failed to check the course subscribed: ${response.statusCode}");
         return null;
       }
     } catch (e) {
