@@ -47,7 +47,7 @@ class CourseSubjectCard extends StatelessWidget {
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(6),
                         image: DecorationImage(
-                          image: AssetImage(subjectImage),
+                          image: NetworkImage(subjectImage),
                           fit: BoxFit.cover,
                         ),
                         color: AppColor.greyIcon,

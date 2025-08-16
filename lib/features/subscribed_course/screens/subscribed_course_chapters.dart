@@ -1,7 +1,9 @@
 import 'package:etutor/common/constants/app_constants.dart';
 import 'package:etutor/common/widgets/back_button.dart';
+import 'package:etutor/features/subscribed_course/provider/subcribed_course_provider.dart';
 import 'package:etutor/features/subscribed_course/widgets/course_subject_card.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class SubscribedCourseChapters extends StatefulWidget {
   const SubscribedCourseChapters({super.key});
@@ -10,31 +12,44 @@ class SubscribedCourseChapters extends StatefulWidget {
   State<SubscribedCourseChapters> createState() => _SubscribedCourseSubjectState();
 }
 
-class Subject {
-  String subjectName;
-  String subjectImage;
+// class Subject {
+//   String subjectName;
+//   String subjectImage;
 
-  Subject({
-    required this.subjectName, 
-    required this.subjectImage});
-}
+//   Subject({
+//     required this.subjectName, 
+//     required this.subjectImage});
+// }
 
 class _SubscribedCourseSubjectState extends State<SubscribedCourseChapters> {
-  List<Subject> subject = [
-    Subject(subjectName: "SEPERATION OF SUBSTANCES", subjectImage: 'assets/images/subname1.jpg'),
-    Subject(subjectName: "SORTING MATERIALS", subjectImage: 'assets/images/subname2.jpg'),
-    Subject(subjectName: "FIBRE TO FABRIC", subjectImage: 'assets/images/subname3.jpg'),
-    Subject(subjectName: "COMPONENTS OF FOOD", subjectImage: 'assets/images/subname4.jpg'),
-    Subject(subjectName: "SEPERATION OF SUBSTANCES", subjectImage: 'assets/images/subname1.jpg'),
-    Subject(subjectName: "SORTING MATERIALS", subjectImage: 'assets/images/subname2.jpg'),
-    Subject(subjectName: "FIBRE TO FABRIC", subjectImage: 'assets/images/subname3.jpg'),
-    Subject(subjectName: "COMPONENTS OF FOOD", subjectImage: 'assets/images/subname4.jpg'),
-  ];
+  // List<Subject> subject = [
+  //   Subject(subjectName: "SEPERATION OF SUBSTANCES", subjectImage: 'assets/images/subname1.jpg'),
+  //   Subject(subjectName: "SORTING MATERIALS", subjectImage: 'assets/images/subname2.jpg'),
+  //   Subject(subjectName: "FIBRE TO FABRIC", subjectImage: 'assets/images/subname3.jpg'),
+  //   Subject(subjectName: "COMPONENTS OF FOOD", subjectImage: 'assets/images/subname4.jpg'),
+  //   Subject(subjectName: "SEPERATION OF SUBSTANCES", subjectImage: 'assets/images/subname1.jpg'),
+  //   Subject(subjectName: "SORTING MATERIALS", subjectImage: 'assets/images/subname2.jpg'),
+  //   Subject(subjectName: "FIBRE TO FABRIC", subjectImage: 'assets/images/subname3.jpg'),
+  //   Subject(subjectName: "COMPONENTS OF FOOD", subjectImage: 'assets/images/subname4.jpg'),
+  // ];
 
   int? expandedIndex;
+  SubcribedCourseProvider subcribedCourseProvider = SubcribedCourseProvider();
+   
+  @override
+  void initState() {
+    super.initState();
+     _loadChapter();
+  }   
+
+  Future<void> _loadChapter()async{
+      await context.read<SubcribedCourseProvider>().fetchCourseChapter(context,"17");
+  }
 
   @override
   Widget build(BuildContext context) {
+    subcribedCourseProvider = context.watch<SubcribedCourseProvider>();
+    expandedIndex = subcribedCourseProvider.expandedIndex;
     return Scaffold(
       backgroundColor: AppColor.whiteColor,
       body: SafeArea(
@@ -85,17 +100,18 @@ class _SubscribedCourseSubjectState extends State<SubscribedCourseChapters> {
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 5.0),
                 child: ListView.builder(
-                  itemCount: subject.length,
-                  itemBuilder: (context, index) => CourseSubjectCard(
-                    subjectName: subject[index].subjectName,
-                    subjectImage: subject[index].subjectImage,
+                itemCount: subcribedCourseProvider.courseChapter.length,
+                itemBuilder: (context, index) {
+                  final chapter = subcribedCourseProvider.courseChapter[index];
+                  return CourseSubjectCard(
+                    subjectName: chapter!.chaptersName!,
+                    subjectImage: chapter.chaptersImage!,
                     isExpanded: expandedIndex == index,
                     onTap: () {
-                      setState(() {
-                        expandedIndex = expandedIndex == index ? null : index;
-                      });
+                     context.read<SubcribedCourseProvider>().toggleExpansion(index);
                     },
-                  ),
+                  );
+                }
                 ),
               ),
             ),

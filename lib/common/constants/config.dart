@@ -15,5 +15,5 @@ const subscribedCourse = 'Newapi/getUserSubscriptions';
 const uploadImageUrl ='Newapi/uploadImage';
 const courseClasses = 'Newapi/courseClasses';
 const isCourseSub = 'Newapi/isCourseSubscribed';
-
+const courseChapter = 'Newapi/courseChapters';
 
