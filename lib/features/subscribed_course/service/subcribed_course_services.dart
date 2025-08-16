@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:etutor/common/constants/config.dart';
 import 'package:etutor/common/constants/utils.dart';
 import 'package:etutor/features/subscribed_course/model/course_classes_model.dart';
+import 'package:etutor/features/subscribed_course/model/subjects_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
@@ -44,7 +45,7 @@ class SubscribedCourseService {
         }
       } else {
         debugPrint(
-            "Failed to fetch syllabus based Live course: ${response.statusCode}");
+            "Failed to fetch Courses Clasess based Subcribed Course: ${response.statusCode}");
         return null;
       }
     } catch (e) {
@@ -52,4 +53,49 @@ class SubscribedCourseService {
       return null;
     }
   }
-}
+
+
+// fuction to fetch Subjects
+  Future<SubjectsModel?> courseSubjects({
+    required BuildContext context,
+    required String packageClassId,
+  })async{
+    try{
+      final token = await storage.read(key: 'token');
+      if (token == null) {
+        showSnackbar(context, "Token not found. Please log in again.");
+        return null;
+      }
+      final response = await sendPostRequestWithToken(
+        url: '$baseUrl$courseSubject',
+        token: token,
+        fields: {
+          'packageClassId': packageClassId,
+        },
+      );
+      if (response.statusCode == 200) {
+        final jsonResponse = json.decode(await response.stream.bytesToString());
+        if (jsonResponse == null || jsonResponse.isEmpty) {
+          showSnackbar(context, 'Invalid response from server');
+          return null;
+        } else {
+          final subjectsModel = SubjectsModel.fromJson(jsonResponse);
+          if (subjectsModel.type == 'success') {
+            return subjectsModel;
+          } else {
+            showSnackbar(context, subjectsModel.type ?? 'Unknown error');
+            return null;
+          }
+        }
+      } else {
+        debugPrint(
+            "Failed to fetch Course Subjects based Subcribed Course Classes: ${response.statusCode}");
+        return null;
+      }
+    } catch (e) {
+      showSnackbar(context, "Error : $e");
+      return null;
+    }
+    }
+  }
+

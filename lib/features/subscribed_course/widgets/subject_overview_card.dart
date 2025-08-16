@@ -1,5 +1,7 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:etutor/common/constants/app_constants.dart';
 import 'package:flutter/material.dart';
+import 'package:shimmer/shimmer.dart';
 
 class SubjectOverviewCard extends StatefulWidget {
   final String title;
@@ -30,14 +32,20 @@ class _SubjectOverviewCardState extends State<SubjectOverviewCard> {
                 width: 2, strokeAlign: BorderSide.strokeAlignOutside,color: AppColor.greyAppBar)),
         child: Column(
           children: [
-            Container(
-              decoration: BoxDecoration(
-                  image: DecorationImage(
-                      image: AssetImage(widget.subjectImage),
-                      fit: BoxFit.cover),
-                  color: AppColor.greyAppBar),
-              height: MediaQuery.of(context).size.width *.2,
-              // width: MediaQuery.of(context).size.width *.5 - 40,
+            SizedBox(
+              height: MediaQuery.of(context).size.width * .2,
+              width: double.infinity,
+              child: CachedNetworkImage(
+                imageUrl: widget.subjectImage,
+                fit: BoxFit.cover,
+                placeholder: (context, url) => Shimmer.fromColors(
+                  baseColor: Colors.grey.shade300,
+                  highlightColor: Colors.grey.shade100,
+                  child: Container(color: Colors.grey.shade300),
+                ),
+                errorWidget: (context, url, error) =>
+                    const Icon(Icons.broken_image, size: 40),
+              ),
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),

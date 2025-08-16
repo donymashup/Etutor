@@ -7,6 +7,7 @@ import 'package:etutor/features/subscribed_course/screens/subscribed_course_cont
 import 'package:etutor/features/subscribed_course/widgets/course_card.dart';
 import 'package:etutor/features/subscribed_course/widgets/rating_modal.dart';
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -100,9 +101,12 @@ class _SubscribedCourseOverviewState extends State<SubscribedCourseClasses> {
   @override
   Widget build(BuildContext context) {
     subcribedCourseProvider = context.watch<SubcribedCourseProvider>();
+   
     return Scaffold(
       backgroundColor: AppColor.whiteColor,
-      body: SafeArea(
+      body:  subcribedCourseProvider.isLoading 
+      ? Center(child: Lottie.asset("assets/lottie/lottieloading1.json"))
+    :SafeArea(
         child: Column(
           children: [
             Stack(
@@ -173,22 +177,12 @@ class _SubscribedCourseOverviewState extends State<SubscribedCourseClasses> {
                         itemBuilder: (context, index) {
                           final classlist = subcribedCourseProvider
                               .courseClasses!.data![index];
-                          return GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) =>
-                                      SubscribedCourseAllSubjects(),
-                                ),
-                              );
-                            },
-                            child: CourseCard(
-                              title: classlist.className ?? '',
-                              subtitle: classlist.classDescription ?? '',
-                              // type: courseoverview[index].type,
-                              // onPressed: courseoverview[index].onPressed,
-                            ),
+                          return CourseCard(
+                            packageClassId:classlist.packageClassId ?? '',  
+                            className: classlist.className ?? '',
+                            classDescription: classlist.classDescription ?? '',
+                            // type: courseoverview[index].type,
+                            // onPressed: courseoverview[index].onPressed,
                           );
                         }),
                   ),

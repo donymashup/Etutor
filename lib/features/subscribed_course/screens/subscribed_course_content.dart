@@ -97,8 +97,9 @@ class _SubscribedCourseContentState extends State<SubscribedCourseContent> {
               child: ListView.builder(
                 itemCount: coursecontent.length,
                 itemBuilder: (context, index) => CourseCard(
-                  title: coursecontent[index].title,
-                  subtitle: coursecontent[index].subtitle,
+                  className: coursecontent[index].title,
+                  classDescription: coursecontent[index].subtitle,
+                  packageClassId: '1',
                   // type: coursecontent[index].type,
                   // onPressed: coursecontent[index].onPressed,
                 ),
