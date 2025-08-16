@@ -2,8 +2,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:etutor/common/constants/app_constants.dart';
 import 'package:etutor/common/widgets/back_button.dart';
 import 'package:etutor/features/subscribed_course/provider/subcribed_course_provider.dart';
-import 'package:etutor/features/subscribed_course/screens/subscribed_course_all_subjects.dart';
-import 'package:etutor/features/subscribed_course/screens/subscribed_course_content.dart';
 import 'package:etutor/features/subscribed_course/widgets/course_card.dart';
 import 'package:etutor/features/subscribed_course/widgets/rating_modal.dart';
 import 'package:flutter/material.dart';
@@ -25,71 +23,13 @@ class SubscribedCourseClasses extends StatefulWidget {
   State<SubscribedCourseClasses> createState() =>
       _SubscribedCourseOverviewState();
 }
-
-// class CourseOverview {
-//   String title;
-//   String subtitle;
-//   String type;
-//   void Function() onPressed;
-
-//   CourseOverview({
-//     required this.title,
-//     required this.subtitle,
-//     required this.type,
-//     required this.onPressed,
-//   });
-// }
-
 class _SubscribedCourseOverviewState extends State<SubscribedCourseClasses> {
-//  late List<CourseOverview> courseoverview;
   SubcribedCourseProvider subcribedCourseProvider = SubcribedCourseProvider();
 
   @override
   void initState() {
     super.initState();
     load();
-
-    // courseoverview = [
-    //   CourseOverview(
-    //     title: "Class 6",
-    //     subtitle: "Class 6 subjects",
-    //     type: "class",
-    //     onPressed: () {
-    //       Navigator.push(
-    //         context,
-    //         MaterialPageRoute(
-    //           builder: (context) => const SubscribedCourseAllSubjects(),
-    //         ),
-    //       );
-    //     },
-    //   ),
-    //   CourseOverview(
-    //     title: "Class 7",
-    //     subtitle: "Class 7 subjects",
-    //     type: "class",
-    //     onPressed: () {
-    //       Navigator.push(
-    //         context,
-    //         MaterialPageRoute(
-    //           builder: (context) => const SubscribedCourseAllSubjects(),
-    //         ),
-    //       );
-    //     },
-    //   ),
-    //   CourseOverview(
-    //     title: "Course Contents",
-    //     subtitle: "Tap to view all other resources related to this course",
-    //     type: "folder",
-    //     onPressed: () {
-    //       Navigator.push(
-    //         context,
-    //         MaterialPageRoute(
-    //           builder: (context) => const SubscribedCourseContent(),
-    //         ),
-    //       );
-    //     },
-    //   ),
-    // ];
   }
 
   Future<void> load() async {
@@ -111,17 +51,7 @@ class _SubscribedCourseOverviewState extends State<SubscribedCourseClasses> {
           children: [
             Stack(
               children: [
-                // Container(
-                //   height: 300,
-                //   width: double.infinity,
-                //   decoration:  BoxDecoration(
-                //     image: DecorationImage(
-                //       image: NetworkImage(widget.image),
-                //       fit: BoxFit.cover,
-                //     ),
-                //   ),
-                // ),
-                Container(
+                SizedBox(
                   height: 300,
                   width: double.infinity,
                   child: CachedNetworkImage(

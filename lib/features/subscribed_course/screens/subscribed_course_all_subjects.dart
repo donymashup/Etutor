@@ -23,37 +23,6 @@ class SubscribedCourseAllSubjects extends StatefulWidget {
       _SubscribedCourseAllSubjectsState();
 }
 
-// class AllSubjects {
-//   String? title;
-//   String? description;
-//   String? subjectImage;
-
-//   AllSubjects(
-//       {required this.title,
-//       required this.description,
-//       required this.subjectImage});
-// }
-
-// List<AllSubjects> allsubjects = [
-//   AllSubjects(
-//       title: "Science",
-//       description: "Exploring the Wonders of Nature and Everyday Phenomena",
-//       subjectImage: "assets/images/subname1.jpg"),
-//   AllSubjects(
-//       title: "Mathematics",
-//       description: "Building Logical Thinking Through Numbers and Patterns",
-//       subjectImage: "assets/images/subname1.jpg"),
-//   AllSubjects(
-//       title: "Mental Ability",
-//       description:
-//           "Enhancing Reasoning Skills for Analytical and Critical Thinking",
-//       subjectImage: "assets/images/subname3.jpg"),
-//   AllSubjects(
-//       title: "Social Science",
-//       description: "Understanding Past and Present",
-//       subjectImage: "assets/images/subname2.jpg"),
-// ];
-
 class _SubscribedCourseAllSubjectsState
     extends State<SubscribedCourseAllSubjects> {
   SubcribedCourseProvider subcribedCourseProvider = SubcribedCourseProvider();
@@ -116,7 +85,10 @@ class _SubscribedCourseAllSubjectsState
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) =>
-                                          SubscribedCourseChapters())),
+                                          SubscribedCourseChapters(
+                                            subjectImage: subject.subjectImage!,
+                                            subjectName:subject.subjectName!,
+                                            packageSubjectId:subject.packageSubjectId!,))),
                               child: SubjectOverviewCard(
                                   title: subject.subjectName ?? "",
                                   description:

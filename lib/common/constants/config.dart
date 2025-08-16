@@ -16,5 +16,5 @@ const uploadImageUrl ='Newapi/uploadImage';
 const courseClasses = 'Newapi/courseClasses';
 const isCourseSub = 'Newapi/isCourseSubscribed';
 const courseSubject = 'Newapi/courseSubjects';
-
+const courseChapter = 'Newapi/courseChapters';
 
