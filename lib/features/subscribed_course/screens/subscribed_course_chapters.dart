@@ -1,39 +1,27 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:etutor/common/constants/app_constants.dart';
 import 'package:etutor/common/widgets/back_button.dart';
 import 'package:etutor/features/subscribed_course/provider/subcribed_course_provider.dart';
 import 'package:etutor/features/subscribed_course/widgets/course_subject_card.dart';
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
+import 'package:shimmer/shimmer.dart';
 
 class SubscribedCourseChapters extends StatefulWidget {
-  const SubscribedCourseChapters({super.key});
+  String subjectName;
+  String subjectImage;
+  String packageSubjectId;
+  SubscribedCourseChapters({
+    super.key, 
+    required this.subjectImage, 
+    required this.subjectName,
+    required this.packageSubjectId});
 
   @override
   State<SubscribedCourseChapters> createState() => _SubscribedCourseSubjectState();
 }
-
-// class Subject {
-//   String subjectName;
-//   String subjectImage;
-
-//   Subject({
-//     required this.subjectName, 
-//     required this.subjectImage});
-// }
-
 class _SubscribedCourseSubjectState extends State<SubscribedCourseChapters> {
-  // List<Subject> subject = [
-  //   Subject(subjectName: "SEPERATION OF SUBSTANCES", subjectImage: 'assets/images/subname1.jpg'),
-  //   Subject(subjectName: "SORTING MATERIALS", subjectImage: 'assets/images/subname2.jpg'),
-  //   Subject(subjectName: "FIBRE TO FABRIC", subjectImage: 'assets/images/subname3.jpg'),
-  //   Subject(subjectName: "COMPONENTS OF FOOD", subjectImage: 'assets/images/subname4.jpg'),
-  //   Subject(subjectName: "SEPERATION OF SUBSTANCES", subjectImage: 'assets/images/subname1.jpg'),
-  //   Subject(subjectName: "SORTING MATERIALS", subjectImage: 'assets/images/subname2.jpg'),
-  //   Subject(subjectName: "FIBRE TO FABRIC", subjectImage: 'assets/images/subname3.jpg'),
-  //   Subject(subjectName: "COMPONENTS OF FOOD", subjectImage: 'assets/images/subname4.jpg'),
-  // ];
-
-  int? expandedIndex;
   SubcribedCourseProvider subcribedCourseProvider = SubcribedCourseProvider();
    
   @override
@@ -43,16 +31,18 @@ class _SubscribedCourseSubjectState extends State<SubscribedCourseChapters> {
   }   
 
   Future<void> _loadChapter()async{
-      await context.read<SubcribedCourseProvider>().fetchCourseChapter(context,"17");
+      await context.read<SubcribedCourseProvider>().fetchCourseChapter(context,widget.packageSubjectId);
   }
 
   @override
   Widget build(BuildContext context) {
     subcribedCourseProvider = context.watch<SubcribedCourseProvider>();
-    expandedIndex = subcribedCourseProvider.expandedIndex;
+    final expandedIndex = subcribedCourseProvider.expandedIndex;
     return Scaffold(
       backgroundColor: AppColor.whiteColor,
-      body: SafeArea(
+      body : subcribedCourseProvider.isLoadingchapter
+      ? Center(child: Lottie.asset("assets/lottie/lottieloading1.json"))
+      : SafeArea(
         child: Column(
           children: [
             Stack(
@@ -60,14 +50,19 @@ class _SubscribedCourseSubjectState extends State<SubscribedCourseChapters> {
               children: [
                 Stack(
                   children: [
-                    Container(
+                    SizedBox(
                       height: 250,
                       width: MediaQuery.of(context).size.width,
-                      decoration: const BoxDecoration(
-                        image: DecorationImage(
-                          image: AssetImage('assets/images/subname1.jpg'),
-                          fit: BoxFit.cover,
+                      child:  CachedNetworkImage(
+                        imageUrl: widget.subjectImage,
+                        fit: BoxFit.cover,
+                        placeholder: (context, url) => Shimmer.fromColors(
+                          baseColor: Colors.grey.shade300,
+                          highlightColor: Colors.grey.shade100,
+                          child: Container(color: Colors.grey.shade300),
                         ),
+                        errorWidget: (context, url, error) =>
+                            const Icon(Icons.broken_image, size: 40),
                       ),
                     ),
                     const Align(
@@ -89,8 +84,8 @@ class _SubscribedCourseSubjectState extends State<SubscribedCourseChapters> {
                       topRight: Radius.circular(30),
                     ),
                   ),
-                  child: const Text(
-                    "Science",
+                  child: Text(
+                    widget.subjectName,
                     style: TextStyle(fontWeight: FontWeight.w500, fontSize: 25),
                   ),
                 ),
@@ -106,12 +101,12 @@ class _SubscribedCourseSubjectState extends State<SubscribedCourseChapters> {
                   return CourseSubjectCard(
                     subjectName: chapter!.chaptersName!,
                     subjectImage: chapter.chaptersImage!,
-                    isExpanded: expandedIndex == index,
-                    onTap: () {
-                     context.read<SubcribedCourseProvider>().toggleExpansion(index);
-                    },
+                     isExpanded: expandedIndex == index,
+                      onTap: () {
+                        subcribedCourseProvider.toggleExpansion(index);
+                      },
                   );
-                }
+                 }
                 ),
               ),
             ),

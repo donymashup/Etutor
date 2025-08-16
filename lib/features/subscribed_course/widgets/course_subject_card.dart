@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:etutor/common/widgets/custom_button.dart';
 import 'package:etutor/features/chapter_analysis/screens/chapter_analysis_screen.dart';
 import 'package:etutor/features/subscribed_course/screens/subscribed_course_materials.dart';
@@ -8,6 +9,7 @@ import 'package:etutor/common/constants/app_constants.dart';
 import 'package:iconify_flutter/iconify_flutter.dart';
 import 'package:iconify_flutter/icons/bxs.dart';
 import 'package:iconify_flutter/icons/mdi.dart';
+import 'package:shimmer/shimmer.dart';
 
 class CourseSubjectCard extends StatelessWidget {
   final String subjectName;
@@ -41,18 +43,36 @@ class CourseSubjectCard extends StatelessWidget {
                 children: [
                   Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: Container(
-                      height: MediaQuery.of(context).size.width * 0.2,
-                      width: MediaQuery.of(context).size.width * 0.35,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(6),
-                        image: DecorationImage(
-                          image: NetworkImage(subjectImage),
-                          fit: BoxFit.cover,
-                        ),
-                        color: AppColor.greyIcon,
-                      ),
-                    ),
+                    child:Container(
+  height: MediaQuery.of(context).size.width * 0.2,
+  width: MediaQuery.of(context).size.width * 0.35,
+  decoration: BoxDecoration(
+    borderRadius: BorderRadius.circular(6),
+    color: AppColor.greyIcon,
+  ),
+  child: ClipRRect(
+    borderRadius: BorderRadius.circular(6),
+    child: CachedNetworkImage(
+      imageUrl: subjectImage,
+      fit: BoxFit.cover,
+      placeholder: (context, url) => Shimmer.fromColors(
+        baseColor: Colors.grey[300]!,
+        highlightColor: Colors.grey[100]!,
+        child: Container(
+          color: Colors.white,
+        ),
+      ),
+      errorWidget: (context, url, error) => Container(
+        color: AppColor.greyIcon,
+        child: Icon(
+          Icons.error,
+          color: Colors.red,
+        ),
+      ),
+    ),
+  ),
+)
+
                   ),
                   Expanded(
                     child: Padding(

@@ -78,8 +78,9 @@ class _SubscribedCourseMaterialsState extends State<SubscribedCourseMaterials> {
                   itemCount: materials.length,
                   itemBuilder: (context, index) => GestureDetector(
                     child: CourseCard(
-                      title: materials[index].title,
-                      subtitle: materials[index].subtitle,
+                      className: materials[index].title,
+                      classDescription: materials[index].subtitle,
+                      packageClassId: '1',
                       // type: materials[index].type,
                       // onPressed: () => materials[index].onPressed(context),
                     ),

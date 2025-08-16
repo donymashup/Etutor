@@ -6,6 +6,7 @@ import 'package:etutor/features/home/widgets/carousel.dart';
 import 'package:etutor/features/home/widgets/course_grid.dart';
 import 'package:etutor/features/home/widgets/horizondal_shimmer_loader.dart';
 import 'package:etutor/features/subscribed_course/screens/subscribed_course_all_subjects.dart';
+import 'package:etutor/features/subscribed_course/screens/subscribed_course_classes.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
@@ -360,7 +361,7 @@ class _HomePageState extends State<HomePage> {
               //  final isSubscribed = homepageProvider.isSubscribed;
               isSubscribed ? Navigator.push(
                 context,
-                MaterialPageRoute(builder: (_) => const SubscribedCourseAllSubjects()),
+                MaterialPageRoute(builder: (_) => const CourseDetailsScreen()),
               )     
               : 
               Navigator.push(

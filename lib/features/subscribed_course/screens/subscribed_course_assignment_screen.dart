@@ -67,8 +67,9 @@ class _SubscribedCourseAssignmentScreenState
                     : ListView.builder(
                         itemCount: assignments.length,
                         itemBuilder: (context, index) => CourseCard(
-                          title: assignments[index].title,
-                          subtitle: assignments[index].subtitle,
+                          className: assignments[index].title,
+                          classDescription: assignments[index].subtitle,
+                          packageClassId: '1',
                           // type: assignments[index].type,
                           // onPressed: assignments[index].onPressed,
                         ),
