@@ -15,7 +15,7 @@ class GridShimmeLoader extends StatelessWidget {
         runSpacing: 12,
         children: List.generate(6, (index) { 
           return Container(
-            width: (MediaQuery.of(context).size.width - 56) / 2,
+          width: (MediaQuery.of(context).size.width - 56) / 2,
             child: Card(
               child: Shimmer.fromColors(
                 baseColor: Colors.grey.shade300,

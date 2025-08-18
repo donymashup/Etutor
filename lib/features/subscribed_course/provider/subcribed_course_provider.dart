@@ -65,6 +65,7 @@ class SubcribedCourseProvider extends ChangeNotifier {
     } catch (e) {
       debugPrint("Error fetching course chapter: $e");
       _courseClasses = null;
+      notifyListeners();
     }
     _isLoadingchapter = false;
     notifyListeners();

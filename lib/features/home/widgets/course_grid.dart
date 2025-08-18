@@ -15,7 +15,7 @@ class CoursesGridWidget extends StatelessWidget {
     required this.courses,
     this.horizontalSpacing = 12.0,
     this.verticalSpacing = 16.0,
-    this.padding = const EdgeInsets.all(16.0),
+    this.padding = const EdgeInsets.only(left: 16.0),
     this.onCourseTab,
   }) : super(key: key);
 
@@ -49,7 +49,7 @@ class CoursesGridWidget extends StatelessWidget {
       child: LayoutBuilder(
         builder: (context, constraints) {
           // Calculate item width using available width
-          double itemWidth = (constraints.maxWidth - horizontalSpacing) / 2;
+          double itemWidth = (constraints.maxWidth -( horizontalSpacing )) / 2 ;
           
           return Wrap(
             spacing: horizontalSpacing,

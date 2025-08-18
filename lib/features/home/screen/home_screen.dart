@@ -5,10 +5,9 @@ import 'package:etutor/features/home/provider/homepage_provider.dart';
 import 'package:etutor/features/home/widgets/carousel.dart';
 import 'package:etutor/features/home/widgets/course_grid.dart';
 import 'package:etutor/features/home/widgets/horizondal_shimmer_loader.dart';
-import 'package:etutor/features/subscribed_course/screens/subscribed_course_all_subjects.dart';
+import 'package:etutor/features/subscribed_course/provider/subcribed_course_provider.dart';
 import 'package:etutor/features/subscribed_course/screens/subscribed_course_classes.dart';
 import 'package:flutter/material.dart';
-import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:etutor/common/constants/app_constants.dart';
 import 'package:etutor/features/drawer/screens/drawer.dart';
@@ -358,10 +357,13 @@ class _HomePageState extends State<HomePage> {
                final homepageProvider = Provider.of<HomepageProvider>(context, listen: false);
                final isSubscribed = await homepageProvider.iscourseSubscribed(context, course['id']);
                if (!context.mounted) return;
-              //  final isSubscribed = homepageProvider.isSubscribed;
+              final subcribedCourseProvider = context.read<SubcribedCourseProvider>();
+              await subcribedCourseProvider.fetchCourseClasses(context: context, courseid: course['id']);
+              final courseimage =subcribedCourseProvider.courseClasses!.data!.first.classImage;
+              final coursetitle = subcribedCourseProvider.courseClasses!.data!.first.className;
               isSubscribed ? Navigator.push(
                 context,
-                MaterialPageRoute(builder: (_) => const CourseDetailsScreen()),
+                MaterialPageRoute(builder: (_) => SubscribedCourseClasses(courseId: course["id"], image: courseimage!, title: coursetitle!)),
               )     
               : 
               Navigator.push(

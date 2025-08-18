@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 
+
 class SubscribedCourseVedio extends StatefulWidget {
   final String packageChapterId;
   const SubscribedCourseVedio({super.key, required this.packageChapterId});

@@ -1,55 +1,37 @@
 import 'package:etutor/common/constants/app_constants.dart';
 import 'package:etutor/common/widgets/back_button.dart';
-import 'package:etutor/features/subscribed_course/screens/pdf_viewer.dart';
-import 'package:etutor/features/subscribed_course/widgets/course_card.dart';
+import 'package:etutor/features/subscribed_course/provider/chapter_card_overview_provider.dart';
+import 'package:etutor/features/subscribed_course/widgets/listview_shimmer_loader.dart';
+import 'package:etutor/features/subscribed_course/widgets/material_card.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class SubscribedCourseMaterials extends StatefulWidget {
-  const SubscribedCourseMaterials({super.key});
+final  String packageChapterId;
+const SubscribedCourseMaterials({super.key,required this.packageChapterId});
 
   @override
   State<SubscribedCourseMaterials> createState() =>
       _SubscribedCourseMaterialsState();
 }
 
-class Materials {
-  String title;
-  String subtitle;
-  String type;
-  void Function(BuildContext) onPressed;
-
-  Materials(
-      {required this.title,
-      required this.subtitle,
-      required this.type,
-      required this.onPressed});
-}
-
 class _SubscribedCourseMaterialsState extends State<SubscribedCourseMaterials> {
-  List<Materials> materials = [
-    Materials(
-      title: "Chapter 1 Notes",
-      subtitle: "Tap to view this pdf",
-      type: "pdf",
-      onPressed: (BuildContext context) => Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => PdfViewer())),
-    ),
-    Materials(
-      title: "Chapter 2 Notes",
-      subtitle: "Tap to view this pdf",
-      type: "pdf",
-      onPressed: (BuildContext context) => Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => PdfViewer())),
-    ),
-    Materials(
-        title: "Figure 2.9",
-        subtitle: "Tap to view this image",
-        type: "pdf",
-        onPressed: (_) {}),
-  ];
+ ChapterCardOverviewProvider ChaptercardProvider = ChapterCardOverviewProvider();
+
+ @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _loadMaterials();
+  }
+
+  Future <void> _loadMaterials()async{
+    await context.read<ChapterCardOverviewProvider>().fetchChapterMaterial(context, widget.packageChapterId);
+  } 
 
   @override
   Widget build(BuildContext context) {
+    ChaptercardProvider = context.watch<ChapterCardOverviewProvider>();
     return Scaffold(
       backgroundColor: AppColor.whiteColor,
       appBar: AppBar(
@@ -63,28 +45,29 @@ class _SubscribedCourseMaterialsState extends State<SubscribedCourseMaterials> {
           child: CustomBackButton(),
         ),
       ),
-      body: SafeArea(
-        child: Padding(
+      body: ChaptercardProvider.isMaterialLoading 
+      ? ListviewShimmerLoader()
+      :SafeArea( 
+        child: ChaptercardProvider.chapterMaterial.isEmpty   
+              ? Center(child: Text("No Materials"),)
+              :Padding(
           padding: const EdgeInsets.all(12.0),
           child: Column(
             children: [
-              // Text(
-              //   "Materials",
-              //   style: TextStyle(fontSize: 22, fontWeight: FontWeight.w500),
-              //   textAlign: TextAlign.center,
-              // ),
-              Expanded(
+               Expanded(
                 child: ListView.builder(
-                  itemCount: materials.length,
-                  itemBuilder: (context, index) => GestureDetector(
-                    child: CourseCard(
-                      className: materials[index].title,
-                      classDescription: materials[index].subtitle,
-                      packageClassId: '1',
-                      // type: materials[index].type,
-                      // onPressed: () => materials[index].onPressed(context),
+                  itemCount: ChaptercardProvider.chapterMaterial.length,
+                  itemBuilder: (context, index)  
+                  {
+                    final materials = ChaptercardProvider.chapterMaterial[index];
+                    return GestureDetector(
+                    child: MaterialCard(
+                     materialName: materials.name ?? '', 
+                     materialDescription: materials.description ?? '', 
+                     packageChapterId: widget.packageChapterId,
+                     link: materials.link ?? '',
                     ),
-                  ),
+                  );}
                 ),
               )
             ],
