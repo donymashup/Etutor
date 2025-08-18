@@ -9,16 +9,17 @@ import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 
 class SubscribedCourseChapters extends StatefulWidget {
-  String subjectName;
-  String subjectImage;
-  String packageSubjectId;
-  SubscribedCourseChapters({
+  final String subjectName;
+  final String subjectImage;
+  final String packageSubjectId;
+  const SubscribedCourseChapters({
     super.key, 
     required this.subjectImage, 
     required this.subjectName,
     required this.packageSubjectId});
 
   @override
+
   State<SubscribedCourseChapters> createState() => _SubscribedCourseSubjectState();
 }
 class _SubscribedCourseSubjectState extends State<SubscribedCourseChapters> {

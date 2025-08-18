@@ -92,10 +92,10 @@ class _SubscribedCourseVideoState extends State<SubscribedCourseVedio> {
                               context,
                               MaterialPageRoute(
                                 builder: (context) => VideoPlayerScreen(
-                                  Videolink: videolist.link ?? '',
-                                  VideoTitle: videolist.name ?? '',
-                                  VideoSource: videolist.source ?? '',
-                                  Videohls: videolist.hls ?? '',
+                                  videolink: videolist.link ?? '',
+                                  videoTitle: videolist.name ?? '',
+                                  videoSource: videolist.source ?? '',
+                                  videohls: videolist.hls ?? '',
                                 ),
                               ),
                             ),
