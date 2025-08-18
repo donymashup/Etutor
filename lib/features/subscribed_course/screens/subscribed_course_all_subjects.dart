@@ -3,8 +3,8 @@ import 'package:etutor/common/widgets/back_button.dart';
 import 'package:etutor/features/subscribed_course/provider/subcribed_course_provider.dart';
 import 'package:etutor/features/subscribed_course/screens/subscribed_course_chapters.dart';
 import 'package:etutor/features/subscribed_course/widgets/subject_overview_card.dart';
+import 'package:etutor/features/subscribed_course/widgets/subject_shimmer_loader.dart';
 import 'package:flutter/material.dart';
-import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 
 class SubscribedCourseAllSubjects extends StatefulWidget {
@@ -55,9 +55,7 @@ class _SubscribedCourseAllSubjectsState
         ),
         backgroundColor: AppColor.whiteColor,
       ),
-      body: subcribedCourseProvider.isLoadingsubjects 
-      ? Center(child: Lottie.asset("assets/lottie/lottieloading1.json"))
-    :SafeArea(
+      body:SafeArea(
         child: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.all(30.0),
@@ -71,8 +69,12 @@ class _SubscribedCourseAllSubjectsState
                 Text("Step Into a World of Knowledge Across Every Core Subject",
                     style: TextStyle(fontSize: 14)),
                 SizedBox(height: 10),
-                Center(
-                  child: Wrap(
+                subcribedCourseProvider.isLoadingsubjects 
+                ? SubjectShimmerLoader()
+               : Center(
+                   child: subcribedCourseProvider.courseSubjects!.data!.isEmpty
+                  ? Center(child:Text('No Subjects'))
+                  :Wrap(
                     spacing: 10,
                     alignment: WrapAlignment.start,
                     children: [

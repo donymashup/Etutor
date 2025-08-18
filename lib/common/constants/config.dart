@@ -17,6 +17,9 @@ const courseClasses = 'Newapi/courseClasses';
 const isCourseSub = 'Newapi/isCourseSubscribed';
 const courseSubject = 'Newapi/courseSubjects';
 const courseChapter = 'Newapi/courseChapters';
+const chapterMaterials ='Newapi/chapterMaterials';
+const chapterVideoUrl = 'Newapi/chapterVideos';
+
 
 // Test Series
 const attendedTestsUrl = "Newapi/getAttendedTests";

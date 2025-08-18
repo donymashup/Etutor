@@ -3,9 +3,9 @@ import 'package:etutor/common/constants/app_constants.dart';
 import 'package:etutor/common/widgets/back_button.dart';
 import 'package:etutor/features/subscribed_course/provider/subcribed_course_provider.dart';
 import 'package:etutor/features/subscribed_course/widgets/course_card.dart';
+import 'package:etutor/features/subscribed_course/widgets/listview_shimmer_loader.dart';
 import 'package:etutor/features/subscribed_course/widgets/rating_modal.dart';
 import 'package:flutter/material.dart';
-import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -13,7 +13,7 @@ class SubscribedCourseClasses extends StatefulWidget {
   final String courseId;
   final String image;
   final String title;
-  SubscribedCourseClasses(
+const  SubscribedCourseClasses(
       {super.key,
       required this.courseId,
       required this.image,
@@ -44,9 +44,7 @@ class _SubscribedCourseOverviewState extends State<SubscribedCourseClasses> {
    
     return Scaffold(
       backgroundColor: AppColor.whiteColor,
-      body:  subcribedCourseProvider.isLoading 
-      ? Center(child: Lottie.asset("assets/lottie/lottieloading1.json"))
-    :SafeArea(
+      body: SafeArea(
         child: Column(
           children: [
             Stack(
@@ -99,9 +97,13 @@ class _SubscribedCourseOverviewState extends State<SubscribedCourseClasses> {
             Expanded(
               child: Stack(
                 children: [
-                  Padding(
+                   subcribedCourseProvider.isLoading 
+                 ? ListviewShimmerLoader()
+                  :Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                    child: ListView.builder(
+                    child:subcribedCourseProvider.courseClasses!.data!.isEmpty 
+                    ? Center(child: Text('No Classes'),)
+                    : ListView.builder(
                         itemCount:
                             subcribedCourseProvider.courseClasses!.data!.length,
                         itemBuilder: (context, index) {

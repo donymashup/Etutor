@@ -2,9 +2,6 @@ import 'package:etutor/common/constants/app_constants.dart';
 import 'package:etutor/features/subscribed_course/screens/subscribed_course_all_subjects.dart';
 import 'package:fluentui_emoji_icon/fluentui_emoji_icon.dart';
 import 'package:flutter/material.dart';
-import 'package:iconify_flutter/iconify_flutter.dart';
-import 'package:iconify_flutter/icons/bxs.dart';
-import 'package:iconify_flutter/icons/mdi.dart';
 
 class CourseCard extends StatefulWidget {
   final String className;
