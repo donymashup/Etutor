@@ -11,13 +11,13 @@ import 'package:iconify_flutter/icons/bxs.dart';
 import 'package:iconify_flutter/icons/mdi.dart';
 import 'package:shimmer/shimmer.dart';
 
-class CourseSubjectCard extends StatelessWidget {
+class CourseChapterCard extends StatelessWidget {
   final String subjectName;
   final String subjectImage;
   final bool isExpanded;
   final VoidCallback onTap;
 
-  const CourseSubjectCard({
+  const CourseChapterCard({
     required this.subjectName,
     required this.subjectImage,
     required this.isExpanded,
@@ -42,38 +42,36 @@ class CourseSubjectCard extends StatelessWidget {
               child: Row(
                 children: [
                   Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child:Container(
-  height: MediaQuery.of(context).size.width * 0.2,
-  width: MediaQuery.of(context).size.width * 0.35,
-  decoration: BoxDecoration(
-    borderRadius: BorderRadius.circular(6),
-    color: AppColor.greyIcon,
-  ),
-  child: ClipRRect(
-    borderRadius: BorderRadius.circular(6),
-    child: CachedNetworkImage(
-      imageUrl: subjectImage,
-      fit: BoxFit.cover,
-      placeholder: (context, url) => Shimmer.fromColors(
-        baseColor: Colors.grey[300]!,
-        highlightColor: Colors.grey[100]!,
-        child: Container(
-          color: Colors.white,
-        ),
-      ),
-      errorWidget: (context, url, error) => Container(
-        color: AppColor.greyIcon,
-        child: Icon(
-          Icons.error,
-          color: Colors.red,
-        ),
-      ),
-    ),
-  ),
-)
-
-                  ),
+                      padding: const EdgeInsets.all(8.0),
+                      child: Container(
+                        height: MediaQuery.of(context).size.width * 0.2,
+                        width: MediaQuery.of(context).size.width * 0.35,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(6),
+                          color: AppColor.greyIcon,
+                        ),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(6),
+                          child: CachedNetworkImage(
+                            imageUrl: subjectImage,
+                            fit: BoxFit.cover,
+                            placeholder: (context, url) => Shimmer.fromColors(
+                              baseColor: Colors.grey[300]!,
+                              highlightColor: Colors.grey[100]!,
+                              child: Container(
+                                color: Colors.white,
+                              ),
+                            ),
+                            errorWidget: (context, url, error) => Container(
+                              color: AppColor.greyIcon,
+                              child: Icon(
+                                Icons.error,
+                                color: Colors.red,
+                              ),
+                            ),
+                          ),
+                        ),
+                      )),
                   Expanded(
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 12.0),
@@ -86,8 +84,9 @@ class CourseSubjectCard extends StatelessWidget {
                   ),
                   Padding(
                     padding: const EdgeInsets.all(12.0),
-                    child: Icon(
-                        isExpanded ? Icons.arrow_drop_up : Icons.arrow_drop_down),
+                    child: Icon(isExpanded
+                        ? Icons.arrow_drop_up
+                        : Icons.arrow_drop_down),
                   ),
                 ],
               ),
@@ -110,17 +109,17 @@ class CourseSubjectCard extends StatelessWidget {
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) =>
-                                            SubscribedCourseVedio()),
+                                            SubscribedCourseVedio(packageChapterId: '',)),
                                   );
                                 },
                                 child: _iconWithLabel(
-                                    Iconify(
-                                      Bxs.video,
-                                      size: 30,
-                                      color: AppColor.fileIconColour,
-                                    ),
-                                    'Videos',
-                                    ),
+                                  Iconify(
+                                    Bxs.video,
+                                    size: 30,
+                                    color: AppColor.fileIconColour,
+                                  ),
+                                  'Videos',
+                                ),
                               ),
                               GestureDetector(
                                 onTap: () {
@@ -132,13 +131,13 @@ class CourseSubjectCard extends StatelessWidget {
                                   );
                                 },
                                 child: _iconWithLabel(
-                                    Iconify(
-                                      Mdi.document,
-                                      size: 30,
-                                      color: AppColor.videoIconColor,
-                                    ),
-                                    'Materials',
-                                    ),
+                                  Iconify(
+                                    Mdi.document,
+                                    size: 30,
+                                    color: AppColor.videoIconColor,
+                                  ),
+                                  'Materials',
+                                ),
                               ),
                               GestureDetector(
                                 onTap: () {
@@ -150,13 +149,13 @@ class CourseSubjectCard extends StatelessWidget {
                                   );
                                 },
                                 child: _iconWithLabel(
-                                    Iconify(
-                                      Mdi.timer,
-                                      size: 30,
-                                      color: AppColor.greenchaptertest,
-                                    ),
-                                    'Tests',
-                                    ),
+                                  Iconify(
+                                    Mdi.timer,
+                                    size: 30,
+                                    color: AppColor.greenchaptertest,
+                                  ),
+                                  'Tests',
+                                ),
                               ),
                             ],
                           ),
@@ -206,7 +205,7 @@ class CourseSubjectCard extends StatelessWidget {
         ),
       ),
     );
-  }   
+  }
 
   Widget _iconWithLabel(Widget icon, String label) {
     return Column(
