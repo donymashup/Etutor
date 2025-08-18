@@ -101,6 +101,7 @@ class _SubscribedCourseSubjectState extends State<SubscribedCourseChapters> {
                   return CourseChapterCard(
                     subjectName: chapter!.chaptersName!,
                     subjectImage: chapter.chaptersImage!,
+                    packageChapterId: chapter.packageChapterId!,
                      isExpanded: expandedIndex == index,
                       onTap: () {
                         subcribedCourseProvider.toggleExpansion(index);
