@@ -2,15 +2,27 @@ import 'package:better_player/better_player.dart';
 import 'package:etutor/common/constants/app_constants.dart';
 import 'package:etutor/features/my_course/widgets/testimonial_card.dart';
 import 'package:flutter/material.dart';
+import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class VideoPlayerScreen extends StatefulWidget {
-  const VideoPlayerScreen({super.key});
+  final String Videolink;
+  final String VideoTitle;
+  final String VideoSource; // "2" = HLS (BetterPlayer), otherwise YouTube
+  final String Videohls;
+
+  const VideoPlayerScreen({
+    super.key,
+    required this.Videolink,
+    required this.VideoTitle,
+    required this.VideoSource,
+    required this.Videohls,
+  });
 
   @override
   State<VideoPlayerScreen> createState() => _VideoPlayerScreenState();
 }
 
- class Testimonials {
+class Testimonials {
   String username;
   String userimage;
   String description;
@@ -23,42 +35,54 @@ class VideoPlayerScreen extends StatefulWidget {
 }
 
 class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
-  
   bool isLoading = true;
-  late BetterPlayerController betterPlayerController;
+
+  BetterPlayerController? betterPlayerController;
+  YoutubePlayerController? youtubePlayerController;
 
   @override
   void initState() {
     super.initState();
-    initializePlayer("https://media.istockphoto.com/id/1854905414/video/speed-ramp-male-player-in-red-outfit-outplaying-his-opponents-in-a-football-game.mp4?s=mp4-640x640-is&k=20&c=lFRmcGTDZxlqP6cBnJguufewDafJXljQscbPwVRcHuQ=");
+    initializePlayer();
   }
 
-  void initializePlayer(String url) {
-    betterPlayerController = BetterPlayerController(
-      BetterPlayerConfiguration(
-        autoPlay: true,
-        looping: false,
-        aspectRatio: 16 / 9,
-      ),
-      betterPlayerDataSource: BetterPlayerDataSource(
-        BetterPlayerDataSourceType.network,
-        url,
-      ),
-    );
+  void initializePlayer() {
+    if (widget.VideoSource == "2") {
+      //  Use BetterPlayer with HLS
+      betterPlayerController = BetterPlayerController(
+        BetterPlayerConfiguration(
+          autoPlay: true,
+          looping: false,
+          aspectRatio: 16 / 9,
+        ),
+        betterPlayerDataSource: BetterPlayerDataSource(
+          BetterPlayerDataSourceType.network,
+          widget.Videohls,
+        ),
+      );
+    } else {
+      //  Use YouTube Player
+      final videoId = YoutubePlayer.convertUrlToId(widget.Videolink);
+      youtubePlayerController = YoutubePlayerController(
+        initialVideoId: videoId ?? "",
+        flags: const YoutubePlayerFlags(
+          autoPlay: true,
+          mute: false,
+        ),
+      );
+    }
 
-    setState(() {
-      isLoading = false;
-    });
+    setState(() => isLoading = false);
   }
 
-  void changeVideo(String url, int index) {
-    betterPlayerController.setupDataSource(BetterPlayerDataSource(
-      BetterPlayerDataSourceType.network,
-      url,
-    ));
+  @override
+  void dispose() {
+    betterPlayerController?.dispose();
+    youtubePlayerController?.dispose();
+    super.dispose();
   }
 
-   List<Testimonials> testimonials = [
+  List<Testimonials> testimonials = [
     Testimonials(
         username: "Arjun Ashokan",
         description:
@@ -91,18 +115,22 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
     return SafeArea(
       child: Scaffold(
         body: isLoading
-            ? Center(child: CircularProgressIndicator())
+            ? const Center(child: CircularProgressIndicator())
             : Column(
                 children: [
-                  // Video Player
+                  // 🎥 Video Player (Dynamic)
                   AspectRatio(
                     aspectRatio: 16 / 9,
-                    child: BetterPlayer(controller: betterPlayerController),
+                    child: widget.VideoSource == "2"
+                        ? BetterPlayer(controller: betterPlayerController!)
+                        : YoutubePlayer(
+                            controller: youtubePlayerController!,
+                            showVideoProgressIndicator: true,
+                          ),
                   ),
 
-                  // Video Title Bar
+                  //  Video Title Bar
                   Container(
-                    // color: AppColor.lightOrange,
                     height: 60,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -112,8 +140,8 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                           child: SizedBox(
                             width: MediaQuery.of(context).size.width * 0.7,
                             child: Text(
-                              "Foundation of Mathematics",
-                              style: TextStyle(
+                              widget.VideoTitle,
+                              style: const TextStyle(
                                 fontSize: 18,
                                 fontWeight: FontWeight.w600,
                                 overflow: TextOverflow.ellipsis,
@@ -123,21 +151,29 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                         ),
                         IconButton(
                           onPressed: () {},
-                          icon: Icon(Icons.bookmark_add_rounded),
+                          icon: const Icon(Icons.bookmark_add_rounded),
                         )
                       ],
                     ),
                   ),
-                  SizedBox(height: 12),
+
+                  const SizedBox(height: 12),
+
+                  //  Reviews Section
                   Container(
-                    width: MediaQuery.of(context).size.width,
-                    color: AppColor.greyCardBackground,
-                    child: Center(
-                      child: Padding(
-                        padding: const EdgeInsets.all(12.0),
-                        child: Text("Reviews",style: TextStyle(fontWeight: FontWeight.w600,fontSize: 18),),
+                      width: MediaQuery.of(context).size.width,
+                      color: AppColor.greyCardBackground,
+                      child: const Center(
+                          child: Padding(
+                        padding: EdgeInsets.all(12.0),
+                        child: Text(
+                          "Reviews",
+                          style: TextStyle(
+                              fontWeight: FontWeight.w600, fontSize: 18),
+                        ),
                       ))),
-                  // SizedBox(height: 12),
+
+                  //  Testimonials List
                   Expanded(
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 8.0),
@@ -146,7 +182,8 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                         itemBuilder: (context, index) => TestimonialCard(
                             username: testimonials[index].username,
                             description: testimonials[index].description,
-                            userimage: testimonials[index].userimage)),
+                            userimage: testimonials[index].userimage),
+                      ),
                     ),
                   )
                 ],

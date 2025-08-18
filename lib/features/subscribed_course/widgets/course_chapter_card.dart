@@ -14,6 +14,7 @@ import 'package:shimmer/shimmer.dart';
 class CourseChapterCard extends StatelessWidget {
   final String subjectName;
   final String subjectImage;
+  final String packageChapterId;
   final bool isExpanded;
   final VoidCallback onTap;
 
@@ -21,6 +22,7 @@ class CourseChapterCard extends StatelessWidget {
     required this.subjectName,
     required this.subjectImage,
     required this.isExpanded,
+    required this.packageChapterId,
     required this.onTap,
     super.key,
   });
@@ -109,7 +111,7 @@ class CourseChapterCard extends StatelessWidget {
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) =>
-                                            SubscribedCourseVedio(packageChapterId: '',)),
+                                            SubscribedCourseVedio(packageChapterId: packageChapterId,)),
                                   );
                                 },
                                 child: _iconWithLabel(

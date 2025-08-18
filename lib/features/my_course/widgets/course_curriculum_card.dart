@@ -178,7 +178,7 @@ class _CourseCurriculumCardState extends State<CourseCurriculumCard> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => VideoPlayerScreen(),
+                              builder: (context) => VideoPlayerScreen(VideoTitle: "",Videolink: "",VideoSource: "",Videohls: "",),
                             ),
                           );
                         }
