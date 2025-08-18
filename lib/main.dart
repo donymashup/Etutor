@@ -8,6 +8,7 @@ import 'package:etutor/features/home/provider/user_details_provider.dart';
 import 'package:etutor/features/my_course/provider/my_course_provider.dart';
 import 'package:etutor/features/payment/controller/payment_provider.dart';
 import 'package:etutor/features/subscribed_course/provider/subcribed_course_provider.dart';
+import 'package:etutor/features/test_series/provider/test_series_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_tex/flutter_tex.dart';
@@ -27,6 +28,7 @@ void main() async {
         ChangeNotifierProvider(create: (_) => UserDetailsProvider()),
         ChangeNotifierProvider(create: (_) => MyCourseProvider()),
         ChangeNotifierProvider(create: (_) => SubcribedCourseProvider()),
+        ChangeNotifierProvider(create: (_) => TestSeriesProvider()),
       ],
       child: MyApp(),
       ),
