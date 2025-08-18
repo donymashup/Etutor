@@ -5,17 +5,17 @@ import 'package:flutter/material.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class VideoPlayerScreen extends StatefulWidget {
-  final String Videolink;
-  final String VideoTitle;
-  final String VideoSource; // "2" = HLS (BetterPlayer), otherwise YouTube
-  final String Videohls;
+  final String videolink;
+  final String videoTitle;
+  final String videoSource; // "2" = HLS (BetterPlayer), otherwise YouTube
+  final String videohls;
 
   const VideoPlayerScreen({
     super.key,
-    required this.Videolink,
-    required this.VideoTitle,
-    required this.VideoSource,
-    required this.Videohls,
+    required this.videolink,
+    required this.videoTitle,
+    required this.videoSource,
+    required this.videohls,
   });
 
   @override
@@ -47,7 +47,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
   }
 
   void initializePlayer() {
-    if (widget.VideoSource == "2") {
+    if (widget.videoSource == "2") {
       //  Use BetterPlayer with HLS
       betterPlayerController = BetterPlayerController(
         BetterPlayerConfiguration(
@@ -57,12 +57,12 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
         ),
         betterPlayerDataSource: BetterPlayerDataSource(
           BetterPlayerDataSourceType.network,
-          widget.Videohls,
+          widget.videohls,
         ),
       );
     } else {
       //  Use YouTube Player
-      final videoId = YoutubePlayer.convertUrlToId(widget.Videolink);
+      final videoId = YoutubePlayer.convertUrlToId(widget.videolink);
       youtubePlayerController = YoutubePlayerController(
         initialVideoId: videoId ?? "",
         flags: const YoutubePlayerFlags(
@@ -121,7 +121,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                   // 🎥 Video Player (Dynamic)
                   AspectRatio(
                     aspectRatio: 16 / 9,
-                    child: widget.VideoSource == "2"
+                    child: widget.videoSource == "2"
                         ? BetterPlayer(controller: betterPlayerController!)
                         : YoutubePlayer(
                             controller: youtubePlayerController!,
@@ -140,7 +140,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                           child: SizedBox(
                             width: MediaQuery.of(context).size.width * 0.7,
                             child: Text(
-                              widget.VideoTitle,
+                              widget.videoTitle,
                               style: const TextStyle(
                                 fontSize: 18,
                                 fontWeight: FontWeight.w600,
