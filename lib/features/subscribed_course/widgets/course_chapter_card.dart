@@ -23,6 +23,7 @@ class CourseChapterCard extends StatelessWidget {
     required this.subjectImage,
     required this.packageChapterId,
     required this.isExpanded,
+    required this.packageChapterId,
     required this.onTap,
     super.key,
   });
@@ -111,7 +112,7 @@ class CourseChapterCard extends StatelessWidget {
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) =>
-                                            SubscribedCourseVedio(packageChapterId: '',)),
+                                            SubscribedCourseVedio(packageChapterId: packageChapterId,)),
                                   );
                                 },
                                 child: _iconWithLabel(

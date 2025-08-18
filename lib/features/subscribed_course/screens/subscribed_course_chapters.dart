@@ -19,6 +19,7 @@ const  SubscribedCourseChapters({
     required this.packageSubjectId});
 
   @override
+
   State<SubscribedCourseChapters> createState() => _SubscribedCourseSubjectState();
 }
 class _SubscribedCourseSubjectState extends State<SubscribedCourseChapters> {

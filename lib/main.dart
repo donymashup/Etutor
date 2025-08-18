@@ -29,7 +29,6 @@ void main() async {
         ChangeNotifierProvider(create: (_) => MyCourseProvider()),
         ChangeNotifierProvider(create: (_) => SubcribedCourseProvider()),
         ChangeNotifierProvider(create: (_) => ChapterCardOverviewProvider()),
-
       ],
       child: MyApp(),
       ),
