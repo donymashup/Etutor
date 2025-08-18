@@ -5,7 +5,7 @@ import 'package:etutor/features/subscribed_course/widgets/video_card.dart';
 import 'package:flutter/material.dart';
 
 class SubscribedCourseVedio extends StatelessWidget {
-  String packageChapterId;
+  final String packageChapterId;
   SubscribedCourseVedio({super.key, required this.packageChapterId});
 
   final List<Map<String, dynamic>> _videos = [

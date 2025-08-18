@@ -4,6 +4,7 @@ import 'package:etutor/common/constants/config.dart';
 import 'package:etutor/common/constants/utils.dart';
 import 'package:etutor/features/subscribed_course/model/course_chapter_model.dart';
 import 'package:etutor/features/subscribed_course/model/course_classes_model.dart';
+import 'package:etutor/features/subscribed_course/model/material_model.dart';
 import 'package:etutor/features/subscribed_course/model/subjects_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -55,13 +56,12 @@ class SubscribedCourseService {
     }
   }
 
-
 // fuction to fetch Subjects
   Future<SubjectsModel?> courseSubjects({
     required BuildContext context,
     required String packageClassId,
-  })async{
-    try{
+  }) async {
+    try {
       final token = await storage.read(key: 'token');
       if (token == null) {
         showSnackbar(context, "Token not found. Please log in again.");
@@ -97,14 +97,14 @@ class SubscribedCourseService {
       showSnackbar(context, "Error : $e");
       return null;
     }
-    }
+  }
 
-    // fuction to fetch chapter
+  // fuction to fetch chapter
   Future<CourseChapterModel?> courseChapters({
     required BuildContext context,
     required String packageSubjectId,
-  })async{
-    try{
+  }) async {
+    try {
       final token = await storage.read(key: 'token');
       if (token == null) {
         showSnackbar(context, "Token not found. Please log in again.");
@@ -132,13 +132,56 @@ class SubscribedCourseService {
           }
         }
       } else {
-        debugPrint(
-            "Failed to fetch chapter list: ${response.statusCode}");
+        debugPrint("Failed to fetch chapter list: ${response.statusCode}");
         return null;
       }
     } catch (e) {
       showSnackbar(context, "Error : $e");
       return null;
     }
+  }
+
+  // fetch chapter Materials
+  Future<ChapterMaterialModel?> chapterMaterial({
+    required BuildContext context,
+    required String packageChapterId,
+  }) async {
+    try {
+      final token = await storage.read(key: 'token');
+      if (token == null) {
+        showSnackbar(context, "Token not found. Please log in again.");
+        return null;
+      }
+      final response = await sendPostRequestWithToken(
+        url: '$baseUrl$chapterMaterials',
+        token: token,
+        fields: {
+          'packageChapterId': packageChapterId,
+        },
+      );
+      if (response.statusCode == 200) {
+        final jsonResponse = json.decode(await response.stream.bytesToString());
+        if (jsonResponse == null || jsonResponse.isEmpty) {
+          showSnackbar(context, 'Invalid response from server');
+          return null;
+        } else {
+          final chapterMaterialModel =
+              ChapterMaterialModel.fromJson(jsonResponse);
+          if (chapterMaterialModel.type == 'success') {
+            return chapterMaterialModel;
+          } else {
+            showSnackbar(context, chapterMaterialModel.type ?? 'Unknown error');
+            return null;
+          }
+        }
+      } else {
+        debugPrint(
+            "Failed to fetch chapter material list: ${response.statusCode}");
+        return null;
+      }
+    } catch (e) {
+      showSnackbar(context, "Error : $e");
+      return null;
     }
   }
+}

@@ -3,16 +3,16 @@ import 'package:etutor/common/constants/app_constants.dart';
 import 'package:etutor/common/widgets/back_button.dart';
 import 'package:etutor/features/subscribed_course/provider/subcribed_course_provider.dart';
 import 'package:etutor/features/subscribed_course/widgets/course_chapter_card.dart';
+import 'package:etutor/features/subscribed_course/widgets/listview_shimmer_loader.dart';
 import 'package:flutter/material.dart';
-import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 
 class SubscribedCourseChapters extends StatefulWidget {
-  String subjectName;
-  String subjectImage;
-  String packageSubjectId;
-  SubscribedCourseChapters({
+final  String subjectName;
+final  String subjectImage;
+final  String packageSubjectId;
+const  SubscribedCourseChapters({
     super.key, 
     required this.subjectImage, 
     required this.subjectName,
@@ -40,9 +40,7 @@ class _SubscribedCourseSubjectState extends State<SubscribedCourseChapters> {
     final expandedIndex = subcribedCourseProvider.expandedIndex;
     return Scaffold(
       backgroundColor: AppColor.whiteColor,
-      body : subcribedCourseProvider.isLoadingchapter
-      ? Center(child: Lottie.asset("assets/lottie/lottieloading1.json"))
-      : SafeArea(
+      body :  SafeArea(
         child: Column(
           children: [
             Stack(
@@ -92,15 +90,20 @@ class _SubscribedCourseSubjectState extends State<SubscribedCourseChapters> {
               ],
             ),
             Expanded(
-              child: Padding(
+              child: subcribedCourseProvider.isLoadingchapter
+              ? ListviewShimmerLoader()
+              :subcribedCourseProvider.courseChapter.isEmpty 
+              ? Center(child: Text("No Chapters"),)
+              :Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 5.0),
                 child: ListView.builder(
                 itemCount: subcribedCourseProvider.courseChapter.length,
                 itemBuilder: (context, index) {
                   final chapter = subcribedCourseProvider.courseChapter[index];
                   return CourseChapterCard(
-                    subjectName: chapter!.chaptersName!,
-                    subjectImage: chapter.chaptersImage!,
+                    subjectName: chapter!.chaptersName?? '',
+                    subjectImage: chapter.chaptersImage?? '',
+                    packageChapterId: chapter.packageChapterId ?? '',
                      isExpanded: expandedIndex == index,
                       onTap: () {
                         subcribedCourseProvider.toggleExpansion(index);
