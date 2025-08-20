@@ -3,6 +3,8 @@ import 'package:etutor/features/my_course/service/my_course_service.dart';
 import 'package:flutter/material.dart';
 
 class MyCourseProvider extends ChangeNotifier{
+  String _batchid = '';
+  String get batchid => _batchid;
   bool isLoading = false;
   List<my_course_model.Data>_subscribedCorse =[];
   
@@ -26,5 +28,11 @@ class MyCourseProvider extends ChangeNotifier{
         }
       isLoading = false;
       notifyListeners();
+  }
+
+  void getbatchid(String batchid)
+  {
+    _batchid = batchid;
+    notifyListeners();
   }
 }

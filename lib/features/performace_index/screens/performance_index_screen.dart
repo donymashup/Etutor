@@ -46,7 +46,7 @@ class PerformanceIndexScreen extends StatelessWidget {
                 ),
               ),
               SizedBox(height: 10),
-              OverallCompletionStatus(),
+             // OverallCompletionStatus(),
               SizedBox(height: 10),
               CatergoryProgress(),
           

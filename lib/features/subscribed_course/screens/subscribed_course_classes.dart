@@ -3,6 +3,7 @@ import 'package:etutor/common/constants/app_constants.dart';
 import 'package:etutor/common/widgets/back_button.dart';
 import 'package:etutor/features/subscribed_course/provider/subcribed_course_provider.dart';
 import 'package:etutor/features/subscribed_course/widgets/course_card.dart';
+import 'package:etutor/features/subscribed_course/widgets/course_contents._card.dart';
 import 'package:etutor/features/subscribed_course/widgets/listview_shimmer_loader.dart';
 import 'package:etutor/features/subscribed_course/widgets/rating_modal.dart';
 import 'package:flutter/material.dart';
@@ -109,12 +110,15 @@ class _SubscribedCourseOverviewState extends State<SubscribedCourseClasses> {
                         itemBuilder: (context, index) {
                           final classlist = subcribedCourseProvider
                               .courseClasses!.data![index];
-                          return CourseCard(
-                            packageClassId:classlist.packageClassId ?? '',  
-                            className: classlist.className ?? '',
-                            classDescription: classlist.classDescription ?? '',
-                            // type: courseoverview[index].type,
-                            // onPressed: courseoverview[index].onPressed,
+                          return Column(
+                            children: [
+                              CourseCard(
+                                packageClassId:classlist.packageClassId ?? '',  
+                                className: classlist.className ?? '',
+                                classDescription: classlist.classDescription ?? '',
+                              ),
+                              const ContentsCard()
+                            ],
                           );
                         }),
                   ),
