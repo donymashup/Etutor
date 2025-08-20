@@ -1,11 +1,33 @@
+import 'dart:ffi';
+
+import 'package:etutor/features/chapter_analysis/model/chapter_analysis_model.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
 class TestAnalysisChart extends StatelessWidget {
-  const TestAnalysisChart({super.key});
+  final double correct; 
+  final double wrong;
+  final double unanswered;
+
+  const TestAnalysisChart({
+    super.key,
+    required this.correct,
+    required this.unanswered,
+    required this.wrong,
+  });
 
   @override
   Widget build(BuildContext context) {
+    // final correct = count.correct ?? 0;
+    // final wrong = count.incorrect ?? 0;
+    // final unanswered = count.unattended ?? 0;
+
+    // final maxY = [
+    //   correct.toDouble(),
+    //   wrong.toDouble(),
+    //   unanswered.toDouble()
+    // ].reduce((a, b) => a > b ? a : b);
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -20,7 +42,7 @@ class TestAnalysisChart extends StatelessWidget {
           height: 250,
           child: BarChart(
             BarChartData(
-              maxY: 14,
+              maxY:14, // add padding
               barTouchData: BarTouchData(enabled: false),
               gridData: FlGridData(show: true, drawHorizontalLine: true),
               borderData: FlBorderData(show: false),
@@ -51,9 +73,9 @@ class TestAnalysisChart extends StatelessWidget {
                     AxisTitles(sideTitles: SideTitles(showTitles: false)),
               ),
               barGroups: [
-                _makeGroup(0, 3, Colors.orange), // Unanswered
-                _makeGroup(1, 5, Colors.green), // Correct
-                _makeGroup(2, 12, Colors.red), // Wrong
+                _makeGroup(0, correct, Colors.green),
+                _makeGroup(1, wrong, Colors.red),
+                _makeGroup(2, unanswered, Colors.orange),
               ],
             ),
           ),

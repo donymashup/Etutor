@@ -19,6 +19,7 @@ const courseSubject = 'Newapi/courseSubjects';
 const courseChapter = 'Newapi/courseChapters';
 const chapterMaterials ='Newapi/chapterMaterials';
 const chapterVideoUrl = 'Newapi/chapterVideos';
+const studentChapterAnalysis = 'Newapi/studentChapterAnalysis';
 
 
 // Test Series
