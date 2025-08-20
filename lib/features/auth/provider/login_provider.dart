@@ -50,10 +50,18 @@ Future login (BuildContext context,String password) async {
        debugPrint(_token);
       }else{
          _login = [];
+          isLoding = false;
+         notifyListeners();
         } 
       isLoding = false;
       notifyListeners();
   }
+ 
+ // reset the loding to false
+ void resetLoading(){
+  isLoding = false;
+  notifyListeners();
+ }
 
   Future checkMobileExist (BuildContext context,String phoneNumber,String code) async {
     isLoding = true;

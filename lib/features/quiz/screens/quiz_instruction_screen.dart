@@ -5,7 +5,9 @@ import 'package:etutor/features/quiz/widgets/bullet_point.dart';
 import 'package:flutter/material.dart';
 
 class QuizInstructionPage extends StatelessWidget {
-  const QuizInstructionPage({super.key});
+  final String duration;
+  final String questions;
+  const QuizInstructionPage({super.key,required this.duration, required this.questions});
 
   @override
   Widget build(BuildContext context) {
@@ -90,9 +92,9 @@ class QuizInstructionPage extends StatelessWidget {
                         Expanded(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
-                            children: const [
+                            children: [
                               Text(
-                                '30 Questions',
+                                '$questions Questions',
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: 15,
@@ -121,9 +123,9 @@ class QuizInstructionPage extends StatelessWidget {
                         const SizedBox(width: 12),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
-                          children: const [
+                          children: [
                             Text(
-                              '30 Minutes',
+                              '$duration Minutes',
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 15,

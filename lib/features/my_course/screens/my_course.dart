@@ -303,7 +303,7 @@ class _MyCoursePageState extends State<MyCoursePage> {
                   itemBuilder: (context, index) {
                     final imagePath = testCardImages[index];
                     return GestureDetector(
-                      onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => QuizInstructionPage())),
+                      onTap: () {},
                       child: Container(
                         width: MediaQuery.of(context).size.width * 0.15 < 120
                             ? 120
