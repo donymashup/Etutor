@@ -107,10 +107,12 @@ class _SubscribedCourseSubjectState extends State<SubscribedCourseChapters> {
                     packageChapterId: chapter.packageChapterId ?? '',
                     packageid: chapter.packageid ?? '',
                     chapterid: chapter.chaptersId ?? '',
+                    progress: chapter.cpi.toString(),
+
                      isExpanded: expandedIndex == index,
                       onTap: () {
                         subcribedCourseProvider.toggleExpansion(index);
-                      },
+                      },  
                   );
                  }
                 ),

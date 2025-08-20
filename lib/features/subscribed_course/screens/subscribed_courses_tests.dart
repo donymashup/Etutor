@@ -1,60 +1,37 @@
 import 'package:etutor/common/constants/app_constants.dart';
 import 'package:etutor/common/widgets/back_button.dart';
 import 'package:etutor/features/quiz/screens/quiz_instruction_screen.dart';
+import 'package:etutor/features/subscribed_course/provider/chapter_card_overview_provider.dart';
 import 'package:etutor/features/subscribed_course/widgets/course_card.dart';
+import 'package:etutor/features/subscribed_course/widgets/listview_shimmer_loader.dart';
+import 'package:etutor/features/subscribed_course/widgets/practice_test_card.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class SubscribedCoursesTests extends StatefulWidget {
-  const SubscribedCoursesTests({super.key});
+  final String packageChapterId;
+  const SubscribedCoursesTests({super.key ,required this.packageChapterId });
 
   @override
   State<SubscribedCoursesTests> createState() => _SubscribedCoursesTestsState();
 }
 
-class Tests {
-  String title;
-  String subtitle;
-  String type;
-  void Function() onPressed;
-
-  Tests(
-      {required this.title,
-      required this.subtitle,
-      required this.type,
-      required this.onPressed});
-}
-
 class _SubscribedCoursesTestsState extends State<SubscribedCoursesTests> {
-  late List<Tests> tests;
+  ChapterCardOverviewProvider chapterProvider =ChapterCardOverviewProvider();
 
   @override
   void initState() {
     super.initState();
-    tests = [
-      Tests(
-        title: "Sample Test 1",
-        subtitle: "Tap to attend the test",
-        type: "test",
-        onPressed: () {
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => QuizInstructionPage()));
-        },
-      ),
-      Tests(
-        title: "Sample Test 2",
-        subtitle: "Tap to attend the test",
-        type: "test",
-        onPressed: () {
-          // Navigate to test details or perform some action
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => QuizInstructionPage()));
-        },
-      ),
-    ];
+    _load();
+  }
+
+  Future<void>_load()async{
+    await context.read<ChapterCardOverviewProvider>().fetchPracticeTest(context,widget.packageChapterId);
   }
 
   @override
   Widget build(BuildContext context) {
+    chapterProvider = context.watch<ChapterCardOverviewProvider>();
     return Scaffold(
       backgroundColor: AppColor.whiteColor,
       appBar: AppBar(
@@ -68,21 +45,29 @@ class _SubscribedCoursesTestsState extends State<SubscribedCoursesTests> {
           child: CustomBackButton(),
         ),
       ),
-      body: SafeArea(
+      body:chapterProvider.isTestLoading 
+      ?ListviewShimmerLoader() 
+      : SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(12.0),
-          child: Column(
+          child: chapterProvider.practiceTest.isEmpty
+           ? Center(child: Text("No Practice Teat"),)
+           :Column(
             children: [
               Expanded(
                 child: ListView.builder(
-                  itemCount: tests.length,
-                  itemBuilder: (context, index) => CourseCard(
-                    className: tests[index].title,
-                    classDescription: tests[index].subtitle,
-                    packageClassId: '1',
-                    // type: tests[index].type,
-                    // onPressed: tests[index].onPressed,
-                  ),
+                  itemCount: chapterProvider.practiceTest.length,
+                  itemBuilder: (context, index)
+                  {
+                  final practiceTest = chapterProvider.practiceTest[index];
+                    return PracticeTestCard(
+                    testName: practiceTest.name ?? "",
+                    testId: practiceTest.id ?? '',
+                    questions: practiceTest.questionsCount.toString(),
+                    testDuration: practiceTest.duration.toString(),
+                    packageClassId:widget.packageChapterId,
+                  );
+                  }
                 ),
               )
             ],

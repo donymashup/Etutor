@@ -19,6 +19,7 @@ class CourseChapterCard extends StatelessWidget {
   final String packageChapterId;
   final bool isExpanded;
   final VoidCallback onTap;
+  final String progress;
 
   const CourseChapterCard({
     required this.subjectName,
@@ -28,6 +29,7 @@ class CourseChapterCard extends StatelessWidget {
     required this.chapterid,
     required this.packageid,
     required this.onTap,
+    required this.progress,
     super.key,
   });
 
@@ -151,7 +153,7 @@ class CourseChapterCard extends StatelessWidget {
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) =>
-                                            const SubscribedCoursesTests()),
+                                            SubscribedCoursesTests(packageChapterId: packageChapterId,)),
                                   );
                                 },
                                 child: _iconWithLabel(
@@ -172,16 +174,16 @@ class CourseChapterCard extends StatelessWidget {
                                 child: Padding(
                                   padding: const EdgeInsets.all(12.0),
                                   child: LinearProgressIndicator(
-                                    value: 0.60,
+                                    value: (double.parse(progress))/100,
                                     backgroundColor: Colors.grey.shade300,
                                     color: Colors.black,
                                   ),
                                 ),
                               ),
                               const SizedBox(width: 10),
-                              const Padding(
+                               Padding(
                                 padding: EdgeInsets.all(12.0),
-                                child: Text("60%"),
+                                child: Text(progress),
                               ),
                             ],
                           ),

@@ -160,6 +160,7 @@ class _PhoneNumberAuthState extends State<PhoneNumberAuth> {
                                   }
                                 } else {
                                  showSnackbar(context, 'Something went wrong could not proceed try again');
+                                  loginProvider.resetLoading();
                                 }
                               } else {
                                showSnackbar(context, 'Please enter a valid phone number');

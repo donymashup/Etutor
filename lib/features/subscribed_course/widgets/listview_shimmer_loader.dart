@@ -81,7 +81,7 @@ class ListviewShimmerLoader extends StatelessWidget {
       padding: const EdgeInsets.all(12.0),
       child: ListView.separated(
         scrollDirection: Axis.vertical,
-        itemCount: 4,
+        itemCount: 3,
         separatorBuilder: (context, index) => SizedBox(height: 12),
         itemBuilder: (context, index) {
           return Card(
