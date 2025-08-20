@@ -1,13 +1,13 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:etutor/common/constants/app_constants.dart';
 import 'package:flutter/material.dart';
+import 'package:shimmer/shimmer.dart';
 
 class VideoCard extends StatelessWidget {
   final String title;
   final String img;
   final String duration;
   final double progress;
-  //final String link;
 
   const VideoCard({
     super.key,
@@ -15,7 +15,6 @@ class VideoCard extends StatelessWidget {
     required this.img,
     required this.title,
     required this.progress,
-   // required this.link,
   });
 
   @override
@@ -41,15 +40,15 @@ class VideoCard extends StatelessWidget {
                 fit: BoxFit.cover,
                 height: MediaQuery.of(context).size.width * 0.25,
                 width: MediaQuery.of(context).size.width * 0.39,
-                placeholder: (context, url) => Container(
-                  color: AppColor.greyCardBackground,
-                  child: const Center(child: CircularProgressIndicator()),
-                ),
+                 placeholder: (context, url) => Shimmer.fromColors(
+                          baseColor: Colors.grey.shade300,
+                          highlightColor: Colors.grey.shade100,
+                          child: Container(color: Colors.grey.shade300),
+                        ),
                 errorWidget: (context, url, error) =>
                     const Icon(Icons.broken_image, size: 40),
               ),
             ),
-
             const SizedBox(width: 5),
 
             /// Video Info

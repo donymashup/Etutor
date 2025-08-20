@@ -2,6 +2,7 @@ import 'package:etutor/common/constants/app_constants.dart';
 import 'package:etutor/common/widgets/back_button.dart';
 import 'package:etutor/features/subscribed_course/provider/chapter_card_overview_provider.dart';
 import 'package:etutor/features/subscribed_course/screens/video_player_screen.dart';
+import 'package:etutor/features/subscribed_course/widgets/listview_shimmer_loader.dart';
 import 'package:etutor/features/subscribed_course/widgets/video_card.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
@@ -51,7 +52,7 @@ class _SubscribedCourseVideoState extends State<SubscribedCourseVedio> {
   }
 
   double convertToRatio(double value1, double value2) {
-    if (value2 == 0) return 0; // avoid division by zero
+    if (value2 == 0) return 0;
     return value1 / value2;
   }
 
@@ -74,7 +75,7 @@ class _SubscribedCourseVideoState extends State<SubscribedCourseVedio> {
         ),
       ),
       body: chapterCardOverviewProvider.isLoadingVideos
-          ? Center(child: Lottie.asset("assets/lottie/lottieloading1.json"))
+          ? ListviewShimmerLoader()
           : (chapterCardOverviewProvider.chapterVideos?.data == null ||
                   chapterCardOverviewProvider.chapterVideos!.data!.isEmpty)
               ? const Center(child: Text("No videos available"))

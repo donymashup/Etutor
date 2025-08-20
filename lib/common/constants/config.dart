@@ -19,7 +19,7 @@ const courseSubject = 'Newapi/courseSubjects';
 const courseChapter = 'Newapi/courseChapters';
 const chapterMaterials ='Newapi/chapterMaterials';
 const chapterVideoUrl = 'Newapi/chapterVideos';
-
+const chapterPracticeTest = 'Newapi/chapterPracticeTests';
 
 // Test Series
 const attendedTestsUrl = "Newapi/getAttendedTests";
