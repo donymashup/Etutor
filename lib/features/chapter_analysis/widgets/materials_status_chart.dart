@@ -2,14 +2,21 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
 class MaterialsStatusChart extends StatelessWidget {
-  const MaterialsStatusChart({super.key});
+  final int materialstotal;
+  final int materialswatched;
+
+  const MaterialsStatusChart({
+    super.key,
+    required this.materialstotal,
+    required this.materialswatched,
+  });
 
   @override
   Widget build(BuildContext context) {
-    final watched = 13;
-    final pending = 5;
-    final total = watched + pending;
-    final percentage = (watched / total * 100).round();
+    final watched = materialswatched;
+    final total = materialstotal;
+    final pending = total - watched;
+    final percentage = total > 0 ? (watched / total * 100).round() : 0;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,

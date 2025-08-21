@@ -129,7 +129,7 @@ class _SubscribedCourseOverviewState extends State<SubscribedCourseClasses> {
                       child: FloatingActionButton(
                         backgroundColor: AppColor.secondaryColor,
                         onPressed: () {
-                          showRatingDialog(context);
+                          showRatingDialog(context,widget.courseId);
                         },
                         child: const Icon(Icons.star, color: Colors.white),
                       ),

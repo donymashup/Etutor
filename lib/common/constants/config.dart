@@ -21,6 +21,7 @@ const chapterMaterials ='Newapi/chapterMaterials';
 const chapterVideoUrl = 'Newapi/chapterVideos';
 const studentChapterAnalysis = 'Newapi/studentChapterAnalysis';
 const chapterPracticeTest = 'Newapi/chapterPracticeTests';
+const updateCourseStars = 'Newapi/updateCourseStars';
 
 // Test Series
 const attendedTestsUrl = "Newapi/getAttendedTests";

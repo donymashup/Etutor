@@ -1,11 +1,8 @@
-import 'dart:ffi';
-
-import 'package:etutor/features/chapter_analysis/model/chapter_analysis_model.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
 class TestAnalysisChart extends StatelessWidget {
-  final double correct; 
+  final double correct;
   final double wrong;
   final double unanswered;
 
@@ -18,15 +15,11 @@ class TestAnalysisChart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // final correct = count.correct ?? 0;
-    // final wrong = count.incorrect ?? 0;
-    // final unanswered = count.unattended ?? 0;
+    // Find the maximum value among all
+    final dataMax = [correct, wrong, unanswered].reduce((a, b) => a > b ? a : b);
 
-    // final maxY = [
-    //   correct.toDouble(),
-    //   wrong.toDouble(),
-    //   unanswered.toDouble()
-    // ].reduce((a, b) => a > b ? a : b);
+    // Ensure maxY never goes beyond 50
+    final maxY = dataMax > 50 ? dataMax + 5 : 50;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -39,10 +32,10 @@ class TestAnalysisChart extends StatelessWidget {
           ),
         ),
         SizedBox(
-          height: 250,
+          height: 260,
           child: BarChart(
             BarChartData(
-              maxY:14, // add padding
+              maxY: maxY.toDouble(),
               barTouchData: BarTouchData(enabled: false),
               gridData: FlGridData(show: true, drawHorizontalLine: true),
               borderData: FlBorderData(show: false),
@@ -65,12 +58,9 @@ class TestAnalysisChart extends StatelessWidget {
                     },
                   ),
                 ),
-                topTitles:
-                    AxisTitles(sideTitles: SideTitles(showTitles: false)),
-                leftTitles:
-                    AxisTitles(sideTitles: SideTitles(showTitles: false)),
-                rightTitles:
-                    AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                topTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                leftTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                rightTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
               ),
               barGroups: [
                 _makeGroup(0, correct, Colors.green),
@@ -109,11 +99,17 @@ class TestAnalysisChart extends StatelessWidget {
             topLeft: Radius.circular(8),
             topRight: Radius.circular(8),
           ),
-          rodStackItems: [],
+          rodStackItems: [
+            BarChartRodStackItem(
+              0,
+              y,
+              color,
+              BorderSide.none,
+            ),
+          ],
         ),
       ],
       showingTooltipIndicators: [0],
-      barsSpace: 4,
     );
   }
 }
@@ -133,12 +129,11 @@ class _LegendItem extends StatelessWidget {
           height: 14,
           decoration: BoxDecoration(
             color: color,
-            shape: BoxShape.rectangle,
             borderRadius: BorderRadius.circular(4),
           ),
         ),
         const SizedBox(width: 6),
-        Text(text, style: TextStyle(fontSize: 14)),
+        Text(text, style: const TextStyle(fontSize: 14)),
       ],
     );
   }
