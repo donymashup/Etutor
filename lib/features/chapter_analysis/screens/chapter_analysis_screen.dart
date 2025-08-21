@@ -1,6 +1,5 @@
 import 'package:etutor/common/constants/app_constants.dart';
 import 'package:etutor/common/widgets/back_button.dart';
-import 'package:etutor/features/chapter_analysis/model/chapter_analysis_model.dart';
 import 'package:etutor/features/chapter_analysis/provider/chapter_analysis_provider.dart';
 import 'package:etutor/features/chapter_analysis/widgets/materials_status_chart.dart';
 import 'package:etutor/features/chapter_analysis/widgets/test_analysis_chart.dart';
@@ -8,8 +7,8 @@ import 'package:etutor/features/chapter_analysis/widgets/video_status_chart.dart
 import 'package:etutor/features/my_course/provider/my_course_provider.dart';
 import 'package:etutor/features/performace_index/widgets/overall_progress.dart';
 import 'package:flutter/material.dart';
-import 'package:iconify_flutter/icons/academicons.dart';
 import 'package:provider/provider.dart';
+import 'package:shimmer/shimmer.dart';
 
 class ChapterAnalysisScreen extends StatefulWidget {
   final String chapterid;
@@ -44,9 +43,62 @@ class _ChapterAnalysisScreenState extends State<ChapterAnalysisScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // ✅ watch provider here
     final chapterAnalysisProvider = context.watch<ChapterAnalysisProvider>();
-
+    if (chapterAnalysisProvider.isLoadingChapterAnalysis){
+      return Scaffold(
+        body:  Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Shimmer.fromColors(
+          baseColor: Colors.grey[300]!,
+          highlightColor: Colors.grey[100]!,
+          child: Container(
+            margin: const EdgeInsets.only(left: 20, bottom: 10),
+            height: 16,
+            width: 120,
+            color: Colors.white,
+          ),
+        ),
+        SizedBox(
+          height: 260,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: List.generate(3, (index) {
+              return Shimmer.fromColors(
+                baseColor: Colors.grey[300]!,
+                highlightColor: Colors.grey[100]!,
+                child: Container(
+                  width: 30,
+                  height: (100 + (index * 20)).toDouble(),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                ),
+              );
+            }),
+          ),
+        ),
+        const SizedBox(height: 16),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: List.generate(3, (index) {
+            return Shimmer.fromColors(
+              baseColor: Colors.grey[300]!,
+              highlightColor: Colors.grey[100]!,
+              child: Container(
+                width: 80,
+                height: 16,
+                color: Colors.white,
+              ),
+            );
+          }),
+        ),
+      ],
+    ),
+      );
+    }
     return Scaffold(
       backgroundColor: AppColor.whiteColor,
       appBar: AppBar(
@@ -82,32 +134,45 @@ class _ChapterAnalysisScreenState extends State<ChapterAnalysisScreen> {
                   overall:
                       chapterAnalysisProvider.chapterAnalysis?.data?.overall ??
                           0,
-                  // tests: chapterAnalysisProvider.chapterAnalysis?.data?.tests,
-                  // materials:
-                  //     chapterAnalysisProvider.chapterAnalysis?.data?.materials,
-                  // videos: chapterAnalysisProvider.chapterAnalysis?.data?.videos,
                 ),
                 const SizedBox(height: 10),
                 TestAnalysisChart(
-                  correct:double.parse(chapterAnalysisProvider.chapterAnalysis?.data?.tests?.questions!.count!.correct.toString() ?? ''),
-                  unanswered: double.parse(chapterAnalysisProvider.chapterAnalysis?.data?.tests?.questions!.count!.incorrect.toString() ?? ''), 
-                  wrong:double.parse(chapterAnalysisProvider.chapterAnalysis?.data?.tests?.questions!.count!.unattended.toString() ?? ''),
-                  // count: Count(
-                  //   correct: chapterAnalysisProvider
-                  //           .chapterAnalysis?.data?.tests?.correct ??
-                  //       0,
-                  //   incorrect: chapterAnalysisProvider
-                  //           .chapterAnalysis?.data?.tests?.incorrect ??
-                  //       0,
-                  //   unattended: chapterAnalysisProvider
-                  //           .chapterAnalysis?.data?.tests?.unattended ??
-                  //       0,
-                  // ),
+                  correct: double.parse(chapterAnalysisProvider.chapterAnalysis
+                          ?.data?.tests?.questions!.count!.correct
+                          .toString() ??
+                      ''),
+                  unanswered: double.parse(chapterAnalysisProvider
+                          .chapterAnalysis
+                          ?.data
+                          ?.tests
+                          ?.questions!
+                          .count!
+                          .incorrect
+                          .toString() ??
+                      ''),
+                  wrong: double.parse(chapterAnalysisProvider.chapterAnalysis
+                          ?.data?.tests?.questions!.count!.unattended
+                          .toString() ??
+                      ''),
                 ),
                 const SizedBox(height: 20),
-                const VideoStatusChart(),
+                VideoStatusChart(
+                  watched: chapterAnalysisProvider
+                          .chapterAnalysis?.data?.videos?.viewed ??
+                      0,
+                  total: chapterAnalysisProvider
+                          .chapterAnalysis?.data?.videos?.total ??
+                      0,
+                ),
                 const SizedBox(height: 20),
-                const MaterialsStatusChart(),
+                MaterialsStatusChart(
+                  materialstotal: chapterAnalysisProvider
+                          .chapterAnalysis?.data?.materials?.total ??
+                      0,
+                  materialswatched: chapterAnalysisProvider
+                          .chapterAnalysis?.data?.materials?.viewed ??
+                      0,
+                ),
                 const SizedBox(height: 40),
               ],
             ),

@@ -6,6 +6,7 @@ import 'package:etutor/features/subscribed_course/model/course_chapter_model.dar
 import 'package:etutor/features/subscribed_course/model/course_classes_model.dart';
 import 'package:etutor/features/subscribed_course/model/material_model.dart';
 import 'package:etutor/features/subscribed_course/model/practice_test_model.dart';
+import 'package:etutor/features/subscribed_course/model/rating_model.dart';
 import 'package:etutor/features/subscribed_course/model/subjects_model.dart';
 import 'package:etutor/features/subscribed_course/model/videos_model.dart';
 import 'package:flutter/material.dart';
@@ -61,7 +62,7 @@ class SubscribedCourseService {
 // fuction to fetch Subjects
   Future<SubjectsModel?> courseSubjects({
     required BuildContext context,
-    required String packageClassId,
+    required String packageClassId, 
   }) async {
     try {
       final token = await storage.read(key: 'token');
@@ -145,7 +146,7 @@ class SubscribedCourseService {
 
   // fetch chapter Materials
   Future<ChapterMaterialModel?> chapterMaterial({
-      required BuildContext context,
+    required BuildContext context,
     required String packageChapterId,
   }) async {
     try {
@@ -155,8 +156,8 @@ class SubscribedCourseService {
         return null;
       }
       final response = await sendPostRequestWithToken(
-          url: '$baseUrl$chapterMaterials',
-         token: token,
+        url: '$baseUrl$chapterMaterials',
+        token: token,
         fields: {
           'packageChapterId': packageChapterId,
         },
@@ -167,19 +168,19 @@ class SubscribedCourseService {
           showSnackbar(context, 'Invalid response from server');
           return null;
         } else {
-            final chapterMaterialModel =
+          final chapterMaterialModel =
               ChapterMaterialModel.fromJson(jsonResponse);
           if (chapterMaterialModel.type == 'success') {
             return chapterMaterialModel;
           } else {
             showSnackbar(context, chapterMaterialModel.type ?? 'Unknown error');
-                 return null;
+            return null;
           }
         }
       } else {
-         debugPrint(
+        debugPrint(
             "Failed to fetch chapter material list: ${response.statusCode}");
-         return null;
+        return null;
       }
     } catch (e) {
       showSnackbar(context, "Error : $e");
@@ -241,11 +242,11 @@ class SubscribedCourseService {
         return null;
       }
       final response = await sendPostRequestWithToken(
-          url: '$baseUrl$chapterPracticeTest',
-         token: token,
-          fields: {
-            'packageChapterId': packageChapterId,
-          },
+        url: '$baseUrl$chapterPracticeTest',
+        token: token,
+        fields: {
+          'packageChapterId': packageChapterId,
+        },
       );
       if (response.statusCode == 200) {
         final jsonResponse = json.decode(await response.stream.bytesToString());
@@ -253,19 +254,20 @@ class SubscribedCourseService {
           showSnackbar(context, 'Invalid response from server');
           return null;
         } else {
-            final chapterPraticeTestModel =
+          final chapterPraticeTestModel =
               ChapterPraticeTestModel.fromJson(jsonResponse);
           if (chapterPraticeTestModel.type == 'success') {
             return chapterPraticeTestModel;
           } else {
-            showSnackbar(context, chapterPraticeTestModel.type ?? 'Unknown error');
-                 return null;
+            showSnackbar(
+                context, chapterPraticeTestModel.type ?? 'Unknown error');
+            return null;
           }
         }
       } else {
-         debugPrint(
+        debugPrint(
             "Failed to fetch chapter practice test list: ${response.statusCode}");
-         return null;
+        return null;
       }
     } catch (e) {
       showSnackbar(context, "Error : $e");
@@ -273,4 +275,50 @@ class SubscribedCourseService {
     }
   }
 
+  // fuction to fetch Course Rating
+  Future<RatingModel?> courseRating({
+    required BuildContext context,
+    required String courseid,
+    required String rating,
+    required String comment,
+  }) async {
+    try {
+      final token = await storage.read(key: 'token');
+      if (token == null) {
+        showSnackbar(context, "Token not found. Please log in again.");
+        return null;
+      }
+      final response = await sendPostRequestWithToken(
+        url: '$baseUrl$updateCourseStars',
+        token: token,
+        fields: {
+          'courseid': courseid,
+          'comment' : comment,
+          'rating' : rating,
+        },
+      );
+      if (response.statusCode == 200) {
+        final jsonResponse = json.decode(await response.stream.bytesToString());
+        if (jsonResponse == null || jsonResponse.isEmpty) {
+          showSnackbar(context, 'Invalid response from server');
+          return null;
+        } else {
+          final ratingModel = RatingModel.fromJson(jsonResponse);
+          debugPrint(ratingModel.type);
+          if (ratingModel.type == 'success') {
+            return ratingModel;
+          } else {
+            showSnackbar(context, ratingModel.type ?? 'Unknown error');
+            return null;
+          }
+        }
+      } else {
+        debugPrint("Failed to fetch chapter list: ${response.statusCode}");
+        return null;
+      }
+    } catch (e) {
+      showSnackbar(context, "Error : $e");
+      return null;
+    }
+  }
 }

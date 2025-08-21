@@ -2,14 +2,19 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
 class VideoStatusChart extends StatelessWidget {
-  const VideoStatusChart({super.key});
+  final int watched;
+  final int total;
+
+  const VideoStatusChart({
+    super.key,
+    required this.watched,
+    required this.total,
+  });
 
   @override
   Widget build(BuildContext context) {
-    final watched = 13;
-    final pending = 5;
-    final total = watched + pending;
-    final percentage = (watched / total * 100).round();
+    final pending = (total - watched).clamp(0, total);
+    final percentage = total > 0 ? ((watched / total) * 100).round() : 0;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
