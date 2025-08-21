@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
+import 'package:shimmer/shimmer.dart';
 
 class EditProfile extends StatefulWidget {
   const EditProfile({super.key});
@@ -154,37 +155,7 @@ class _EditProfileState extends State<EditProfile> {
                       children: [
                         ClipRRect(
                           borderRadius: BorderRadius.circular(50),
-                          child: _image != null
-                              ? Image.file(
-                                  _image!,
-                                  width: 100,
-                                  height: 100,
-                                  fit: BoxFit.cover,
-                                )
-                              : (_profileImageUrl != null &&
-                                      _profileImageUrl!.isNotEmpty)
-                                  ? Image.network(
-                                      _profileImageUrl!,
-                                      width: 100,
-                                      height: 100,
-                                      fit: BoxFit.cover,
-                                      errorBuilder:
-                                          (context, error, stackTrace) {
-                                        // fallback if image loading fails
-                                        return Image.asset(
-                                          "assets/images/basil.jpg",
-                                          width: 100,
-                                          height: 100,
-                                          fit: BoxFit.cover,
-                                        );
-                                      },
-                                    )
-                                  : Image.asset(
-                                      "assets/images/basil.jpg",
-                                      width: 100,
-                                      height: 100,
-                                      fit: BoxFit.cover,
-                                    ),
+                           child: _buildProfileImage(userDetailsProvider),
                         ),
                         Positioned(
                           bottom: 0,
@@ -476,6 +447,66 @@ class _EditProfileState extends State<EditProfile> {
     );
   }
 
+/// Profile image with shimmer while loading
+  Widget _buildProfileImage(UserDetailsProvider provider) {
+    if (provider.isUploadingImage) {
+      return Shimmer.fromColors(
+        baseColor: Colors.grey[300]!,
+        highlightColor: Colors.grey[100]!,
+        child: Container(
+          width: 100,
+          height: 100,
+          color: Colors.white,
+        ),
+      );
+    }
+
+    if (_image != null) {
+      return Image.file(
+        _image!,
+        width: 100,
+        height: 100,
+        fit: BoxFit.cover,
+      );
+    }
+
+    if (_profileImageUrl != null && _profileImageUrl!.isNotEmpty) {
+      return Image.network(
+        _profileImageUrl!,
+        width: 100,
+        height: 100,
+        fit: BoxFit.cover,
+        loadingBuilder: (context, child, loadingProgress) {
+          if (loadingProgress == null) return child;
+          return Shimmer.fromColors(
+            baseColor: Colors.grey[300]!,
+            highlightColor: Colors.grey[100]!,
+            child: Container(
+              width: 100,
+              height: 100,
+              color: Colors.white,
+            ),
+          );
+        },
+        errorBuilder: (context, error, stackTrace) {
+          return Image.asset(
+            "assets/images/basil.jpg",
+            width: 100,
+            height: 100,
+            fit: BoxFit.cover,
+          );
+        },
+      );
+    }
+
+    return Image.asset(
+      "assets/images/basil.jpg",
+      width: 100,
+      height: 100,
+      fit: BoxFit.cover,
+    );
+  }
+
   Widget _buildImagePickerDialog(BuildContext context) {
     return Dialog(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
@@ -520,6 +551,9 @@ class _EditProfileState extends State<EditProfile> {
       ),
     );
   }
+}
+
+
 
   DropdownButtonFormField<String> dropdown(
     String hint,
@@ -575,7 +609,7 @@ class _EditProfileState extends State<EditProfile> {
       }).toList(),
     );
   }
-}
+
 
 class GreystokeTextfield extends StatelessWidget {
   final TextEditingController controller;
@@ -599,7 +633,7 @@ class GreystokeTextfield extends StatelessWidget {
       controller: controller,
       validator: validator,
       readOnly:
-          iconData != null, // Readonly only if icon is provided (like DOB)
+          iconData != null, 
       decoration: InputDecoration(
         hintText: hintText,
         labelText: labelText,

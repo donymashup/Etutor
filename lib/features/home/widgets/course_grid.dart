@@ -1,6 +1,10 @@
+import 'package:etutor/features/home/provider/homepage_provider.dart';
 import 'package:etutor/features/home/widgets/courses_list.dart';
 import 'package:etutor/features/my_course/screens/course_details_screen.dart';
+import 'package:etutor/features/subscribed_course/provider/subcribed_course_provider.dart';
+import 'package:etutor/features/subscribed_course/screens/subscribed_course_classes.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 // CoursesGridWidget that accepts a list
 class CoursesGridWidget extends StatelessWidget {
@@ -60,17 +64,28 @@ class CoursesGridWidget extends StatelessWidget {
               return SizedBox(
                 width: itemWidth,
                 child: GestureDetector(
-                  onTap: () {
+                  onTap:  () async {
+                    final homepageProvider = Provider.of<HomepageProvider>(context, listen: false);
+                    final isSubscribed = await homepageProvider.iscourseSubscribed(context, course['id']);
+                    if (!context.mounted) return;
+                    final subcribedCourseProvider = context.read<SubcribedCourseProvider>();
+                    await subcribedCourseProvider.fetchCourseClasses(context: context, courseid: course['id']);
+                    final courseimage =subcribedCourseProvider.courseClasses!.data!.first.classImage;
+                    final coursetitle = subcribedCourseProvider.courseClasses!.data!.first.className;
+                    isSubscribed ? Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (_) => SubscribedCourseClasses(courseId: course["id"], image: courseimage!, title: coursetitle!)),
+                    )     
+                    : 
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (_) => const CourseDetailsScreen()),
+                      MaterialPageRoute(builder: (_) =>  CourseDetailsScreen(courseId: course["id"],)),
                     );
                   },
                   child: CoursesList(
                     imagePath: course['image'] ?? '',
                     title: course['name'] ?? '',
                     rating: double.tryParse(course['avgStars'].toString()) ?? 0.0,
-                    // onTap: () => onCourseTab?.call(course),
                   ),
                 ),
               );

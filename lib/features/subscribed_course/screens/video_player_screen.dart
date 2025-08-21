@@ -182,7 +182,8 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                         itemBuilder: (context, index) => TestimonialCard(
                             username: testimonials[index].username,
                             description: testimonials[index].description,
-                            userimage: testimonials[index].userimage),
+                            userimage: testimonials[index].userimage,
+                            rating: '5',),
                       ),
                     ),
                   )
