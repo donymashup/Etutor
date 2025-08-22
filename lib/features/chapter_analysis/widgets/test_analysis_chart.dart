@@ -19,7 +19,8 @@ class TestAnalysisChart extends StatelessWidget {
     final dataMax = [correct, wrong, unanswered].reduce((a, b) => a > b ? a : b);
 
     // Ensure maxY never goes beyond 50
-    final maxY = dataMax > 50 ? dataMax + 5 : 50;
+    // final maxY = dataMax > 50 ? dataMax + 5 : 50;
+    final maxY = correct + wrong + unanswered + 10;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,

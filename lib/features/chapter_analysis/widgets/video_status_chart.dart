@@ -55,7 +55,7 @@ class VideoStatusChart extends StatelessWidget {
                           ),
                           PieChartSectionData(
                             value: pending.toDouble(),
-                            color: Colors.orange,
+                            color: Colors.grey.shade300,
                             radius: 30,
                             showTitle: false,
                           ),
@@ -98,7 +98,7 @@ class VideoStatusChart extends StatelessWidget {
                     const SizedBox(height: 12),
                     _statusRow(Colors.blue[800]!, 'Watched', watched),
                     const SizedBox(height: 8),
-                    _statusRow(Colors.orange, 'Pending', pending),
+                    _statusRow(Colors.grey.shade300, 'Pending', pending),
                   ],
                 ),
               )
