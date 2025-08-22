@@ -3,6 +3,7 @@ import 'package:etutor/common/widgets/back_button.dart';
 import 'package:etutor/features/chapter_analysis/provider/chapter_analysis_provider.dart';
 import 'package:etutor/features/chapter_analysis/widgets/materials_status_chart.dart';
 import 'package:etutor/features/chapter_analysis/widgets/test_analysis_chart.dart';
+import 'package:etutor/features/chapter_analysis/widgets/timevsmarkschart.dart';
 import 'package:etutor/features/chapter_analysis/widgets/video_status_chart.dart';
 import 'package:etutor/features/my_course/provider/my_course_provider.dart';
 import 'package:etutor/features/performace_index/widgets/overall_progress.dart';
@@ -44,59 +45,59 @@ class _ChapterAnalysisScreenState extends State<ChapterAnalysisScreen> {
   @override
   Widget build(BuildContext context) {
     final chapterAnalysisProvider = context.watch<ChapterAnalysisProvider>();
-    if (chapterAnalysisProvider.isLoadingChapterAnalysis){
+    if (chapterAnalysisProvider.isLoadingChapterAnalysis) {
       return Scaffold(
-        body:  Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Shimmer.fromColors(
-          baseColor: Colors.grey[300]!,
-          highlightColor: Colors.grey[100]!,
-          child: Container(
-            margin: const EdgeInsets.only(left: 20, bottom: 10),
-            height: 16,
-            width: 120,
-            color: Colors.white,
-          ),
-        ),
-        SizedBox(
-          height: 260,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: List.generate(3, (index) {
-              return Shimmer.fromColors(
-                baseColor: Colors.grey[300]!,
-                highlightColor: Colors.grey[100]!,
-                child: Container(
-                  width: 30,
-                  height: (100 + (index * 20)).toDouble(),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                ),
-              );
-            }),
-          ),
-        ),
-        const SizedBox(height: 16),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: List.generate(3, (index) {
-            return Shimmer.fromColors(
+        body: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Shimmer.fromColors(
               baseColor: Colors.grey[300]!,
               highlightColor: Colors.grey[100]!,
               child: Container(
-                width: 80,
+                margin: const EdgeInsets.only(left: 20, bottom: 10),
                 height: 16,
+                width: 120,
                 color: Colors.white,
               ),
-            );
-          }),
+            ),
+            SizedBox(
+              height: 260,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: List.generate(3, (index) {
+                  return Shimmer.fromColors(
+                    baseColor: Colors.grey[300]!,
+                    highlightColor: Colors.grey[100]!,
+                    child: Container(
+                      width: 30,
+                      height: (100 + (index * 20)).toDouble(),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                    ),
+                  );
+                }),
+              ),
+            ),
+            const SizedBox(height: 16),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: List.generate(3, (index) {
+                return Shimmer.fromColors(
+                  baseColor: Colors.grey[300]!,
+                  highlightColor: Colors.grey[100]!,
+                  child: Container(
+                    width: 80,
+                    height: 16,
+                    color: Colors.white,
+                  ),
+                );
+              }),
+            ),
+          ],
         ),
-      ],
-    ),
       );
     }
     return Scaffold(
@@ -154,6 +155,45 @@ class _ChapterAnalysisScreenState extends State<ChapterAnalysisScreen> {
                           ?.data?.tests?.questions!.count!.unattended
                           .toString() ??
                       ''),
+                ),
+                const SizedBox(height: 20),
+                TimeVsMarksChart(
+                  times: (chapterAnalysisProvider
+                              .chapterAnalysis?.data?.tests?.questions?.time !=
+                          null)
+                      ? [
+                          (chapterAnalysisProvider.chapterAnalysis?.data?.tests
+                                      ?.questions?.time?.correct ??
+                                  0)
+                              .toDouble(),
+                          (chapterAnalysisProvider.chapterAnalysis?.data?.tests
+                                      ?.questions?.time?.incorrect ??
+                                  0)
+                              .toDouble(),
+                          (chapterAnalysisProvider.chapterAnalysis?.data?.tests
+                                      ?.questions?.time?.unattended ??
+                                  0)
+                              .toDouble(),
+                        ]
+                      : [],
+                  marks: (chapterAnalysisProvider.chapterAnalysis?.data?.tests
+                              ?.questions?.perTime !=
+                          null)
+                      ? [
+                          (chapterAnalysisProvider.chapterAnalysis?.data?.tests
+                                      ?.questions?.perTime?.correct ??
+                                  0)
+                              .toDouble(),
+                          (chapterAnalysisProvider.chapterAnalysis?.data?.tests
+                                      ?.questions?.perTime?.incorrect ??
+                                  0)
+                              .toDouble(),
+                          (chapterAnalysisProvider.chapterAnalysis?.data?.tests
+                                      ?.questions?.perTime?.unattended ??
+                                  0)
+                              .toDouble(),
+                        ]
+                      : [],
                 ),
                 const SizedBox(height: 20),
                 VideoStatusChart(
