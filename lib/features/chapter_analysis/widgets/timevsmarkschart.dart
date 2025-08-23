@@ -124,7 +124,7 @@ class TimeVsMarksChart extends StatelessWidget {
                 SizedBox(width: 10),
                 LegendItem(color: Colors.red, text: "Wrong"),
                 SizedBox(width: 10),
-                LegendItem(color: Colors.orange, text: "Unans"),
+                LegendItem(color: Colors.orange, text: "Unanswered"),
               ],
             ),
           ],

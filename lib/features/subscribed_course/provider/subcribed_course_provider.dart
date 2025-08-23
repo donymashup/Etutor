@@ -60,6 +60,7 @@ class SubcribedCourseProvider extends ChangeNotifier {
   // fetch chapter list
   Future fetchCourseChapter (BuildContext context,String packageSubjectId) async {
     _isLoadingchapter = true;
+    _expandedIndex = null;
     notifyListeners();
     try {
       final response = await SubscribedCourseService().courseChapters(
