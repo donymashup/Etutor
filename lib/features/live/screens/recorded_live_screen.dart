@@ -1,45 +1,52 @@
 import 'package:etutor/common/constants/app_constants.dart';
+import 'package:etutor/features/live/provider/live_class_provider.dart';
 import 'package:etutor/features/live/widgets/live_card.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-class RecordedLiveScreen extends StatelessWidget {
+class RecordedLiveScreen extends StatefulWidget {
   const RecordedLiveScreen({super.key});
 
-  final List<Map<String, dynamic>> liveClass = const [
-    {
-      'img':"assets/images/course1.png",
-      "time": "09.00 AM",
-      'date': "12 may 2025",
-      'title': "Foundation Class 25-26 for students from class 6 - 7 foundation",
-    },
-    {
-      'img':"assets/images/course2.png",
-      'time': "10.00 Am",
-      'date': "10 may 2025",
-      'title': "Foundation Class 25-26 for students from class 6 - 7 foundation"
-    }
-  ];
+  @override
+  State<RecordedLiveScreen> createState() => _RecordedLiveScreenState();
+}
+
+class _RecordedLiveScreenState extends State<RecordedLiveScreen> {
+  LiveClassProvider completedLiveClassProvider = LiveClassProvider();
+
+  Future<void> getCompletedLiveClasses() async {
+    final liveClassProvider = context.read<LiveClassProvider>();
+    await liveClassProvider.fetchLiveClasses(context);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getCompletedLiveClasses();
+  }
 
   @override
   Widget build(BuildContext context) {
-   return Scaffold(
-    backgroundColor: AppColor.liveScreenBackground,
-      body: ListView.builder(
-        itemCount: liveClass.length,
-        itemBuilder: (context, index){ 
-          final live =liveClass[index];
-        return Column(
-          children: [
-            LiveCard(
-              img: live['img'],
-              time: live['time'],
-              date: live['date'],
-              title:live['title'],
-            ),
-          ],
-        );
-        }
-      )
-    );
+    completedLiveClassProvider = context.watch<LiveClassProvider>();
+
+    return Scaffold(
+        backgroundColor: AppColor.liveScreenBackground,
+        body: completedLiveClassProvider.isLoading
+        ? Center(child: CircularProgressIndicator())
+        : ListView.builder(
+            itemCount: (completedLiveClassProvider.completedLiveClasses[0].months?[0].data ?? []).length,
+            itemBuilder: (context, index) {
+              final live = (completedLiveClassProvider.completedLiveClasses[0].months?[0].data ?? [])[index];
+              return Column(
+                children: [
+                  LiveCard(
+                    img: live.avatar ?? "",
+                    time: live.start ?? "",
+                    date: live.start ?? "",
+                    title: live.title ?? "",
+                  ),
+                ],
+              );
+            }));
   }
 }

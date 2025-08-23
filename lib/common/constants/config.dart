@@ -25,3 +25,7 @@ const chapterVideoUrl = 'Newapi/chapterVideos';
 const attendedTestsUrl = "Newapi/getAttendedTests";
 const ongoingTestsUrl = "Newapi/getOngoingTests";
 const upcomingTestsUrl = "Newapi/getUpcomingTests";
+
+// Live Classes
+
+const liveClassesUrl = "Newapi/getLiveClasses";
