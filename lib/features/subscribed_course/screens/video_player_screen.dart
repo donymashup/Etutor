@@ -7,7 +7,7 @@ import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 class VideoPlayerScreen extends StatefulWidget {
   final String videolink;
   final String videoTitle;
-  final String videoSource; 
+  final String videoSource;
   final String videohls;
 
   const VideoPlayerScreen({
@@ -118,7 +118,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
             ? const Center(child: CircularProgressIndicator())
             : Column(
                 children: [
-                  // 🎥 Video Player (Dynamic)
+                  //  Video Player (Dynamic)
                   AspectRatio(
                     aspectRatio: 16 / 9,
                     child: widget.videoSource == "2"

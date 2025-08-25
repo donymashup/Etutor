@@ -192,7 +192,7 @@ class TestSeriesCard extends StatelessWidget {
                             Icons.hourglass_bottom, "Duration", duration),
                         _iconLabelValue(
                           isOngoing ? Icons.help_outline : Icons.flag_outlined,
-                          isOngoing ? "Questions" : "Marks",
+                          isOngoing ? "Questions" : "Total Marks",
                           isOngoing ? questionCount : marks,
                         ),
                       ],
