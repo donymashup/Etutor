@@ -1,6 +1,7 @@
 import 'package:etutor/common/constants/app_constants.dart';
 import 'package:etutor/features/live/provider/live_class_provider.dart';
 import 'package:etutor/features/live/widgets/live_card.dart';
+import 'package:etutor/features/subscribed_course/screens/video_player_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -22,7 +23,6 @@ class _RecordedLiveScreenState extends State<RecordedLiveScreen> {
   @override
   void initState() {
     super.initState();
-    getCompletedLiveClasses();
   }
 
   @override
@@ -31,22 +31,29 @@ class _RecordedLiveScreenState extends State<RecordedLiveScreen> {
 
     return Scaffold(
         backgroundColor: AppColor.liveScreenBackground,
-        body: completedLiveClassProvider.isLoading
-        ? Center(child: CircularProgressIndicator())
-        : ListView.builder(
-            itemCount: (completedLiveClassProvider.completedLiveClasses[0].months?[0].data ?? []).length,
-            itemBuilder: (context, index) {
-              final live = (completedLiveClassProvider.completedLiveClasses[0].months?[0].data ?? [])[index];
-              return Column(
-                children: [
-                  LiveCard(
-                    img: live.avatar ?? "",
-                    time: live.start ?? "",
-                    date: live.start ?? "",
-                    title: live.title ?? "",
-                  ),
-                ],
-              );
-            }));
+        body: ListView.builder(
+                itemCount:
+                    (completedLiveClassProvider.completedLiveMonth.data ?? [])
+                        .length,
+                itemBuilder: (context, index) {
+                  final live =
+                      (completedLiveClassProvider.completedLiveMonth.data ??
+                          [])[index];
+                  return GestureDetector(
+                    onTap: () => Navigator.of(context, rootNavigator: true).push(
+                        MaterialPageRoute(
+                            builder: (context) => VideoPlayerScreen(
+                                videolink: live.url ?? "url",
+                                videoTitle: live.title ?? "Title",
+                                videoSource: live.source ?? "",
+                                videohls: live.hls ?? ""))),
+                    child: LiveCard(
+                      img: live.avatar ?? "",
+                      time: live.start ?? "",
+                      date: live.start ?? "",
+                      title: live.title ?? "",
+                    ),
+                  );
+                }));
   }
 }

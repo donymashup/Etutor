@@ -14,6 +14,12 @@ class LiveClassProvider extends ChangeNotifier {
   List<Completed> _completedLiveClasses = [];
   List<Completed> get completedLiveClasses => _completedLiveClasses;
 
+  Completed _completedLiveYear = Completed();
+  Completed get completedLiveYear => _completedLiveYear;
+
+  Months _completedLiveMonth = Months();
+  Months get completedLiveMonth => _completedLiveMonth;
+
   Future<void> fetchLiveClasses(BuildContext context) async {
     isLoading = true;
     notifyListeners();
@@ -39,5 +45,17 @@ class LiveClassProvider extends ChangeNotifier {
 
     isLoading = false;
     notifyListeners();
+  }
+
+  void setYear(String yearName) {
+    _completedLiveYear = _completedLiveClasses
+        .firstWhere((completedLiveYear) => completedLiveYear.name == yearName);
+  }
+
+  void setMonth(String monthName) {
+    _completedLiveMonth = (_completedLiveYear.months ?? []).firstWhere(
+      (completedLiveMonth) => completedLiveMonth.name == monthName,
+      orElse: () => Months(data: []),
+    );
   }
 }

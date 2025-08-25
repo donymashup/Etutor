@@ -1,6 +1,7 @@
 import 'package:etutor/common/constants/app_constants.dart';
 import 'package:etutor/features/live/screens/ongoing_live_screen.dart';
 import 'package:etutor/features/live/screens/recorded_live_screen.dart';
+import 'package:etutor/features/live/screens/recorded_navigator.dart';
 import 'package:etutor/features/live/screens/recorded_years_screen.dart';
 import 'package:etutor/features/live/screens/upcoming_live_screen.dart';
 import 'package:etutor/features/test_series/widgets/tapbtn_testseries.dart';
@@ -23,7 +24,7 @@ class _LiveScreenState extends State<LiveScreen>
   final List<Widget> _body = [
     OngoingLiveScreen(),
     UpcomingLiveScreen(),
-    RecordedYearsScreen()
+    RecordedNavigator()
   ];
 
   @override
