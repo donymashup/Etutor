@@ -54,6 +54,7 @@ class _MyCoursePageState extends State<MyCoursePage> {
   @override
   Widget build(BuildContext context) {
   courseProvider = context.watch<MyCourseProvider>();
+  
 
     return Scaffold(
       backgroundColor: AppColor.whiteColor,
@@ -105,6 +106,7 @@ class _MyCoursePageState extends State<MyCoursePage> {
                                 final course = courseProvider.subscribedCourse[index];
                                 return GestureDetector(
                                   onTap: () {
+                                    context.read<MyCourseProvider>().getbatchid(course.batchId ?? '');
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
@@ -303,7 +305,7 @@ class _MyCoursePageState extends State<MyCoursePage> {
                   itemBuilder: (context, index) {
                     final imagePath = testCardImages[index];
                     return GestureDetector(
-                      onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => QuizInstructionPage())),
+                      onTap: () {},
                       child: Container(
                         width: MediaQuery.of(context).size.width * 0.15 < 120
                             ? 120

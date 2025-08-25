@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:etutor/features/auth/provider/login_provider.dart';
 import 'package:etutor/features/auth/screen/phone_number_auth.dart';
 import 'package:etutor/features/home/provider/user_details_provider.dart';
@@ -12,6 +13,7 @@ import 'package:etutor/common/constants/app_constants.dart';
 import 'package:etutor/features/drawer/widgets/drawer_item.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:shimmer/shimmer.dart';
 
 class SideDrawer extends StatelessWidget {
   const SideDrawer({super.key});
@@ -71,15 +73,34 @@ class SideDrawer extends StatelessWidget {
                     ),
                     child: Row(
                       children: [
-                        CircleAvatar(
-                          radius: 36,
-                          backgroundImage: userDetails?.image != null &&
-                                  userDetails!.image!.isNotEmpty
-                              ? NetworkImage(userDetails.image!)
-                              : const AssetImage(
-                                      'assets/images/default_user_image.png')
-                                  as ImageProvider,
+                        CachedNetworkImage(
+                          imageUrl: userDetails!.image!,
+                          imageBuilder: (context, imageProvider) => CircleAvatar(
+                            radius: 36,
+                            backgroundImage: imageProvider,
+                          ),
+                          placeholder: (context, url) => Shimmer.fromColors(
+                            baseColor: Colors.grey[300]!,
+                            highlightColor: Colors.grey[100]!,
+                            child: const CircleAvatar(
+                              radius: 25,
+                              backgroundColor: Colors.grey,
+                            ),
+                          ),
+                          errorWidget: (context, url, error) => const CircleAvatar(
+                            radius: 25,
+                            backgroundImage: AssetImage('assets/images/default_user_image.png'),
+                          ),
                         ),
+                        // CircleAvatar(
+                        //   radius: 36,
+                        //   backgroundImage: userDetails?.image != null &&
+                        //           userDetails!.image!.isNotEmpty
+                        //       ? NetworkImage(userDetails.image!)
+                        //       : const AssetImage(
+                        //               'assets/images/default_user_image.png')
+                        //           as ImageProvider,
+                        // ),
                         const SizedBox(width: 16),
                         Expanded(
                           child: Column(

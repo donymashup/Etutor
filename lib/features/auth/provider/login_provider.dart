@@ -29,7 +29,7 @@ class LoginProvider extends ChangeNotifier{
   String get code => _code;
   String get countrysign => _countrysign;
   String? get token => _token;
-  bool? get isExist => _isExist;
+   bool? get isExist => _isExist;
   int? get otp => _otp;
   List<RegisterModel> get registerResponse => _register;
   List<Syllabus> get syllabus => _syllabus;
@@ -50,10 +50,18 @@ Future login (BuildContext context,String password) async {
        debugPrint(_token);
       }else{
          _login = [];
+          isLoding = false;
+         notifyListeners();
         } 
       isLoding = false;
       notifyListeners();
   }
+ 
+ // reset the loding to false
+ void resetLoading(){
+  isLoding = false;
+  notifyListeners();
+ }
 
   Future checkMobileExist (BuildContext context,String phoneNumber,String code) async {
     isLoding = true;
@@ -62,9 +70,11 @@ Future login (BuildContext context,String password) async {
       context: context, 
       phone:phoneNumber, 
       code: code, );
-
+     isLoding = false;
+    notifyListeners();
     if (response == null)
-    {_isExist = null;
+    {
+     _isExist = null;
     }else{
     _isExist = response.exists;
     _otp = response.otp;

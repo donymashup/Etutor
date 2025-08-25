@@ -1,4 +1,5 @@
 import 'package:etutor/features/subscribed_course/model/course_chapter_model.dart' as coursechapterModel;
+import 'package:etutor/features/subscribed_course/model/rating_model.dart';
 import 'package:etutor/features/subscribed_course/model/subjects_model.dart';
 import 'package:flutter/material.dart';
 import 'package:etutor/features/subscribed_course/model/course_classes_model.dart';
@@ -9,6 +10,8 @@ class SubcribedCourseProvider extends ChangeNotifier {
   int? _expandedIndex ;
   bool _isLoadingsubjects = false;
   bool _isLoadingchapter = false; 
+  bool _isLoadingrating =false;
+  bool get isLoadingrating => _isLoadingrating;
   CourseClassesModel? _courseClasses;
   List<coursechapterModel.Data?> _courseChapter = [];
 
@@ -19,9 +22,15 @@ class SubcribedCourseProvider extends ChangeNotifier {
   CourseClassesModel? get courseClasses => _courseClasses;
   List<coursechapterModel.Data?> get courseChapter => _courseChapter;
 
+  
+
   // fetch class list
   SubjectsModel? _courseSubjects;
   SubjectsModel? get courseSubjects => _courseSubjects;
+
+  //fecth rating
+  RatingModel? _ratingCourses;
+  RatingModel? get courseRating => _ratingCourses;
 
 //classes provider
   Future<void> fetchCourseClasses({
@@ -51,6 +60,7 @@ class SubcribedCourseProvider extends ChangeNotifier {
   // fetch chapter list
   Future fetchCourseChapter (BuildContext context,String packageSubjectId) async {
     _isLoadingchapter = true;
+    _expandedIndex = null;
     notifyListeners();
     try {
       final response = await SubscribedCourseService().courseChapters(
@@ -103,4 +113,38 @@ class SubcribedCourseProvider extends ChangeNotifier {
     _isLoadingsubjects = false;
     notifyListeners();
   }
+
+
+  Future<void> updateCourseRating({
+    required BuildContext context,
+    required String courseid,
+    required String rating,
+    required String comment
+  }) async {
+    _isLoadingrating = true;
+    notifyListeners();
+
+    try {
+      final response = await SubscribedCourseService().courseRating(
+        context: context,
+        courseid: courseid,
+        rating: rating,
+        comment: comment,
+      );
+
+      if (response != null && response.type == "success") {
+        _ratingCourses = response;
+      } else {
+        _ratingCourses = null;
+      }
+    } catch (e) {
+      debugPrint("Error updating course rating  : $e");
+      _ratingCourses = null;
+    }
+
+    _isLoadingrating = false;
+    notifyListeners();
+  }
 }
+
+

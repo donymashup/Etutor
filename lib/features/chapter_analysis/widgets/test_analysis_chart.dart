@@ -2,10 +2,26 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
 class TestAnalysisChart extends StatelessWidget {
-  const TestAnalysisChart({super.key});
+  final double correct;
+  final double wrong;
+  final double unanswered;
+
+  const TestAnalysisChart({
+    super.key,
+    required this.correct,
+    required this.unanswered,
+    required this.wrong,
+  });
 
   @override
   Widget build(BuildContext context) {
+    // Find the maximum value among all
+    final dataMax = [correct, wrong, unanswered].reduce((a, b) => a > b ? a : b);
+
+    // Ensure maxY never goes beyond 50
+    // final maxY = dataMax > 50 ? dataMax + 5 : 50;
+    final maxY = correct + wrong + unanswered + 10;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -17,10 +33,10 @@ class TestAnalysisChart extends StatelessWidget {
           ),
         ),
         SizedBox(
-          height: 250,
+          height: 260,
           child: BarChart(
             BarChartData(
-              maxY: 14,
+              maxY: maxY.toDouble(),
               barTouchData: BarTouchData(enabled: false),
               gridData: FlGridData(show: true, drawHorizontalLine: true),
               borderData: FlBorderData(show: false),
@@ -43,17 +59,14 @@ class TestAnalysisChart extends StatelessWidget {
                     },
                   ),
                 ),
-                topTitles:
-                    AxisTitles(sideTitles: SideTitles(showTitles: false)),
-                leftTitles:
-                    AxisTitles(sideTitles: SideTitles(showTitles: false)),
-                rightTitles:
-                    AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                topTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                leftTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                rightTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
               ),
               barGroups: [
-                _makeGroup(0, 3, Colors.orange), // Unanswered
-                _makeGroup(1, 5, Colors.green), // Correct
-                _makeGroup(2, 12, Colors.red), // Wrong
+                _makeGroup(0, correct, Colors.green),
+                _makeGroup(1, wrong, Colors.red),
+                _makeGroup(2, unanswered, Colors.orange),
               ],
             ),
           ),
@@ -87,11 +100,17 @@ class TestAnalysisChart extends StatelessWidget {
             topLeft: Radius.circular(8),
             topRight: Radius.circular(8),
           ),
-          rodStackItems: [],
+          rodStackItems: [
+            BarChartRodStackItem(
+              0,
+              y,
+              color,
+              BorderSide.none,
+            ),
+          ],
         ),
       ],
       showingTooltipIndicators: [0],
-      barsSpace: 4,
     );
   }
 }
@@ -111,12 +130,11 @@ class _LegendItem extends StatelessWidget {
           height: 14,
           decoration: BoxDecoration(
             color: color,
-            shape: BoxShape.rectangle,
             borderRadius: BorderRadius.circular(4),
           ),
         ),
         const SizedBox(width: 6),
-        Text(text, style: TextStyle(fontSize: 14)),
+        Text(text, style: const TextStyle(fontSize: 14)),
       ],
     );
   }

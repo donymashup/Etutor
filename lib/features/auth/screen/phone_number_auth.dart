@@ -29,11 +29,17 @@ class _PhoneNumberAuthState extends State<PhoneNumberAuth> {
   @override
   Widget build(BuildContext context) {
     final isLoading = context.watch<LoginProvider>().isLoding;
+
+    if(isLoading){
+      return Scaffold(
+        backgroundColor: AppColor.primaryColor,
+      body: Center(child: Lottie.asset('assets/lottie/lottieloading1.json'))
+      );
+    }
     return Scaffold(
       backgroundColor: AppColor.primaryColor,
-      body: isLoading
-          ?  Center(child: Lottie.asset('assets/lottie/lottieloading1.json'))
-          : SingleChildScrollView(
+      body:
+          SingleChildScrollView(
               child: Column(
                 children: [                 
                   const SizedBox(height: 30),
@@ -139,8 +145,7 @@ class _PhoneNumberAuthState extends State<PhoneNumberAuth> {
                                     context.read<LoginProvider>();
                                 loginProvider.setPhoneNumber(phoneNumber, code, countrysign);
 
-                                await loginProvider.checkMobileExist(
-                                    context, phoneNumber, code);
+                                await loginProvider.checkMobileExist(context, phoneNumber, code);
                                 if (loginProvider.isExist != null) {
                                   if (loginProvider.isExist! == true) {
                                     showSnackbar(context, 'Welcome Back, Enter password to complete login');
@@ -160,6 +165,7 @@ class _PhoneNumberAuthState extends State<PhoneNumberAuth> {
                                   }
                                 } else {
                                  showSnackbar(context, 'Something went wrong could not proceed try again');
+                                  loginProvider.resetLoading();
                                 }
                               } else {
                                showSnackbar(context, 'Please enter a valid phone number');

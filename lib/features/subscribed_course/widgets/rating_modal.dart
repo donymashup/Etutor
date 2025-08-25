@@ -1,19 +1,26 @@
 import 'package:etutor/common/constants/app_constants.dart';
+import 'package:etutor/features/subscribed_course/provider/subcribed_course_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
+import 'package:provider/provider.dart';
 
-void showRatingDialog(BuildContext context) {
+void showRatingDialog(BuildContext context, String courseId) {
   showModalBottomSheet(
     context: context,
     isScrollControlled: true,
     backgroundColor: Colors.transparent,
     isDismissible: true,
     enableDrag: true,
-    builder: (context) => _RatingBottomSheet(),
+    builder: (context) => _RatingBottomSheet(courseid: courseId),
   );
 }
 
 class _RatingBottomSheet extends StatefulWidget {
+  final String courseid;
+  const _RatingBottomSheet({
+    required this.courseid,
+  });
+
   @override
   _RatingBottomSheetState createState() => _RatingBottomSheetState();
 }
@@ -26,6 +33,8 @@ class _RatingBottomSheetState extends State<_RatingBottomSheet>
   late AnimationController _heightAnimationController;
   late Animation<double> _heightAnimation;
 
+  bool isLoading = false;
+
   @override
   void initState() {
     super.initState();
@@ -34,8 +43,8 @@ class _RatingBottomSheetState extends State<_RatingBottomSheet>
       vsync: this,
     );
     _heightAnimation = Tween<double>(
-      begin: 0.5, // Small initial height (50% of screen)
-      end: 0.85,  // Expanded height (85% of screen)
+      begin: 0.5,
+      end: 0.85,
     ).animate(CurvedAnimation(
       parent: _heightAnimationController,
       curve: Curves.easeInOut,
@@ -71,8 +80,55 @@ class _RatingBottomSheetState extends State<_RatingBottomSheet>
     setState(() {
       selectedRating = rating;
     });
-    // Expand modal when rating is selected
     _heightAnimationController.forward();
+  }
+
+  Future<void> _submitFeedback() async {
+    if (selectedRating == 0) return;
+    setState(() => isLoading = true);
+    textFieldFocusNode.unfocus();
+
+    try {
+      await Provider.of<SubcribedCourseProvider>(
+        context,
+        listen: false,
+      ).updateCourseRating(
+        context: context,
+        courseid: widget.courseid,
+        rating: selectedRating.toString(),
+        comment: suggestionController.text.trim(),
+      );
+
+      if (mounted) {
+        Navigator.of(context).pop();
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Row(
+              children: [
+                const Icon(
+                  Icons.check_circle,
+                  color: Colors.white,
+                  size: 20,
+                ),
+                const SizedBox(width: 8),
+                Text(
+                  "Thanks for your ${selectedRating}★ feedback!",
+                  style: const TextStyle(fontSize: 14),
+                ),
+              ],
+            ),
+            backgroundColor: Colors.green[600],
+            behavior: SnackBarBehavior.floating,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+            margin: const EdgeInsets.all(16),
+          ),
+        );
+      }
+    } finally {
+      if (mounted) setState(() => isLoading = false);
+    }
   }
 
   @override
@@ -82,7 +138,6 @@ class _RatingBottomSheetState extends State<_RatingBottomSheet>
       builder: (context, child) {
         return GestureDetector(
           onTap: () {
-            // Dismiss keyboard when tapping outside
             textFieldFocusNode.unfocus();
           },
           child: Container(
@@ -93,7 +148,7 @@ class _RatingBottomSheetState extends State<_RatingBottomSheet>
             ),
             child: Column(
               children: [
-                // Fixed header with only close button
+                // header
                 Container(
                   padding: const EdgeInsets.only(
                     left: 16.0,
@@ -104,7 +159,6 @@ class _RatingBottomSheetState extends State<_RatingBottomSheet>
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      // Drag handle
                       Container(
                         width: 40,
                         height: 4,
@@ -114,7 +168,6 @@ class _RatingBottomSheetState extends State<_RatingBottomSheet>
                           borderRadius: BorderRadius.circular(2),
                         ),
                       ),
-                      // Close button
                       Align(
                         alignment: Alignment.topRight,
                         child: GestureDetector(
@@ -132,7 +185,7 @@ class _RatingBottomSheetState extends State<_RatingBottomSheet>
                     ],
                   ),
                 ),
-                // Scrollable content - everything from lottie onwards
+                // body
                 Expanded(
                   child: SingleChildScrollView(
                     padding: EdgeInsets.only(
@@ -142,7 +195,6 @@ class _RatingBottomSheetState extends State<_RatingBottomSheet>
                     ),
                     child: Column(
                       children: [
-                        // Lottie animation
                         SizedBox(
                           height: 150,
                           child: Lottie.asset(
@@ -151,7 +203,6 @@ class _RatingBottomSheetState extends State<_RatingBottomSheet>
                           ),
                         ),
                         const SizedBox(height: 16),
-                        // Title
                         const Text(
                           "Rate your course experience",
                           style: TextStyle(
@@ -161,7 +212,6 @@ class _RatingBottomSheetState extends State<_RatingBottomSheet>
                           textAlign: TextAlign.center,
                         ),
                         const SizedBox(height: 20),
-                        // Star rating
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: List.generate(5, (index) {
@@ -181,7 +231,6 @@ class _RatingBottomSheetState extends State<_RatingBottomSheet>
                           }),
                         ),
                         const SizedBox(height: 12),
-                        // Rating text
                         AnimatedSwitcher(
                           duration: const Duration(milliseconds: 300),
                           child: selectedRating > 0
@@ -191,9 +240,9 @@ class _RatingBottomSheetState extends State<_RatingBottomSheet>
                                   style: TextStyle(
                                     fontSize: 16,
                                     fontWeight: FontWeight.w500,
-                                    color: selectedRating >= 4 
-                                        ? Colors.green[600] 
-                                        : selectedRating == 3 
+                                    color: selectedRating >= 4
+                                        ? Colors.green[600]
+                                        : selectedRating == 3
                                             ? Colors.orange[600]
                                             : Colors.red[600],
                                   ),
@@ -201,7 +250,6 @@ class _RatingBottomSheetState extends State<_RatingBottomSheet>
                               : const SizedBox.shrink(),
                         ),
                         const SizedBox(height: 20),
-                        // Review section - only show when rating is selected
                         AnimatedSwitcher(
                           duration: const Duration(milliseconds: 500),
                           transitionBuilder: (child, animation) {
@@ -232,14 +280,16 @@ class _RatingBottomSheetState extends State<_RatingBottomSheet>
                                     Container(
                                       decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(12),
-                                        border: Border.all(color: Colors.grey.shade300),
+                                        border: Border.all(
+                                            color: Colors.grey.shade300),
                                       ),
                                       child: TextField(
                                         controller: suggestionController,
                                         focusNode: textFieldFocusNode,
                                         maxLines: 4,
                                         maxLength: 500,
-                                        textInputAction: TextInputAction.newline,
+                                        textInputAction:
+                                            TextInputAction.newline,
                                         decoration: InputDecoration(
                                           hintText: selectedRating >= 4
                                               ? "Tell us what you loved about the course..."
@@ -251,13 +301,15 @@ class _RatingBottomSheetState extends State<_RatingBottomSheet>
                                             fontSize: 14,
                                           ),
                                           border: InputBorder.none,
-                                          contentPadding: const EdgeInsets.all(16),
+                                          contentPadding:
+                                              const EdgeInsets.all(16),
                                           counterStyle: TextStyle(
                                             color: Colors.grey[600],
                                             fontSize: 12,
                                           ),
                                         ),
-                                        style: const TextStyle(fontSize: 14),
+                                        style:
+                                            const TextStyle(fontSize: 14),
                                       ),
                                     ),
                                     const SizedBox(height: 24),
@@ -265,58 +317,42 @@ class _RatingBottomSheetState extends State<_RatingBottomSheet>
                                 )
                               : const SizedBox.shrink(key: ValueKey('empty')),
                         ),
-                        // Submit button
                         SizedBox(
                           width: double.infinity,
                           height: 50,
                           child: ElevatedButton(
-                            onPressed: selectedRating == 0
-                                ? null
-                                : () {
-                                    textFieldFocusNode.unfocus();
-                                    Navigator.of(context).pop();
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                        content: Row(
-                                          children: [
-                                            const Icon(
-                                              Icons.check_circle,
-                                              color: Colors.white,
-                                              size: 20,
-                                            ),
-                                            const SizedBox(width: 8),
-                                            Text(
-                                              "Thanks for your ${selectedRating}★ feedback!",
-                                              style: const TextStyle(fontSize: 14),
-                                            ),
-                                          ],
-                                        ),
-                                        backgroundColor: Colors.green[600],
-                                        behavior: SnackBarBehavior.floating,
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(10),
-                                        ),
-                                        margin: const EdgeInsets.all(16),
-                                      ),
-                                    );
-                                  },
+                            onPressed:
+                                (selectedRating == 0 || isLoading)
+                                    ? null
+                                    : _submitFeedback,
                             style: ElevatedButton.styleFrom(
                               backgroundColor: selectedRating == 0
                                   ? Colors.grey[300]
-                                  : AppColor.secondaryColor, 
+                                  : AppColor.secondaryColor,
                               foregroundColor: Colors.white,
                               elevation: selectedRating == 0 ? 0 : 2,
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(12),
                               ),
                             ),
-                            child: Text(
-                              selectedRating == 0 ? "Select a rating" : "Submit Feedback",
-                              style: const TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
+                            child: isLoading
+                                ? const SizedBox(
+                                    width: 22,
+                                    height: 22,
+                                    child: CircularProgressIndicator(
+                                      strokeWidth: 2.5,
+                                      color: Colors.white,
+                                    ),
+                                  )
+                                : Text(
+                                    selectedRating == 0
+                                        ? "Select a rating"
+                                        : "Submit Feedback",
+                                    style: const TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
                           ),
                         ),
                         const SizedBox(height: 20),

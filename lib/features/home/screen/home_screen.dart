@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:etutor/common/widgets/grid_shimmer_loader.dart';
 import 'package:etutor/features/auth/provider/login_provider.dart';
 import 'package:etutor/features/home/model/user_details_model.dart';
@@ -18,6 +19,7 @@ import 'package:etutor/features/notification/screens/notification_page.dart';
 import 'package:etutor/features/profile/screens/profile.dart';
 import 'package:etutor/features/home/widgets/category_button.dart';
 import 'package:etutor/features/home/widgets/courses_list.dart';
+import 'package:shimmer/shimmer.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -90,33 +92,12 @@ class _HomePageState extends State<HomePage> {
                                       MaterialPageRoute(
                                           builder: (_) => const Profile()),
                                     );
+                                    _userDetails();
                                   },
-                                  child: CircleAvatar(
-                                    radius: 30,
-                                    backgroundImage: context
-                                            .watch<UserDetailsProvider>()
-                                            .isLoading
-                                        ? const AssetImage(
-                                                'assets/images/default_user_image.png')
-                                            as ImageProvider
-                                        : ((userProvider.userDetails.data ??
-                                                            Data())
-                                                        .image !=
-                                                    null &&
-                                                ((userProvider.userDetails
-                                                                    .data ??
-                                                                Data())
-                                                            .image ??
-                                                        "")
-                                                    .isNotEmpty)
-                                            ? NetworkImage((userProvider
-                                                        .userDetails.data ??
-                                                    Data())
-                                                .image!)
-                                            : const AssetImage(
-                                                    'assets/images/default_user_image.png')
-                                                as ImageProvider,
-                                  ),
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                                  child: _buildProfileAvatar(userProvider),
+                                ),
                                 ),
                                 const SizedBox(width: 12),
                                 Expanded(
@@ -368,7 +349,7 @@ class _HomePageState extends State<HomePage> {
               : 
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (_) => const CourseDetailsScreen()),
+                MaterialPageRoute(builder: (_) =>  CourseDetailsScreen(courseId: course["id"],)),
               );
             },
             child: CoursesList(
@@ -378,6 +359,39 @@ class _HomePageState extends State<HomePage> {
             ),
           );
         },
+      ),
+    );
+  }
+
+
+   Widget _buildProfileAvatar(UserDetailsProvider userProvider) {
+    final imageUrl = userProvider.userDetails.data?.image ?? "";
+
+    if (imageUrl.isEmpty) {
+      // Default image if user has no profile image
+      return const CircleAvatar(
+        radius: 25,
+        backgroundImage: AssetImage('assets/images/default_user_image.png'),
+      );
+    }
+
+    return CachedNetworkImage(
+      imageUrl: imageUrl,
+      imageBuilder: (context, imageProvider) => CircleAvatar(
+        radius: 25,
+        backgroundImage: imageProvider,
+      ),
+      placeholder: (context, url) => Shimmer.fromColors(
+        baseColor: Colors.grey[300]!,
+        highlightColor: Colors.grey[100]!,
+        child: const CircleAvatar(
+          radius: 25,
+          backgroundColor: Colors.grey,
+        ),
+      ),
+      errorWidget: (context, url, error) => const CircleAvatar(
+        radius: 25,
+        backgroundImage: AssetImage('assets/images/default_user_image.png'),
       ),
     );
   }

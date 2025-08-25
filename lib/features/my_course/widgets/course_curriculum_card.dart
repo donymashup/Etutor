@@ -7,14 +7,16 @@ class CourseCurriculumCard extends StatefulWidget {
   final String title;
   final String classname;
   final String subject;
-  final List<String> items;
+  final List<String> names;
+  final List<String> status;
   final Function() onPressed;
 
   const CourseCurriculumCard({
     required this.title,
     required this.classname,
     required this.subject,
-    required this.items,
+    required this.names,
+    required this.status,
     required this.onPressed,
     super.key,
   });
@@ -59,19 +61,19 @@ class _CourseCurriculumCardState extends State<CourseCurriculumCard> {
             ),
 
             // Curriculum items list
-            children: List.generate(widget.items.length, (index) {
-              final item = widget.items[index];
-              final isFree = index == 0; // First item is free
+            children: List.generate(widget.names.length, (index) {
+              final name = widget.names[index];
+              final isFree = widget.status[index] != "paid"; // First item is free
 
               return Padding(
-                padding: index == (widget.items.length - 1)
+                padding: index == (widget.names.length - 1)
                     ? const EdgeInsets.only(
                         left: 16, right: 16, top: 5, bottom: 16)
                     : const EdgeInsets.only(
                         left: 16, right: 16, top: 5, bottom: 5),
                 child: ListTile(
                   tileColor: AppColor.greyCardBackground,
-                  title: Text(item, style: const TextStyle(fontSize: 16)),
+                  title: Text(name, style: const TextStyle(fontSize: 16)),
 
                   // Trailing icon or "Free" label
                   trailing: isFree
