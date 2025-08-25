@@ -160,7 +160,10 @@ Future <void> _load()async{
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => CheckoutScreen(),
+                          builder: (context) => CheckoutScreen(
+                            image: courseDetailsProvider.courseDetails.image ?? '',
+                             name: courseDetailsProvider.courseDetails.name ?? '',
+                             price:  courseDetailsProvider.courseDetails.price ?? '',),
                         ),
                       );
                     },

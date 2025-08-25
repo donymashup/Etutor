@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:etutor/common/constants/app_constants.dart';
 import 'package:etutor/common/widgets/back_button.dart';
 import 'package:etutor/common/widgets/custom_button.dart';
@@ -7,13 +8,21 @@ import 'package:etutor/features/payment/screen/payment_succesfull.dart';
 import 'package:etutor/features/payment/screen/voucher_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shimmer/shimmer.dart';
 
 class CheckoutScreen extends StatelessWidget {
-  CheckoutScreen({super.key});
+  final String image;
+  final String name;
+  final String price;
+  CheckoutScreen(
+      {super.key,
+      required this.image,
+      required this.name,
+      required this.price});
 
   @override
   Widget build(BuildContext context) {
-    final selected = context.watch<PaymentProvider>().selectedPayment;
+    //final selected = context.watch<PaymentProvider>().selectedPayment;
     final selectedVoucher = context.watch<PaymentProvider>().selectedVoucher;
     bool isCoinApplied = false;
     return Scaffold(
@@ -64,16 +73,42 @@ class CheckoutScreen extends StatelessWidget {
                                 children: [
                                   ClipRRect(
                                     borderRadius: BorderRadius.circular(10),
-                                    child: Image.asset(
-                                      "assets/images/course1.png",
-                                      width:
-                                          MediaQuery.of(context).size.width * .3,
+                                    child: CachedNetworkImage(
+                                      imageUrl: image,
+                                      width: MediaQuery.of(context).size.width *
+                                          .3,
+                                      fit: BoxFit.cover, // Adjust as needed
+                                      placeholder: (context, url) =>
+                                          Shimmer.fromColors(
+                                        baseColor: Colors.grey[300]!,
+                                        highlightColor: Colors.grey[100]!,
+                                        child: Container(
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              .3,
+                                          height: 150,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                      errorWidget: (context, url, error) =>
+                                          Container(
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                .3,
+                                        height: 150,
+                                        color: Colors.grey[300],
+                                        child: Icon(
+                                          Icons.error,
+                                          color: Colors.red,
+                                        ),
+                                      ),
                                     ),
                                   ),
                                   SizedBox(width: 5),
                                   Expanded(
                                     child: Text(
-                                      "Class 06 Foundation 25-26",
+                                      name,
                                       style: TextStyle(
                                         fontSize: 16,
                                         fontWeight: FontWeight.w600,
@@ -100,7 +135,7 @@ class CheckoutScreen extends StatelessWidget {
                                             fontSize: 13),
                                       ),
                                       TextSpan(
-                                        text: "₹10000",
+                                        text: price,
                                         style: TextStyle(
                                             color: AppColor.primaryColor,
                                             fontSize: 15,
@@ -115,235 +150,233 @@ class CheckoutScreen extends StatelessWidget {
                           ],
                         ),
                       ),
-                            
+
                       // Voucher card
-                      Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          color: selectedVoucher != null
-                              ? AppColor.lighBlueBackground
-                              : AppColor.whiteColor,
-                          border: selectedVoucher != null
-                              ? Border.all(color: AppColor.primaryColor)
-                              : null,
-                        ),
-                        margin: EdgeInsets.symmetric(vertical: 10),
-                        child: Column(
-                          children: [
-                            SizedBox(height: 5),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Image.asset("assets/icons/clipIcon.png"),
-                                SizedBox(width: 5),
-                                Text("Voucher"),
-                              ],
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(10),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      GestureDetector(
+                        onTap: () {
+                          selectedVoucher != null
+                              ? context.read<PaymentProvider>().clearVoucher()
+                              : Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => VoucherScreen()),
+                                );
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: selectedVoucher != null
+                                ? AppColor.lighBlueBackground
+                                : AppColor.whiteColor,
+                            border: selectedVoucher != null
+                                ? Border.all(color: AppColor.primaryColor)
+                                : null,
+                          ),
+                          margin: EdgeInsets.symmetric(vertical: 10),
+                          child: Column(
+                            children: [
+                              SizedBox(height: 5),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
-                                  Flexible(
-                                    child: Row(
-                                      children: [
-                                        Container(
-                                          height: 40,
-                                          width: 40,
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(5),
-                                            color: AppColor.fileIconColour,
-                                          ),
-                                          child: Icon(
-                                            Icons.discount_outlined,
-                                            color: AppColor.whiteColor,
-                                            size: 20,
-                                          ),
-                                        ),
-                                        SizedBox(width: 10),
-                                        Expanded(
-                                          child: Text(
-                                            selectedVoucher ??
-                                                "Select Voucher or Promo Code",
-                                            maxLines: 2,
-                                            style: TextStyle(
-                                              color: selectedVoucher != null
-                                                  ? AppColor.primaryColor
-                                                  : Colors.black,
-                                              fontWeight: selectedVoucher != null
-                                                  ? FontWeight.w500
-                                                  : FontWeight.normal,
+                                  Image.asset("assets/icons/clipIcon.png"),
+                                  SizedBox(width: 5),
+                                  Text("Voucher"),
+                                ],
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(10),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Flexible(
+                                      child: Row(
+                                        children: [
+                                          Container(
+                                            height: 40,
+                                            width: 40,
+                                            decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(5),
+                                              color: AppColor.fileIconColour,
+                                            ),
+                                            child: Icon(
+                                              Icons.discount_outlined,
+                                              color: AppColor.whiteColor,
+                                              size: 20,
                                             ),
                                           ),
-                                        ),
-                                      ],
+                                          SizedBox(width: 10),
+                                          Expanded(
+                                            child: Text(
+                                              selectedVoucher ??
+                                                  "Select Voucher or Promo Code",
+                                              maxLines: 2,
+                                              style: TextStyle(
+                                                color: selectedVoucher != null
+                                                    ? AppColor.primaryColor
+                                                    : Colors.black,
+                                                fontWeight:
+                                                    selectedVoucher != null
+                                                        ? FontWeight.w500
+                                                        : FontWeight.normal,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
                                     ),
-                                  ),
-                                  selectedVoucher != null
-                                      ? TextButton(
-                                          onPressed: () => context
-                                              .read<PaymentProvider>()
-                                              .clearVoucher(),
-                                          child: Text(
+                                    selectedVoucher != null
+                                        ?Text(
                                             "remove",
                                             style: TextStyle(
                                                 color: AppColor.primaryColor,
                                                 fontSize: 13),
-                                          ))
-                                      : IconButton(
-                                          onPressed: () {
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      VoucherScreen()),
-                                            );
-                                          },
-                                          icon: Icon(
-                                              Icons.arrow_forward_ios_outlined),
-                                        ),
-                                ],
+                                          )
+                                        :  Icon(Icons.arrow_forward_ios_outlined),
+                                  ],
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
-                            
+
                       // Payment method card
-                      Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          color: selected != null
-                              ? AppColor.lighBlueBackground
-                              : AppColor.whiteColor,
-                          border: selected != null
-                              ? Border.all(color: AppColor.primaryColor)
-                              : null,
-                        ),
-                        margin: EdgeInsets.symmetric(vertical: 10),
-                        child: Column(
-                          children: [
-                            SizedBox(height: 5),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Image.asset("assets/icons/clipIcon.png"),
-                                SizedBox(width: 5),
-                                Text("Payment Method"),
-                              ],
-                            ),
-                            selected == null
-                                ? Padding(
-                                    padding: const EdgeInsets.all(10),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Row(
-                                          children: [
-                                            Container(
-                                              height: 40,
-                                              width: 40,
-                                              decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(5),
-                                                color: AppColor.imageIconColour,
-                                              ),
-                                              child: Icon(
-                                                Icons.payment_outlined,
-                                                color: AppColor.whiteColor,
-                                                size: 20,
-                                              ),
-                                            ),
-                                            SizedBox(width: 10),
-                                            Text("Choose Payment Method"),
-                                          ],
-                                        ),
-                                        IconButton(
-                                          onPressed: () {
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                builder: (context) =>
-                                                    PaymentMethod(),
-                                              ),
-                                            );
-                                          },
-                                          icon: Icon(
-                                              Icons.arrow_forward_ios_outlined),
-                                        ),
-                                      ],
-                                    ),
-                                  )
-                                : Padding(
-                                    padding: const EdgeInsets.all(10),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Expanded(
-                                          child: Row(
-                                            children: [
-                                              Container(
-                                                width: 40,
-                                                height: 40,
-                                                decoration: BoxDecoration(
-                                                    borderRadius:
-                                                        BorderRadius.circular(20),
-                                                    border: Border.all(
-                                                        color:
-                                                            AppColor.greyStroke)),
-                                                child: Padding(
-                                                  padding:
-                                                      const EdgeInsets.all(5.0),
-                                                  child: Image.asset(
-                                                    selected['icon']!,
-                                                  ),
-                                                ),
-                                              ),
-                                              SizedBox(width: 10),
-                                              Flexible(
-                                                child: Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    Text(selected['name']!),
-                                                    Text(
-                                                      selected['info']!,
-                                                      style: TextStyle(
-                                                          color:
-                                                              AppColor.greyText),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        TextButton(
-                                          onPressed: () {
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                builder: (context) =>
-                                                    PaymentMethod(),
-                                              ),
-                                            );
-                                          },
-                                          child: Text(
-                                            "change",
-                                            style: TextStyle(
-                                                color: AppColor.primaryColor),
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                  )
-                          ],
-                        ),
-                      ),
-                            
+                      // Container(
+                      //   decoration: BoxDecoration(
+                      //     borderRadius: BorderRadius.circular(10),
+                      //     color: selected != null
+                      //         ? AppColor.lighBlueBackground
+                      //         : AppColor.whiteColor,
+                      //     border: selected != null
+                      //         ? Border.all(color: AppColor.primaryColor)
+                      //         : null,
+                      //   ),
+                      //   margin: EdgeInsets.symmetric(vertical: 10),
+                      //   child: Column(
+                      //     children: [
+                      //       SizedBox(height: 5),
+                      //       Row(
+                      //         mainAxisAlignment: MainAxisAlignment.start,
+                      //         children: [
+                      //           Image.asset("assets/icons/clipIcon.png"),
+                      //           SizedBox(width: 5),
+                      //           Text("Payment Method"),
+                      //         ],
+                      //       ),
+                      //       selected == null
+                      //           ? Padding(
+                      //               padding: const EdgeInsets.all(10),
+                      //               child: Row(
+                      //                 mainAxisAlignment:
+                      //                     MainAxisAlignment.spaceBetween,
+                      //                 children: [
+                      //                   Row(
+                      //                     children: [
+                      //                       Container(
+                      //                         height: 40,
+                      //                         width: 40,
+                      //                         decoration: BoxDecoration(
+                      //                           borderRadius:
+                      //                               BorderRadius.circular(5),
+                      //                           color: AppColor.imageIconColour,
+                      //                         ),
+                      //                         child: Icon(
+                      //                           Icons.payment_outlined,
+                      //                           color: AppColor.whiteColor,
+                      //                           size: 20,
+                      //                         ),
+                      //                       ),
+                      //                       SizedBox(width: 10),
+                      //                       Text("Choose Payment Method"),
+                      //                     ],
+                      //                   ),
+                      //                   IconButton(
+                      //                     onPressed: () {
+                      //                       Navigator.push(
+                      //                         context,
+                      //                         MaterialPageRoute(
+                      //                           builder: (context) =>
+                      //                               PaymentMethod(),
+                      //                         ),
+                      //                       );
+                      //                     },
+                      //                     icon: Icon(
+                      //                         Icons.arrow_forward_ios_outlined),
+                      //                   ),
+                      //                 ],
+                      //               ),
+                      //             )
+                      //           : Padding(
+                      //               padding: const EdgeInsets.all(10),
+                      //               child: Row(
+                      //                 mainAxisAlignment:
+                      //                     MainAxisAlignment.spaceBetween,
+                      //                 children: [
+                      //                   Expanded(
+                      //                     child: Row(
+                      //                       children: [
+                      //                         Container(
+                      //                           width: 40,
+                      //                           height: 40,
+                      //                           decoration: BoxDecoration(
+                      //                               borderRadius:
+                      //                                   BorderRadius.circular(20),
+                      //                               border: Border.all(
+                      //                                   color:
+                      //                                       AppColor.greyStroke)),
+                      //                           child: Padding(
+                      //                             padding:
+                      //                                 const EdgeInsets.all(5.0),
+                      //                             child: Image.asset(
+                      //                               selected['icon']!,
+                      //                             ),
+                      //                           ),
+                      //                         ),
+                      //                         SizedBox(width: 10),
+                      //                         Flexible(
+                      //                           child: Column(
+                      //                             crossAxisAlignment:
+                      //                                 CrossAxisAlignment.start,
+                      //                             children: [
+                      //                               Text(selected['name']!),
+                      //                               Text(
+                      //                                 selected['info']!,
+                      //                                 style: TextStyle(
+                      //                                     color:
+                      //                                         AppColor.greyText),
+                      //                               ),
+                      //                             ],
+                      //                           ),
+                      //                         ),
+                      //                       ],
+                      //                     ),
+                      //                   ),
+                      //                   TextButton(
+                      //                     onPressed: () {
+                      //                       Navigator.push(
+                      //                         context,
+                      //                         MaterialPageRoute(
+                      //                           builder: (context) =>
+                      //                               PaymentMethod(),
+                      //                         ),
+                      //                       );
+                      //                     },
+                      //                     child: Text(
+                      //                       "change",
+                      //                       style: TextStyle(
+                      //                           color: AppColor.primaryColor),
+                      //                     ),
+                      //                   )
+                      //                 ],
+                      //               ),
+                      //             )
+                      //     ],
+                      //   ),
+                      // ),
+
                       // Summary
                       Container(
                         margin: EdgeInsets.symmetric(vertical: 10),
@@ -366,7 +399,8 @@ class CheckoutScreen extends StatelessWidget {
                               padding:
                                   const EdgeInsets.symmetric(horizontal: 10.0),
                               child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
                                     "Price (incl. all tax)",
@@ -374,7 +408,7 @@ class CheckoutScreen extends StatelessWidget {
                                         fontSize: 13,
                                         color: AppColor.greyTextDark),
                                   ),
-                                  Text("₹10000")
+                                  Text(price)
                                 ],
                               ),
                             ),
@@ -383,7 +417,8 @@ class CheckoutScreen extends StatelessWidget {
                               padding:
                                   const EdgeInsets.symmetric(horizontal: 10.0),
                               child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
                                     "Voucher Discount",
@@ -405,7 +440,8 @@ class CheckoutScreen extends StatelessWidget {
                             Padding(
                               padding: const EdgeInsets.all(10.0),
                               child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
                                     "Total Amount",
@@ -429,7 +465,7 @@ class CheckoutScreen extends StatelessWidget {
                   ),
                 ),
               ),
-          
+
               StatefulBuilder(
                 builder: (context, setState) => Container(
                   width: MediaQuery.of(context).size.width,
@@ -462,8 +498,7 @@ class CheckoutScreen extends StatelessWidget {
                                 Icon(
                                   Icons.monetization_on,
                                   size: 14,
-                                  color: AppColor
-                                      .secondaryColor, 
+                                  color: AppColor.secondaryColor,
                                 ),
                                 const Text(
                                   "125 Dream Coin",
@@ -480,20 +515,20 @@ class CheckoutScreen extends StatelessWidget {
                         // Confirm button
                         CustomButton(
                           onpressed: () {
-                            if (selected != null) {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        PaymentSuccesfull()),
-                              );
-                            }
+                            //  if (selected != null) {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => PaymentMethod()),
+                            );
+                            //  }
                           },
-                          text:
-                              "Pay  ₹10000", 
-                          buttoncolor: selected != null
-                              ? AppColor.primaryColor
-                              : AppColor.greyButton,
+                          text: "Pay  ₹10000",
+                          buttoncolor:
+                              //  selected != null
+                              //      ?
+                              AppColor.primaryColor,
+                          //: AppColor.greyButton,
                           textColor: AppColor.whiteColor,
                         ),
                       ],

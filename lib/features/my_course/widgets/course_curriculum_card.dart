@@ -1,7 +1,10 @@
 import 'package:etutor/common/constants/app_constants.dart';
+import 'package:etutor/features/my_course/provider/course_details_provider.dart';
 import 'package:etutor/features/payment/screen/checkout_screen.dart';
+import 'package:etutor/features/subscribed_course/screens/pdf_viewer.dart';
 import 'package:etutor/features/subscribed_course/screens/video_player_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class CourseCurriculumCard extends StatefulWidget {
   final String title;
@@ -9,7 +12,9 @@ class CourseCurriculumCard extends StatefulWidget {
   final String subject;
   final List<String> names;
   final List<String> status;
-  final Function() onPressed;
+  final List<String> source;
+  final List<String> link;
+  final List<String> contentType;
 
   const CourseCurriculumCard({
     required this.title,
@@ -17,7 +22,9 @@ class CourseCurriculumCard extends StatefulWidget {
     required this.subject,
     required this.names,
     required this.status,
-    required this.onPressed,
+    required this.link,
+    required this.source,
+    required this.contentType,
     super.key,
   });
 
@@ -26,8 +33,11 @@ class CourseCurriculumCard extends StatefulWidget {
 }
 
 class _CourseCurriculumCardState extends State<CourseCurriculumCard> {
+   CourseDetailsProvider courseDetailsProvider = CourseDetailsProvider();
+
   @override
   Widget build(BuildContext context) {
+     courseDetailsProvider = context.watch<CourseDetailsProvider>();
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
       child: Card(
@@ -64,6 +74,9 @@ class _CourseCurriculumCardState extends State<CourseCurriculumCard> {
             children: List.generate(widget.names.length, (index) {
               final name = widget.names[index];
               final isFree = widget.status[index] != "paid"; // First item is free
+              final source = widget.source[index];
+              final type = widget.contentType[index];
+              final link = widget.link[index];
 
               return Padding(
                 padding: index == (widget.names.length - 1)
@@ -91,13 +104,22 @@ class _CourseCurriculumCardState extends State<CourseCurriculumCard> {
                   // Tap only if item is free
                   onTap: isFree
                       ? () {
-                          widget.onPressed();
+                          if(type == 'video')
+                         { 
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => VideoPlayerScreen(videoTitle: "",videolink: "",videoSource: "",videohls: "",),
+                              builder: (context) => VideoPlayerScreen(videoTitle: name,videolink:link,videoSource:source,videohls: "",),
                             ),
                           );
+                          }else if(type =='pdf'){
+                            Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => PdfViewer(link:link , title: name)
+                            ),
+                          );
+                          }
                         }
                       : () {
                           showDialog(
@@ -122,7 +144,10 @@ class _CourseCurriculumCardState extends State<CourseCurriculumCard> {
                                           (context),
                                           MaterialPageRoute(
                                               builder: (context) =>
-                                                  CheckoutScreen()));
+                                                  CheckoutScreen(
+                                                    image: courseDetailsProvider.courseDetails.image ?? '', 
+                                                    name:  courseDetailsProvider.courseDetails.name ?? '', 
+                                                    price:  courseDetailsProvider.courseDetails.price ?? '',)));
                                     },
                                     child: Text('Yes'),
                                   ),

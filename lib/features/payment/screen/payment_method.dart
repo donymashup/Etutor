@@ -2,6 +2,7 @@ import 'package:etutor/common/constants/app_constants.dart';
 import 'package:etutor/common/widgets/back_button.dart';
 import 'package:etutor/common/widgets/custom_button.dart';
 import 'package:etutor/features/payment/controller/payment_provider.dart';
+import 'package:etutor/features/payment/screen/payment_succesfull.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -56,28 +57,29 @@ Map<String, String>? _selectedOption;
                   child: SingleChildScrollView(
                     child: Column(
                       children: [
-                        Container(
-                          width: MediaQuery.of(context).size.width,
-                          decoration: BoxDecoration(
-                            color: AppColor.whiteColor,
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          child: Container(
-                            margin: EdgeInsets.all(10),
-                            decoration: BoxDecoration(
-                              color: AppColor.whiteColor,
-                              borderRadius: BorderRadius.circular(8),
-                              border: Border.all(color: AppColor.primaryColor),
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 10.0),
-                              child: GestureDetector(
-                                  onTap: () {},
-                                  child: Center(
-                                      child: Text("+  Add New Payment Method"))),
-                            ),
-                          ),
-                        ),
+                        
+                        // Container(
+                        //   width: MediaQuery.of(context).size.width,
+                        //   decoration: BoxDecoration(
+                        //     color: AppColor.whiteColor,
+                        //     borderRadius: BorderRadius.circular(8),
+                        //   ),
+                        //   child: Container(
+                        //     margin: EdgeInsets.all(10),
+                        //     decoration: BoxDecoration(
+                        //       color: AppColor.whiteColor,
+                        //       borderRadius: BorderRadius.circular(8),
+                        //       border: Border.all(color: AppColor.primaryColor),
+                        //     ),
+                        //     child: Padding(
+                        //       padding: const EdgeInsets.symmetric(vertical: 10.0),
+                        //       child: GestureDetector(
+                        //           onTap: () {},
+                        //           child: Center(
+                        //               child: Text("+  Add New Payment Method"))),
+                        //     ),
+                        //   ),
+                        // ),
                         Padding(
                           padding: const EdgeInsets.symmetric(vertical: 15.0),
                           child: Container(
@@ -195,7 +197,9 @@ Map<String, String>? _selectedOption;
                             ? () {}
                             : () {
                                 context.read<PaymentProvider>().setPaymentMethod(_selectedOption!);
-                                Navigator.pop(context);
+                                 MaterialPageRoute(
+                                    builder: (context) =>
+                                        PaymentSuccesfull());
                               },
                             text: "Confirm",
                             buttoncolor: _selectedOption == null ?AppColor.greyButton : AppColor.primaryColor,

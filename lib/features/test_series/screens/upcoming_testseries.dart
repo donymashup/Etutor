@@ -45,7 +45,7 @@ class _UpcomingPageState extends State<UpcomingPage> {
           startTime: test.startTime ?? "",
           endTime: test.endTime ?? "",
           duration: test.totalDuration.toString(),
-          marks: "25",
+          marks: test.totalMarks.toString(),
           questionCount: test.questionsCount.toString(),
           isUpcoming: true,
         );
