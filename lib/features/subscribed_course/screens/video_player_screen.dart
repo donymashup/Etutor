@@ -7,7 +7,7 @@ import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 class VideoPlayerScreen extends StatefulWidget {
   final String videolink;
   final String videoTitle;
-  final String videoSource; // "2" = HLS (BetterPlayer), otherwise YouTube
+  final String videoSource; 
   final String videohls;
 
   const VideoPlayerScreen({
