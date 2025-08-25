@@ -40,5 +40,8 @@ const attendedTestsUrl = "Newapi/getAttendedTests";
 const ongoingTestsUrl = "Newapi/getOngoingTests";
 const upcomingTestsUrl = "Newapi/getUpcomingTests";
 
-//course details
+// Live Classes
+const liveClassesUrl = "Newapi/getLiveClasses";
+
+// Course details
 const courseDetails = "Newapi/getCourseDetails";

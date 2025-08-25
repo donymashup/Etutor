@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:etutor/features/auth/provider/login_provider.dart';
 import 'package:etutor/features/auth/screen/phone_number_auth.dart';
+import 'package:etutor/features/drawer/screens/bookmarks.dart';
 import 'package:etutor/features/home/provider/user_details_provider.dart';
 import 'package:etutor/features/profile/screens/edit_profile.dart';
 import 'package:etutor/features/drawer/screens/about_us.dart';
@@ -136,6 +137,16 @@ class SideDrawer extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(builder: (context) => DreamCoins()),
+                      );
+                    },
+                  ),
+                  DrawerItem(
+                    icon: Icons.bookmark_add_rounded,
+                    title: "Bookmarks",
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => BookMarks()),
                       );
                     },
                   ),

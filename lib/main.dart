@@ -6,6 +6,7 @@ import 'package:etutor/features/auth/provider/login_provider.dart';
 import 'package:etutor/features/chapter_analysis/provider/chapter_analysis_provider.dart';
 import 'package:etutor/features/home/provider/homepage_provider.dart';
 import 'package:etutor/features/home/provider/user_details_provider.dart';
+import 'package:etutor/features/live/provider/live_class_provider.dart';
 import 'package:etutor/features/my_course/provider/course_details_provider.dart';
 import 'package:etutor/features/my_course/provider/my_course_provider.dart';
 import 'package:etutor/features/payment/controller/payment_provider.dart';
@@ -33,6 +34,7 @@ void main() async {
         ChangeNotifierProvider(create: (_) => SubcribedCourseProvider()),
         ChangeNotifierProvider(create: (_) => TestSeriesProvider()),
         ChangeNotifierProvider(create: (_) => ChapterCardOverviewProvider()),
+        ChangeNotifierProvider(create: (_) => LiveClassProvider()),
         ChangeNotifierProvider(create: (_) => ChapterAnalysisProvider()),
         ChangeNotifierProvider(create: (_)=> CourseDetailsProvider())
       ],

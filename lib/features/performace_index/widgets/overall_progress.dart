@@ -49,13 +49,13 @@ class OverallCompletionStatus extends StatelessWidget {
               ],
             ),
             backgroundColor: Colors.grey.shade300,
-            progressColor: const Color(0xFF005BAC),
+            progressColor: Colors.green,
           ),
           const SizedBox(height: 30),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: const [
-              LegendItem(color: AppColor.orangeBarGraph, label: "Learning Progress"),
+              LegendItem(color: Colors.green, label: "Learning Progress"),
               SizedBox(width: 20),
               LegendItem(color: Color(0xFF1565C0), label: "Total Learning"),
             ],

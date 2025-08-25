@@ -82,7 +82,7 @@ class CourseChapterCard extends StatelessWidget {
                       )),
                   Expanded(
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                       padding: const EdgeInsets.symmetric(horizontal: 12.0),
                       child: Text(
                         subjectName,
                         style: const TextStyle(
