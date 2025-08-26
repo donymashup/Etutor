@@ -1,5 +1,6 @@
 import 'package:etutor/common/constants/app_constants.dart';
 import 'package:etutor/features/my_course/provider/course_details_provider.dart';
+import 'package:etutor/features/my_course/screens/free_content_vedioplayer.dart';
 import 'package:etutor/features/payment/screen/checkout_screen.dart';
 import 'package:etutor/features/subscribed_course/screens/pdf_viewer.dart';
 import 'package:etutor/features/subscribed_course/screens/video_player_screen.dart';
@@ -109,7 +110,7 @@ class _CourseCurriculumCardState extends State<CourseCurriculumCard> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => VideoPlayerScreen(videoTitle: name,videolink:link,videoSource:source,videohls: "",),
+                              builder: (context) => FreeContentVedioplayer(videolink:link, videoTitle: name, videoSource: source, videohls: '',),
                             ),
                           );
                           }else if(type =='pdf'){

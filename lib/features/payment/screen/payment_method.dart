@@ -7,31 +7,27 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class PaymentMethod extends StatefulWidget {
-  PaymentMethod({super.key});
+  String price;
+  PaymentMethod({super.key,required this.price});
 
   @override
   State<PaymentMethod> createState() => _PaymentMethodState();
 }
 
 class _PaymentMethodState extends State<PaymentMethod> {
-Map<String, String>? _selectedOption;
+Map<String, dynamic>? _selectedOption;
 
-  final List<Map<String, String>> method = const [
+  final List<Map<String, dynamic>> method = const [
     {
-      "name": "Pay Pal",
-      "icon": "assets/icons/paypal.png",
-      "info": "09******7654321"
+      "name": "Razor Pay",
+      "icon": Icons.credit_card_rounded,
+      "info": "Card, UPI, Net Banking & Wallets"
     },
     {
-      "name": "GPay",
-      "icon": "assets/icons/googlepay.png",
-      "info": "qwert@okicicibank",
+      "name": "In-App Purchase",
+      "icon": Icons.smartphone_rounded,
+      "info": "Google Play / App Store",
     },
-    {
-      "name": "Mastercard",
-      "icon": "assets/icons/mastercard.png",
-      "info": "065*****98765432123456",
-    }
   ];
 
   @override
@@ -41,7 +37,7 @@ Map<String, String>? _selectedOption;
             centerTitle: true,
             backgroundColor: AppColor.whiteColor,
             title: Text(
-              "Choose payment method",
+              "Complete Your Purchase",
               style: TextStyle(fontWeight: FontWeight.w500, fontSize: 18),
             ),
             leading: Padding(
@@ -58,28 +54,27 @@ Map<String, String>? _selectedOption;
                     child: Column(
                       children: [
                         
-                        // Container(
-                        //   width: MediaQuery.of(context).size.width,
-                        //   decoration: BoxDecoration(
-                        //     color: AppColor.whiteColor,
-                        //     borderRadius: BorderRadius.circular(8),
-                        //   ),
-                        //   child: Container(
-                        //     margin: EdgeInsets.all(10),
-                        //     decoration: BoxDecoration(
-                        //       color: AppColor.whiteColor,
-                        //       borderRadius: BorderRadius.circular(8),
-                        //       border: Border.all(color: AppColor.primaryColor),
-                        //     ),
-                        //     child: Padding(
-                        //       padding: const EdgeInsets.symmetric(vertical: 10.0),
-                        //       child: GestureDetector(
-                        //           onTap: () {},
-                        //           child: Center(
-                        //               child: Text("+  Add New Payment Method"))),
-                        //     ),
-                        //   ),
-                        // ),
+                        Container(
+                          width: MediaQuery.of(context).size.width,
+                          decoration: BoxDecoration(
+                            color: AppColor.whiteColor,
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          // child: Container(
+                          //   margin: EdgeInsets.all(10),
+                          //   decoration: BoxDecoration(
+                          //     color: AppColor.whiteColor,
+                          //     borderRadius: BorderRadius.circular(8),
+                          //     border: Border.all(color: AppColor.primaryColor),
+                          //   ),
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 10.0,horizontal: 15),
+                              child: GestureDetector(
+                                  onTap: () {},
+                                  child: Text("Choose payment method")),
+                            ),
+                         // ),
+                        ),
                         Padding(
                           padding: const EdgeInsets.symmetric(vertical: 15.0),
                           child: Container(
@@ -127,9 +122,10 @@ Map<String, String>? _selectedOption;
                                                 child: Padding(
                                                   padding:
                                                       const EdgeInsets.all(5.0),
-                                                  child: Image.asset(
-                                                    methods['icon']!,
-                                                  ),
+                                                  // child: Image.asset(
+                                                  //   methods['icon']!,
+                                                  // ),
+                                                  child: Icon(methods['icon']!,color: AppColor.primaryColor,),
                                                 ),
                                               ),
                                               SizedBox(
@@ -201,7 +197,7 @@ Map<String, String>? _selectedOption;
                                     builder: (context) =>
                                         PaymentSuccesfull());
                               },
-                            text: "Confirm",
+                            text: "Pay ₹ ${widget.price}",
                             buttoncolor: _selectedOption == null ?AppColor.greyButton : AppColor.primaryColor,
                             textColor: AppColor.whiteColor),
                       ),

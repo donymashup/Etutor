@@ -1,68 +1,75 @@
 import 'package:better_player/better_player.dart';
 import 'package:etutor/common/constants/app_constants.dart';
-import 'package:etutor/features/my_course/widgets/testimonial_card.dart';
+import 'package:etutor/features/subscribed_course/model/videos_model.dart' as videos_model;
+import 'package:etutor/features/subscribed_course/provider/bookmark_provider.dart';
+import 'package:etutor/features/subscribed_course/provider/vedio_playlist_provider.dart';
+import 'package:etutor/features/subscribed_course/widgets/playlist_card.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
+// Import the provider and widget files created above
+// import 'video_player_provider.dart';
+// import 'playlist_card_widget.dart';
+
 class VideoPlayerScreen extends StatefulWidget {
-  final String videolink;
-  final String videoTitle;
-  final String videoSource;
-  final String videohls;
+  final List<videos_model.Data> playlist;
+  final int initialIndex;
+  final String contentid;
 
   const VideoPlayerScreen({
     super.key,
-    required this.videolink,
-    required this.videoTitle,
-    required this.videoSource,
-    required this.videohls,
+    required this.playlist,
+    required this.contentid,
+    this.initialIndex = 0,
   });
 
   @override
   State<VideoPlayerScreen> createState() => _VideoPlayerScreenState();
 }
 
-class Testimonials {
-  String username;
-  String userimage;
-  String description;
-
-  Testimonials({
-    required this.username,
-    required this.description,
-    required this.userimage,
-  });
-}
-
 class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
-  bool isLoading = true;
-
   BetterPlayerController? betterPlayerController;
   YoutubePlayerController? youtubePlayerController;
+  BookmarkProvider bookmarkProvider = BookmarkProvider();
 
   @override
   void initState() {
     super.initState();
-    initializePlayer();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final provider = Provider.of<VideoPlayerProvider>(context, listen: false);
+      provider.setPlaylist(widget.playlist);
+      provider.selectVideo(widget.initialIndex);
+      initializePlayer(provider.currentVideo!);
+      context.read<BookmarkProvider>().checkBookMark(context: context, contentid: widget.contentid, type: 'videos');
+    });
   }
 
-  void initializePlayer() {
-    if (widget.videoSource == "2") {
-      //  Use BetterPlayer with HLS
+  // void _load() async{
+  //   await context.read<BookmarkProvider>().checkBookMark(context: context, contentid: contentid, type: type)
+  // }
+
+  void initializePlayer(videos_model.Data video) {
+    // Dispose previous controllers
+    betterPlayerController?.dispose();
+    youtubePlayerController?.dispose();
+
+    if (video.source == "2") {
+      // Use BetterPlayer with HLS
       betterPlayerController = BetterPlayerController(
-        BetterPlayerConfiguration(
+        const BetterPlayerConfiguration(
           autoPlay: true,
           looping: false,
           aspectRatio: 16 / 9,
         ),
         betterPlayerDataSource: BetterPlayerDataSource(
           BetterPlayerDataSourceType.network,
-          widget.videohls,
+          video.hls ?? '',
         ),
       );
     } else {
-      //  Use YouTube Player
-      final videoId = YoutubePlayer.convertUrlToId(widget.videolink);
+      // Use YouTube Player
+      final videoId = YoutubePlayer.convertUrlToId(video.link ?? "");
       youtubePlayerController = YoutubePlayerController(
         initialVideoId: videoId ?? "",
         flags: const YoutubePlayerFlags(
@@ -71,8 +78,6 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
         ),
       );
     }
-
-    setState(() => isLoading = false);
   }
 
   @override
@@ -82,113 +87,138 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
     super.dispose();
   }
 
-  List<Testimonials> testimonials = [
-    Testimonials(
-        username: "Arjun Ashokan",
-        description:
-            "eTutor has completely changed the way I learn—it's interactive, easy to use, and keeps me engaged every step of the way!",
-        userimage: "assets/images/arjun.webp"),
-    Testimonials(
-        username: "Aiswarya Lakshmi",
-        description:
-            "Thanks to eTutor, I can now study anytime, anywhere with expert guidance and structured lessons tailored just for me.",
-        userimage: "assets/images/aish.jpg"),
-    Testimonials(
-        username: "Basil Joseph",
-        description:
-            "The personalized learning experience on eTutor helped me improve my scores and stay motivated throughout the course",
-        userimage: "assets/images/basil.jpg"),
-    Testimonials(
-        username: "Mamitha Baiju",
-        description:
-            "I love how eTutor breaks down tough subjects into simple concepts. It's like having a personal tutor at home.",
-        userimage: "assets/images/mamitha.webp"),
-    Testimonials(
-        username: "Gopika Ramesh",
-        description:
-            "With eTutor, I finally feel confident in subjects I used to struggle with. It's the best study companion!",
-        userimage: "assets/images/gopika.jpg")
-  ];
-
   @override
   Widget build(BuildContext context) {
+    bookmarkProvider =  context.watch<BookmarkProvider>();
     return SafeArea(
       child: Scaffold(
-        body: isLoading
-            ? const Center(child: CircularProgressIndicator())
-            : Column(
-                children: [
-                  //  Video Player (Dynamic)
-                  AspectRatio(
-                    aspectRatio: 16 / 9,
-                    child: widget.videoSource == "2"
-                        ? BetterPlayer(controller: betterPlayerController!)
-                        : YoutubePlayer(
-                            controller: youtubePlayerController!,
-                            showVideoProgressIndicator: true,
-                          ),
-                  ),
+        body: Consumer<VideoPlayerProvider>(
+          builder: (context, provider, child) {
+            if (provider.currentVideo == null) {
+              return const Center(child: CircularProgressIndicator());
+            }
 
-                  //  Video Title Bar
-                  Container(
-                    height: 60,
+            final currentVideo = provider.currentVideo!;
+            
+            return Column(
+              children: [
+                // Video Player (Dynamic)
+                AspectRatio(
+                  aspectRatio: 16 / 9,
+                  child: currentVideo.source == "2"
+                      ? betterPlayerController != null
+                          ? BetterPlayer(controller: betterPlayerController!)
+                          : const Center(child: CircularProgressIndicator())
+                      : youtubePlayerController != null
+                          ? YoutubePlayer(
+                              controller: youtubePlayerController!,
+                              showVideoProgressIndicator: true,
+                            )
+                          : const Center(child: CircularProgressIndicator()),
+                ),
+
+                // Video Title Bar
+                Container(
+                  height: 60,
+                  padding: const EdgeInsets.symmetric(horizontal: 14),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        child: Text(
+                          currentVideo.name ?? '',
+                          style: const TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w600,
+                          ),
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                      IconButton(
+                        onPressed: bookmarkProvider.isLoading ? null : () async{
+                          await context.read<BookmarkProvider>().makeBookMark(context: context, contentid:widget.contentid, type: 'videos');
+                        },
+                        icon: bookmarkProvider.isbookmarked ? Icon(Icons.bookmark_rounded,color: AppColor.videoIconColor,) : Icon(Icons.bookmark_outline),
+                      )
+                    ],
+                  ),
+                ),
+
+                const SizedBox(height: 12),
+
+                // Playlist Section Header
+                Container(
+                  width: MediaQuery.of(context).size.width,
+                  color: AppColor.greyCardBackground,
+                  child: Padding(
+                    padding: const EdgeInsets.all(12.0),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Padding(
-                          padding: const EdgeInsets.all(14.0),
-                          child: SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.7,
-                            child: Text(
-                              widget.videoTitle,
-                              style: const TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.w600,
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                            ),
+                        Text(
+                          "Playlist (${provider.playlist.length} videos)",
+                          style: const TextStyle(
+                            fontWeight: FontWeight.w600,
+                            fontSize: 18,
                           ),
                         ),
-                        IconButton(
-                          onPressed: () {},
-                          icon: const Icon(Icons.bookmark_add_rounded),
-                        )
+                        // Navigation buttons
+                        Row(
+                          children: [
+                            IconButton(
+                              onPressed: provider.selectedIndex > 0
+                                  ? () {
+                                      provider.previousVideo();
+                                      initializePlayer(provider.currentVideo!);
+                                    }
+                                  : null,
+                              icon: const Icon(Icons.skip_previous),
+                              iconSize: 20,
+                            ),
+                            IconButton(
+                              onPressed: provider.selectedIndex < provider.playlist.length - 1
+                                  ? () {
+                                      provider.nextVideo();
+                                      initializePlayer(provider.currentVideo!);
+                                    }
+                                  : null,
+                              icon: const Icon(Icons.skip_next),
+                              iconSize: 20,
+                            ),
+                          ],
+                        ),
                       ],
                     ),
                   ),
+                ),
 
-                  const SizedBox(height: 12),
-
-                  //  Reviews Section
-                  Container(
-                      width: MediaQuery.of(context).size.width,
-                      color: AppColor.greyCardBackground,
-                      child: const Center(
-                          child: Padding(
-                        padding: EdgeInsets.all(12.0),
-                        child: Text(
-                          "Reviews",
-                          style: TextStyle(
-                              fontWeight: FontWeight.w600, fontSize: 18),
-                        ),
-                      ))),
-
-                  //  Testimonials List
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                      child: ListView.builder(
-                        itemCount: testimonials.length,
-                        itemBuilder: (context, index) => TestimonialCard(
-                            username: testimonials[index].username,
-                            description: testimonials[index].description,
-                            userimage: testimonials[index].userimage,
-                            rating: '5',),
-                      ),
-                    ),
-                  )
-                ],
-              ),
+                // Playlist Videos List
+                Expanded(
+                  child: ListView.builder(
+                    itemCount: provider.playlist.length,
+                    itemBuilder: (context, index) {
+                      final video = provider.playlist[index];
+                      final isSelected = index == provider.selectedIndex;
+                      
+                      return PlaylistCardWidget(
+                        title: video.name ??'',
+                        duration: video.duration ??'',
+                        thumbnail: video.thumbnail ?? '',
+                        videoSource: video.source ?? '',
+                        isSelected: isSelected,
+                        onTap: () {
+                          provider.selectVideo(index);
+                          initializePlayer(video);
+                        },
+                      );
+                    },
+                  ),
+                ),
+              ],
+            );
+          },
+        ),
       ),
     );
   }

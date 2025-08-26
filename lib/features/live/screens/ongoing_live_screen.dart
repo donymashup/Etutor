@@ -4,6 +4,7 @@ import 'package:etutor/features/live/widgets/live_card.dart';
 import 'package:etutor/features/live/widgets/no_live_class.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class OngoingLiveScreen extends StatefulWidget {
   const OngoingLiveScreen({super.key});
@@ -42,11 +43,25 @@ class _OngoingLiveScreenState extends State<OngoingLiveScreen> {
               final live = ongoingLiveClassProvider.ongoingLiveClasses[index];
               return Column(
                 children: [
-                  LiveCard(
-                    img: live.avatar ?? "",
-                    time: live.start ?? "",
-                    date: live.start ?? "",
-                    title: live.title ?? "",
+                  GestureDetector(
+                    onTap: () async{
+                      if (live.url!.isNotEmpty) {
+                          try {
+                            await launchUrl(Uri.parse(live.url!),
+                                mode: LaunchMode.externalApplication);
+                          } catch (e) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text("Error: $e")),
+                            );
+                          }
+                        }
+                    },
+                    child: LiveCard(
+                      img: live.avatar ?? "",
+                      time: live.start ?? "",
+                      date: live.start ?? "",
+                      title: live.title ?? "",
+                    ),
                   ),
                 ],
               );

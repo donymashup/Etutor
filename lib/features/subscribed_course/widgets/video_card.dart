@@ -7,14 +7,14 @@ class VideoCard extends StatelessWidget {
   final String title;
   final String img;
   final String duration;
-  final double progress;
+  //final double progress;
 
   const VideoCard({
     super.key,
     required this.duration,
     required this.img,
     required this.title,
-    required this.progress,
+  //  required this.progress,
   });
 
   @override
@@ -88,13 +88,13 @@ class VideoCard extends StatelessWidget {
                         ),
                       ],
                     ),
-                    LinearProgressIndicator(
-                      value: progress,
-                      backgroundColor: AppColor.greyText,
-                      valueColor: AlwaysStoppedAnimation<Color>(
-                        AppColor.secondaryColor,
-                      ),
-                    )
+                    // LinearProgressIndicator(
+                    //   value: progress,
+                    //   backgroundColor: AppColor.greyText,
+                    //   valueColor: AlwaysStoppedAnimation<Color>(
+                    //     AppColor.secondaryColor,
+                    //   ),
+                    // )
                   ],
                 ),
               ),
