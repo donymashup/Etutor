@@ -450,7 +450,7 @@ class CheckoutScreen extends StatelessWidget {
                                         fontWeight: FontWeight.w500),
                                   ),
                                   Text(
-                                    "₹10000",
+                                    ((int.tryParse(price) ?? 0) - (int.tryParse(selectedVoucher ?? "0") ?? 0)).toString(),
                                     style: TextStyle(
                                         fontSize: 14,
                                         fontWeight: FontWeight.w500),
@@ -519,11 +519,11 @@ class CheckoutScreen extends StatelessWidget {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => PaymentMethod()),
+                                  builder: (context) => PaymentMethod(price: price,)),
                             );
                             //  }
                           },
-                          text: "Pay  ₹10000",
+                          text: "Pay  ₹ $price",
                           buttoncolor:
                               //  selected != null
                               //      ?

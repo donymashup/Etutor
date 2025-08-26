@@ -45,3 +45,8 @@ const liveClassesUrl = "Newapi/getLiveClasses";
 
 // Course details
 const courseDetails = "Newapi/getCourseDetails";
+
+//bookmark
+const bookMark = "Newapi/bookmark";
+const checkBookMark = "Newapi/checkForBookMark";
+const bookmarkedContent = "Newapi/getUserBookmarkedContents";

@@ -10,8 +10,10 @@ import 'package:etutor/features/live/provider/live_class_provider.dart';
 import 'package:etutor/features/my_course/provider/course_details_provider.dart';
 import 'package:etutor/features/my_course/provider/my_course_provider.dart';
 import 'package:etutor/features/payment/controller/payment_provider.dart';
+import 'package:etutor/features/subscribed_course/provider/bookmark_provider.dart';
 import 'package:etutor/features/subscribed_course/provider/chapter_card_overview_provider.dart';
 import 'package:etutor/features/subscribed_course/provider/subcribed_course_provider.dart';
+import 'package:etutor/features/subscribed_course/provider/vedio_playlist_provider.dart';
 import 'package:etutor/features/test_series/provider/test_series_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -36,7 +38,9 @@ void main() async {
         ChangeNotifierProvider(create: (_) => ChapterCardOverviewProvider()),
         ChangeNotifierProvider(create: (_) => LiveClassProvider()),
         ChangeNotifierProvider(create: (_) => ChapterAnalysisProvider()),
-        ChangeNotifierProvider(create: (_)=> CourseDetailsProvider())
+        ChangeNotifierProvider(create: (_)=> CourseDetailsProvider()),
+        ChangeNotifierProvider(create: (_)=> VideoPlayerProvider()),
+        ChangeNotifierProvider(create: (_)=> BookmarkProvider()),
       ],
       child: MyApp(),
       ),

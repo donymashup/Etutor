@@ -40,13 +40,15 @@ class _RecordedLiveScreenState extends State<RecordedLiveScreen> {
                       (completedLiveClassProvider.completedLiveMonth.data ??
                           [])[index];
                   return GestureDetector(
-                    onTap: () => Navigator.of(context, rootNavigator: true).push(
-                        MaterialPageRoute(
-                            builder: (context) => VideoPlayerScreen(
-                                videolink: live.url ?? "url",
-                                videoTitle: live.title ?? "Title",
-                                videoSource: live.source ?? "",
-                                videohls: live.hls ?? ""))),
+                    onTap: () {},
+                    //Navigator.of(context, rootNavigator: true).push(
+                        // MaterialPageRoute(
+                        //     builder: (context) => VideoPlayerScreen(
+                        //         videolink: live.url ?? "url",
+                        //         videoTitle: live.title ?? "Title",
+                        //         videoSource: live.source ?? "",
+                        //         videohls: live.hls ?? ""))
+                       // ),
                     child: LiveCard(
                       img: live.avatar ?? "",
                       time: live.start ?? "",

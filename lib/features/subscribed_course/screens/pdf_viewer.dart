@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 
-class PdfViewer extends StatelessWidget {
+class PdfViewer extends StatefulWidget {
   final String title;
   final String link;
 
@@ -12,19 +12,26 @@ class PdfViewer extends StatelessWidget {
   });
 
   @override
+  State<PdfViewer> createState() => _PdfViewerState();
+}
+
+class _PdfViewerState extends State<PdfViewer> {
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         leading: const BackButton(),
-        title: Text(title),
+        title: Text(widget.title),
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              
+            },
             icon: const Icon(Icons.bookmark_add_rounded),
           )
         ],
       ),
-      body: SfPdfViewer.network(link),
+      body: SfPdfViewer.network(widget.link),
     );
   }
 }

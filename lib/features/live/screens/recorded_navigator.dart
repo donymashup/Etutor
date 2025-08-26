@@ -16,7 +16,7 @@ class RecordedNavigator extends StatelessWidget {
         }
       },
       child: Navigator(
-        key: navigatorKey, // ✅ Separate from main app navigator
+        key: navigatorKey, 
         onGenerateRoute: (settings) {
           return MaterialPageRoute(
             builder: (_) => const RecordedYearsScreen(),
