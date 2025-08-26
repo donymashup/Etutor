@@ -1,4 +1,5 @@
 import 'package:etutor/features/test_series/provider/test_series_provider.dart';
+import 'package:etutor/features/test_series/screens/attented_testseries_report.dart';
 import 'package:etutor/features/test_series/widgets/attended_test_shimmer.dart';
 import 'package:etutor/features/test_series/widgets/notestseries.dart';
 import 'package:flutter/material.dart';
@@ -48,6 +49,10 @@ class _AttendedPageState extends State<AttendedPage> {
                     marks: "marks",
                     questionCount: "questions",
                     onReview: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => TestReportPage(testid:test.testid ?? " " )));
                       // Handle review tap
                     },
                     isAttended: true,
