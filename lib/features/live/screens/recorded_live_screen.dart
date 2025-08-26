@@ -45,7 +45,7 @@ class _RecordedLiveScreenState extends State<RecordedLiveScreen> {
                             builder: (context) => VideoPlayerScreen(
                                 videolink: live.url ?? "url",
                                 videoTitle: live.title ?? "Title",
-                                videoSource: live.source ?? "",
+                                videoSource:  "2",
                                 videohls: live.hls ?? ""))),
                     child: LiveCard(
                       img: live.avatar ?? "",
