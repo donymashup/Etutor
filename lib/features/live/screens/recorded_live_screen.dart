@@ -49,6 +49,7 @@ class _RecordedLiveScreenState extends State<RecordedLiveScreen> {
                         //         videoSource: live.source ?? "",
                         //         videohls: live.hls ?? ""))
                        // ),
+
                     child: LiveCard(
                       img: live.avatar ?? "",
                       time: live.start ?? "",

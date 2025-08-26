@@ -2,6 +2,7 @@ import 'package:etutor/features/test_series/model/attended_tests_model.dart'
     as attended_test_model;
 import 'package:etutor/features/test_series/model/ongoing_tests_model.dart'
     as ongoing_test_model;
+import 'package:etutor/features/test_series/model/test_performance_model.dart';
 import 'package:etutor/features/test_series/model/upcoming_tests_model.dart'
     as upcoming_test_model;
 import 'package:etutor/features/test_series/service/tests_service.dart';
@@ -11,6 +12,12 @@ class TestSeriesProvider extends ChangeNotifier {
   bool isAttendedTestsLoading = false;
   bool isUpcomingTestsLoading = false;
   bool isOngoingTestsLoading = false;
+   bool _isLoadingtestreport = false;
+   bool get isLoadingtestreport => _isLoadingtestreport;
+    
+   
+   ExamPerformanceModel? _testReports;
+   ExamPerformanceModel? get testReports  => _testReports;
 
   List<attended_test_model.Data> _attendedTests = [];
   List<attended_test_model.Data> get attendedTests => _attendedTests;
@@ -81,6 +88,37 @@ class TestSeriesProvider extends ChangeNotifier {
     }
 
     isUpcomingTestsLoading = false;
+    notifyListeners();
+  }
+
+
+  //Test performace reportprovider
+  Future<void> fetchTestReports({
+    required BuildContext context,
+    required String type,
+    required String testid
+  }) async {
+    _isLoadingtestreport = true;
+    notifyListeners();
+
+    try {
+      final response = await TestService().testReport(
+        context: context,
+        type: type,
+        testid:testid,
+      );
+
+      if (response != null) {
+        _testReports = response;
+      } else {
+        _testReports = null;
+      }
+    } catch (e) {
+      debugPrint("Error fetching test report: $e");
+      _testReports = null;
+    }
+
+    _isLoadingtestreport = false;
     notifyListeners();
   }
 }
