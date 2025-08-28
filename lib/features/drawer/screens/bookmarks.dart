@@ -1,8 +1,11 @@
 import 'package:etutor/common/constants/app_constants.dart';
 import 'package:etutor/common/widgets/back_button.dart';
+import 'package:etutor/features/subscribed_course/provider/bookmark_provider.dart';
 import 'package:etutor/features/subscribed_course/widgets/material_card.dart';
 import 'package:etutor/features/subscribed_course/widgets/video_card.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:shimmer/shimmer.dart';
 
 class BookMarks extends StatefulWidget {
   const BookMarks({super.key});
@@ -12,8 +15,15 @@ class BookMarks extends StatefulWidget {
 }
 
 class _BookMarksState extends State<BookMarks> {
+  BookmarkProvider bookmarkProvider = BookmarkProvider();
+  @override
+  void initState() {
+    context.read<BookmarkProvider>().getBookMarkedContents(context: context);
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
+    bookmarkProvider = context.watch<BookmarkProvider>();
     return Scaffold(
       backgroundColor: AppColor.whiteColor,
       appBar: AppBar(
@@ -29,13 +39,25 @@ class _BookMarksState extends State<BookMarks> {
           child: CustomBackButton(),
         ),
       ),
-      body: SingleChildScrollView(
+      body: bookmarkProvider.isLoading
+      ? const Materialcardshimmer()
+      : SingleChildScrollView(
         padding: const EdgeInsets.all(12.0),
-        child: Column(
+        child: (bookmarkProvider.bookmarkVedio.isEmpty && bookmarkProvider.bookmarkMaterial.isEmpty)
+        ? const Center(
+          child: Text(
+            "No bookmarked contents",
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.w500,
+              color: Colors.grey,
+            ),
+          ),
+        )
+      : Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-
-            /// Materials Section
+             if (bookmarkProvider.bookmarkVedio.isNotEmpty) ...[
             Text(
               "Materials",
               style: TextStyle(
@@ -45,22 +67,21 @@ class _BookMarksState extends State<BookMarks> {
               ),
             ),
             const SizedBox(height: 8),
-
-            const MaterialCard(
-              materialName: "Chapter 1 Notes",
-              materialDescription: "Tap to view this pdf",
-              packageChapterId: "1",
-              link: "https://example.com/sample1.pdf",
-            ),
-            const MaterialCard(
-              materialName: "Chapter 2 Notes",
-              materialDescription: "Tap to view this pdf",
-              packageChapterId: "2",
-              link: "https://example.com/sample2.pdf",
-            ),
-
-            const SizedBox(height: 16),
-
+           ...List.generate(
+            bookmarkProvider.bookmarkMaterial.length,
+            (index) {
+              final material = bookmarkProvider.bookmarkMaterial[index];
+              return MaterialCard(
+                materialName: material.name, 
+                materialDescription:'', 
+                link: '', 
+                contentId:material.id,        
+              );
+            },
+          ),
+          const SizedBox(height: 16),
+             ],
+            if (bookmarkProvider.bookmarkVedio.isNotEmpty) ...[
             /// Videos Section
             Text(
               "Videos",
@@ -71,22 +92,115 @@ class _BookMarksState extends State<BookMarks> {
               ),
             ),
             const SizedBox(height: 8),
-
-            const VideoCard(
-              title: "Foundation Class 25-26 for students from class 6 - 7 f...",
-              img: "https://img.youtube.com/vi/0LHxvxdRnYc/maxresdefault.jpg",
-              duration: "1hr 24min",
-            //  progress: 0.6,
-            ),
-            const VideoCard(
-              title: "Foundation Class 26-27 for students from class 7 - 8 f...",
-              img: "https://img.youtube.com/vi/0LHxvxdRnYc/maxresdefault.jpg",
-              duration: "1hr 15min",
-            //  progress: 0.3,
-            ),
+            ...List.generate(
+            bookmarkProvider.bookmarkVedio.length,
+            (index) {
+              final vedio = bookmarkProvider.bookmarkVedio[index];
+              return VideoCard(
+              title: vedio.name,
+              img: vedio.thumbnail,
+              duration: '',
+            );
+            })
+            ]
           ],
         ),
       ),
+    );
+  }
+}
+
+
+class Materialcardshimmer extends StatelessWidget {
+  const Materialcardshimmer({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Shimmer.fromColors(
+          baseColor: Colors.grey.shade300,
+          highlightColor: Colors.grey.shade100,
+          child: Container(
+            width: 120,
+            height: 20,
+            color: Colors.grey,
+          ),
+        ),
+        const SizedBox(height: 8),
+        Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            border: Border.all(color: Colors.grey.shade300),
+            color: Colors.white,
+          ),
+          width: MediaQuery.of(context).size.width,
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              children: [
+                // Leading Icon Placeholder
+                Shimmer.fromColors(
+                  baseColor: Colors.grey.shade300,
+                  highlightColor: Colors.grey.shade100,
+                  child: Container(
+                    width: 40,
+                    height: 40,
+                    decoration: BoxDecoration(
+                      color: Colors.grey,
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.all(20.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        // Title Placeholder
+                        Shimmer.fromColors(
+                          baseColor: Colors.grey.shade300,
+                          highlightColor: Colors.grey.shade100,
+                          child: Container(
+                            width: double.infinity,
+                            height: 18,
+                            color: Colors.grey,
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        // Description Placeholder
+                        Shimmer.fromColors(
+                          baseColor: Colors.grey.shade300,
+                          highlightColor: Colors.grey.shade100,
+                          child: Container(
+                            width: 150,
+                            height: 14,
+                            color: Colors.grey,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                // Arrow Placeholder
+                Shimmer.fromColors(
+                  baseColor: Colors.grey.shade300,
+                  highlightColor: Colors.grey.shade100,
+                  child: Container(
+                    width: 15,
+                    height: 15,
+                    color: Colors.grey,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

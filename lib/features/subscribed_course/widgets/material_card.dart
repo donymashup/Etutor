@@ -7,15 +7,15 @@ import 'package:iconify_flutter/icons/mdi.dart';
 class MaterialCard extends StatefulWidget {
   final String materialName;
   final String materialDescription;
-  final String packageChapterId;
   final String link;
+  final String contentId;
 
   const MaterialCard({
     super.key,
     required this.materialName,
     required this.materialDescription,
-    required this.packageChapterId,
     required this.link,
+    required this.contentId,
   });
 
   @override
@@ -33,7 +33,7 @@ class _CourseCardState extends State<MaterialCard> {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => PdfViewer(link:widget.link, title:widget.materialName,)
+              builder: (context) => PdfViewer(link:widget.link, title:widget.materialName, contentId: widget.contentId,)
             ),
           );
         },

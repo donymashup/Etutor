@@ -1,9 +1,9 @@
 import 'package:etutor/common/constants/app_constants.dart';
+import 'package:etutor/features/my_course/model/course_details_model.dart';
 import 'package:etutor/features/my_course/provider/course_details_provider.dart';
 import 'package:etutor/features/my_course/screens/free_content_vedioplayer.dart';
 import 'package:etutor/features/payment/screen/checkout_screen.dart';
 import 'package:etutor/features/subscribed_course/screens/pdf_viewer.dart';
-import 'package:etutor/features/subscribed_course/screens/video_player_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -11,21 +11,23 @@ class CourseCurriculumCard extends StatefulWidget {
   final String title;
   final String classname;
   final String subject;
-  final List<String> names;
-  final List<String> status;
-  final List<String> source;
-  final List<String> link;
-  final List<String> contentType;
-
+  // final List<String> names;
+  // final List<String> status;
+  // final List<String> source;
+  // final List<String> link;
+  // final List<String> contentType;
+  final List<Contents> contents;
+  
   const CourseCurriculumCard({
     required this.title,
     required this.classname,
     required this.subject,
-    required this.names,
-    required this.status,
-    required this.link,
-    required this.source,
-    required this.contentType,
+    // required this.names,
+    // required this.status,
+    // required this.link,
+    // required this.source,
+    // required this.contentType,
+    required this.contents,
     super.key,
   });
 
@@ -72,22 +74,23 @@ class _CourseCurriculumCardState extends State<CourseCurriculumCard> {
             ),
 
             // Curriculum items list
-            children: List.generate(widget.names.length, (index) {
-              final name = widget.names[index];
-              final isFree = widget.status[index] != "paid"; // First item is free
-              final source = widget.source[index];
-              final type = widget.contentType[index];
-              final link = widget.link[index];
-
+            children: List.generate(widget.contents.length, (index) {
+              // final name = widget.names[index];
+              // final isFree = widget.status[index] != "paid";
+              // final source = widget.source[index];
+              // final type = widget.contentType[index];
+              // final link = widget.link[index];
+              final content_details = widget.contents[index];
+              final isFree = content_details.status != "paid";
               return Padding(
-                padding: index == (widget.names.length - 1)
+                padding: index == (widget.contents.length - 1)
                     ? const EdgeInsets.only(
                         left: 16, right: 16, top: 5, bottom: 16)
                     : const EdgeInsets.only(
                         left: 16, right: 16, top: 5, bottom: 5),
                 child: ListTile(
                   tileColor: AppColor.greyCardBackground,
-                  title: Text(name, style: const TextStyle(fontSize: 16)),
+                  title: Text(content_details.contentName ?? '', style: const TextStyle(fontSize: 16)),
 
                   // Trailing icon or "Free" label
                   trailing: isFree
@@ -99,27 +102,32 @@ class _CourseCurriculumCardState extends State<CourseCurriculumCard> {
                             fontWeight: FontWeight.bold,
                           ),
                         )
-                      // Icon(Icons.lock_open, color: AppColor.greenchaptertest)
                       : const Icon(Icons.lock_outline,
                           color: AppColor.blackColor),
-                  // Tap only if item is free
                   onTap: isFree
                       ? () {
-                          if(type == 'video')
+                          if(content_details.contentType == 'video')
                          { 
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => FreeContentVedioplayer(videolink:link, videoTitle: name, videoSource: source, videohls: '',),
+                              builder: (context) => FreeContentVedioplayer(
+                                videolink:content_details.link ?? '', 
+                                videoTitle: content_details.contentName ?? '', 
+                                videoSource: content_details.source ?? '', 
+                                videohls: '',),
                             ),
                           );
-                          }else if(type =='pdf'){
+                          }else if(content_details.contentType =='pdf'){
                             Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => PdfViewer(link:link , title: name)
+                              builder: (context) => PdfViewer(
+                                link:content_details.link ?? '' , 
+                                title: content_details.contentName ?? '',
+                                contentId:content_details.contentId ?? '',)
                             ),
-                          );
+                           );
                           }
                         }
                       : () {

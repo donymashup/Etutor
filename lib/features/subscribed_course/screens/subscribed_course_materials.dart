@@ -64,8 +64,9 @@ class _SubscribedCourseMaterialsState extends State<SubscribedCourseMaterials> {
                     child: MaterialCard(
                      materialName: materials.name ?? '', 
                      materialDescription: materials.description ?? '', 
-                     packageChapterId: widget.packageChapterId,
-                     link: materials.link ?? '',
+                    // packageChapterId: widget.packageChapterId,
+                     link: materials.link ?? '', 
+                     contentId: materials.id ?? '',
                     ),
                   );}
                 ),
