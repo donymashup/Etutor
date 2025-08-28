@@ -89,4 +89,43 @@ class BookMarkServices {
       return null;
     }
   }
+
+  // fuction bookmarked contents
+  Future<getUserBookmarkedContents?> getBookMarked({
+    required BuildContext context,
+  }) async {
+    try {
+      final token = await storage.read(key: 'token');
+      if (token == null) {
+        showSnackbar(context, "Token not found. Please log in again.");
+        return null;
+      }
+      final response = await sendGetRequestWithToken(
+        url: '$baseUrl$bookmarkedContent',
+        token: token,
+      );
+      if (response.statusCode == 200) {
+        final jsonResponse = json.decode(await response.stream.bytesToString());
+        if (jsonResponse == null || jsonResponse.isEmpty) {
+          showSnackbar(context, 'Invalid response from server');
+          return null;
+        } else {
+          final bookMarkModel = getUserBookmarkedContents.fromJson(jsonResponse);
+         if (bookMarkModel.type == 'success') {
+            return bookMarkModel;
+          } else {
+            showSnackbar(context, (bookMarkModel.type ?? 'Unknown error').toString());
+            return null;
+          }
+        }
+      } else {
+        debugPrint(
+            "Failed to check book mark : ${response.statusCode}");
+        return null;
+      }
+    } catch (e) {
+      showSnackbar(context, "Error : $e");
+      return null;
+    }
+  }
 }

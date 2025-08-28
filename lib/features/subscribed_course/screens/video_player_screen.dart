@@ -44,11 +44,6 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
       context.read<BookmarkProvider>().checkBookMark(context: context, contentid: widget.contentid, type: 'videos');
     });
   }
-
-  // void _load() async{
-  //   await context.read<BookmarkProvider>().checkBookMark(context: context, contentid: contentid, type: type)
-  // }
-
   void initializePlayer(videos_model.Data video) {
     // Dispose previous controllers
     betterPlayerController?.dispose();
