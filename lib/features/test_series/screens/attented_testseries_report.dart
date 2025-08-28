@@ -1,10 +1,12 @@
+import 'package:etutor/common/constants/app_constants.dart' show AppColor;
+import 'package:etutor/common/widgets/back_button.dart';
+import 'package:etutor/features/test_series/model/test_performance_model.dart';
 import 'package:etutor/features/test_series/provider/test_series_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:fl_chart/fl_chart.dart';
 
-/// ✅ Main Report Page
 class TestReportPage extends StatefulWidget {
   final String testid;
   const TestReportPage({super.key, required this.testid});
@@ -49,9 +51,15 @@ class _TestReportPageState extends State<TestReportPage> {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.surface,
       appBar: AppBar(
-        title: const Text("Test Performance Report"),
-        centerTitle: true,
-        elevation: 0,
+        backgroundColor: AppColor.whiteColor,
+        title: Text(
+          "Test Performance Report",
+          style: TextStyle(fontWeight: FontWeight.w500, fontSize: 18),
+        ),
+        leading: Padding(
+          padding: const EdgeInsets.only(left: 20.0),
+          child: CustomBackButton(),
+        ),
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
@@ -62,7 +70,13 @@ class _TestReportPageState extends State<TestReportPage> {
             const SizedBox(height: 20),
             _buildStatsGrid(report),
             const SizedBox(height: 20),
-            _buildScoreAnalysisChart(report), // ✅ Donut Chart
+            _buildScoreAnalysisChart(report), //  Donut Chart
+            const SizedBox(height: 20),
+            _buildSubjectVsTimeChart(report), //  Subject vs Time Chart
+            const SizedBox(height: 20),
+            _buildPerformanceSummary(report), //  Performance Summary
+            const SizedBox(height: 20),
+            _buildSubjectWiseScoreAnalysis(report), // Subjectwisescore
           ],
         ),
       ),
@@ -117,7 +131,7 @@ class _TestReportPageState extends State<TestReportPage> {
     );
   }
 
-  /// --- HEADER CARD ---
+  ///  Header Card
   Widget _buildHeaderCard(report) {
     return Container(
       padding: const EdgeInsets.all(20),
@@ -187,7 +201,7 @@ class _TestReportPageState extends State<TestReportPage> {
                 decoration: BoxDecoration(
                   color: (report.userDetails?.result == "Passed")
                       ? Colors.green.shade400
-                      : Colors.red.shade400,
+                      : Colors.red,
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Text(
@@ -202,12 +216,251 @@ class _TestReportPageState extends State<TestReportPage> {
     );
   }
 
-  /// --- SCORE ANALYSIS DONUT CHART ---
+  /// Score Analysis Donut Chart
   Widget _buildScoreAnalysisChart(report) {
     final correct = report.userDetails?.correctlyAnswered ?? 0;
     final incorrect = report.userDetails?.incorrectlyAnswered ?? 0;
     final unattempted = report.userDetails?.questionsUnAnswered ?? 0;
     final unattended = report.userDetails?.questionsUnAttended ?? 0;
+
+    int? touchedIndex;
+
+    return StatefulBuilder(
+      builder: (context, setState) {
+        return Container(
+          padding: const EdgeInsets.all(16),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(16),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey.shade200,
+                blurRadius: 6,
+                offset: const Offset(0, 3),
+              ),
+            ],
+          ),
+          child: Column(
+            children: [
+              const Text("Score Analysis",
+                  style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black87)),
+              const SizedBox(height: 20),
+              SizedBox(
+                height: 200,
+                child: Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    PieChart(
+                      PieChartData(
+                        centerSpaceRadius: 55,
+                        sectionsSpace: 2,
+                        pieTouchData: PieTouchData(
+                          touchCallback: (event, response) {
+                            if (!event.isInterestedForInteractions ||
+                                response == null ||
+                                response.touchedSection == null) {
+                              setState(() => touchedIndex = -1);
+                              return;
+                            }
+                            setState(() {
+                              touchedIndex =
+                                  response.touchedSection!.touchedSectionIndex;
+                            });
+                          },
+                        ),
+                        sections: [
+                          PieChartSectionData(
+                            color: Colors.green,
+                            value: correct.toDouble(),
+                            title: "",
+                            radius: 22,
+                          ),
+                          PieChartSectionData(
+                            color: Colors.red,
+                            value: incorrect.toDouble(),
+                            title: "",
+                            radius: 22,
+                          ),
+                          PieChartSectionData(
+                            color: Colors.blue,
+                            value: unattempted.toDouble(),
+                            title: "",
+                            radius: 22,
+                          ),
+                          PieChartSectionData(
+                            color: Colors.grey,
+                            value: unattended.toDouble(),
+                            title: "",
+                            radius: 22,
+                          ),
+                        ],
+                      ),
+                    ),
+                    if (touchedIndex != null && touchedIndex! >= 0)
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 12, vertical: 6),
+                        decoration: BoxDecoration(
+                          color: Colors.black87,
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Text(
+                          _getLabel(touchedIndex!, correct, incorrect,
+                              unattempted, unattended),
+                          style: const TextStyle(
+                              color: Colors.white, fontSize: 12),
+                        ),
+                      ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 20),
+              Wrap(
+                alignment: WrapAlignment.center,
+                spacing: 20,
+                children: const [
+                  _LegendItem(color: Colors.green, text: "Correct"),
+                  _LegendItem(color: Colors.red, text: "Incorrect"),
+                  _LegendItem(color: Colors.blue, text: "Unattempted"),
+                  _LegendItem(color: Colors.grey, text: "Unattended"),
+                ],
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  //Subject Vs Time
+  Widget _buildSubjectVsTimeChart(report) {
+    final subjects = report.subjectAnalysis ?? [];
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        const Text(
+          "Subject Vs Time",
+          style: TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+            color: Colors.black87,
+          ),
+        ),
+        const SizedBox(height: 20),
+
+        // Loop over each subject
+        ...subjects.map((s) {
+          return Container(
+            margin: const EdgeInsets.only(bottom: 20),
+            padding: const EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(16),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.shade200,
+                  blurRadius: 6,
+                  offset: const Offset(0, 3),
+                ),
+              ],
+            ),
+            child: Column(
+              children: [
+                Text(
+                  s.title,
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.black87,
+                  ),
+                ),
+                const SizedBox(height: 16),
+                SizedBox(
+                  height: 250,
+                  child: BarChart(
+                    BarChartData(
+                      alignment: BarChartAlignment.center,
+                      maxY: 100, // Always 100% scale
+                      gridData: FlGridData(show: true),
+                      borderData: FlBorderData(show: false),
+                      titlesData: FlTitlesData(
+                        leftTitles: AxisTitles(
+                          sideTitles: SideTitles(
+                            showTitles: true,
+                            reservedSize: 35,
+                            getTitlesWidget: (value, meta) {
+                              return Text("${value.toInt()}%",
+                                  style: const TextStyle(fontSize: 10));
+                            },
+                          ),
+                        ),
+                        bottomTitles: AxisTitles(
+                          sideTitles: SideTitles(showTitles: false),
+                        ),
+                        rightTitles: AxisTitles(
+                            sideTitles: SideTitles(showTitles: false)),
+                        topTitles: AxisTitles(
+                            sideTitles: SideTitles(showTitles: false)),
+                      ),
+                      barGroups: [
+                        BarChartGroupData(x: 0, barRods: [
+                          BarChartRodData(
+                            toY: s.count.perCorrect,
+                            color: Colors.green,
+                            width: 18,
+                          ),
+                        ]),
+                        BarChartGroupData(x: 1, barRods: [
+                          BarChartRodData(
+                            toY: s.count.perIncorrect,
+                            color: Colors.red,
+                            width: 18,
+                          ),
+                        ]),
+                        BarChartGroupData(x: 2, barRods: [
+                          BarChartRodData(
+                            toY: s.count.perUnattempted,
+                            color: Colors.blue,
+                            width: 18,
+                          ),
+                        ]),
+                        BarChartGroupData(x: 3, barRods: [
+                          BarChartRodData(
+                            toY: s.count.perUnattended,
+                            color: Colors.grey,
+                            width: 18,
+                          ),
+                        ]),
+                      ],
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 16),
+                Wrap(
+                  alignment: WrapAlignment.center,
+                  spacing: 20,
+                  children: const [
+                    _LegendItem(color: Colors.green, text: "Correct"),
+                    _LegendItem(color: Colors.red, text: "Incorrect"),
+                    _LegendItem(color: Colors.blue, text: "Unattempted"),
+                    _LegendItem(color: Colors.grey, text: "Unattended"),
+                  ],
+                ),
+              ],
+            ),
+          );
+        }).toList(),
+      ],
+    );
+  }
+
+  //Performance Summary
+  Widget _buildPerformanceSummary(report) {
+    final time = report.time;
 
     return Container(
       padding: const EdgeInsets.all(16),
@@ -223,56 +476,260 @@ class _TestReportPageState extends State<TestReportPage> {
         ],
       ),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text("Score Analysis",
-              style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black87)),
-          const SizedBox(height: 20),
+          const Text(
+            "Performance Summary",
+            style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+              color: Colors.black87,
+            ),
+          ),
+          const SizedBox(height: 16),
+          _summaryBox([
+            "Total Number of Correctly Answered: ${report.userDetails?.correctlyAnswered ?? 0}",
+            "Total Time Taken: ${time.totalTimeTaken} sec",
+            "Total Number of Incorrectly Answered: ${report.userDetails?.incorrectlyAnswered ?? 0}",
+            "Average Time Spent on Correctly Answered: ${time.avgCorrect} sec",
+          ]),
+          const SizedBox(height: 16),
+          _summaryBox([
+            "Total Number of Un-attempted Questions: ${report.userDetails?.questionsUnAnswered ?? 0}",
+            "Average Time Spent on Incorrectly Answered: ${time.avgIncorrect} sec",
+            "Total Number of Un-attended Questions: ${report.userDetails?.questionsUnAttended ?? 0}",
+            "Average Time Spent on Un-attempted: ${time.avgUnanswered} sec",
+          ]),
+        ],
+      ),
+    );
+  }
+
+  /// --- SUBJECT / SECTION WISE SCORE ANALYSIS ---
+  Widget _buildSubjectWiseScoreAnalysis(ExamPerformanceModel report) {
+    final subjects = report.subjectAnalysis ?? [];
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Text(
+          "Subject / Section Wise Score Analysis",
+          style: TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+            color: Colors.black87,
+          ),
+        ),
+        const SizedBox(height: 16),
+        SizedBox(
+          height: 330, // ✅ Extra space for chart + legend
+          child: ListView.builder(
+            scrollDirection: Axis.horizontal,
+            itemCount: subjects.length,
+            itemBuilder: (context, index) {
+              final subject = subjects[index];
+
+              return Container(
+                width: 240,
+                margin: const EdgeInsets.only(right: 16),
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(20),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.15),
+                      blurRadius: 8,
+                      offset: const Offset(0, 4),
+                    ),
+                  ],
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    /// ✅ Subject Name
+                    Text(
+                      subject.title ?? "Subject",
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.black87,
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+
+                    /// ✅ Donut chart
+                    SizedBox(
+                      height: 160,
+                      child: PieChart(
+                        PieChartData(
+                          centerSpaceRadius: 45,
+                          sectionsSpace: 2,
+                          sections: [
+                            PieChartSectionData(
+                              value: subject.count.perCorrect.toDouble(),
+                              color: Colors.green,
+                              title: subject.count.perCorrect > 0
+                                  ? "${subject.count.perCorrect}%"
+                                  : "",
+                              radius: 50,
+                              titleStyle: const TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                              ),
+                            ),
+                            PieChartSectionData(
+                              value: subject.count.perIncorrect.toDouble(),
+                              color: Colors.red,
+                              title: subject.count.perIncorrect > 0
+                                  ? "${subject.count.perIncorrect}%"
+                                  : "",
+                              radius: 50,
+                              titleStyle: const TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                              ),
+                            ),
+                            PieChartSectionData(
+                              value: subject.count.perUnattempted.toDouble(),
+                              color: Colors.blue,
+                              title: subject.count.perUnattempted > 0
+                                  ? "${subject.count.perUnattempted}%"
+                                  : "",
+                              radius: 50,
+                              titleStyle: const TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                              ),
+                            ),
+                            PieChartSectionData(
+                              value: subject.count.perUnattended.toDouble(),
+                              color: Colors.grey,
+                              title: subject.count.perUnattended > 0
+                                  ? "${subject.count.perUnattended}%"
+                                  : "",
+                              radius: 50,
+                              titleStyle: const TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+
+                    const SizedBox(height: 20),
+
+                    /// ✅ Legend neatly placed
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: const [
+                        _LegendItem(color: Colors.green, text: "Correct"),
+                        _LegendItem(color: Colors.red, text: "Incorrect"),
+                      ],
+                    ),
+                    const SizedBox(height: 6),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: const [
+                        _LegendItem(color: Colors.blue, text: "Unattempted"),
+                        _LegendItem(color: Colors.grey, text: "Unattended"),
+                      ],
+                    ),
+                  ],
+                ),
+              );
+            },
+          ),
+        ),
+      ],
+    );
+  }
+
+  /// --- Subject Card with Donut Chart ---
+  Widget _subjectCard(subject) {
+    final correct = subject.correct ?? 0;
+    final incorrect = subject.incorrect ?? 0;
+    final unattempted = subject.unattempted ?? 0;
+    final unattended = subject.unattended ?? 0;
+
+    return Container(
+      width: 220,
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: Colors.grey.shade300),
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(
+            subject.name ?? "Subject",
+            style: const TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+          const SizedBox(height: 12),
+
+          // ✅ Donut Chart
           SizedBox(
-            height: 180,
+            height: 160,
             child: PieChart(
               PieChartData(
-                centerSpaceRadius: 55,
-                sectionsSpace: 2,
+                centerSpaceRadius: 40,
                 sections: [
                   PieChartSectionData(
-                    color: Colors.green,
                     value: correct.toDouble(),
-                    title: "",
-                    radius: 22,
+                    color: Colors.green,
+                    title: correct > 0 ? "Correct\n$correct" : "",
+                    radius: 40,
+                    titleStyle:
+                        const TextStyle(fontSize: 12, color: Colors.white),
                   ),
                   PieChartSectionData(
-                    color: Colors.red,
                     value: incorrect.toDouble(),
-                    title: "",
-                    radius: 22,
+                    color: Colors.red,
+                    title: incorrect > 0 ? "Incorrect\n$incorrect" : "",
+                    radius: 40,
+                    titleStyle:
+                        const TextStyle(fontSize: 12, color: Colors.white),
                   ),
                   PieChartSectionData(
-                    color: Colors.blue,
                     value: unattempted.toDouble(),
-                    title: "",
-                    radius: 22,
+                    color: Colors.blue,
+                    title: unattempted > 0 ? "Unattempted\n$unattempted" : "",
+                    radius: 40,
+                    titleStyle:
+                        const TextStyle(fontSize: 12, color: Colors.white),
                   ),
                   PieChartSectionData(
-                    color: Colors.grey,
                     value: unattended.toDouble(),
-                    title: "",
-                    radius: 22,
+                    color: Colors.grey,
+                    title: unattended > 0 ? "Unattended\n$unattended" : "",
+                    radius: 40,
+                    titleStyle:
+                        const TextStyle(fontSize: 12, color: Colors.white),
                   ),
                 ],
               ),
             ),
           ),
-          const SizedBox(height: 20),
+          const SizedBox(height: 12),
           Wrap(
             alignment: WrapAlignment.center,
-            spacing: 20,
+            spacing: 8,
+            runSpacing: 4,
             children: const [
               _LegendItem(color: Colors.green, text: "Correct"),
               _LegendItem(color: Colors.red, text: "Incorrect"),
-              _LegendItem(color: Colors.blue, text: "Unanswered"),
+              _LegendItem(color: Colors.blue, text: "Unattempted"),
               _LegendItem(color: Colors.grey, text: "Unattended"),
             ],
           ),
@@ -281,7 +738,63 @@ class _TestReportPageState extends State<TestReportPage> {
     );
   }
 
-  /// --- STATS GRID ---
+  //Legend Item 
+  static Widget _legendItem(Color color, String text) {
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Container(
+          width: 12,
+          height: 12,
+          decoration: BoxDecoration(
+            color: color,
+            shape: BoxShape.rectangle,
+          ),
+        ),
+        const SizedBox(width: 4),
+        Text(text, style: TextStyle(fontSize: 12)),
+      ],
+    );
+  }
+
+  // Helper Widget for box
+  Widget _summaryBox(List<String> items) {
+    return Container(
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        border: Border.all(color: Colors.grey.shade300),
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: items
+            .map((e) => Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 4),
+                  child: Text(e, style: const TextStyle(fontSize: 14)),
+                ))
+            .toList(),
+      ),
+    );
+  }
+
+  // Helper for labels
+  String _getLabel(
+      int index, int correct, int incorrect, int unattempted, int unattended) {
+    switch (index) {
+      case 0:
+        return "Correct: $correct";
+      case 1:
+        return "Incorrect: $incorrect";
+      case 2:
+        return "Unattempted: $unattempted";
+      case 3:
+        return "Unattended: $unattended";
+      default:
+        return "";
+    }
+  }
+
+  // STATS GRID
   Widget _buildStatsGrid(report) {
     final stats = [
       {
@@ -357,7 +870,7 @@ class _TestReportPageState extends State<TestReportPage> {
   }
 }
 
-/// --- LEGEND ITEM WIDGET ---
+//LEGEND ITEM WIDGET 
 class _LegendItem extends StatelessWidget {
   final Color color;
   final String text;
