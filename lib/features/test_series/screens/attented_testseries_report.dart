@@ -52,12 +52,12 @@ class _TestReportPageState extends State<TestReportPage> {
       backgroundColor: Theme.of(context).colorScheme.surface,
       appBar: AppBar(
         backgroundColor: AppColor.whiteColor,
-        title: Text(
+        title: const Text(
           "Test Performance Report",
           style: TextStyle(fontWeight: FontWeight.w500, fontSize: 18),
         ),
-        leading: Padding(
-          padding: const EdgeInsets.only(left: 20.0),
+        leading: const Padding(
+          padding: EdgeInsets.only(left: 20.0),
           child: CustomBackButton(),
         ),
       ),
@@ -66,6 +66,33 @@ class _TestReportPageState extends State<TestReportPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
+            // 🔹 View Solution Button at the top
+            ElevatedButton(
+              onPressed: () {
+                // TODO: Navigate to Solution Page
+                // Navigator.push(context, MaterialPageRoute(
+                //   builder: (_) => SolutionPage(testId: widget.testid),
+                // ));
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.green,
+                padding: const EdgeInsets.symmetric(vertical: 14),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+              ),
+              child: const Text(
+                "View Solution",
+                style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.w600,
+                  fontSize: 16,
+                ),
+              ),
+            ),
+
+            const SizedBox(height: 20),
+
             _buildHeaderCard(report),
             const SizedBox(height: 20),
             _buildStatsGrid(report),
@@ -76,7 +103,7 @@ class _TestReportPageState extends State<TestReportPage> {
             const SizedBox(height: 20),
             _buildPerformanceSummary(report), //  Performance Summary
             const SizedBox(height: 20),
-            _buildSubjectWiseScoreAnalysis(report), // Subjectwisescore
+            _buildSubjectWiseScoreAnalysis(report), // Subject-wise score
           ],
         ),
       ),
@@ -738,7 +765,7 @@ class _TestReportPageState extends State<TestReportPage> {
     );
   }
 
-  //Legend Item 
+  //Legend Item
   static Widget _legendItem(Color color, String text) {
     return Row(
       mainAxisSize: MainAxisSize.min,
@@ -870,7 +897,7 @@ class _TestReportPageState extends State<TestReportPage> {
   }
 }
 
-//LEGEND ITEM WIDGET 
+//LEGEND ITEM WIDGET
 class _LegendItem extends StatelessWidget {
   final Color color;
   final String text;
