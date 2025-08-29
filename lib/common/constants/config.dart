@@ -51,3 +51,6 @@ const courseDetails = "Newapi/getCourseDetails";
 const bookMark = "Newapi/bookmark";
 const checkBookMark = "Newapi/checkForBookMark";
 const bookmarkedContent = "Newapi/getUserBookmarkedContents";
+
+//change password
+const changedPassword = "Newapi/changePassword";
