@@ -2,6 +2,7 @@ import 'package:etutor/common/constants/app_constants.dart';
 import 'package:etutor/common/widgets/back_button.dart';
 import 'package:etutor/features/auth/provider/login_provider.dart';
 import 'package:etutor/features/auth/screen/phone_number_auth.dart';
+import 'package:etutor/features/profile/screens/change_password.dart';
 import 'package:etutor/features/profile/screens/edit_profile.dart';
 import 'package:etutor/features/profile/widgets/custom_wave_painter.dart';
 import 'package:etutor/features/home/provider/user_details_provider.dart';
@@ -22,8 +23,9 @@ class Profile extends StatelessWidget {
     String? qualification = context
         .read<LoginProvider>()
         .getClassNameById(userDetails?.qualification);
-    String? syllabus =
-        context.read<LoginProvider>().getSyllabusNameById(userDetails?.syllabus ?? '');
+    String? syllabus = context
+        .read<LoginProvider>()
+        .getSyllabusNameById(userDetails?.syllabus ?? '');
 
     return Scaffold(
       appBar: AppBar(
@@ -107,8 +109,7 @@ class Profile extends StatelessWidget {
                                   await Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) =>
-                                          const EditProfile(),
+                                      builder: (context) => const EditProfile(),
                                     ),
                                   );
                                   // Refresh after returning from Edit Profile
@@ -135,8 +136,8 @@ class Profile extends StatelessWidget {
                                 Icons.email, userDetails.email ?? 'N/A'),
                             _buildInfoRow(Icons.cake,
                                 convertDateFormat(userDetails.dob ?? 'N/A')),
-                            _buildInfoRow(Icons.class_rounded,
-                                syllabus ?? "N/A"),
+                            _buildInfoRow(
+                                Icons.class_rounded, syllabus ?? "N/A"),
                             _buildInfoRow(
                                 Icons.school, userDetails.school ?? 'N/A'),
                           ],
@@ -216,6 +217,19 @@ class Profile extends StatelessWidget {
         child: Column(
           children: [
             _buildActionButton(
+              text: "Change Password",
+              color: Colors.pink,
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const ChangePasswordScreen(),
+                  ),
+                );
+              },
+            ),
+            const SizedBox(height: 10),
+            _buildActionButton(
               text: "Delete Account",
               color: AppColor.primaryColor,
               onPressed: () {
@@ -232,8 +246,8 @@ class Profile extends StatelessWidget {
                   builder: (context) => AlertDialog(
                     title: const Text(
                       "Are you sure you want to log out?",
-                      style: TextStyle(
-                          fontSize: 16, fontWeight: FontWeight.w500),
+                      style:
+                          TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
                     ),
                     actions: [
                       TextButton(
@@ -278,8 +292,8 @@ class Profile extends StatelessWidget {
         child: ElevatedButton(
           style: ElevatedButton.styleFrom(
             backgroundColor: color,
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(5)),
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
           ),
           onPressed: onPressed,
           child: Text(text, style: const TextStyle(color: Colors.white)),
