@@ -856,7 +856,7 @@ class _TestReportPageState extends State<TestReportPage> {
       physics: const NeverScrollableScrollPhysics(),
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
-        childAspectRatio: 2.4,
+        childAspectRatio: 2,
         crossAxisSpacing: 12,
         mainAxisSpacing: 12,
       ),
