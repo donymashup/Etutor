@@ -3,6 +3,7 @@ import 'package:etutor/common/screens/network_dialog.dart';
 import 'package:etutor/common/screens/splash_screen.dart';
 import 'package:etutor/common/constants/app_constants.dart';
 import 'package:etutor/features/auth/provider/login_provider.dart';
+import 'package:etutor/features/auth/screen/onboarding_screen.dart';
 import 'package:etutor/features/chapter_analysis/provider/chapter_analysis_provider.dart';
 import 'package:etutor/features/home/provider/homepage_provider.dart';
 import 'package:etutor/features/home/provider/user_details_provider.dart';
@@ -23,10 +24,10 @@ import 'package:provider/provider.dart';
 
 void main() async {
   await TeXRenderingServer.start();
-   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   runApp(
     MultiProvider(
-      providers:[
+      providers: [
         ChangeNotifierProvider(create: (_) => PaymentProvider()),
         ChangeNotifierProvider(create: (_) => LoginProvider()),
         ChangeNotifierProvider(create: (_) => HomepageProvider()),
@@ -39,13 +40,13 @@ void main() async {
         ChangeNotifierProvider(create: (_) => ChapterCardOverviewProvider()),
         ChangeNotifierProvider(create: (_) => LiveClassProvider()),
         ChangeNotifierProvider(create: (_) => ChapterAnalysisProvider()),
-        ChangeNotifierProvider(create: (_)=> CourseDetailsProvider()),
-        ChangeNotifierProvider(create: (_)=> VideoPlayerProvider()),
-        ChangeNotifierProvider(create: (_)=> BookmarkProvider()),
-         ChangeNotifierProvider(create: (_) => ChangePasswordProvider()), 
+        ChangeNotifierProvider(create: (_) => CourseDetailsProvider()),
+        ChangeNotifierProvider(create: (_) => VideoPlayerProvider()),
+        ChangeNotifierProvider(create: (_) => BookmarkProvider()),
+        ChangeNotifierProvider(create: (_) => ChangePasswordProvider()),
       ],
       child: MyApp(),
-      ),
+    ),
   );
 }
 
@@ -59,7 +60,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: AppColor.whiteColor),
         useMaterial3: true,
       ),
-       builder: (context, child) {
+      builder: (context, child) {
         return Stack(
           children: [
             child!,
@@ -74,7 +75,7 @@ class MyApp extends StatelessWidget {
           ],
         );
       },
-      home: SplashScreen(),   
+      home: SplashScreen(),
     );
   }
 }

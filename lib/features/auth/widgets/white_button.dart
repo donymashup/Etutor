@@ -2,8 +2,8 @@ import 'package:etutor/common/constants/app_constants.dart';
 import 'package:flutter/material.dart';
 
 class whiteButton extends StatelessWidget {
- final  String text;
- final  void Function() onpressed;
+  final String text;
+  final void Function() onpressed;
   const whiteButton({
     required this.onpressed,
     required this.text,
@@ -20,7 +20,7 @@ class whiteButton extends StatelessWidget {
         style: ElevatedButton.styleFrom(
           backgroundColor: AppColor.whiteColor,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(18),
+            borderRadius: BorderRadius.circular(10),
           ),
         ),
         child: Text(text,

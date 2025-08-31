@@ -89,8 +89,8 @@ class _PhoneNumberAuthState extends State<PhoneNumberAuth> {
                     children: [
                       Image.asset(
                         "assets/images/arrow_topLeft.png",
-                        // height: 75,
-                        // width: 75,
+                        height: 32,
+                        width: 32,
                       ),
                     ],
                   ),
@@ -141,17 +141,17 @@ class _PhoneNumberAuthState extends State<PhoneNumberAuth> {
                         filled: true,
                         fillColor: AppColor.primaryColor.withOpacity(0.15),
                         enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(5),
+                          borderRadius: BorderRadius.circular(12),
                           borderSide:
                               const BorderSide(color: AppColor.whiteColor),
                         ),
                         focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(5),
+                          borderRadius: BorderRadius.circular(12),
                           borderSide: const BorderSide(
                               color: AppColor.whiteColor, width: 2),
                         ),
                         border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(5),
+                          borderRadius: BorderRadius.circular(12),
                           borderSide:
                               const BorderSide(color: AppColor.whiteColor),
                         ),
@@ -190,8 +190,8 @@ class _PhoneNumberAuthState extends State<PhoneNumberAuth> {
                     children: [
                       Image.asset(
                         "assets/images/arrow_bottomright.png",
-                        // height: 32,
-                        // width: 32,
+                        height: 32,
+                        width: 32,
                       ),
                     ],
                   ),
