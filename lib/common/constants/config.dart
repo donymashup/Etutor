@@ -51,3 +51,7 @@ const courseDetails = "Newapi/getCourseDetails";
 const bookMark = "Newapi/bookmark";
 const checkBookMark = "Newapi/checkForBookMark";
 const bookmarkedContent = "Newapi/getUserBookmarkedContents";
+
+//payment
+const orderId ='Newapi/createOrderId';
+const enroll = 'Newapi/entrollStudent';
