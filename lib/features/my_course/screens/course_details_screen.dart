@@ -160,13 +160,13 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen>
                         MaterialPageRoute(
                           builder: (context) => CheckoutScreen(
                             image: courseDetailsProvider.courseDetails.image ?? '',
-                             name: courseDetailsProvider.courseDetails.name ?? '',
-                             price:  courseDetailsProvider.courseDetails.price ?? '', 
-                             courseId: courseDetailsProvider.courseDetails.id ?? '',),
+                            name: courseDetailsProvider.courseDetails.name ?? '',
+                            price: courseDetailsProvider.courseDetails.price ?? '', 
+                            courseId: courseDetailsProvider.courseDetails.id ?? '',
+                          ),
                         ),
-                      ),
-                    );
-                  },
+                      );
+                    },
                   text: "Enroll now",
                   buttoncolor: AppColor.primaryColor,
                   textColor: AppColor.whiteColor,
