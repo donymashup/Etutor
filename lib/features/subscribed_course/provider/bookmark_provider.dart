@@ -67,37 +67,43 @@ List <book_mark_models.Data> bookmarkMaterial =[];
     isLoading = false;
     notifyListeners();
   }
-  
-   // fetch book marked contents
- Future<void> getBookMarkedContents({
-    required BuildContext context,
-  }) async {
-    isLoading = true;
-    notifyListeners();
-    try {
-      final response = await BookMarkServices().getBookMarked(
-        context: context,
-      );
-      if (response != null && response.data.isEmpty) {
 
-       for (var i = 0; i < response.data.length; i++){
-         if(response.data[i].type == 'materials'){
-           bookmarkMaterial.add(response.data[i]);
-         }else if(response.data[i].type == 'vedios'){
+  // fetch book marked contents
+Future<void> getBookMarkedContents({
+  required BuildContext context,
+}) async {
+  isLoading = true;
+  notifyListeners();
+  try {
+    final response = await BookMarkServices().getBookMarked(
+      context: context,
+    );
 
-         }
-       }
-      } else {
-        bookmarkMaterial =[];
-        bookmarkVedio =[];
+    bookmarkMaterial = [];
+    bookmarkVedio = [];
+
+    if (response != null && response.data.isNotEmpty) {
+      debugPrint("Bookmarks found: ${response.data.length}");
+
+      for (var i = 0; i < response.data.length; i++) {
+        final item = response.data[i];
+
+        if (item.type == 'materials') {
+          bookmarkMaterial.add(item);
+        } else if (item.type == 'videos') {
+          bookmarkVedio.add(item);
+        }
       }
-    } catch (e) {
-     debugPrint("Error fetching book marked content : $e");
-     bookmarkMaterial =[];
-        bookmarkVedio =[];
+    } else {
+      debugPrint("No bookmarked contents");
     }
-    isLoading = false;
-    notifyListeners();
+  } catch (e) {
+    debugPrint("Error fetching bookmarked content : $e");
+    bookmarkMaterial = [];
+    bookmarkVedio = [];
   }
-  
+  isLoading = false;
+  notifyListeners();
+}
+
 }

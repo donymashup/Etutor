@@ -156,7 +156,8 @@ class _CourseCurriculumCardState extends State<CourseCurriculumCard> {
                                                   CheckoutScreen(
                                                     image: courseDetailsProvider.courseDetails.image ?? '', 
                                                     name:  courseDetailsProvider.courseDetails.name ?? '', 
-                                                    price:  courseDetailsProvider.courseDetails.price ?? '',)));
+                                                    price:  courseDetailsProvider.courseDetails.price ?? '', 
+                                                    courseId: courseDetailsProvider.courseDetails.id ?? '',)));
                                     },
                                     child: Text('Yes'),
                                   ),

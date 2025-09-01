@@ -4,7 +4,6 @@ import 'package:etutor/common/widgets/back_button.dart';
 import 'package:etutor/common/widgets/custom_button.dart';
 import 'package:etutor/features/payment/controller/payment_provider.dart';
 import 'package:etutor/features/payment/screen/payment_method.dart';
-import 'package:etutor/features/payment/screen/payment_succesfull.dart';
 import 'package:etutor/features/payment/screen/voucher_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -14,11 +13,14 @@ class CheckoutScreen extends StatelessWidget {
   final String image;
   final String name;
   final String price;
+  final String courseId;
   CheckoutScreen(
       {super.key,
       required this.image,
       required this.name,
-      required this.price});
+      required this.price,
+      required this.courseId
+      });
 
   @override
   Widget build(BuildContext context) {
@@ -519,7 +521,7 @@ class CheckoutScreen extends StatelessWidget {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => PaymentMethod(price: price,)),
+                                  builder: (context) => PaymentMethod(price: price, courseId: courseId, promo: '', courseName: name,)),
                             );
                             //  }
                           },

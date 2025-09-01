@@ -61,13 +61,13 @@ class getUserBookmarkedContents {
 }
 
 class Data {
-  late String id;
-  late String userid;
-  late String type;
-  late String contentid;
-  late String created;
-  late String name;
-  late String thumbnail;
+  late String? id;
+  late String? userid;
+  late String? type;
+  late String? contentid;
+  late String? created;
+  late String? name;
+  late String? thumbnail;
 
   Data(
       {required this.id,

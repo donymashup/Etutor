@@ -163,7 +163,8 @@ Future <void> _load()async{
                           builder: (context) => CheckoutScreen(
                             image: courseDetailsProvider.courseDetails.image ?? '',
                              name: courseDetailsProvider.courseDetails.name ?? '',
-                             price:  courseDetailsProvider.courseDetails.price ?? '',),
+                             price:  courseDetailsProvider.courseDetails.price ?? '', 
+                             courseId: courseDetailsProvider.courseDetails.id ?? '',),
                         ),
                       );
                     },
