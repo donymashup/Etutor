@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:etutor/common/constants/config.dart';
 import 'package:etutor/common/constants/utils.dart';
 import 'package:etutor/features/home/model/bannerimages_model.dart';
+import 'package:etutor/features/home/model/category_based_courses_model.dart';
 import 'package:etutor/features/home/model/is_course_subscribed_model.dart';
 import 'package:etutor/features/home/model/popular_course_model.dart';
 import 'package:etutor/features/home/model/syllabus_based_livecourse.dart';
@@ -163,6 +164,46 @@ final storage = const FlutterSecureStorage();
         }
       } else {
         debugPrint("Failed to check the course subscribed: ${response.statusCode}");
+        return null;
+      }
+    } catch (e) {
+      showSnackbar(context, "Error : $e");
+      return null;
+    }
+  }
+
+
+  
+    // fuction to fetch category headers
+  Future<CategoryBasedCoursesModel?> getCategoryHeaders({
+    required BuildContext context,
+  }) async {
+    try {
+      final token = await storage.read(key: 'token');
+      if (token == null) {
+        showSnackbar(context, "Token not found. Please log in again.");
+        return null;
+      }
+      final response = await sendGetRequestWithToken(
+        url: '$baseUrl$categoryheaderCourses',
+        token: token        
+      );
+      if (response.statusCode == 200) {
+        final jsonResponse = json.decode(await response.stream.bytesToString());
+        if (jsonResponse == null || jsonResponse.isEmpty) {
+          showSnackbar(context, 'Invalid response from server');
+          return null;
+        } else {
+          final categoryBasedCoursesModel = CategoryBasedCoursesModel.fromJson(jsonResponse);
+          if (categoryBasedCoursesModel.type == 'success') {
+            return categoryBasedCoursesModel;
+          } else {
+            showSnackbar(context, categoryBasedCoursesModel.type!);
+            return null;
+          }
+        }
+      } else {
+        debugPrint("Failed to fetch Category Headers: ${response.statusCode}");
         return null;
       }
     } catch (e) {
