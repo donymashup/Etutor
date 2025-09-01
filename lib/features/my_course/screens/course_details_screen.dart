@@ -14,14 +14,14 @@ import 'package:shimmer/shimmer.dart';
 
 class CourseDetailsScreen extends StatefulWidget {
   final String courseId;
-  const CourseDetailsScreen({super.key,required this.courseId});
+  const CourseDetailsScreen({super.key, required this.courseId});
 
   @override
   State<CourseDetailsScreen> createState() => _CourseDetailsScreenState();
 }
 
 class _CourseDetailsScreenState extends State<CourseDetailsScreen>
- with SingleTickerProviderStateMixin {
+    with SingleTickerProviderStateMixin {
   late TabController _tabcontroller;
   CourseDetailsProvider courseDetailsProvider = CourseDetailsProvider();
 
@@ -32,9 +32,12 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen>
     _load();
   }
 
-Future <void> _load()async{
-  await context.read<CourseDetailsProvider>().getCourseDetails(widget.courseId, context);
-}
+  Future<void> _load() async {
+    await context
+        .read<CourseDetailsProvider>()
+        .getCourseDetails(widget.courseId, context);
+  }
+
   @override
   void dispose() {
     _tabcontroller.dispose();
@@ -44,8 +47,8 @@ Future <void> _load()async{
   @override
   Widget build(BuildContext context) {
     courseDetailsProvider = context.watch<CourseDetailsProvider>();
-    
-    if (courseDetailsProvider.isLoading){
+
+    if (courseDetailsProvider.isLoading) {
       return courseDetailsShimmer();
     }
     return Scaffold(
@@ -65,7 +68,7 @@ Future <void> _load()async{
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: Stack(
-                children:[ 
+                children: [
                   Container(
                     height: MediaQuery.of(context).size.width * .5,
                     width: double.infinity,
@@ -75,7 +78,8 @@ Future <void> _load()async{
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(20),
                       child: CachedNetworkImage(
-                        imageUrl: courseDetailsProvider.courseDetails.image ?? "",
+                        imageUrl:
+                            courseDetailsProvider.courseDetails.image ?? "",
                         fit: BoxFit.cover,
                         placeholder: (context, url) => Shimmer.fromColors(
                           baseColor: Colors.grey[300]!,
@@ -107,22 +111,18 @@ Future <void> _load()async{
                 child: TabBar(
                   controller: _tabcontroller,
                   tabs: [
-                    Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Tab(text: "Overview"),
-                      ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Tab(text: "Overview"),
                     ),
-                    Expanded(
-                        child: Padding(
+                    Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Tab(text: "Curriculum"),
-                    )),
-                    Expanded(
-                        child: Padding(
+                    ),
+                    Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Tab(text: "Reviews"),
-                    )),
+                    ),
                   ],
                   labelColor: AppColor.whiteColor,
                   unselectedLabelColor: AppColor.blackColor,
@@ -136,13 +136,10 @@ Future <void> _load()async{
               ),
             ),
             Expanded(
-              child: Stack(children: [
-                TabBarView(controller: _tabcontroller,
-                 children: [
-                  CourseOverviewScreen(),
-                  CourseCurriculum(),
-                  CourseReview(),
-                ]),
+              child: TabBarView(controller: _tabcontroller, children: [
+                CourseOverviewScreen(),
+                CourseCurriculum(),
+                CourseReview(),
               ]),
             ),
           ],
@@ -156,23 +153,27 @@ Future <void> _load()async{
                 padding:
                     const EdgeInsets.symmetric(horizontal: 15.0, vertical: 15),
                 child: CustomButton(
-                    onpressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => CheckoutScreen(
-                            image: courseDetailsProvider.courseDetails.image ?? '',
-                             name: courseDetailsProvider.courseDetails.name ?? '',
-                             price:  courseDetailsProvider.courseDetails.price ?? '',),
+                  onpressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => CheckoutScreen(
+                          image:
+                              courseDetailsProvider.courseDetails.image ?? '',
+                          name: courseDetailsProvider.courseDetails.name ?? '',
+                          price:
+                              courseDetailsProvider.courseDetails.price ?? '',
                         ),
-                      );
-                    },
-                    text: "Enroll now",
-                    buttoncolor: AppColor.primaryColor,textColor: AppColor.whiteColor,),
+                      ),
+                    );
+                  },
+                  text: "Enroll now",
+                  buttoncolor: AppColor.primaryColor,
+                  textColor: AppColor.whiteColor,
+                ),
               ),
             ))
       ])),
     );
   }
 }
-

@@ -17,6 +17,7 @@ const getBannerImage = 'Newapi/getBannerImages';
 const isCourseSub = 'Newapi/isCourseSubscribed';
 const syllabusLiveCourses = 'Newapi/getSyllabusBasedLiveCourse';
 const popularCourse = 'Newapi/getPopularCourses';
+const categoryheaderCourses ='Newapi/getCategoryBasedCourses';
 
 // update profile
 const updateProfile = 'Newapi/updateProfile';

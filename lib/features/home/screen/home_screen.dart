@@ -47,12 +47,15 @@ class _HomePageState extends State<HomePage> {
     await homepageProvider.syllabusBasedLiveCourses(
         context, userDetailsProvider.syllabusId!);
     await context.read<LoginProvider>().dropDownOptions(context);
+    await homepageProvider.categoryHeader(context);
   }
 
   @override
   Widget build(BuildContext context) {
     userProvider = Provider.of<UserDetailsProvider>(context, listen: true);
     homeProvider = Provider.of<HomepageProvider>(context, listen: true);
+    final catIndex = homeProvider.selectedIndex;
+
     return Scaffold(
       key: _scaffoldKey,
       endDrawer: const SideDrawer(),
@@ -242,31 +245,35 @@ class _HomePageState extends State<HomePage> {
               SizedBox(
                 height: 10,
               ),
+
               // category header
-              const CategoryButtonList(),
+              CategoryButtonList(),
 
               // Active Courses
               sectionHeader(
-                  "Active Courses (${homeProvider.syllabusCourse.length})", () {
+                  homeProvider.isCategoryHeader
+                      ? "Active Courses (0)"
+                      : "Active Courses (${(homeProvider.catogryDetails[catIndex].courses ?? []).length})",
+                  () {
                 Navigator.push(context,
                     MaterialPageRoute(builder: (_) => const SeeMoreCourses()));
               }),
               // courseList(activeCourses),
-              homeProvider.isSyllabuscourseLoading
+              homeProvider.isCategoryHeader
                   ? GridShimmeLoader()
                   : CoursesGridWidget(
-                      courses: homeProvider.syllabusCourse
-                          .map((data) => {
-                                'id': data.id,
-                                'name': data.name,
-                                'price': data.price,
-                                'image': data.image,
-                                'discount': data.discount,
-                                'likesCount': data.likesCount,
-                                'avgStars': data.avgStars,
-                                'syllabus': data.syllabus,
-                              })
-                          .toList())
+                      courses:
+                          (homeProvider.catogryDetails[catIndex].courses ?? [])
+                              .map((data) => {
+                                    'id': data.courseDetails?.id,
+                                    'name': data.courseDetails?.name,
+                                    'price': data.courseDetails?.price,
+                                    'image': data.courseDetails?.image,
+                                    'discount': data.courseDetails?.discount,
+                                    'avgStars': data.avgStars,
+                                    'syllabus': data.courseDetails?.syllabus,
+                                  })
+                              .toList())
             ],
           ),
         ),
@@ -328,7 +335,7 @@ class _HomePageState extends State<HomePage> {
       );
     }
     return SizedBox(
-      height: MediaQuery.of(context).size.width * 0.22 + 100,
+      height: MediaQuery.of(context).size.width * 0.22 + 106,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         padding: const EdgeInsets.symmetric(horizontal: 16),
