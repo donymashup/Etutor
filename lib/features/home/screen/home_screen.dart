@@ -43,8 +43,9 @@ class _HomePageState extends State<HomePage> {
     final userDetailsProvider = context.read<UserDetailsProvider>();
     await userDetailsProvider.loadUserDetails(context);
     final homepageProvider = context.read<HomepageProvider>();
-    await homepageProvider.popularCourses(context);  
-    await homepageProvider.syllabusBasedLiveCourses(context,userDetailsProvider.syllabusId!);   
+    await homepageProvider.popularCourses(context);
+    await homepageProvider.syllabusBasedLiveCourses(
+        context, userDetailsProvider.syllabusId!);
     await context.read<LoginProvider>().dropDownOptions(context);
   }
 
@@ -77,7 +78,6 @@ class _HomePageState extends State<HomePage> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-
                       // Profile and Notification Row
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -94,10 +94,11 @@ class _HomePageState extends State<HomePage> {
                                     );
                                     _userDetails();
                                   },
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                                  child: _buildProfileAvatar(userProvider),
-                                ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 12.0),
+                                    child: _buildProfileAvatar(userProvider),
+                                  ),
                                 ),
                                 const SizedBox(width: 12),
                                 Expanded(
@@ -219,14 +220,14 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
               ),
-               // banner images
+              // banner images
               CarouselScreen(),
 
               // Popular Courses
               sectionHeader("Popular Courses"),
-              homeProvider.isPopularLoading 
-              ? HorizondalShimmerLoader()
-              : courseList( homeProvider.popularCourse
+              homeProvider.isPopularLoading
+                  ? HorizondalShimmerLoader()
+                  : courseList(homeProvider.popularCourse
                       .map((data) => {
                             'id': data.id,
                             'name': data.name,
@@ -245,26 +246,27 @@ class _HomePageState extends State<HomePage> {
               const CategoryButtonList(),
 
               // Active Courses
-              sectionHeader("Active Courses (${homeProvider.syllabusCourse.length})", () {
+              sectionHeader(
+                  "Active Courses (${homeProvider.syllabusCourse.length})", () {
                 Navigator.push(context,
                     MaterialPageRoute(builder: (_) => const SeeMoreCourses()));
               }),
               // courseList(activeCourses),
               homeProvider.isSyllabuscourseLoading
-              ? GridShimmeLoader()
-              : CoursesGridWidget(
-                  courses: homeProvider.syllabusCourse
-                      .map((data) => {
-                            'id': data.id,
-                            'name': data.name,
-                            'price': data.price,
-                            'image': data.image,
-                            'discount': data.discount,
-                            'likesCount': data.likesCount,
-                            'avgStars': data.avgStars,
-                            'syllabus': data.syllabus,
-                          })
-                      .toList())
+                  ? GridShimmeLoader()
+                  : CoursesGridWidget(
+                      courses: homeProvider.syllabusCourse
+                          .map((data) => {
+                                'id': data.id,
+                                'name': data.name,
+                                'price': data.price,
+                                'image': data.image,
+                                'discount': data.discount,
+                                'likesCount': data.likesCount,
+                                'avgStars': data.avgStars,
+                                'syllabus': data.syllabus,
+                              })
+                          .toList())
             ],
           ),
         ),
@@ -335,22 +337,35 @@ class _HomePageState extends State<HomePage> {
           final course = courses[index];
           return GestureDetector(
             onTap: () async {
-               final homepageProvider = Provider.of<HomepageProvider>(context, listen: false);
-               final isSubscribed = await homepageProvider.iscourseSubscribed(context, course['id']);
-               if (!context.mounted) return;
-              final subcribedCourseProvider = context.read<SubcribedCourseProvider>();
-              await subcribedCourseProvider.fetchCourseClasses(context: context, courseid: course['id']);
-              final courseimage =subcribedCourseProvider.courseClasses!.data!.first.classImage;
-              final coursetitle = subcribedCourseProvider.courseClasses!.data!.first.className;
-              isSubscribed ? Navigator.push(
-                context,
-                MaterialPageRoute(builder: (_) => SubscribedCourseClasses(courseId: course["id"], image: courseimage!, title: coursetitle!)),
-              )     
-              : 
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (_) =>  CourseDetailsScreen(courseId: course["id"],)),
-              );
+              final homepageProvider =
+                  Provider.of<HomepageProvider>(context, listen: false);
+              final isSubscribed = await homepageProvider.iscourseSubscribed(
+                  context, course['id']);
+              if (!context.mounted) return;
+              final subcribedCourseProvider =
+                  context.read<SubcribedCourseProvider>();
+              await subcribedCourseProvider.fetchCourseClasses(
+                  context: context, courseid: course['id']);
+              final courseimage =
+                  subcribedCourseProvider.courseClasses!.data!.first.classImage;
+              final coursetitle =
+                  subcribedCourseProvider.courseClasses!.data!.first.className;
+              isSubscribed
+                  ? Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (_) => SubscribedCourseClasses(
+                              courseId: course["id"],
+                              image: courseimage!,
+                              title: coursetitle!)),
+                    )
+                  : Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (_) => CourseDetailsScreen(
+                                courseId: course["id"],
+                              )),
+                    );
             },
             child: CoursesList(
               imagePath: course['image'],
@@ -363,8 +378,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-
-   Widget _buildProfileAvatar(UserDetailsProvider userProvider) {
+  Widget _buildProfileAvatar(UserDetailsProvider userProvider) {
     final imageUrl = userProvider.userDetails.data?.image ?? "";
 
     if (imageUrl.isEmpty) {
@@ -396,5 +410,3 @@ class _HomePageState extends State<HomePage> {
     );
   }
 }
-
-

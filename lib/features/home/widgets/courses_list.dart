@@ -17,67 +17,74 @@ class CoursesList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final media = MediaQuery.of(context);
     return Container(
-      width: MediaQuery.of(context).size.width * 0.4,
-      // height: ,
-      margin: const EdgeInsets.only(right: 12),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            height: MediaQuery.of(context).size.width * 0.22,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(16),
-            ),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(16),
-              child: AspectRatio(
-                aspectRatio: 16 / 9, 
-                child: CachedNetworkImage(
-                  imageUrl: imagePath,
-                  fit: BoxFit.cover, 
-                  placeholder: (context, url) => Shimmer.fromColors(
-                    baseColor: Colors.grey[300]!,
-                    highlightColor: Colors.grey[100]!,
-                    child: Container(color: Colors.white),
-                  ),
-                  errorWidget: (context, url, error) => const Icon(Icons.error),
-                ),
-              ),
-            ),
-          ),
-
-          const SizedBox(height: 8),
-
-          // Course Title
-          Text(
-            title,
-            maxLines: 2,
-            overflow: TextOverflow.ellipsis,
-            style: const TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.w600,
-              color: Colors.black87,
-            ),
-          ),
-
-          const SizedBox(height: 5),
-
-          // Stars + Rating Row
-          SizedBox(
-            width: 200,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      width: media.size.width * 0.44,
+      margin: const EdgeInsets.only(right: 8, bottom: 8),
+      child: Material(
+        elevation: 3,
+        borderRadius: BorderRadius.circular(5),
+        color: Colors.white,
+        child: InkWell(
+          borderRadius: BorderRadius.circular(5),
+          onTap: () {}, // TODO: Add navigation or details
+          child: Padding(
+            padding: const EdgeInsets.all(5.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                ratingtoStar(rating),
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(8),
+                  child: AspectRatio(
+                    aspectRatio: 16 / 9,
+                    child: CachedNetworkImage(
+                      imageUrl: imagePath,
+                      fit: BoxFit.cover,
+                      placeholder: (context, url) => Shimmer.fromColors(
+                        baseColor: Colors.grey[300]!,
+                        highlightColor: Colors.grey[100]!,
+                        child: Container(color: Colors.white),
+                      ),
+                      errorWidget: (context, url, error) => Container(
+                        color: Colors.grey[200],
+                        child: const Icon(Icons.broken_image,
+                            color: Colors.grey, size: 32),
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 12),
                 Text(
-                  rating.toString(),
-                  style: const TextStyle(color: Colors.black87, fontSize: 14),
+                  title,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w700,
+                    color: Colors.black,
+                  ),
+                ),
+                const SizedBox(height: 10),
+                Row(
+                  children: [
+                    Flexible(
+                      child: ratingtoStar(rating),
+                    ),
+                    const SizedBox(width: 6),
+                    Text(
+                      rating.toStringAsFixed(1),
+                      style: const TextStyle(
+                        color: Colors.black87,
+                        fontSize: 15,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),
           ),
-        ],
+        ),
       ),
     );
   }

@@ -55,3 +55,7 @@ const bookmarkedContent = "Newapi/getUserBookmarkedContents";
 //payment
 const orderId ='Newapi/createOrderId';
 const enroll = 'Newapi/entrollStudent';
+
+//change password
+const changedPassword = "Newapi/changePassword";
+
