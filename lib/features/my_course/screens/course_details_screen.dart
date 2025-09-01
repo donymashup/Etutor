@@ -153,16 +153,16 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen>
                 padding:
                     const EdgeInsets.symmetric(horizontal: 15.0, vertical: 15),
                 child: CustomButton(
-                  onpressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => CheckoutScreen(
-                          image:
-                              courseDetailsProvider.courseDetails.image ?? '',
-                          name: courseDetailsProvider.courseDetails.name ?? '',
-                          price:
-                              courseDetailsProvider.courseDetails.price ?? '',
+
+                    onpressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => CheckoutScreen(
+                            image: courseDetailsProvider.courseDetails.image ?? '',
+                             name: courseDetailsProvider.courseDetails.name ?? '',
+                             price:  courseDetailsProvider.courseDetails.price ?? '', 
+                             courseId: courseDetailsProvider.courseDetails.id ?? '',),
                         ),
                       ),
                     );

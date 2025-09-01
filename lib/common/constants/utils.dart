@@ -6,7 +6,7 @@ import 'package:http/http.dart' as http;
 void showSnackbar(BuildContext context, String text) {
   ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(
-      content: Center(child: Text(text,style: TextStyle(color: AppColor.whiteColor),)),
+      content: Center(child: Text(text,style: TextStyle(color: AppColor.blackColor),)),
       backgroundColor: AppColor.whiteColorTrasparent,
       elevation: 6,
       behavior: SnackBarBehavior.floating,

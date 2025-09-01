@@ -18,8 +18,12 @@ class _BookMarksState extends State<BookMarks> {
   BookmarkProvider bookmarkProvider = BookmarkProvider();
   @override
   void initState() {
-    context.read<BookmarkProvider>().getBookMarkedContents(context: context);
+    _load();
     super.initState();
+  }
+
+  void _load() async {
+    await context.read<BookmarkProvider>().getBookMarkedContents(context: context);
   }
   @override
   Widget build(BuildContext context) {
@@ -43,7 +47,8 @@ class _BookMarksState extends State<BookMarks> {
       ? const Materialcardshimmer()
       : SingleChildScrollView(
         padding: const EdgeInsets.all(12.0),
-        child: (bookmarkProvider.bookmarkVedio.isEmpty && bookmarkProvider.bookmarkMaterial.isEmpty)
+        child:
+        (bookmarkProvider.bookmarkVedio.isEmpty && bookmarkProvider.bookmarkMaterial.isEmpty)
         ? const Center(
           child: Text(
             "No bookmarked contents",
@@ -54,7 +59,7 @@ class _BookMarksState extends State<BookMarks> {
             ),
           ),
         )
-      : Column(
+        :  Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
              if (bookmarkProvider.bookmarkVedio.isNotEmpty) ...[
@@ -72,10 +77,10 @@ class _BookMarksState extends State<BookMarks> {
             (index) {
               final material = bookmarkProvider.bookmarkMaterial[index];
               return MaterialCard(
-                materialName: material.name, 
+                materialName: material.name ??'', 
                 materialDescription:'', 
                 link: '', 
-                contentId:material.id,        
+                contentId:material.id ?? '',        
               );
             },
           ),
@@ -97,8 +102,8 @@ class _BookMarksState extends State<BookMarks> {
             (index) {
               final vedio = bookmarkProvider.bookmarkVedio[index];
               return VideoCard(
-              title: vedio.name,
-              img: vedio.thumbnail,
+              title: vedio.name ?? '',
+              img: vedio.thumbnail ?? '',
               duration: '',
             );
             })

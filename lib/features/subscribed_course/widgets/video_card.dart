@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 
 class VideoCard extends StatelessWidget {
-  final String title;
-  final String img;
-  final String duration;
+  final String? title;
+  final String? img;
+  final String? duration;
   //final double progress;
 
   const VideoCard({
@@ -36,7 +36,7 @@ class VideoCard extends StatelessWidget {
             ClipRRect(
               borderRadius: BorderRadius.circular(10),
               child: CachedNetworkImage(
-                imageUrl: img,
+                imageUrl: img ?? "",
                 fit: BoxFit.cover,
                 height: MediaQuery.of(context).size.width * 0.25,
                 width: MediaQuery.of(context).size.width * 0.39,
@@ -60,7 +60,7 @@ class VideoCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      title,
+                      title ??'',
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                       style: const TextStyle(
@@ -77,7 +77,7 @@ class VideoCard extends StatelessWidget {
                         const SizedBox(width: 5),
                         Expanded(
                           child: Text(
-                            duration,
+                            duration ?? "",
                             style: const TextStyle(fontSize: 13),
                           ),
                         ),
@@ -88,13 +88,6 @@ class VideoCard extends StatelessWidget {
                         ),
                       ],
                     ),
-                    // LinearProgressIndicator(
-                    //   value: progress,
-                    //   backgroundColor: AppColor.greyText,
-                    //   valueColor: AlwaysStoppedAnimation<Color>(
-                    //     AppColor.secondaryColor,
-                    //   ),
-                    // )
                   ],
                 ),
               ),
