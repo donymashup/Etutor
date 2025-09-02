@@ -39,13 +39,12 @@ class _HomePageState extends State<HomePage> {
     _userDetails();
   }
 
-  Future<void> _userDetails() async {
+  Future<void> _userDetails() async { 
+    final homepageProvider = context.read<HomepageProvider>();
+    homepageProvider.makeLoadingTrue();
     final userDetailsProvider = context.read<UserDetailsProvider>();
     await userDetailsProvider.loadUserDetails(context);
-    final homepageProvider = context.read<HomepageProvider>();
     await homepageProvider.popularCourses(context);
-    await homepageProvider.syllabusBasedLiveCourses(
-        context, userDetailsProvider.syllabusId!);
     await context.read<LoginProvider>().dropDownOptions(context);
     await homepageProvider.categoryHeader(context);
   }
@@ -256,7 +255,7 @@ class _HomePageState extends State<HomePage> {
                       : "Active Courses (${(homeProvider.catogryDetails[catIndex].courses ?? []).length})",
                   () {
                 Navigator.push(context,
-                    MaterialPageRoute(builder: (_) => const SeeMoreCourses()));
+                    MaterialPageRoute(builder: (_) => SeeMoreCourses(catIndex:catIndex,)));
               }),
               // courseList(activeCourses),
               homeProvider.isCategoryHeader

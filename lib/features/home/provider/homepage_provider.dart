@@ -1,9 +1,7 @@
 import 'package:etutor/features/home/model/bannerimages_model.dart'
     as banner_model;
-import 'package:etutor/features/home/model/category_based_courses_model.dart' as category_based_courses_model;
-import 'package:etutor/features/home/model/category_based_courses_model.dart%20';
-import 'package:etutor/features/home/model/live_course_model.dart'
-    as live_course_model;
+import 'package:etutor/features/home/model/category_based_courses_model.dart'
+    as category_based_courses_model;
 import 'package:etutor/features/home/model/popular_course_model.dart'
     as popular_course_model;
 import 'package:etutor/features/home/model/syllabus_based_livecourse.dart'
@@ -17,48 +15,95 @@ class HomepageProvider extends ChangeNotifier {
     return context.findRenderObject() != null;
   }
 
-  bool isLoading = true;
-  bool isSyllabuscourseLoading = true;
-  bool isPopularLoading = true;
+  bool isLoading = false;
+  bool isFilterLoading = false;
+  bool isPopularLoading = false;
   bool isSubscribed = false;
-  bool isCategoryHeader = true;
+  bool isCategoryHeader = false;
 
-
-  List<String>_headerNames = [];
-  List<category_based_courses_model.Data> _catogryDetails = [];
   int _selectedIndex = 0;
-  List<banner_model.Banner> _banner = [];
-  List<syllabus_live_corse.Data> _syllabusCourse = [];
-  List<popular_course_model.Data> _popularCourse = [];
   int _currentCarouselPage = 0;
+  List<banner_model.Banner> _banner = [];
+  List<popular_course_model.Data> _popularCourse = [];
+  List<category_based_courses_model.Data> _catogryDetails = [];
+  List<category_based_courses_model.Courses> _filteredClass = [];
+  String _selectedClass = 'All';
 
   List<banner_model.Banner> get bannerurl => _banner;
-  List<syllabus_live_corse.Data> get syllabusCourse => _syllabusCourse;
-  int get currentCarouselPage => _currentCarouselPage;
   List<popular_course_model.Data> get popularCourse => _popularCourse;
   List<category_based_courses_model.Data> get catogryDetails => _catogryDetails;
-  List<String>get headerNames => _headerNames;
+  List<category_based_courses_model.Courses> get filteredClass => _filteredClass;
   int get selectedIndex => _selectedIndex;
+  int get currentCarouselPage => _currentCarouselPage;
+  String get selectedClass => _selectedClass;
 
-  // //get live courses
-  // Future liveCourse (BuildContext context) async {
-  //   isLoading = true;
-  //   notifyListeners();
-  //   try{
-  //   final response = await HomeService().getliveCourse(
-  //     context: context);
-  //     if (response != null ){
-  //      _liveCourse = response.data!;
-  //     }else{
-  //        _liveCourse = [];
-  //       }
-  //       }catch (e) {
-  //         debugPrint('Error loading banner images: $e');
-  //         _banner = [];
-  //       }
-  //     isLoading = false;
-  //     notifyListeners();
-  // }
+  //make the loading bool true
+  void makeLoadingTrue() {
+    isLoading = true;
+    isPopularLoading = true;
+    isCategoryHeader = true;
+    notifyListeners();
+  }
+
+  void setSelectedClass(String cls) {
+    if (cls.isNotEmpty) {
+      _selectedClass = cls;
+      notifyListeners();
+    }
+  }
+
+  String convertClassFormat(String input) {
+    if (input.isEmpty) return input;
+    if (input == "Mental Ability Class") return "mental ability";
+
+    // Convert to lowercase
+    String result = input.toLowerCase();
+    RegExp regExp = RegExp(r'class\s+(\d+)');
+    Match? match = regExp.firstMatch(result);
+
+    if (match != null) {
+      String numberStr = match.group(1)!;
+      int number = int.parse(numberStr);
+      String formattedNumber = number.toString().padLeft(2, '0');
+      return 'class $formattedNumber';
+    }
+    return result;
+  }
+
+  void filteredclass(int catIndex) {
+    isFilterLoading = true;
+    notifyListeners();
+
+    try {
+      if (catIndex < 0 || catIndex >= catogryDetails.length) {
+        _filteredClass = [];
+        isFilterLoading = false;
+        notifyListeners();
+        return;
+      }
+
+      if (catogryDetails[catIndex].courses != null) {
+        if (_selectedClass.toLowerCase() == "all") {
+          _filteredClass = catogryDetails[catIndex].courses ?? [];
+        } else {
+          _filteredClass = catogryDetails[catIndex].courses!.where((course) {
+            return course.courseDetails?.name
+                    ?.toLowerCase()
+                    .contains(convertClassFormat(_selectedClass)) ??
+                false;
+          }).toList();
+        }
+      } else {
+        _filteredClass = [];
+      }
+    } catch (e) {
+      debugPrint('Error filtering classes: $e');
+      _filteredClass = [];
+    }
+
+    isFilterLoading = false;
+    notifyListeners();
+  }
 
   //get bannerimages
   Future bannerimages(BuildContext context) async {
@@ -85,28 +130,6 @@ class HomepageProvider extends ChangeNotifier {
   void setCurrentCarouselPage(int page) {
     _currentCarouselPage = page;
     notifyListeners();
-  }
-
-  // fetch syllabus based live courses
-  Future syllabusBasedLiveCourses(
-      BuildContext context, String syllabusId) async {
-    isSyllabuscourseLoading = true;
-    if (_mounted(context)) notifyListeners();
-    try {
-      final response = await HomeService()
-          .getSyllabusLiveCourses(syllabusId: syllabusId, context: context);
-      if (response != null && response.data != null) {
-        _syllabusCourse = response.data ?? [];
-        if (_mounted(context)) notifyListeners();
-      } else {
-        _syllabusCourse = [];
-      }
-    } catch (e) {
-      debugPrint('Error fetching syllabus based live courses: $e');
-      _syllabusCourse = [];
-    }
-    isSyllabuscourseLoading = false;
-    if (_mounted(context)) notifyListeners();
   }
 
   // fetch popular courses
@@ -154,7 +177,7 @@ class HomepageProvider extends ChangeNotifier {
     }
   }
 
-  // fetch Category 0Header 
+  // fetch Category 0Header
   Future categoryHeader(
     BuildContext context,
   ) async {
@@ -164,30 +187,27 @@ class HomepageProvider extends ChangeNotifier {
       final response = await HomeService().getCategoryHeaders(
         context: context,
       );
-       if (response != null && response.data != null) {
+      if (response != null && response.data != null) {
         _catogryDetails = response.data!;
-        
+
         notifyListeners();
       } else {
         isCategoryHeader = false;
         notifyListeners();
         return false;
       }
-    isCategoryHeader = false;
-    notifyListeners();
+      isCategoryHeader = false;
+      notifyListeners();
     } catch (e) {
       debugPrint('Error checking the subscription: $e');
       isCategoryHeader = false;
       notifyListeners();
       return false;
     }
-    }
-
-    void setSelectedIndex (int index){
-      _selectedIndex = index;
-      notifyListeners();
-    }
-    
   }
 
-
+  void setSelectedIndex(int index) {
+    _selectedIndex = index;
+    notifyListeners();
+  }
+}

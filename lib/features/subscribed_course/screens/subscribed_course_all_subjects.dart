@@ -74,33 +74,36 @@ class _SubscribedCourseAllSubjectsState
                : Center(
                    child: subcribedCourseProvider.courseSubjects!.data!.isEmpty
                   ? Center(child:Text('No Subjects'))
-                  :Wrap(
-                    spacing: 10,
-                    alignment: WrapAlignment.start,
-                    children: [
-                      ...List.generate(
-                          subcribedCourseProvider.courseSubjects!.data!.length,
-                          (index) {
-                            final subject = subcribedCourseProvider.courseSubjects!.data![index];
-                            return GestureDetector(
-                              onTap: () => Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          SubscribedCourseChapters(
-                                            subjectImage: subject.subjectImage!,
-                                            subjectName:subject.subjectName!,
-                                            packageSubjectId:subject.packageSubjectId!,))),
-                              child: SubjectOverviewCard(
-                                  title: subject.subjectName ?? "",
-                                  description:
-                                      subject.subjectDescription ?? "",
-                                  subjectImage:
-                                      subject.subjectImage ?? ""),
-                            );
-                          }
-                      )
-                    ],
+                  :Align(
+                    alignment: Alignment.topLeft,
+                    child: Wrap(
+                      spacing: 10,
+                      alignment: WrapAlignment.start,
+                      children: [
+                        ...List.generate(
+                            subcribedCourseProvider.courseSubjects!.data!.length,
+                            (index) {
+                              final subject = subcribedCourseProvider.courseSubjects!.data![index];
+                              return GestureDetector(
+                                onTap: () => Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            SubscribedCourseChapters(
+                                              subjectImage: subject.subjectImage!,
+                                              subjectName:subject.subjectName!,
+                                              packageSubjectId:subject.packageSubjectId!,))),
+                                child: SubjectOverviewCard(
+                                    title: subject.subjectName ?? "",
+                                    description:
+                                        subject.subjectDescription ?? "",
+                                    subjectImage:
+                                        subject.subjectImage ?? ""),
+                              );
+                            }
+                        )
+                      ],
+                    ),
                   ),
                 ),
               ],

@@ -11,22 +11,12 @@ class CourseCurriculumCard extends StatefulWidget {
   final String title;
   final String classname;
   final String subject;
-  // final List<String> names;
-  // final List<String> status;
-  // final List<String> source;
-  // final List<String> link;
-  // final List<String> contentType;
   final List<Contents> contents;
   
   const CourseCurriculumCard({
     required this.title,
     required this.classname,
     required this.subject,
-    // required this.names,
-    // required this.status,
-    // required this.link,
-    // required this.source,
-    // required this.contentType,
     required this.contents,
     super.key,
   });
@@ -75,11 +65,6 @@ class _CourseCurriculumCardState extends State<CourseCurriculumCard> {
 
             // Curriculum items list
             children: List.generate(widget.contents.length, (index) {
-              // final name = widget.names[index];
-              // final isFree = widget.status[index] != "paid";
-              // final source = widget.source[index];
-              // final type = widget.contentType[index];
-              // final link = widget.link[index];
               final content_details = widget.contents[index];
               final isFree = content_details.status != "paid";
               return Padding(
@@ -89,6 +74,11 @@ class _CourseCurriculumCardState extends State<CourseCurriculumCard> {
                     : const EdgeInsets.only(
                         left: 16, right: 16, top: 5, bottom: 5),
                 child: ListTile(
+                  leading: content_details.contentType == 'video'
+                      ? const Icon(Icons.video_camera_back)
+                      : content_details.contentType == 'pdf'
+                          ? const Icon(Icons.picture_as_pdf)
+                          : const Icon(Icons.quiz),
                   tileColor: AppColor.greyCardBackground,
                   title: Text(content_details.contentName ?? '', style: const TextStyle(fontSize: 16)),
 
@@ -108,6 +98,8 @@ class _CourseCurriculumCardState extends State<CourseCurriculumCard> {
                       ? () {
                           if(content_details.contentType == 'video')
                          { 
+                    debugPrint("v");
+
                           Navigator.push(
                             context,
                             MaterialPageRoute(
@@ -119,6 +111,8 @@ class _CourseCurriculumCardState extends State<CourseCurriculumCard> {
                             ),
                           );
                           }else if(content_details.contentType =='pdf'){
+                                                          debugPrint("p");
+
                             Navigator.push(
                             context,
                             MaterialPageRoute(
