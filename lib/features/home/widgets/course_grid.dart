@@ -59,7 +59,7 @@ class CoursesGridWidget extends StatelessWidget {
             spacing: horizontalSpacing,
             runSpacing: verticalSpacing,
             alignment: WrapAlignment.start,
-            children: List.generate(courses.length, (index) {
+            children: List.generate(courses.length > 6 ? 6 : courses.length, (index) {
               final course = courses[index];
               return SizedBox(
                 width: itemWidth,

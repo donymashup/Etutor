@@ -103,11 +103,6 @@ class _SubscribedCourseVideoState extends State<SubscribedCourseVedio> {
                               title: videolist.name ?? "Untitled",
                               img: videolist.thumbnail ?? "",
                               duration: formatDuration(videolist.duration),
-                              // Convert to percentage for progress bar
-                              // progress: convertToRatio(
-                              //     double.parse(
-                              //         videolist.viewDuration.toString()),
-                              //     double.parse(videolist.duration.toString())),
                             ),
                           );
                         },

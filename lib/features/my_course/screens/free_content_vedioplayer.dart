@@ -49,7 +49,7 @@ class _FreeContentVedioplayer extends State<FreeContentVedioplayer> {
         ),
         betterPlayerDataSource: BetterPlayerDataSource(
           BetterPlayerDataSourceType.network,
-          widget.videohls,
+          widget.videolink,
         ),
       );
     } else {
@@ -86,7 +86,7 @@ class _FreeContentVedioplayer extends State<FreeContentVedioplayer> {
                   //  Video Player (Dynamic)
                   AspectRatio(
                     aspectRatio: 16 / 9,
-                    child: widget.videoSource == "2"
+                    child: widget.videoSource == "3"
                         ? BetterPlayer(controller: betterPlayerController!)
                         : YoutubePlayer(
                             controller: youtubePlayerController!,
@@ -114,10 +114,6 @@ class _FreeContentVedioplayer extends State<FreeContentVedioplayer> {
                             ),
                           ),
                         ),
-                        IconButton(
-                          onPressed: () {},
-                          icon: const Icon(Icons.bookmark_add_rounded),
-                        )
                       ],
                     ),
                   ),
@@ -139,7 +135,9 @@ class _FreeContentVedioplayer extends State<FreeContentVedioplayer> {
                       ))),
 
                   //  Testimonials List
-                  Expanded(
+                  courseDetailsProvider.reviews.isEmpty 
+                  ? Text("no reviews")
+                  :Expanded(
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 8.0),
                       child: ListView.builder(

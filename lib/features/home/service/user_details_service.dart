@@ -18,8 +18,6 @@ class UserDetailsService {
   }) async {
     try {
       final token = await storage.read(key: 'token');
-      debugPrint("Token: $token");
-
       if (token == null) {
         showSnackbar(context, "Token not found. Please log in again.");
         return null;
@@ -29,8 +27,6 @@ class UserDetailsService {
         Uri.parse("$baseUrl$getUserDetails"),
         headers: {"Authorization": "Bearer $token"},
       );
-
-      debugPrint("Fetch status code: ${response.statusCode}");
       if (response.statusCode == 200) {
         final jsonResponse = json.decode(response.body);
 
@@ -38,7 +34,6 @@ class UserDetailsService {
           showSnackbar(context, 'Invalid response from server');
           return null;
         }
-
         final userDetailsModel = UserDetailsModel.fromJson(jsonResponse);
         if (userDetailsModel.type == 'success') {
           return userDetailsModel;
@@ -142,9 +137,6 @@ class UserDetailsService {
 
       final streamedResponse = await request.send();
       final responseBody = await streamedResponse.stream.bytesToString();
-
-      debugPrint("Upload status code: ${streamedResponse.statusCode}");
-      debugPrint("Upload response: $responseBody");
 
       if (streamedResponse.statusCode == 200) {
         final jsonResponse = json.decode(responseBody);

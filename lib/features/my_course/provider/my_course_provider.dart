@@ -2,7 +2,6 @@ import 'package:etutor/features/my_course/model/my_course_model.dart'
     as my_course_model;
 import 'package:etutor/features/my_course/service/my_course_service.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class MyCourseProvider extends ChangeNotifier {
   String _batchid = '';
@@ -12,6 +11,9 @@ class MyCourseProvider extends ChangeNotifier {
 
   List<my_course_model.Data> get subscribedCourse => _subscribedCorse;
 
+  void setLoadingTrue(){
+    isLoading = true;
+  }
   Future subscribedCourses(BuildContext context) async {
     if (mounted(context)) isLoading = true;
     if (mounted(context)) notifyListeners();

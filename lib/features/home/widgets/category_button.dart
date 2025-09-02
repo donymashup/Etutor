@@ -2,6 +2,7 @@ import 'package:etutor/common/constants/app_constants.dart';
 import 'package:etutor/features/home/provider/homepage_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shimmer/shimmer.dart';
 
 class CategoryButton extends StatelessWidget {
   final String label;
@@ -17,9 +18,8 @@ class CategoryButton extends StatelessWidget {
           : MediaQuery.of(context).size.width * 0.15,
       height: 60,
       margin: const EdgeInsets.only(right: 12),
-      // padding: const EdgeInsets.symmetric(vertical: 10),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: isSelected ? AppColor.primaryColor : Colors.white,
         borderRadius: BorderRadius.circular(16),
         border: Border.all(color: AppColor.primaryColor, width: 1),
       ),
@@ -28,7 +28,7 @@ class CategoryButton extends StatelessWidget {
         children: [
           Text(
             label,
-            style:  TextStyle(color: isSelected ? AppColor.primaryColor : Colors.grey, fontSize: 14),
+            style:  TextStyle(color: isSelected ? AppColor.whiteColor : Colors.grey, fontSize: 14),
             textAlign: TextAlign.center,
           ),
         ],
@@ -52,7 +52,33 @@ class _CategoryButtonListState extends State<CategoryButtonList> {
   Widget build(BuildContext context) {
     homepageProvider = context.watch<HomepageProvider>();
     return homepageProvider.isCategoryHeader
-        ? Center(child: CircularProgressIndicator())
+        ? Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10.0),
+          child: SizedBox(
+            height: 60,
+            child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              itemCount: 4,
+              itemBuilder:(context, index){
+                return  Card(
+                      child: Shimmer.fromColors(
+                        baseColor: Colors.grey.shade300,
+                        highlightColor: Colors.grey.shade100,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.all(Radius.circular(16)),
+                             color: Colors.grey.shade300,
+                          ),
+                         
+                           width:MediaQuery.of(context).size.width * 0.15 < 120
+                    ? 120
+                    : MediaQuery.of(context).size.width * 0.15, 
+                        )),
+                    );
+              }),
+          ),
+        )
+
         : SizedBox(
             height: 60,
             child: ListView.builder(

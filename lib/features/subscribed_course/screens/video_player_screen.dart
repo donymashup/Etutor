@@ -8,10 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
-// Import the provider and widget files created above
-// import 'video_player_provider.dart';
-// import 'playlist_card_widget.dart';
-
 class VideoPlayerScreen extends StatefulWidget {
   final List<videos_model.Data> playlist;
   final int initialIndex;

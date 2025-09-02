@@ -30,11 +30,6 @@ class _CourseCurriculumState extends State<CourseCurriculum> {
                       title: chapter.chapName ?? '',
                       classname: chapter.className ?? '',
                       subject: chapter.subjectName ?? '',
-                      // names: chapter.contents!.map((content) => content.contentName ?? "").toList(),
-                      // status: chapter.contents!.map((content) => content.status ?? "").toList(),
-                      // link:chapter.contents!.map((content) => content.link ?? "").toList(),
-                      // source: chapter.contents!.map((content) => content.source ?? "").toList(), 
-                      // contentType: chapter.contents!.map((content) => content.contentType ?? "").toList(),
                       contents: chapter.contents ?? [],
                       );}
                       ),
