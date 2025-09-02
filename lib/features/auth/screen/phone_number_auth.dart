@@ -1,10 +1,11 @@
 import 'package:etutor/common/widgets/bottom_navigation_bar.dart';
+import 'package:etutor/features/auth/screen/forgot_password.dart';
+import 'package:etutor/features/auth/screen/password_reset_otp.dart';
 import 'package:flutter/material.dart';
 import 'package:etutor/common/constants/app_constants.dart';
 import 'package:etutor/common/constants/utils.dart';
 import 'package:etutor/features/auth/provider/login_provider.dart';
 import 'package:etutor/features/auth/screen/otp_screen.dart';
-import 'package:etutor/features/auth/screen/password_screen.dart';
 import 'package:etutor/features/auth/screen/registration.dart';
 import 'package:etutor/features/auth/widgets/white_button.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
@@ -26,6 +27,7 @@ class _PhoneNumberAuthState extends State<PhoneNumberAuth> {
   String code = '';
   String countrysign = '';
   bool showPasswordField = false;
+  bool _obscurePassword = true;
 
   void _onPhoneChanged(phone) {
     setState(() {
@@ -199,7 +201,8 @@ class _PhoneNumberAuthState extends State<PhoneNumberAuth> {
                           const SizedBox(height: 24),
                           TextFormField(
                             controller: passwordController,
-                            obscureText: true,
+                            obscureText: _obscurePassword,
+                            style: const TextStyle(color: AppColor.whiteColor),
                             decoration: InputDecoration(
                               hintText: 'Enter your Password',
                               hintStyle: const TextStyle(
@@ -224,6 +227,19 @@ class _PhoneNumberAuthState extends State<PhoneNumberAuth> {
                                 borderSide: const BorderSide(
                                     color: AppColor.whiteColor),
                               ),
+                              suffixIcon: IconButton(
+                                icon: Icon(
+                                  _obscurePassword
+                                      ? Icons.visibility_off
+                                      : Icons.visibility,
+                                  color: AppColor.whiteColor,
+                                ),
+                                onPressed: () {
+                                  setState(() {
+                                    _obscurePassword = !_obscurePassword;
+                                  });
+                                },
+                              ),
                             ),
                             validator: (value) {
                               if (value == null || value.length < 6) {
@@ -231,6 +247,28 @@ class _PhoneNumberAuthState extends State<PhoneNumberAuth> {
                               }
                               return null;
                             },
+                          ),
+                          const SizedBox(height: 12),
+                          Align(
+                            alignment: Alignment.centerRight,
+                            child: GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                           PasswordResetOtp(code: code,phone: phoneNumber,)),
+                                );
+                              },
+                              child: const Text(
+                                "Forgot Password?",
+                                style: TextStyle(
+                                  color: AppColor.whiteColor,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ),
                           ),
                         ],
                       ],

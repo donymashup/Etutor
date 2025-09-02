@@ -7,6 +7,10 @@ const loginUrl = "Authapi/login";
 const checkMobileNumberExixt = 'Authapi/checkMobileNumberExists';
 const registerUrl = 'Authapi/register';
 const dropDownOption = 'Authapi/getAllDropDownOptions';
+const forgotpassword = 'Authapi/sendOtp';
+
+//change password
+const changedPassword = "Newapi/changePassword";
 
 //user details
 const getUserDetails = 'Newapi/getUserDetails';
@@ -57,6 +61,5 @@ const bookmarkedContent = "Newapi/getUserBookmarkedContents";
 const orderId ='Newapi/createOrderId';
 const enroll = 'Newapi/entrollStudent';
 
-//change password
-const changedPassword = "Newapi/changePassword";
+
 

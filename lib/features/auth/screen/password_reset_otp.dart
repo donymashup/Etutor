@@ -1,16 +1,40 @@
 import 'package:etutor/common/constants/app_constants.dart';
-import 'package:etutor/features/auth/screen/password_reset_succesfull.dart';
+import 'package:etutor/common/constants/utils.dart';
+import 'package:etutor/features/auth/provider/login_provider.dart';
+import 'package:etutor/features/auth/screen/password_reset_screen.dart';
 import 'package:etutor/features/auth/widgets/pinput_theme.dart';
 import 'package:etutor/features/auth/widgets/white_button.dart';
 import 'package:flutter/material.dart';
 import 'package:pinput/pinput.dart';
+import 'package:provider/provider.dart';
 
-class PasswordResetOtp extends StatelessWidget {
-  const PasswordResetOtp({super.key});
+class PasswordResetOtp extends StatefulWidget {
+  final String code;
+  final String phone;
+  const PasswordResetOtp({super.key, required this.code, required this.phone});
+
+  @override
+  State<PasswordResetOtp> createState() => _PasswordResetOtpState();
+}
+
+class _PasswordResetOtpState extends State<PasswordResetOtp> {
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<LoginProvider>().sendOtpForgotPassword(
+            context,
+            widget.phone,
+            widget.code, 
+          );
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-         return Scaffold(
+    final loginProvider = context.watch<LoginProvider>();
+    final TextEditingController otpController = TextEditingController();
+    return Scaffold(
       backgroundColor: AppColor.primaryColor,
       body: SingleChildScrollView(
         child: Column(
@@ -53,6 +77,7 @@ class PasswordResetOtp extends StatelessWidget {
                   ),
                   Pinput(
                     length: 6,
+                    controller: otpController,
                     keyboardType: TextInputType.number,
                     defaultPinTheme: defaultPinTheme,
                     validator: (value) {
@@ -61,9 +86,19 @@ class PasswordResetOtp extends StatelessWidget {
                       }
                       return null;
                     },
-                    onCompleted: (pin) {},
+                    onCompleted: (pin) {
+                      if (pin == loginProvider.forgototp.toString()) {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  const PasswordResetScreen()),
+                        );
+                      } else {
+                        showSnackbar(context, "Incorrect OTP");
+                      }
+                    },
                     showCursor: true,
-                    //pinputAutovalidateMode: PinputAutovalidateMode.onSubmit,
                   ),
                   SizedBox(
                     height: 10,
@@ -71,10 +106,12 @@ class PasswordResetOtp extends StatelessWidget {
                   whiteButton(
                     text: "Login",
                     onpressed: () {
-                       Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => PasswordResetSuccesfull()));
+                      otpController.text == loginProvider.forgototp
+                          ? Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => PasswordResetScreen()))
+                          : null;
                     },
                   ),
                   SizedBox(
@@ -84,23 +121,22 @@ class PasswordResetOtp extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       RichText(
-                        text: TextSpan(
-                          children: [
-                            TextSpan(
-                            text:"Didn’t receive an OTP?" ,
-                            style: TextStyle(fontSize: 12,
-                                  color: AppColor.whiteColor,
-                                  fontFamily:'Poppins',
-                                  )
-                          ),
-                          TextSpan(
-                            text:"Send Again" ,
-                            style: TextStyle(fontSize: 12,
-                            color: AppColor.secondaryColor,
-                            fontFamily:'Poppins',)
-                          )]  
-                        )
-                      )
+                          text: TextSpan(children: [
+                        TextSpan(
+                            text: "Didn’t receive an OTP?",
+                            style: TextStyle(
+                              fontSize: 12,
+                              color: AppColor.whiteColor,
+                              fontFamily: 'Poppins',
+                            )),
+                        TextSpan(
+                            text: "Send Again",
+                            style: TextStyle(
+                              fontSize: 12,
+                              color: AppColor.secondaryColor,
+                              fontFamily: 'Poppins',
+                            ))
+                      ]))
                     ],
                   ),
                 ],
