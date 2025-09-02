@@ -4,45 +4,42 @@ import 'package:etutor/features/my_course/widgets/testimonial_card.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class CourseReview extends StatefulWidget {
+class CourseReview extends StatelessWidget {
   const CourseReview({super.key});
 
   @override
-  State<CourseReview> createState() => _CourseReviewState();
-}
-
-class _CourseReviewState extends State<CourseReview> {
-    CourseDetailsProvider courseDetailsProvider = CourseDetailsProvider();
-
-  @override
   Widget build(BuildContext context) {
-    courseDetailsProvider = context.watch<CourseDetailsProvider>();
-    return Scaffold(
-      backgroundColor: AppColor.whiteColor,
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 10.0),
-        child: Expanded(
-          child: Column(
-            children: [
-              Expanded(
-                child: ListView.builder(
-                    itemCount: courseDetailsProvider.reviews.length,
-                    itemBuilder: (context, index)
-                    { 
-                      final reviews = courseDetailsProvider.reviews[index];
-                       return TestimonialCard(
-                        username: reviews.userName ?? '',
-                        description: reviews.comment ?? '',
-                        userimage: reviews.image ?? '',
-                        rating: reviews.rating ?? '',);
-                    }
-                   ),
+    final courseDetailsProvider = context.watch<CourseDetailsProvider>();
+
+    final reviews = courseDetailsProvider.reviews;
+
+    return Container(
+      color: AppColor.whiteColor,
+      padding: const EdgeInsets.symmetric(horizontal: 10.0),
+      child: reviews.isEmpty
+          ? Center(
+              child: Text(
+                "No reviews available",
+                style: TextStyle(
+                  fontSize: 16, 
+                  color: AppColor.greyAppBar,
+                  fontWeight: FontWeight.w500,
+                ),
               ),
-              SizedBox(height: 80)
-            ],
-          ),
-        ),
-      ),
+            )
+          : ListView.builder(
+              padding: const EdgeInsets.only(bottom: 80),
+              itemCount: reviews.length,
+              itemBuilder: (context, index) {
+                final review = reviews[index];
+                return TestimonialCard(
+                  username: review.userName ?? '',
+                  description: review.comment ?? '',
+                  userimage: review.image ?? '',
+                  rating: review.rating ?? '',
+                );
+              },
+            ),
     );
   }
 }

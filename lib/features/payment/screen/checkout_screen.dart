@@ -517,13 +517,13 @@ class CheckoutScreen extends StatelessWidget {
                         // Confirm button
                         CustomButton(
                           onpressed: () {
-                            //  if (selected != null) {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => PaymentMethod(price: price, courseId: courseId, promo: '', courseName: name,)),
-                            );
-                            //  }
+                            // //  if (selected != null) {
+                            // Navigator.push(
+                            //   context,
+                            //   MaterialPageRoute(
+                            //       builder: (context) => PaymentMethod(price: price, courseId: courseId, promo: '', courseName: name,)),
+                            // );
+                            // //  }
                           },
                           text: "Pay  ₹ $price",
                           buttoncolor:
