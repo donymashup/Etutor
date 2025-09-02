@@ -3,6 +3,7 @@ import 'package:etutor/common/constants/config.dart';
 import 'package:etutor/common/constants/utils.dart';
 import 'package:etutor/features/auth/models/check_mobile_number_exist.dart';
 import 'package:etutor/features/auth/models/drop_down_option_model.dart';
+import 'package:etutor/features/auth/models/forgot_password_model.dart';
 import 'package:etutor/features/auth/models/login_model.dart';
 import 'package:etutor/features/auth/models/register_model.dart';
 import 'package:flutter/material.dart';
@@ -176,6 +177,41 @@ required code,
       return null;
     }
   }
+
+//future function for send OTP for Forgot Password
+Future<ForgotPasswordModel?> sendOtpForgotPassord({
+required BuildContext context,
+required phone,
+required code,
+})async{
+  try{
+   final response = await sendPostRequest(
+        url: '$baseUrl$forgotpassword',
+        fields: {
+          'phone':phone,
+          'code':code,
+        },
+      );
+      if (response.statusCode == 200) {
+        final jsonResponse = json.decode(await response.stream.bytesToString());
+        if (jsonResponse == null || jsonResponse.isEmpty) {
+          showSnackbar(context, 'Invalid response from server');
+          return null;
+        } else {
+          final forgotPasswordModel = ForgotPasswordModel.fromJson(jsonResponse);       
+            return forgotPasswordModel;
+        }
+      } else {
+        debugPrint("Failed to send OTP For Forgot Password: ${response.statusCode}");
+        return null;
+      }
+   }catch(e) {
+      showSnackbar(context, "Error : $e");
+      return null;
+    }
+  }
 }
+
+
 
 

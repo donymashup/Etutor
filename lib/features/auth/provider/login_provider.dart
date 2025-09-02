@@ -1,4 +1,6 @@
+import 'package:etutor/common/constants/utils.dart';
 import 'package:etutor/features/auth/models/drop_down_option_model.dart';
+import 'package:etutor/features/auth/models/forgot_password_model.dart';
 import 'package:etutor/features/auth/models/login_model.dart';
 import 'package:etutor/features/auth/models/register_model.dart';
 import 'package:etutor/features/auth/service/auth_service.dart';
@@ -12,6 +14,7 @@ class LoginProvider extends ChangeNotifier {
   String _countrysign = "";
   String? _token;
   int? _otp;
+  String? _forgototp;
   bool? _isExist;
   List<LoginModel> _login = [];
   List<RegisterModel> _register = [];
@@ -29,10 +32,21 @@ class LoginProvider extends ChangeNotifier {
   String get countrysign => _countrysign;
   String? get token => _token;
   bool? get isExist => _isExist;
-  int? get otp => _otp;
   List<RegisterModel> get registerResponse => _register;
   List<Syllabus> get syllabus => _syllabus;
   List<Classes> get classes => _class;
+
+
+  bool _isLoadingforgot = false;
+  bool? _isSentforgot;
+  // ForgotPasswordModel? _response;
+  bool get isLoadingforgot => _isLoadingforgot;
+  int? get otp => _otp;
+  bool? get isSent => _isSentforgot;
+  String? get forgototp => _forgototp;
+  // ForgotPasswordModel? get response => _response;
+
+
 
   Future login(BuildContext context, String password) async {
     isLoding = true;
@@ -202,4 +216,41 @@ class LoginProvider extends ChangeNotifier {
     _login = [];
     notifyListeners();
   }
+
+
+  /// Send OTP for Forgot Password
+  Future<void> sendOtpForgotPassword(
+    BuildContext context, 
+    String phone,
+    String code,
+  ) async {
+    _isLoadingforgot = true;
+    notifyListeners();
+
+    final res = await AuthService().sendOtpForgotPassord(
+      context: context,
+      phone: phone,
+      code: code,
+    );
+
+    if (res != null && res.type == "success") {
+      _forgototp = res.otp;
+      debugPrint(_forgototp);
+      notifyListeners();
+    
+    } else {
+      _forgototp = null;
+    }
+
+    _isLoadingforgot = false;
+    notifyListeners();
+  }
+
+  void reset() {
+    _isLoadingforgot = false;
+    _forgototp = null;
+  //  _isSentforgot = null;
+    notifyListeners();
+  }
 }
+
