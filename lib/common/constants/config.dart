@@ -8,6 +8,7 @@ const checkMobileNumberExixt = 'Authapi/checkMobileNumberExists';
 const registerUrl = 'Authapi/register';
 const dropDownOption = 'Authapi/getAllDropDownOptions';
 const forgotpassword = 'Authapi/sendOtp';
+const resetPassword = 'Authapi/resetPassword';
 
 //change password
 const changedPassword = "Newapi/changePassword";

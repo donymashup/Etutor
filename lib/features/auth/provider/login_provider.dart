@@ -1,8 +1,8 @@
 import 'package:etutor/common/constants/utils.dart';
 import 'package:etutor/features/auth/models/drop_down_option_model.dart';
-import 'package:etutor/features/auth/models/forgot_password_model.dart';
 import 'package:etutor/features/auth/models/login_model.dart';
 import 'package:etutor/features/auth/models/register_model.dart';
+import 'package:etutor/features/auth/models/reset_password_model.dart';
 import 'package:etutor/features/auth/service/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -36,17 +36,18 @@ class LoginProvider extends ChangeNotifier {
   List<Syllabus> get syllabus => _syllabus;
   List<Classes> get classes => _class;
 
-
   bool _isLoadingforgot = false;
   bool? _isSentforgot;
-  // ForgotPasswordModel? _response;
   bool get isLoadingforgot => _isLoadingforgot;
   int? get otp => _otp;
   bool? get isSent => _isSentforgot;
   String? get forgototp => _forgototp;
-  // ForgotPasswordModel? get response => _response;
 
-
+  bool _isLoadingreset = false;
+  ResetPasswordModel? _responsereset;
+  bool get isLoadingreset => _isLoadingreset;
+  ResetPasswordModel? get response => _responsereset;
+  final FlutterSecureStorage flutterSecureStorage = FlutterSecureStorage();
 
   Future login(BuildContext context, String password) async {
     isLoding = true;
@@ -217,10 +218,9 @@ class LoginProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-
   /// Send OTP for Forgot Password
   Future<void> sendOtpForgotPassword(
-    BuildContext context, 
+    BuildContext context,
     String phone,
     String code,
   ) async {
@@ -237,7 +237,6 @@ class LoginProvider extends ChangeNotifier {
       _forgototp = res.otp;
       debugPrint(_forgototp);
       notifyListeners();
-    
     } else {
       _forgototp = null;
     }
@@ -249,8 +248,49 @@ class LoginProvider extends ChangeNotifier {
   void reset() {
     _isLoadingforgot = false;
     _forgototp = null;
-  //  _isSentforgot = null;
+    //  _isSentforgot = null;
+    notifyListeners();
+  }
+
+  /// Provider to set new password
+  Future<void> setNewPassword({
+    required BuildContext context,
+    required String phone,
+    required String code,
+    required String newPassword,
+  }) async {
+    _isLoadingreset = true;
+    notifyListeners();
+
+    try {
+      final result = await AuthService().setNewPassword(
+        context: context,
+        phone: phone,
+        code: code,
+        newpassword: newPassword,
+      );
+
+      if (result != null) {
+        _responsereset = result;
+        await flutterSecureStorage.write(key: 'token' , value: result.token);
+        showSnackbar(
+            context, _responsereset?.message ?? "Password reset success");
+      } else {
+        _responsereset = null;
+        showSnackbar(context, "Failed to reset password");
+      }
+    } catch (e) {
+      _responsereset = null;
+      showSnackbar(context, "Error: $e");
+    }
+
+    _isLoadingreset = false;
+    notifyListeners();
+  }
+
+  void resetreset() {
+    _isLoadingreset = false;
+    _responsereset = null;
     notifyListeners();
   }
 }
-
