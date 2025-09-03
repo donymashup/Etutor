@@ -4,6 +4,7 @@ import 'package:etutor/features/auth/provider/login_provider.dart';
 import 'package:etutor/features/auth/screen/password_reset_screen.dart';
 import 'package:etutor/features/auth/widgets/pinput_theme.dart';
 import 'package:etutor/features/auth/widgets/white_button.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:pinput/pinput.dart';
 import 'package:provider/provider.dart';
@@ -18,13 +19,14 @@ class PasswordResetOtp extends StatefulWidget {
 }
 
 class _PasswordResetOtpState extends State<PasswordResetOtp> {
+    String? resendMessage;
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       context.read<LoginProvider>().sendOtpForgotPassword(
             context,
             widget.phone,
-            widget.code, 
+            widget.code,
           );
     });
     super.initState();
@@ -52,7 +54,7 @@ class _PasswordResetOtpState extends State<PasswordResetOtp> {
               padding: const EdgeInsets.symmetric(horizontal: 25),
               child: Column(
                 children: [
-                  Image.asset("assets/images/logo.png"),
+                  Image.asset("assets/images/logo_without_bg.png"),
                   SizedBox(
                     height: 20,
                   ),
@@ -65,7 +67,7 @@ class _PasswordResetOtpState extends State<PasswordResetOtp> {
                     ),
                   ),
                   Text(
-                    "We just sent an OTP to your mobile number\n+91 9994499449",
+                    "We just sent an OTP to your mobile number\n+91 ${widget.phone}",
                     style: TextStyle(
                       color: AppColor.whiteColor,
                     ),
@@ -91,8 +93,8 @@ class _PasswordResetOtpState extends State<PasswordResetOtp> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) =>
-                                   PasswordResetScreen(phone: widget.phone,code: widget.code)),
+                              builder: (context) => PasswordResetScreen(
+                                  phone: widget.phone, code: widget.code)),
                         );
                       } else {
                         showSnackbar(context, "Incorrect OTP");
@@ -110,7 +112,10 @@ class _PasswordResetOtpState extends State<PasswordResetOtp> {
                           ? Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => PasswordResetScreen(phone: widget.phone,code: widget.code,)))
+                                  builder: (context) => PasswordResetScreen(
+                                        phone: widget.phone,
+                                        code: widget.code,
+                                      )))
                           : null;
                     },
                   ),
@@ -123,7 +128,7 @@ class _PasswordResetOtpState extends State<PasswordResetOtp> {
                       RichText(
                           text: TextSpan(children: [
                         TextSpan(
-                            text: "Didn’t receive an OTP?",
+                            text: "Didn’t receive an OTP? ",
                             style: TextStyle(
                               fontSize: 12,
                               color: AppColor.whiteColor,
@@ -135,10 +140,30 @@ class _PasswordResetOtpState extends State<PasswordResetOtp> {
                               fontSize: 12,
                               color: AppColor.secondaryColor,
                               fontFamily: 'Poppins',
-                            ))
+                            ),
+                            recognizer: TapGestureRecognizer()
+                              ..onTap = () {
+                                context
+                                    .read<LoginProvider>()
+                                    .sendOtpForgotPassword(
+                                        context, widget.phone, widget.code);
+                                setState(() {
+                                  resendMessage = "OTP sent successfully";
+                                });
+                              })
                       ]))
                     ],
                   ),
+                  if (resendMessage != null) ...[
+                    const SizedBox(height: 8),
+                    Text(
+                      resendMessage!,
+                      style: const TextStyle(
+                        fontSize: 12,
+                        color: Colors.green,
+                      ),
+                    ),
+                  ],
                 ],
               ),
             ),
