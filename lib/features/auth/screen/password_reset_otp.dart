@@ -92,7 +92,7 @@ class _PasswordResetOtpState extends State<PasswordResetOtp> {
                           context,
                           MaterialPageRoute(
                               builder: (context) =>
-                                  const PasswordResetScreen()),
+                                   PasswordResetScreen(phone: widget.phone,code: widget.code)),
                         );
                       } else {
                         showSnackbar(context, "Incorrect OTP");
@@ -110,7 +110,7 @@ class _PasswordResetOtpState extends State<PasswordResetOtp> {
                           ? Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => PasswordResetScreen()))
+                                  builder: (context) => PasswordResetScreen(phone: widget.phone,code: widget.code,)))
                           : null;
                     },
                   ),

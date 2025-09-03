@@ -6,21 +6,22 @@ import 'package:etutor/features/auth/models/drop_down_option_model.dart';
 import 'package:etutor/features/auth/models/forgot_password_model.dart';
 import 'package:etutor/features/auth/models/login_model.dart';
 import 'package:etutor/features/auth/models/register_model.dart';
+import 'package:etutor/features/auth/models/reset_password_model.dart';
 import 'package:flutter/material.dart';
 
 class AuthService {
 //future function to check wheather phone nmber exist or not
-Future<CheckMobileExistModel?> CheckMobileExist({
-required BuildContext context,
-required phone,
-required code,
-})async{
-  try{
-   final response = await sendPostRequest(
+  Future<CheckMobileExistModel?> CheckMobileExist({
+    required BuildContext context,
+    required phone,
+    required code,
+  }) async {
+    try {
+      final response = await sendPostRequest(
         url: '$baseUrl$checkMobileNumberExixt',
         fields: {
-          'phone':phone,
-          'country':code,
+          'phone': phone,
+          'country': code,
         },
       );
       if (response.statusCode == 200) {
@@ -29,22 +30,22 @@ required code,
           showSnackbar(context, 'Invalid response from server');
           return null;
         } else {
-          final checkMobileExistModel = CheckMobileExistModel.fromJson(jsonResponse);
-           debugPrint(checkMobileExistModel.type );         
-            return checkMobileExistModel;
+          final checkMobileExistModel =
+              CheckMobileExistModel.fromJson(jsonResponse);
+          debugPrint(checkMobileExistModel.type);
+          return checkMobileExistModel;
         }
       } else {
         debugPrint("Failed to check mobile number: ${response.statusCode}");
         return null;
       }
-   }catch(e) {
+    } catch (e) {
       showSnackbar(context, "Error : $e");
       return null;
     }
   }
 
-
-//future function to call login api 
+//future function to call login api
   Future<LoginModel?> login({
     required BuildContext context,
     required phone,
@@ -55,8 +56,8 @@ required code,
       final response = await sendPostRequest(
         url: '$baseUrl$loginUrl',
         fields: {
-          'country':code,
-          'phone': phone,      
+          'country': code,
+          'phone': phone,
           'password': password,
         },
       );
@@ -67,7 +68,7 @@ required code,
           return null;
         } else {
           final checkMobileExistModel = LoginModel.fromJson(jsonResponse);
-           debugPrint(checkMobileExistModel.type );
+          debugPrint(checkMobileExistModel.type);
           if (checkMobileExistModel.type == 'success') {
             return checkMobileExistModel;
           } else {
@@ -87,7 +88,7 @@ required code,
   }
 
 // fuction to get all dropdownoption in registration
-   Future<DropDownOptionModel?> dropDowmOption({
+  Future<DropDownOptionModel?> dropDowmOption({
     required BuildContext context,
   }) async {
     try {
@@ -98,8 +99,9 @@ required code,
           showSnackbar(context, 'Invalid response from server');
           return null;
         } else {
-          final dropDownOptionModel = DropDownOptionModel.fromJson(jsonResponse);
-           debugPrint(dropDownOptionModel.type );
+          final dropDownOptionModel =
+              DropDownOptionModel.fromJson(jsonResponse);
+          debugPrint(dropDownOptionModel.type);
           if (dropDownOptionModel.type == 'success') {
             return dropDownOptionModel;
           } else {
@@ -108,7 +110,8 @@ required code,
           }
         }
       } else {
-        debugPrint("Failed to fetch drop down options : ${response.statusCode}");
+        debugPrint(
+            "Failed to fetch drop down options : ${response.statusCode}");
         return null;
       }
     } catch (e) {
@@ -118,7 +121,7 @@ required code,
   }
 
   //future function to call register api
-  Future<RegisterModel?>register({
+  Future<RegisterModel?> register({
     required BuildContext context,
     required String firstName,
     required String lastName,
@@ -131,10 +134,7 @@ required code,
     required String code,
     required String password,
     required String dob,
-
-    
-
-  })async {
+  }) async {
     try {
       final response = await sendPostRequest(
         url: '$baseUrl$registerUrl',
@@ -179,17 +179,17 @@ required code,
   }
 
 //future function for send OTP for Forgot Password
-Future<ForgotPasswordModel?> sendOtpForgotPassord({
-required BuildContext context,
-required phone,
-required code,
-})async{
-  try{
-   final response = await sendPostRequest(
+  Future<ForgotPasswordModel?> sendOtpForgotPassord({
+    required BuildContext context,
+    required phone,
+    required code,
+  }) async {
+    try {
+      final response = await sendPostRequest(
         url: '$baseUrl$forgotpassword',
         fields: {
-          'phone':phone,
-          'code':code,
+          'phone': phone,
+          'code': code,
         },
       );
       if (response.statusCode == 200) {
@@ -198,20 +198,56 @@ required code,
           showSnackbar(context, 'Invalid response from server');
           return null;
         } else {
-          final forgotPasswordModel = ForgotPasswordModel.fromJson(jsonResponse);       
-            return forgotPasswordModel;
+          final forgotPasswordModel =
+              ForgotPasswordModel.fromJson(jsonResponse);
+          return forgotPasswordModel;
         }
       } else {
-        debugPrint("Failed to send OTP For Forgot Password: ${response.statusCode}");
+        debugPrint(
+            "Failed to send OTP For Forgot Password: ${response.statusCode}");
         return null;
       }
-   }catch(e) {
+    } catch (e) {
       showSnackbar(context, "Error : $e");
       return null;
     }
   }
+
+  //future function for Set New Password for Forgot Password
+Future<ResetPasswordModel?> setNewPassword({
+  required BuildContext context,
+  required String phone,
+  required String code,
+  required String newpassword,
+}) async {
+  try {
+    final response = await sendPostRequest(
+      url: '$baseUrl$resetPassword',
+      fields: {
+        'phone': phone,
+        'code': code,
+        'new_password': newpassword,
+      },
+    );
+
+    if (response.statusCode == 200) {
+      final jsonResponse = json.decode(await response.stream.bytesToString());
+
+      if (jsonResponse == null || jsonResponse.isEmpty) {
+        showSnackbar(context, 'Invalid response from server');
+        return null;
+      } else {
+        return ResetPasswordModel.fromJson(jsonResponse);
+      }
+    } else {
+      debugPrint("Failed: ${response.statusCode}");
+      return null;
+    }
+  } catch (e) {
+    showSnackbar(context, "Error : $e");
+    return null;
+  }
 }
 
-
-
+}
 
