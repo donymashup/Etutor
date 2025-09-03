@@ -90,7 +90,7 @@ class _SubscribedCourseVideoState extends State<SubscribedCourseVedio> {
                               .chapterVideos!.data![index];
 
                           return GestureDetector(
-                            onTap: () => Navigator.pushReplacement(
+                            onTap: () => Navigator.push(
                               context,
                               MaterialPageRoute(
                                 builder: (context) => VideoPlayerScreen(

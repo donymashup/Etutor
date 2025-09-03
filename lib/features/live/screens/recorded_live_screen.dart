@@ -1,5 +1,6 @@
 import 'package:etutor/common/constants/app_constants.dart';
 import 'package:etutor/features/live/provider/live_class_provider.dart';
+import 'package:etutor/features/live/screens/live_vedio_player.dart';
 import 'package:etutor/features/live/widgets/live_card.dart';
 import 'package:etutor/features/subscribed_course/screens/video_player_screen.dart';
 import 'package:flutter/material.dart';
@@ -40,15 +41,16 @@ class _RecordedLiveScreenState extends State<RecordedLiveScreen> {
                       (completedLiveClassProvider.completedLiveMonth.data ??
                           [])[index];
                   return GestureDetector(
-                    onTap: () {},
-                    //Navigator.of(context, rootNavigator: true).push(
-                        // MaterialPageRoute(
-                        //     builder: (context) => VideoPlayerScreen(
-                        //         videolink: live.url ?? "url",
-                        //         videoTitle: live.title ?? "Title",
-                        //         videoSource: live.source ?? "",
-                        //         videohls: live.hls ?? ""))
-                       // ),
+                    onTap: () {
+                      Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => LiveVedioPlayer(
+                                 playlist: completedLiveClassProvider.completedLiveMonth.data!,
+                                 contentid: live.id ?? '',
+                                ),
+                              ));
+                    },
 
                     child: LiveCard(
                       img: live.avatar ?? "",

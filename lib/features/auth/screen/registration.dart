@@ -7,7 +7,6 @@ import 'package:etutor/features/auth/screen/password_screen.dart';
 import 'package:etutor/features/auth/widgets/grey_stroke_textfield.dart';
 import 'package:etutor/features/auth/widgets/label_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';

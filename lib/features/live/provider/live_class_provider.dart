@@ -20,6 +20,19 @@ class LiveClassProvider extends ChangeNotifier {
   Months _completedLiveMonth = Months();
   Months get completedLiveMonth => _completedLiveMonth;
 
+  int _selectedIndex = 0;  
+  int get selectedIndex => _selectedIndex;
+
+  List<Data> _playlist = [];
+  List<Data> get playlist => _playlist;
+
+  bool _isVedioLoading = false;
+  bool get isVedioLoading => _isVedioLoading;
+  
+  Data? get currentVideo => 
+      _playlist.isNotEmpty ? _playlist[_selectedIndex] : null;
+
+
   Future<void> fetchLiveClasses(BuildContext context) async {
     isLoading = true;
     notifyListeners();
@@ -57,5 +70,37 @@ class LiveClassProvider extends ChangeNotifier {
       (completedLiveMonth) => completedLiveMonth.name == monthName,
       orElse: () => Months(data: []),
     );
+  }
+
+
+  void setPlaylist(List<Data> videos) {
+    _playlist = videos;
+    notifyListeners();
+  }
+
+  void selectVideo(int index) {
+    if (index >= 0 && index < _playlist.length) {
+      _selectedIndex = index;
+      notifyListeners();
+    }
+  }
+
+  void setLoading(bool loading) {
+    _isVedioLoading = loading;
+    notifyListeners();
+  }
+
+  void nextVideo() {
+    if (_selectedIndex < _playlist.length - 1) {
+      _selectedIndex++;
+      notifyListeners();
+    }
+  }
+
+  void previousVideo() {
+    if (_selectedIndex > 0) {
+      _selectedIndex--;
+      notifyListeners();
+    }
   }
 }
