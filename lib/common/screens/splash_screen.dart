@@ -2,6 +2,7 @@ import 'package:etutor/common/constants/app_constants.dart';
 import 'package:etutor/common/screens/test_screen.dart';
 import 'package:etutor/common/widgets/bottom_navigation_bar.dart';
 import 'package:etutor/features/auth/screen/onboarding_screen.dart';
+import 'package:etutor/features/auth/screen/phone_number_auth.dart';
 import 'package:etutor/features/home/provider/user_details_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -51,10 +52,19 @@ class _SplashScreenState extends State<SplashScreen> {
     try {
       await context.read<UserDetailsProvider>().loadUserDetails(context);
       if (!mounted) return;
-      Navigator.pushReplacement(
+      isLogin = await secureStorage.read(key: 'isLogin');
+      if (isLogin != null && isLogin != 'false')
+      {
+        Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => const BottomNavBarScreen()),
       );
+      }else{
+        Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const PhoneNumberAuth()),
+      );
+      }
     } catch (e) {
       await secureStorage.write(key: 'token', value: '');
       await secureStorage.write(key: 'isLogin', value: '');

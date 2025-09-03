@@ -11,55 +11,26 @@ import 'package:provider/provider.dart';
 class VoucherScreen extends StatefulWidget {
   VoucherScreen({super.key});
 
-  
   @override
   State<VoucherScreen> createState() => _VoucherScreenState();
 }
 
 class _VoucherScreenState extends State<VoucherScreen> {
-  String? _selectedOption;
-  List<Map<String, String>> filteredPromo = [];
-
-  List<Map<String, String>> promo = [
-    {
-      "discount": "Discount  ₹500",
-      "valid": "Valid until 05 Jun 2025  ",
-    },
-    {
-      "discount": "Discount 50%",
-      "valid": "Valid until 05 Jun 2025  ",
-    },
-    {
-      "discount": "Discount  10%",
-      "valid": "Valid until 05 Jun 2025  ",
-    }
-  ];
-
+  final TextEditingController _searchController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
     final provider = Provider.of<PaymentProvider>(context, listen: false);
-    _selectedOption = provider.selectedVoucher;
-     filteredPromo = promo; 
+    provider.getPromoCode(context);
   }
 
-
-  void _filterByDiscount(String query) {
-    if (query.isEmpty) {
-      setState(() {
-        filteredPromo = promo; // Reset to full list
-      });
-    } else {
-      setState(() {
-        filteredPromo = promo.where((item) {
-          return item['discount']!
-              .toLowerCase()
-              .contains(query.toLowerCase());
-        }).toList();
-      });
-    }
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -77,189 +48,256 @@ class _VoucherScreenState extends State<VoucherScreen> {
           child: CustomBackButton(),
         ),
       ),
-      body: promo.isEmpty ?  NoVoucherCard(text: "Sorry, you don’t have voucher",)
-      :SizedBox.expand(
-        child: Stack(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(15),
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    Container(
-                        width: MediaQuery.of(context).size.width,
-                        decoration: BoxDecoration(
-                          color: AppColor.whiteColor,
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: TextFormField(
-                            onChanged: _filterByDiscount,
-                            decoration: InputDecoration(
-                              hintText: "Apply Promo Code",
-                              hintStyle:
-                                  TextStyle(color: AppColor.greyText,fontSize: 13),
-                              enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(8),
-                                  borderSide: BorderSide(
-                                      color: AppColor.primaryColor)),
-                              focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(8),
-                                  borderSide: BorderSide(
-                                      color: AppColor.primaryColor)),
-                              prefixIcon: Icon(Icons.discount_outlined,color: AppColor.greyIcon,size: 15,),
+      body: Consumer<PaymentProvider>(
+        builder: (context, paymentProvider, child) {
+          if (paymentProvider.ispromoLoading) {
+            return Center(child: CircularProgressIndicator());
+          }
+
+          if (paymentProvider.promocodes.isEmpty) {
+            return NoVoucherCard(text: "Sorry, you don't have voucher");
+          }
+
+          return SizedBox.expand(
+            child: Stack(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(15),
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        // Search field
+                        Container(
+                          width: MediaQuery.of(context).size.width,
+                          decoration: BoxDecoration(
+                            color: AppColor.whiteColor,
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: TextFormField(
+                              controller: _searchController,
+                              onChanged: (query) {
+                                paymentProvider.filterPromoCodes(query);
+                              },
+                              decoration: InputDecoration(
+                                hintText: "Apply Promo Code",
+                                hintStyle: TextStyle(
+                                    color: AppColor.greyText, fontSize: 13),
+                                enabledBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(8),
+                                    borderSide: BorderSide(
+                                        color: AppColor.primaryColor)),
+                                focusedBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(8),
+                                    borderSide: BorderSide(
+                                        color: AppColor.primaryColor)),
+                                prefixIcon: Icon(
+                                  Icons.discount_outlined,
+                                  color: AppColor.greyIcon,
+                                  size: 15,
+                                ),
+                                suffixIcon: paymentProvider.searchQuery.isNotEmpty
+                                    ? IconButton(
+                                        icon: Icon(Icons.clear,
+                                            color: AppColor.greyIcon, size: 18),
+                                        onPressed: () {
+                                          _searchController.clear();
+                                          paymentProvider.clearFilter();
+                                        },
+                                      )
+                                    : null,
+                              ),
                             ),
                           ),
-                        )
                         ),
-                    filteredPromo.isEmpty ?  NoVoucherCard(text:"No matching promo found" ,):
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 15.0),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: AppColor.whiteColor,
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        child: Column(
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Image.asset("assets/icons/clipIcon.png"),
-                                SizedBox(width: 5,),
-                                Text("Voucher Available for you",style: TextStyle(color: AppColor.primaryColor,fontSize: 13),),
-                              ],
-                            ),
-                            
-                            Container(
-                              decoration: BoxDecoration(
-                                color: AppColor.whiteColor,
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              child:
-                               ListView.builder(
-                                shrinkWrap: true,
-                                physics: NeverScrollableScrollPhysics(),
-                                itemCount: filteredPromo.length,
-                                itemBuilder: (context, index) {
-                                  final promos = filteredPromo[index];
-                                  return Container(
-                                    margin: EdgeInsets.all(10),
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(8),
-                                        border: _selectedOption == promos['discount']
-                                            ? Border.all(
-                                                color: AppColor.primaryColor)
-                                            : Border.all(
-                                                color: AppColor.greyStroke)),
-                                     child: Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Row(
-                                            children: [
-                                              Container(
-                                                width: 40,
-                                                height: 40,
-                                                
+
+                        // Promo codes list
+                        paymentProvider.filteredPromocodes.isEmpty
+                            ? Padding(
+                                padding: const EdgeInsets.symmetric(vertical: 50.0),
+                                child: NoVoucherCard(
+                                  text: paymentProvider.searchQuery.isNotEmpty
+                                      ? "No matching promo found"
+                                      : "No vouchers available",
+                                ),
+                              )
+                            : Padding(
+                                padding: const EdgeInsets.symmetric(vertical: 15.0),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    color: AppColor.whiteColor,
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  child: Column(
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.all(10.0),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          children: [
+                                            Image.asset("assets/icons/clipIcon.png"),
+                                            SizedBox(width: 5),
+                                            Text(
+                                              "Voucher Available for you",
+                                              style: TextStyle(
+                                                  color: AppColor.primaryColor,
+                                                  fontSize: 13),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      Container(
+                                        decoration: BoxDecoration(
+                                          color: AppColor.whiteColor,
+                                          borderRadius: BorderRadius.circular(10),
+                                        ),
+                                        child: ListView.builder(
+                                          shrinkWrap: true,
+                                          physics: NeverScrollableScrollPhysics(),
+                                          itemCount: paymentProvider
+                                              .filteredPromocodes.length,
+                                          itemBuilder: (context, index) {
+                                            final promo = paymentProvider
+                                                .filteredPromocodes[index];
+                                            return GestureDetector(
+                                              onTap: () {
+                                                paymentProvider.setVoucher(promo.code!);
+                                              },
+                                              child: Container(
+                                                margin: EdgeInsets.all(10),
                                                 decoration: BoxDecoration(
-                                                  color: AppColor.fileIconColour, 
-                                                    borderRadius:
-                                                        BorderRadius.circular(20),
-                                                    ),
+                                                  borderRadius:
+                                                      BorderRadius.circular(8),
+                                                  border: paymentProvider
+                                                              .selectedVoucher ==
+                                                          promo.code
+                                                      ? Border.all(
+                                                          color: AppColor
+                                                              .primaryColor,
+                                                          width: 2)
+                                                      : Border.all(
+                                                          color:
+                                                              AppColor.greyStroke),
+                                                ),
                                                 child: Padding(
-                                                  padding:
-                                                      const EdgeInsets.all(5.0),
-                                                  child: Iconify( Mdi.coupon_outline,
-                                                    color: AppColor.whiteColor,
-                                                    
+                                                  padding: const EdgeInsets.all(8.0),
+                                                  child: Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceBetween,
+                                                    children: [
+                                                      Row(
+                                                        children: [
+                                                          Container(
+                                                            width: 40,
+                                                            height: 40,
+                                                            decoration: BoxDecoration(
+                                                              color: AppColor
+                                                                  .fileIconColour,
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(20),
+                                                            ),
+                                                            child: Padding(
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                      .all(5.0),
+                                                              child: Iconify(
+                                                                Mdi.coupon_outline,
+                                                                color: AppColor
+                                                                    .whiteColor,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          SizedBox(width: 10),
+                                                          Column(
+                                                            crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .start,
+                                                            children: [
+                                                              Text(
+                                                                promo.code ?? '',
+                                                                style: TextStyle(
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w500),
+                                                              ),
+                                                              SizedBox(height: 5),
+                                                              Text(
+                                                                promo.expiry ?? '',
+                                                                style: TextStyle(
+                                                                  color: AppColor
+                                                                      .greyText,
+                                                                  fontSize: 13,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w300,
+                                                                ),
+                                                              ),
+                                                            ],
+                                                          )
+                                                        ],
+                                                      ),
+                                                      Radio(
+                                                        value: promo.code,
+                                                        groupValue: paymentProvider
+                                                            .selectedVoucher,
+                                                        onChanged: (value) {
+                                                          paymentProvider
+                                                              .setVoucher(value!);
+                                                        },
+                                                        activeColor:
+                                                            AppColor.primaryColor,
+                                                        visualDensity:
+                                                            VisualDensity.compact,
+                                                      )
+                                                    ],
                                                   ),
                                                 ),
                                               ),
-                                              SizedBox(
-                                                width: 10,
-                                              ),
-                                              Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  Text(promos['discount']!,
-                                                      style: TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.w500)),
-                                                  SizedBox(
-                                                    height: 5,
-                                                  ),
-                                                  Text(
-                                                    promos['valid']!,
-                                                    style: TextStyle(
-                                                        color: AppColor.greyText,
-                                                        fontSize: 13,
-                                                        fontWeight:
-                                                            FontWeight.w300),
-                                                  ),
-                                                ],
-                                              )
-                                            ],
-                                          ),
-                                          Radio(
-                                            value: promos['discount'],
-                                            groupValue: _selectedOption,
-                                            onChanged: (value) {
-                                              setState(
-                                                () {
-                                                  _selectedOption = value!;
-                                                },
-                                              );
-                                            },
-                                            activeColor: AppColor.primaryColor,
-                                            visualDensity: VisualDensity.compact,
-                                          )
-                                        ],
+                                            );
+                                          },
+                                        ),
                                       ),
-                                    ),
-                                  );
-                                },
+                                    ],
+                                  ),
+                                ),
                               ),
-                            ),
-                          ],
-                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                Positioned(
+                  bottom: 0,
+                  child: Container(
+                    width: MediaQuery.of(context).size.width,
+                    alignment: Alignment.bottomCenter,
+                    color: AppColor.whiteColor,
+                    child: Padding(
+                      padding: const EdgeInsets.only(
+                          left: 10.0, right: 10.0, top: 10.0, bottom: 20),
+                      child: CustomButton(
+                        onpressed: paymentProvider.selectedVoucher == null
+                            ? (){}
+                            : () {
+                                Navigator.pop(context);
+                              },
+                        text: "Confirm",
+                        buttoncolor: paymentProvider.selectedVoucher == null
+                            ? AppColor.greyButton
+                            : AppColor.primaryColor,
+                        textColor: AppColor.whiteColor,
                       ),
                     ),
-                  ],
-                ),
-              ),
-            ),
-            Positioned(
-                bottom: 0,
-                child: Container(
-                  width: MediaQuery.of(context).size.width,
-                  alignment: Alignment.bottomCenter,
-                  color: AppColor.whiteColor,
-                  child: Padding(
-                    padding: const EdgeInsets.only(
-                        left: 10.0, right: 10.0, top: 10.0, bottom: 20),
-                    child: CustomButton(
-                      onpressed: _selectedOption == null
-                        ? () {}
-                        : () {
-                            context.read<PaymentProvider>().setVoucher(_selectedOption!);
-                            Navigator.pop(context);
-                          },
-                      text: "Confirm",
-                      buttoncolor: _selectedOption == null
-                        ? AppColor.greyButton
-                        : AppColor.primaryColor,
-                      textColor: AppColor.whiteColor),
                   ),
-                ))
-          ],
-        ),
+                )
+              ],
+            ),
+          );
+        },
       ),
     );
   }
 }
-

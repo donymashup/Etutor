@@ -61,5 +61,9 @@ const bookmarkedContent = "Newapi/getUserBookmarkedContents";
 const orderId ='Newapi/createOrderId';
 const enroll = 'Newapi/entrollStudent';
 
+//promo code
+const promoCode = 'Newapi/getLiveClasses';
+const verifyPromoCode ='Newapi/verifyPromoCode';
+
 
 
