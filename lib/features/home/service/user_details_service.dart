@@ -32,7 +32,6 @@ class UserDetailsService {
 
         if (jsonResponse == null || jsonResponse.isEmpty) {
           showSnackbar(context, 'Invalid response from server');
-          await storage.write(key: 'isLogin', value: 'false');
           return null;
         }
         final userDetailsModel = UserDetailsModel.fromJson(jsonResponse);
@@ -51,7 +50,6 @@ class UserDetailsService {
     } catch (e) {
       debugPrint("fetchUserDetails Error: $e");
       showSnackbar(context, "An error occurred while fetching user details");
-       await storage.write(key: 'isLogin', value: 'false');
       return null;
     }
   }

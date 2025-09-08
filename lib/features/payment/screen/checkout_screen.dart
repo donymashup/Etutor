@@ -3,18 +3,17 @@ import 'package:etutor/common/constants/app_constants.dart';
 import 'package:etutor/common/widgets/back_button.dart';
 import 'package:etutor/common/widgets/custom_button.dart';
 import 'package:etutor/features/payment/controller/payment_provider.dart';
-import 'package:etutor/features/payment/screen/payment_method.dart';
 import 'package:etutor/features/payment/screen/voucher_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 
-class CheckoutScreen extends StatelessWidget {
+class CheckoutScreen extends StatefulWidget {
   final String image;
   final String name;
   final String price;
   final String courseId;
-  CheckoutScreen(
+   CheckoutScreen(
       {super.key,
       required this.image,
       required this.name,
@@ -23,9 +22,20 @@ class CheckoutScreen extends StatelessWidget {
       });
 
   @override
+  State<CheckoutScreen> createState() => _CheckoutScreenState();
+}
+
+class _CheckoutScreenState extends State<CheckoutScreen> {
+  @override
+  void initState() {
+   final paymentProvider = context.read<PaymentProvider>();
+   paymentProvider.setTotalAmt(widget.price);
+    super.initState();
+  }
+  @override
   Widget build(BuildContext context) {
-    //final selected = context.watch<PaymentProvider>().selectedPayment;
-    final selectedVoucher = context.watch<PaymentProvider>().selectedVoucher;
+    final paymentProvider = context.watch<PaymentProvider>();
+    final selectedVoucher = paymentProvider.selectedVoucher;
     bool isCoinApplied = false;
     return Scaffold(
       backgroundColor: AppColor.greyBackground,
@@ -41,7 +51,9 @@ class CheckoutScreen extends StatelessWidget {
           child: CustomBackButton(),
         ),
       ),
-      body: SizedBox.expand(
+      body:paymentProvider.isVerifying 
+    ? Center(child: CircularProgressIndicator(),) 
+    : SizedBox.expand(
         child: Padding(
           padding: const EdgeInsets.all(15.0),
           child: Column(
@@ -76,7 +88,7 @@ class CheckoutScreen extends StatelessWidget {
                                   ClipRRect(
                                     borderRadius: BorderRadius.circular(10),
                                     child: CachedNetworkImage(
-                                      imageUrl: image,
+                                      imageUrl: widget.image,
                                       width: MediaQuery.of(context).size.width *
                                           .3,
                                       fit: BoxFit.cover, // Adjust as needed
@@ -110,7 +122,7 @@ class CheckoutScreen extends StatelessWidget {
                                   SizedBox(width: 5),
                                   Expanded(
                                     child: Text(
-                                      name,
+                                      widget.name,
                                       style: TextStyle(
                                         fontSize: 16,
                                         fontWeight: FontWeight.w600,
@@ -137,7 +149,7 @@ class CheckoutScreen extends StatelessWidget {
                                             fontSize: 13),
                                       ),
                                       TextSpan(
-                                        text: price,
+                                        text: "₹ ${widget.price}",
                                         style: TextStyle(
                                             color: AppColor.primaryColor,
                                             fontSize: 15,
@@ -157,11 +169,11 @@ class CheckoutScreen extends StatelessWidget {
                       GestureDetector(
                         onTap: () {
                           selectedVoucher != null
-                              ? context.read<PaymentProvider>().clearVoucher()
+                              ? context.read<PaymentProvider>().clearVoucher(widget.price)
                               : Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => VoucherScreen()),
+                                      builder: (context) => VoucherScreen(courseId: widget.courseId,)),
                                 );
                         },
                         child: Container(
@@ -245,140 +257,6 @@ class CheckoutScreen extends StatelessWidget {
                         ),
                       ),
 
-                      // Payment method card
-                      // Container(
-                      //   decoration: BoxDecoration(
-                      //     borderRadius: BorderRadius.circular(10),
-                      //     color: selected != null
-                      //         ? AppColor.lighBlueBackground
-                      //         : AppColor.whiteColor,
-                      //     border: selected != null
-                      //         ? Border.all(color: AppColor.primaryColor)
-                      //         : null,
-                      //   ),
-                      //   margin: EdgeInsets.symmetric(vertical: 10),
-                      //   child: Column(
-                      //     children: [
-                      //       SizedBox(height: 5),
-                      //       Row(
-                      //         mainAxisAlignment: MainAxisAlignment.start,
-                      //         children: [
-                      //           Image.asset("assets/icons/clipIcon.png"),
-                      //           SizedBox(width: 5),
-                      //           Text("Payment Method"),
-                      //         ],
-                      //       ),
-                      //       selected == null
-                      //           ? Padding(
-                      //               padding: const EdgeInsets.all(10),
-                      //               child: Row(
-                      //                 mainAxisAlignment:
-                      //                     MainAxisAlignment.spaceBetween,
-                      //                 children: [
-                      //                   Row(
-                      //                     children: [
-                      //                       Container(
-                      //                         height: 40,
-                      //                         width: 40,
-                      //                         decoration: BoxDecoration(
-                      //                           borderRadius:
-                      //                               BorderRadius.circular(5),
-                      //                           color: AppColor.imageIconColour,
-                      //                         ),
-                      //                         child: Icon(
-                      //                           Icons.payment_outlined,
-                      //                           color: AppColor.whiteColor,
-                      //                           size: 20,
-                      //                         ),
-                      //                       ),
-                      //                       SizedBox(width: 10),
-                      //                       Text("Choose Payment Method"),
-                      //                     ],
-                      //                   ),
-                      //                   IconButton(
-                      //                     onPressed: () {
-                      //                       Navigator.push(
-                      //                         context,
-                      //                         MaterialPageRoute(
-                      //                           builder: (context) =>
-                      //                               PaymentMethod(),
-                      //                         ),
-                      //                       );
-                      //                     },
-                      //                     icon: Icon(
-                      //                         Icons.arrow_forward_ios_outlined),
-                      //                   ),
-                      //                 ],
-                      //               ),
-                      //             )
-                      //           : Padding(
-                      //               padding: const EdgeInsets.all(10),
-                      //               child: Row(
-                      //                 mainAxisAlignment:
-                      //                     MainAxisAlignment.spaceBetween,
-                      //                 children: [
-                      //                   Expanded(
-                      //                     child: Row(
-                      //                       children: [
-                      //                         Container(
-                      //                           width: 40,
-                      //                           height: 40,
-                      //                           decoration: BoxDecoration(
-                      //                               borderRadius:
-                      //                                   BorderRadius.circular(20),
-                      //                               border: Border.all(
-                      //                                   color:
-                      //                                       AppColor.greyStroke)),
-                      //                           child: Padding(
-                      //                             padding:
-                      //                                 const EdgeInsets.all(5.0),
-                      //                             child: Image.asset(
-                      //                               selected['icon']!,
-                      //                             ),
-                      //                           ),
-                      //                         ),
-                      //                         SizedBox(width: 10),
-                      //                         Flexible(
-                      //                           child: Column(
-                      //                             crossAxisAlignment:
-                      //                                 CrossAxisAlignment.start,
-                      //                             children: [
-                      //                               Text(selected['name']!),
-                      //                               Text(
-                      //                                 selected['info']!,
-                      //                                 style: TextStyle(
-                      //                                     color:
-                      //                                         AppColor.greyText),
-                      //                               ),
-                      //                             ],
-                      //                           ),
-                      //                         ),
-                      //                       ],
-                      //                     ),
-                      //                   ),
-                      //                   TextButton(
-                      //                     onPressed: () {
-                      //                       Navigator.push(
-                      //                         context,
-                      //                         MaterialPageRoute(
-                      //                           builder: (context) =>
-                      //                               PaymentMethod(),
-                      //                         ),
-                      //                       );
-                      //                     },
-                      //                     child: Text(
-                      //                       "change",
-                      //                       style: TextStyle(
-                      //                           color: AppColor.primaryColor),
-                      //                     ),
-                      //                   )
-                      //                 ],
-                      //               ),
-                      //             )
-                      //     ],
-                      //   ),
-                      // ),
-
                       // Summary
                       Container(
                         margin: EdgeInsets.symmetric(vertical: 10),
@@ -410,7 +288,7 @@ class CheckoutScreen extends StatelessWidget {
                                         fontSize: 13,
                                         color: AppColor.greyTextDark),
                                   ),
-                                  Text(price)
+                                  Text(" ₹ ${widget.price}")
                                 ],
                               ),
                             ),
@@ -452,7 +330,7 @@ class CheckoutScreen extends StatelessWidget {
                                         fontWeight: FontWeight.w500),
                                   ),
                                   Text(
-                                    ((int.tryParse(price) ?? 0) - (int.tryParse(selectedVoucher ?? "0") ?? 0)).toString(),
+                                    " ₹ ${paymentProvider.total}",
                                     style: TextStyle(
                                         fontSize: 14,
                                         fontWeight: FontWeight.w500),
@@ -517,20 +395,15 @@ class CheckoutScreen extends StatelessWidget {
                         // Confirm button
                         CustomButton(
                           onpressed: () {
-                            // //  if (selected != null) {
                             // Navigator.push(
                             //   context,
                             //   MaterialPageRoute(
                             //       builder: (context) => PaymentMethod(price: price, courseId: courseId, promo: '', courseName: name,)),
                             // );
-                            // //  }
                           },
-                          text: "Pay  ₹ $price",
+                          text: "Pay  ₹ ${paymentProvider.total}",
                           buttoncolor:
-                              //  selected != null
-                              //      ?
                               AppColor.primaryColor,
-                          //: AppColor.greyButton,
                           textColor: AppColor.whiteColor,
                         ),
                       ],

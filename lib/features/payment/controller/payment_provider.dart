@@ -1,3 +1,6 @@
+import 'package:etutor/common/constants/config.dart';
+import 'package:etutor/common/constants/utils.dart';
+import 'package:etutor/features/payment/model/verify_promo_model.dart';
 import 'package:etutor/features/payment/service/payment_srvice.dart';
 import 'package:flutter/material.dart';
 import 'package:etutor/features/payment/model/promo_code_model.dart' as promo_code_model;
@@ -7,9 +10,11 @@ class PaymentProvider extends ChangeNotifier {
   String? _selectedVoucher;
   bool isProcessing = false;
   String? orderId;
- 
+  String? _total;
   bool ispromoLoading = false;
+  bool isVerifying = false;
   List<promo_code_model.Data> _promocodes = [];
+  VerifyPromoModel _verify = VerifyPromoModel();
   List<promo_code_model.Data> _filteredPromocodes = [];
   String _searchQuery = '';
 
@@ -18,14 +23,17 @@ class PaymentProvider extends ChangeNotifier {
   List<promo_code_model.Data> get promocodes => _promocodes;
   List<promo_code_model.Data> get filteredPromocodes => _filteredPromocodes;
   String get searchQuery => _searchQuery;
+  String? get total => _total;
+  VerifyPromoModel get verify => _verify;
 
+  //set payment method
   void setPaymentMethod(Map<String, dynamic> method) {
     _selectedPayment = method;
     notifyListeners();
   }
 
+// select voucher
   void setVoucher(String voucher) {
-    // Toggle selection - if same voucher is selected, unselect it
     if (_selectedVoucher == voucher) {
       _selectedVoucher = null;
     } else {
@@ -34,8 +42,9 @@ class PaymentProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void clearVoucher() {
+  void clearVoucher(String amt) {
     _selectedVoucher = null;
+    _total = amt;
     notifyListeners();
   }
 
@@ -63,37 +72,37 @@ class PaymentProvider extends ChangeNotifier {
   }
 
   // // Create Razorpay order id
-  // Future<String?> createOrderId({
-  //   required BuildContext context,
-  //   required String courseId,
-  //   required String amount,
-  //   required String promoCode,
-  // }) async {
-  //   try {
-  //     isProcessing = true;
-  //     notifyListeners();
-  //     final response = await PaymentServices().createOrderId(
-  //       amount: amount,
-  //       context: context,
-  //       courseid: courseId,
-  //       promoCode: promoCode,
-  //     );
-  //     if (response != null && response.type == "success") {
-  //       orderId = response.orderid;
-  //       isProcessing = false;
-  //       notifyListeners();
-  //       return orderId;
-  //     } else {
-  //       isProcessing = false;
-  //       notifyListeners();
-  //       return null;
-  //     }
-  //   } catch (e) {
-  //     isProcessing = false;
-  //     notifyListeners();
-  //     return null;
-  //   }
-  // }
+  Future<String?> createOrderId({
+    required BuildContext context,
+    required String courseId,
+    required String amount,
+    required String promoCode,
+  }) async {
+    try {
+      isProcessing = true;
+      notifyListeners();
+      final response = await PaymentServices().createOrderId(
+        amount: amount,
+        context: context,
+        courseid: courseId,
+        promoCode: promoCode,
+      );
+      if (response != null && response.type == "success") {
+        orderId = response.orderid;
+        isProcessing = false;
+        notifyListeners();
+        return orderId;
+      } else {
+        isProcessing = false;
+        notifyListeners();
+        return null;
+      }
+    } catch (e) {
+      isProcessing = false;
+      notifyListeners();
+      return null;
+    }
+  }
 
   // Get promo code
   Future getPromoCode(BuildContext context) async {
@@ -103,7 +112,7 @@ class PaymentProvider extends ChangeNotifier {
       final response = await PaymentServices().getPromoCode(context: context);
       if (response != null && response.data != null) {
         _promocodes = response.data!;
-        _filteredPromocodes = List.from(_promocodes); // Initialize filtered list
+        _filteredPromocodes = List.from(_promocodes); 
         notifyListeners();
       } else {
         _promocodes = [];
@@ -115,6 +124,33 @@ class PaymentProvider extends ChangeNotifier {
       _filteredPromocodes = [];
     }
     ispromoLoading = false;
+    notifyListeners();
+  }
+
+  //set total amt
+  void setTotalAmt(String amt){
+    _total =amt;
+    notifyListeners();
+  }
+
+  //verify promo code
+  Future verifyPromoCode(BuildContext context,String courseId, String promo) async {
+    isVerifying = true;
+    notifyListeners();
+    try {
+      final response = await PaymentServices().verifyPromo(context: context, courseId: courseId, promo: promo);
+      if (response != null && response.type == 'success') {
+        _verify = response;
+        _total = response.finalAmount?.toString();
+        notifyListeners();
+      } else {
+        _verify = VerifyPromoModel();
+      }
+    } catch (e) {
+      debugPrint('Error fetching promo codes: $e');
+       _verify = VerifyPromoModel();
+    }
+    isVerifying = false;
     notifyListeners();
   }
 }

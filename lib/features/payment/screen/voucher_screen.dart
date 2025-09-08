@@ -1,4 +1,5 @@
 import 'package:etutor/common/constants/app_constants.dart';
+import 'package:etutor/common/constants/utils.dart';
 import 'package:etutor/common/widgets/back_button.dart';
 import 'package:etutor/common/widgets/custom_button.dart';
 import 'package:etutor/features/payment/controller/payment_provider.dart';
@@ -9,7 +10,8 @@ import 'package:iconify_flutter/icons/mdi.dart';
 import 'package:provider/provider.dart';
 
 class VoucherScreen extends StatefulWidget {
-  VoucherScreen({super.key});
+  final String courseId;
+  const VoucherScreen({super.key,required this.courseId});
 
   @override
   State<VoucherScreen> createState() => _VoucherScreenState();
@@ -21,8 +23,10 @@ class _VoucherScreenState extends State<VoucherScreen> {
   @override
   void initState() {
     super.initState();
-    final provider = Provider.of<PaymentProvider>(context, listen: false);
-    provider.getPromoCode(context);
+     WidgetsBinding.instance.addPostFrameCallback((_) {
+      final provider = Provider.of<PaymentProvider>(context, listen: false);
+     provider.getPromoCode(context);
+     });
   }
 
   @override
@@ -37,11 +41,9 @@ class _VoucherScreenState extends State<VoucherScreen> {
       appBar: AppBar(
         centerTitle: true,
         backgroundColor: AppColor.whiteColor,
-        title: Expanded(
-          child: Text(
-            "Apply voucher or Promo code",
-            style: TextStyle(fontWeight: FontWeight.w500, fontSize: 16),
-          ),
+        title: Text(
+          "Apply voucher or Promo code",
+          style: TextStyle(fontWeight: FontWeight.w500, fontSize: 16),
         ),
         leading: Padding(
           padding: const EdgeInsets.all(10.0),
@@ -246,7 +248,7 @@ class _VoucherScreenState extends State<VoucherScreen> {
                                                             .selectedVoucher,
                                                         onChanged: (value) {
                                                           paymentProvider
-                                                              .setVoucher(value!);
+                                                              .setVoucher(value!);    
                                                         },
                                                         activeColor:
                                                             AppColor.primaryColor,
@@ -282,6 +284,9 @@ class _VoucherScreenState extends State<VoucherScreen> {
                         onpressed: paymentProvider.selectedVoucher == null
                             ? (){}
                             : () {
+                                final pay = context.read<PaymentProvider>();
+                                pay.verifyPromoCode(context,widget.courseId, paymentProvider.selectedVoucher!);
+                                showSnackbar(context, pay.verify.message?? '');
                                 Navigator.pop(context);
                               },
                         text: "Confirm",
