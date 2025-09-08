@@ -1,4 +1,6 @@
 import 'package:etutor/features/subscribed_course/model/course_chapter_model.dart' as coursechapterModel;
+import 'package:etutor/features/subscribed_course/model/gettimeline_activity_model.dart';
+import 'package:etutor/features/subscribed_course/model/insert_timeline_model.dart';
 import 'package:etutor/features/subscribed_course/model/rating_model.dart';
 import 'package:etutor/features/subscribed_course/model/subjects_model.dart';
 import 'package:flutter/material.dart';
@@ -12,6 +14,13 @@ class SubcribedCourseProvider extends ChangeNotifier {
   bool _isLoadingchapter = false; 
   bool _isLoadingrating =false;
   bool get isLoadingrating => _isLoadingrating;
+
+  bool _isLoadingInsertTLine = false;
+  bool get isLoadingInsertTLine => _isLoadingInsertTLine;
+  bool _isLoadingGetTLine = false;
+  bool get isLoadingGetTLine => _isLoadingGetTLine;
+
+
   CourseClassesModel? _courseClasses;
   List<coursechapterModel.Data?> _courseChapter = [];
 
@@ -31,6 +40,15 @@ class SubcribedCourseProvider extends ChangeNotifier {
   //fecth rating
   RatingModel? _ratingCourses;
   RatingModel? get courseRating => _ratingCourses;
+
+   //INsert TimeLInes
+  InsertTimelineModel? _insertTLine;
+  InsertTimelineModel? get insertTLine => _insertTLine;
+
+  //Get Insert TimeLine
+  GetTimelineActivityModel? _getTLine;
+  GetTimelineActivityModel? get getTLine => _getTLine;
+
 
 //classes provider
   Future<void> fetchCourseClasses({
@@ -114,14 +132,14 @@ class SubcribedCourseProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-
+//update course rating provider
   Future<void> updateCourseRating({
     required BuildContext context,
     required String courseid,
     required String rating,
     required String comment
   }) async {
-    _isLoadingrating = true;
+    _isLoadingInsertTLine = true;
     notifyListeners();
 
     try {
@@ -143,6 +161,65 @@ class SubcribedCourseProvider extends ChangeNotifier {
     }
 
     _isLoadingrating = false;
+    notifyListeners();
+  }
+
+
+//insert timeline provider
+   Future<void> insertTimelines({
+    required BuildContext context,
+    required String contentid,
+    required String type
+  }) async {
+    _isLoadingrating = true;
+    notifyListeners();
+
+    try {
+      final response = await SubscribedCourseService().insertTimeline(
+        context: context,
+        contentid: contentid,
+        type: type,
+      );
+
+      if (response != null && response.type == "success") {
+        _insertTLine = response;
+      } else {
+        _insertTLine = null;
+      }
+    } catch (e) {
+      debugPrint("Error inserting Timelines  : $e");
+      _insertTLine = null;
+    }
+
+    _isLoadingInsertTLine = false;
+    notifyListeners();
+  }
+
+  //insert GettimelineActivity provider
+   Future<void> getTimeline({
+    required BuildContext context,
+    required String date
+  }) async {
+    _isLoadingrating = true;
+    notifyListeners();
+
+    try {
+      final response = await SubscribedCourseService().getTimelineActivity(
+        context: context,
+        date: date,
+      );
+
+      if (response != null && response.type == "success") {
+        _getTLine = response;
+      } else {
+        _getTLine = null;
+      }
+    } catch (e) {
+      debugPrint("Error inserting Timelines  : $e");
+      _getTLine = null;
+    }
+
+    _isLoadingGetTLine = false;
     notifyListeners();
   }
 }

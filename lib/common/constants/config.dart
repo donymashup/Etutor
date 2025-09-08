@@ -41,6 +41,10 @@ const studentChapterAnalysis = 'Newapi/studentChapterAnalysis';
 const chapterPracticeTest = 'Newapi/chapterPracticeTests';
 const updateCourseStars = 'Newapi/updateCourseStars';
 
+//TimeLine
+const insertTline = 'Newapi/insertTimeline';
+const getTlineActivity = 'Newapi/getTimelineActivity';
+
 // Test Series
 const attendedTestsUrl = "Newapi/getAttendedTests";
 const ongoingTestsUrl = "Newapi/getOngoingTests";

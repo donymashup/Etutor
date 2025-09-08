@@ -1,7 +1,9 @@
 import 'package:better_player/better_player.dart';
 import 'package:etutor/common/constants/app_constants.dart';
-import 'package:etutor/features/subscribed_course/model/videos_model.dart' as videos_model;
+import 'package:etutor/features/subscribed_course/model/videos_model.dart'
+    as videos_model;
 import 'package:etutor/features/subscribed_course/provider/bookmark_provider.dart';
+import 'package:etutor/features/subscribed_course/provider/subcribed_course_provider.dart';
 import 'package:etutor/features/subscribed_course/provider/vedio_playlist_provider.dart';
 import 'package:etutor/features/subscribed_course/widgets/playlist_card.dart';
 import 'package:flutter/material.dart';
@@ -33,13 +35,27 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
+      // Playlist setup
       final provider = Provider.of<VideoPlayerProvider>(context, listen: false);
       provider.setPlaylist(widget.playlist);
       provider.selectVideo(widget.initialIndex);
       initializePlayer(provider.currentVideo!);
-      context.read<BookmarkProvider>().checkBookMark(context: context, contentid: widget.contentid, type: 'videos');
+
+      // Bookmark check
+      context.read<BookmarkProvider>().checkBookMark(
+            context: context,
+            contentid: widget.contentid,
+            type: 'videos',
+          );
+      // Insert timeline API call
+      context.read<SubcribedCourseProvider>().insertTimelines(
+            context: context,
+            contentid: widget.contentid,
+            type: "videos",
+          );
     });
   }
+
   void initializePlayer(videos_model.Data video) {
     // Dispose previous controllers
     betterPlayerController?.dispose();
@@ -80,7 +96,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
 
   @override
   Widget build(BuildContext context) {
-    bookmarkProvider =  context.watch<BookmarkProvider>();
+    bookmarkProvider = context.watch<BookmarkProvider>();
     return SafeArea(
       child: Scaffold(
         body: Consumer<VideoPlayerProvider>(
@@ -90,7 +106,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
             }
 
             final currentVideo = provider.currentVideo!;
-            
+
             return Column(
               children: [
                 // Video Player (Dynamic)
@@ -127,10 +143,22 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                         ),
                       ),
                       IconButton(
-                        onPressed: bookmarkProvider.isLoading ? null : () async{
-                          await context.read<BookmarkProvider>().makeBookMark(context: context, contentid:widget.contentid, type: 'videos');
-                        },
-                        icon: bookmarkProvider.isbookmarked ? Icon(Icons.bookmark_rounded,color: AppColor.videoIconColor,) : Icon(Icons.bookmark_outline),
+                        onPressed: bookmarkProvider.isLoading
+                            ? null
+                            : () async {
+                                await context
+                                    .read<BookmarkProvider>()
+                                    .makeBookMark(
+                                        context: context,
+                                        contentid: widget.contentid,
+                                        type: 'videos');
+                              },
+                        icon: bookmarkProvider.isbookmarked
+                            ? Icon(
+                                Icons.bookmark_rounded,
+                                color: AppColor.videoIconColor,
+                              )
+                            : Icon(Icons.bookmark_outline),
                       )
                     ],
                   ),
@@ -168,7 +196,8 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                               iconSize: 20,
                             ),
                             IconButton(
-                              onPressed: provider.selectedIndex < provider.playlist.length - 1
+                              onPressed: provider.selectedIndex <
+                                      provider.playlist.length - 1
                                   ? () {
                                       provider.nextVideo();
                                       initializePlayer(provider.currentVideo!);
@@ -191,10 +220,10 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                     itemBuilder: (context, index) {
                       final video = provider.playlist[index];
                       final isSelected = index == provider.selectedIndex;
-                      
+
                       return PlaylistCardWidget(
-                        title: video.name ??'',
-                        duration: video.duration ??'',
+                        title: video.name ?? '',
+                        duration: video.duration ?? '',
                         thumbnail: video.thumbnail ?? '',
                         videoSource: video.source ?? '',
                         isSelected: isSelected,
