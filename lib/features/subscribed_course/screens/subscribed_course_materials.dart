@@ -7,8 +7,12 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class SubscribedCourseMaterials extends StatefulWidget {
-final  String packageChapterId;
-const SubscribedCourseMaterials({super.key,required this.packageChapterId});
+final String packageChapterId;
+
+const SubscribedCourseMaterials({
+  super.key,
+  required this.packageChapterId,
+  });
 
   @override
   State<SubscribedCourseMaterials> createState() =>
@@ -16,13 +20,13 @@ const SubscribedCourseMaterials({super.key,required this.packageChapterId});
 }
 
 class _SubscribedCourseMaterialsState extends State<SubscribedCourseMaterials> {
- ChapterCardOverviewProvider ChaptercardProvider = ChapterCardOverviewProvider();
+ ChapterCardOverviewProvider chaptercardProvider = ChapterCardOverviewProvider();
 
  @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _loadMaterials();
+
   }
 
   Future <void> _loadMaterials()async{
@@ -31,7 +35,7 @@ class _SubscribedCourseMaterialsState extends State<SubscribedCourseMaterials> {
 
   @override
   Widget build(BuildContext context) {
-    ChaptercardProvider = context.watch<ChapterCardOverviewProvider>();
+    chaptercardProvider = context.watch<ChapterCardOverviewProvider>();
     return Scaffold(
       backgroundColor: AppColor.whiteColor,
       appBar: AppBar(
@@ -45,10 +49,10 @@ class _SubscribedCourseMaterialsState extends State<SubscribedCourseMaterials> {
           child: CustomBackButton(),
         ),
       ),
-      body: ChaptercardProvider.isMaterialLoading 
+      body: chaptercardProvider.isMaterialLoading 
       ? ListviewShimmerLoader()
       :SafeArea( 
-        child: ChaptercardProvider.chapterMaterial.isEmpty   
+        child: chaptercardProvider.chapterMaterial.isEmpty   
               ? Center(child: Text("No Materials"),)
               :Padding(
           padding: const EdgeInsets.all(12.0),
@@ -56,10 +60,10 @@ class _SubscribedCourseMaterialsState extends State<SubscribedCourseMaterials> {
             children: [
                Expanded(
                 child: ListView.builder(
-                  itemCount: ChaptercardProvider.chapterMaterial.length,
+                  itemCount: chaptercardProvider.chapterMaterial.length,
                   itemBuilder: (context, index)  
                   {
-                    final materials = ChaptercardProvider.chapterMaterial[index];
+                    final materials = chaptercardProvider.chapterMaterial[index];
                     return GestureDetector(
                     child: MaterialCard(
                      materialName: materials.name ?? '', 

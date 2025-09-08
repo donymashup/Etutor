@@ -1,10 +1,11 @@
-// timeline_screen.dart
 import 'package:etutor/common/constants/app_constants.dart';
 import 'package:etutor/common/widgets/back_button.dart';
+import 'package:etutor/features/subscribed_course/provider/subcribed_course_provider.dart';
 import 'package:etutor/features/timeline/widgets/calender_strip.dart';
 import 'package:etutor/features/timeline/widgets/timeline_item.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 class TimelineScreen extends StatefulWidget {
   const TimelineScreen({super.key});
@@ -16,37 +17,11 @@ class TimelineScreen extends StatefulWidget {
 class _TimelineScreenState extends State<TimelineScreen> {
   DateTime selectedDate = DateTime.now();
   final ScrollController _scrollController = ScrollController();
+
   final List<DateTime> days = List.generate(
     30,
     (index) => DateTime.now().subtract(Duration(days: 29 - index)),
   );
-
-  final List<Map<String, dynamic>> mockTimelineData = [
-    {
-      'type': 'video',
-      'title': 'Crop Production',
-      'subtitle': 'Class Video',
-      'time': '3:36:46 PM',
-      'color': Colors.deepOrange,
-      'icon': Icons.play_circle_fill,
-    },
-    {
-      'type': 'test',
-      'title': 'Alphabet Test',
-      'subtitle': 'Practice Test',
-      'time': '2:00:00 PM',
-      'color': Colors.blue,
-      'icon': Icons.format_list_bulleted,
-    },
-    {
-      'type': 'material',
-      'title': 'Blood Relation (SB)',
-      'subtitle': 'Study Material',
-      'time': '1:20:10 PM',
-      'color': Colors.red,
-      'icon': Icons.description,
-    },
-  ];
 
   @override
   void initState() {
@@ -54,24 +29,34 @@ class _TimelineScreenState extends State<TimelineScreen> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _scrollController.jumpTo(_scrollController.position.maxScrollExtent);
     });
+    _fetchTimeline();
+  }
+
+  Future<void> _fetchTimeline() async {
+    await context.read<SubcribedCourseProvider>().getTimeline(
+          context: context,
+          date: DateFormat('yyyy-MM-dd').format(selectedDate),
+        );
   }
 
   @override
   Widget build(BuildContext context) {
+    final provider = context.watch<SubcribedCourseProvider>();
+
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
+      appBar: AppBar( 
         backgroundColor: AppColor.whiteColor,
-        title:  Text(
-              "Timeline",
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
-              textAlign: TextAlign.center,
-            ),
-        leading: Padding(
-          padding: const EdgeInsets.only(left: 20.0),
+        title: const Text(
+          "Timeline",
+          style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+          textAlign: TextAlign.center,
+        ),
+        leading: const Padding(
+          padding: EdgeInsets.only(left: 20.0),
           child: CustomBackButton(),
         ),
-     ),
+      ),
       body: SafeArea(
         child: Column(
           children: [
@@ -79,7 +64,10 @@ class _TimelineScreenState extends State<TimelineScreen> {
               days: days,
               selectedDate: selectedDate,
               scrollController: _scrollController,
-              onDateSelected: (date) => setState(() => selectedDate = date),
+              onDateSelected: (date) {
+                setState(() => selectedDate = date);
+                _fetchTimeline();
+              },
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
@@ -96,20 +84,49 @@ class _TimelineScreenState extends State<TimelineScreen> {
               ),
             ),
             Expanded(
-              child: ListView.builder(
-                padding: const EdgeInsets.only(bottom: 20),
-                itemCount: mockTimelineData.length,
-                itemBuilder: (context, index) {
-                  final item = mockTimelineData[index];
-                  return TimelineItem(
-                    icon: item['icon'],
-                    color: item['color'],
-                    title: item['title'],
-                    subtitle: item['subtitle'],
-                    time: item['time'],
-                  );
-                },
-              ),
+              child: provider.isLoadingGetTLine
+                  ? const Center(child: CircularProgressIndicator())
+                  : (provider.getTLine?.data == null ||
+                          provider.getTLine!.data!.isEmpty)
+                      ? const Center(
+                          child: Text("No activity found for this day."),
+                        )
+                      : ListView.builder(
+                          padding: const EdgeInsets.only(bottom: 20),
+                          itemCount: provider.getTLine!.data!.length,
+                          itemBuilder: (context, index) {
+                            final item = provider.getTLine!.data![index];
+
+                            // Map type -> icon & color
+                            IconData icon;
+                            Color color;
+                            switch (item.contentType?.toLowerCase()) {
+                              case "videos":
+                                icon = Icons.play_circle_fill;
+                                color = Colors.deepOrange;
+                                break;
+                              case "test":
+                                icon = Icons.format_list_bulleted;
+                                color = Colors.blue;
+                                break;
+                              case "materials":
+                                icon = Icons.description;
+                                color = Colors.red;
+                                break;
+                              default:
+                                icon = Icons.help_outline;
+                                color = Colors.grey;
+                            }
+
+                            return TimelineItem(
+                              icon: icon,
+                              color: color,
+                              title: item.contentName ?? "No Title",
+                              subtitle: item.contentType ?? "",
+                              time: item.time ?? "",
+                            );
+                          },
+                        ),
             ),
           ],
         ),

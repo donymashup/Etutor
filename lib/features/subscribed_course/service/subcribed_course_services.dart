@@ -4,6 +4,8 @@ import 'package:etutor/common/constants/config.dart';
 import 'package:etutor/common/constants/utils.dart';
 import 'package:etutor/features/subscribed_course/model/course_chapter_model.dart';
 import 'package:etutor/features/subscribed_course/model/course_classes_model.dart';
+import 'package:etutor/features/subscribed_course/model/gettimeline_activity_model.dart';
+import 'package:etutor/features/subscribed_course/model/insert_timeline_model.dart';
 import 'package:etutor/features/subscribed_course/model/material_model.dart';
 import 'package:etutor/features/subscribed_course/model/practice_test_model.dart';
 import 'package:etutor/features/subscribed_course/model/rating_model.dart';
@@ -321,4 +323,94 @@ class SubscribedCourseService {
       return null;
     }
   }
+
+
+
+  // fuction for insertTimeline
+  Future<InsertTimelineModel?> insertTimeline({
+    required BuildContext context,
+    required String contentid,
+    required String type,
+  }) async {
+    try {
+      final token = await storage.read(key: 'token');
+      if (token == null) {
+        showSnackbar(context, "Token not found. Please log in again.");
+        return null;
+      }
+      final response = await sendPostRequestWithToken(
+        url: '$baseUrl$insertTline',
+        token: token,
+        fields: {
+          'contentid': contentid,
+          'type' : type,
+        },
+      );
+      if (response.statusCode == 200) {
+        final jsonResponse = json.decode(await response.stream.bytesToString());
+        if (jsonResponse == null || jsonResponse.isEmpty) {
+          showSnackbar(context, 'Invalid response from server');
+          return null;
+        } else {
+          final insertTimelineModel = InsertTimelineModel.fromJson(jsonResponse);
+          if (insertTimelineModel.type == 'success') {
+            return insertTimelineModel;
+          } else {
+            showSnackbar(context, insertTimelineModel.type ?? 'Unknown error');
+            return null;
+          }
+        }
+      } else {
+        debugPrint("Failed to Inser TimeLine: ${response.statusCode}");
+        return null;
+      }
+    } catch (e) {
+      showSnackbar(context, "Error : $e");
+      return null;
+    }
+  }
+
+  
+  // fuction for GETgetTimelineActivity
+  Future<GetTimelineActivityModel?> getTimelineActivity({
+    required BuildContext context,
+    required String date,
+  }) async {
+    try {
+      final token = await storage.read(key: 'token');
+      if (token == null) {
+        showSnackbar(context, "Token not found. Please log in again.");
+        return null;
+      }
+      final response = await sendPostRequestWithToken(
+        url: '$baseUrl$getTlineActivity',
+        token: token,
+        fields: {
+          'date': date,
+        },
+      );
+      if (response.statusCode == 200) {
+        final jsonResponse = json.decode(await response.stream.bytesToString());
+        if (jsonResponse == null || jsonResponse.isEmpty) {
+          showSnackbar(context, 'Invalid response from server');
+          return null;
+        } else {
+          final getTimelineActivityModel = GetTimelineActivityModel.fromJson(jsonResponse);
+          if (getTimelineActivityModel.type == 'success') {
+            return getTimelineActivityModel;
+          } else {
+            showSnackbar(context, getTimelineActivityModel.type ?? 'Unknown error');
+            return null;
+          }
+        }
+      } else {
+        debugPrint("Failed to GET Timeline Actvity: ${response.statusCode}");
+        return null;
+      }
+    } catch (e) {
+      showSnackbar(context, "Error : $e");
+      return null;
+    }
+  }
+
 }
