@@ -63,7 +63,7 @@ const orderId ='Newapi/createOrderId';
 const enroll = 'Newapi/entrollStudent';
 
 //promo code
-const promoCode = 'Newapi/getLiveClasses';
+const promoCode = 'Newapi/getPromoCodeList';
 const verifyPromoCode ='Newapi/verifyPromoCode';
 
 

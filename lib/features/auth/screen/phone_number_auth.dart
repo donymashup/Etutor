@@ -39,7 +39,12 @@ class _PhoneNumberAuthState extends State<PhoneNumberAuth> {
 
   Future<void> _onVerifyPressed(BuildContext context) async {
     final loginProvider = context.read<LoginProvider>();
-    if (!showPasswordField) {
+     if (phoneNumberController.text.isEmpty) {
+      showSnackbar(context, 'Phone number is required');
+      return;
+    }
+    else {
+      if (!showPasswordField) {
       if (_formKey.currentState?.validate() ?? false) {
         loginProvider.setPhoneNumber(phoneNumber, code, countrysign);
         await loginProvider.checkMobileExist(context, phoneNumber, code);
@@ -66,6 +71,7 @@ class _PhoneNumberAuthState extends State<PhoneNumberAuth> {
       }
     } else {
       await _login(context);
+    }
     }
   }
 

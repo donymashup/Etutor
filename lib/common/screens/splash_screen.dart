@@ -52,19 +52,10 @@ class _SplashScreenState extends State<SplashScreen> {
     try {
       await context.read<UserDetailsProvider>().loadUserDetails(context);
       if (!mounted) return;
-      isLogin = await secureStorage.read(key: 'isLogin');
-      if (isLogin != null && isLogin != 'false')
-      {
         Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => const BottomNavBarScreen()),
       );
-      }else{
-        Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => const PhoneNumberAuth()),
-      );
-      }
     } catch (e) {
       await secureStorage.write(key: 'token', value: '');
       await secureStorage.write(key: 'isLogin', value: '');

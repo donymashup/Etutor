@@ -67,6 +67,7 @@ class PaymentServices{
         url: '$baseUrl$promoCode',
         token: token,
       );
+      debugPrint(response.statusCode.toString());
       if (response.statusCode == 200) {
         final jsonResponse = json.decode(await response.stream.bytesToString());
         if (jsonResponse == null || jsonResponse.isEmpty) {
@@ -100,7 +101,7 @@ class PaymentServices{
         return null;
       }
       final response = await sendPostRequestWithToken(
-        url: '$baseUrl$promoCode',
+        url: '$baseUrl$verifyPromoCode',
         token: token,
         fields: {
           'courseid' : courseId,
