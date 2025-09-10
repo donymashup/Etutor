@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:etutor/common/constants/app_constants.dart';
 import 'package:etutor/common/widgets/back_button.dart';
 import 'package:etutor/features/subscribed_course/provider/subcribed_course_provider.dart';
@@ -26,10 +27,16 @@ class _TimelineScreenState extends State<TimelineScreen> {
   @override
   void initState() {
     super.initState();
+
+    // safe scroll after first frame
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      _scrollController.jumpTo(_scrollController.position.maxScrollExtent);
+      try {
+        _scrollController.jumpTo(_scrollController.position.maxScrollExtent);
+      } catch (_) {
+        // ignore if not scrollable yet
+      }
+      _fetchTimeline();
     });
-    _fetchTimeline();
   }
 
   Future<void> _fetchTimeline() async {
@@ -39,13 +46,43 @@ class _TimelineScreenState extends State<TimelineScreen> {
         );
   }
 
+  /// Converts incoming server time (assumed UTC if no timezone present)
+  /// to IST and returns a formatted string like "02:30 PM".
+  String formatToIST(String? timeString) {
+    if (timeString == null || timeString.trim().isEmpty) return "";
+
+    try {
+      var s = timeString.trim();
+
+      // Normalize common variant with space between date and time -> use 'T' so parse works with appended 'Z'
+      s = s.replaceAll(' ', 'T');
+
+      // Check if the string already has a timezone designator (Z or +/-HH:MM)
+      final tzAware = RegExp(r'(Z|[+-]\d{2}:\d{2})$').hasMatch(s);
+
+      // If there's no timezone info, assume the incoming time is UTC and append 'Z'
+      if (!tzAware) s = s + 'Z';
+
+      // Parse and convert to UTC, then add IST offset (+5:30)
+      final parsedUtc = DateTime.parse(s).toUtc();
+      final ist = parsedUtc.add(const Duration(hours: 5, minutes: 30));
+
+      // Format (you can change pattern if you want date + time)
+      return DateFormat('hh:mm a').format(ist);
+    } catch (e) {
+      debugPrint('formatToIST parse error: $e');
+      // fallback to raw string if parsing fails
+      return timeString;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final provider = context.watch<SubcribedCourseProvider>();
 
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar( 
+      appBar: AppBar(
         backgroundColor: AppColor.whiteColor,
         title: const Text(
           "Timeline",
@@ -103,11 +140,11 @@ class _TimelineScreenState extends State<TimelineScreen> {
                             switch (item.contentType?.toLowerCase()) {
                               case "videos":
                                 icon = Icons.play_circle_fill;
-                                color = Colors.deepOrange;
+                                color = Colors.blue;
                                 break;
                               case "test":
                                 icon = Icons.format_list_bulleted;
-                                color = Colors.blue;
+                                color = Colors.green;
                                 break;
                               case "materials":
                                 icon = Icons.description;
@@ -123,7 +160,8 @@ class _TimelineScreenState extends State<TimelineScreen> {
                               color: color,
                               title: item.contentName ?? "No Title",
                               subtitle: item.contentType ?? "",
-                              time: item.time ?? "",
+                              // convert server time -> IST for display
+                              time: formatToIST(item.time),
                             );
                           },
                         ),

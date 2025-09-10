@@ -16,6 +16,7 @@ import 'package:etutor/features/subscribed_course/provider/bookmark_provider.dar
 import 'package:etutor/features/subscribed_course/provider/chapter_card_overview_provider.dart';
 import 'package:etutor/features/subscribed_course/provider/subcribed_course_provider.dart';
 import 'package:etutor/features/subscribed_course/provider/vedio_playlist_provider.dart';
+import 'package:etutor/features/test_series/provider/soluction_provider.dart';
 import 'package:etutor/features/test_series/provider/test_series_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -44,6 +45,7 @@ void main() async {
         ChangeNotifierProvider(create: (_) => VideoPlayerProvider()),
         ChangeNotifierProvider(create: (_) => BookmarkProvider()),
         ChangeNotifierProvider(create: (_) => ChangePasswordProvider()),
+        ChangeNotifierProvider(create: (_) => SolutionProvider())
       ],
       child: MyApp(),
     ),
