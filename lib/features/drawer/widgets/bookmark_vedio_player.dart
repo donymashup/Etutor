@@ -1,32 +1,34 @@
 import 'package:better_player/better_player.dart';
 import 'package:etutor/common/constants/app_constants.dart';
 import 'package:etutor/features/my_course/provider/course_details_provider.dart';
-import 'package:etutor/features/my_course/widgets/testimonial_card.dart';
+import 'package:etutor/features/subscribed_course/provider/bookmark_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
-class FreeContentVedioplayer extends StatefulWidget {
+class BookmarkVedioPlayer extends StatefulWidget {
   final String videolink;
   final String videoTitle;
   final String videoSource;
   final String videohls;
+  final String contentId;
 
-  const FreeContentVedioplayer({
+  const BookmarkVedioPlayer({
     super.key,
     required this.videolink,
     required this.videoTitle,
     required this.videoSource,
     required this.videohls,
+    required this.contentId,
   });
 
   @override
-  State<FreeContentVedioplayer> createState() => _FreeContentVedioplayer();
+  State<BookmarkVedioPlayer> createState() => _BookmarkVedioPlayer();
 }
 
-class _FreeContentVedioplayer extends State<FreeContentVedioplayer> {
+class _BookmarkVedioPlayer extends State<BookmarkVedioPlayer> {
   bool isLoading = true;
-   CourseDetailsProvider courseDetailsProvider = CourseDetailsProvider();
+  BookmarkProvider bookmarkProvider = BookmarkProvider();
 
 
   BetterPlayerController? betterPlayerController;
@@ -36,6 +38,12 @@ class _FreeContentVedioplayer extends State<FreeContentVedioplayer> {
   void initState() {
     super.initState();
     initializePlayer();
+       // Bookmark check
+      context.read<BookmarkProvider>().checkBookMark(
+            context: context,
+            contentid: widget.contentId,
+            type: 'videos',
+          );
   }
 
   void initializePlayer() {
@@ -60,7 +68,7 @@ class _FreeContentVedioplayer extends State<FreeContentVedioplayer> {
         ),
         betterPlayerDataSource: BetterPlayerDataSource(
           BetterPlayerDataSourceType.network,
-          widget.videolink,
+          widget.videohls,
         ),
       );
     }
@@ -77,7 +85,7 @@ class _FreeContentVedioplayer extends State<FreeContentVedioplayer> {
 
   @override
   Widget build(BuildContext context) {
-    courseDetailsProvider = context.watch<CourseDetailsProvider>();
+    bookmarkProvider = context.watch<BookmarkProvider>();
     return SafeArea(
       child: Scaffold(
         body: isLoading
@@ -116,45 +124,31 @@ class _FreeContentVedioplayer extends State<FreeContentVedioplayer> {
                             ),
                           ),
                         ),
+                        IconButton(
+                        onPressed: bookmarkProvider.isLoading
+                            ? null
+                            : () async {
+                                await context
+                                    .read<BookmarkProvider>()
+                                    .makeBookMark(
+                                        context: context,
+                                        contentid: widget.contentId,
+                                        type: 'videos');
+                              },
+                        icon: bookmarkProvider.isbookmarked
+                            ? Icon(
+                                Icons.bookmark_rounded,
+                                color: AppColor.videoIconColor,
+                              )
+                            : Icon(Icons.bookmark_outline),
+                      )
                       ],
                     ),
                   ),
 
                   const SizedBox(height: 12),
 
-                  //  Reviews Section
-                  Container(
-                      width: MediaQuery.of(context).size.width,
-                      color: AppColor.greyCardBackground,
-                      child: const Center(
-                          child: Padding(
-                        padding: EdgeInsets.all(12.0),
-                        child: Text(
-                          "Reviews",
-                          style: TextStyle(
-                              fontWeight: FontWeight.w600, fontSize: 18),
-                        ),
-                      ))),
-
-                  //  Testimonials List
-                  courseDetailsProvider.reviews.isEmpty 
-                  ? Text("no reviews")
-                  :Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                      child: ListView.builder(
-                        itemCount: courseDetailsProvider.reviews.length,
-                        itemBuilder: (context, index) 
-                        {
-                         final reviews =courseDetailsProvider.reviews[index];
-                          return TestimonialCard(
-                            username: reviews.userName ?? '',
-                        description: reviews.comment ?? '',
-                        userimage: reviews.image ?? '',
-                        rating: reviews.rating ?? '',);}
-                      ),
-                    ),
-                  )
+                 
                 ],
               ),
       ),

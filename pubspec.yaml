@@ -33,36 +33,55 @@ dependencies:
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
+  
+   # Core UI & Icons
   cupertino_icons: ^1.0.8
-  lottie: ^3.3.1
   iconify_flutter: ^0.0.7
   flutter_svg: ^2.0.7
-  pinput: ^5.0.1
+  fluentui_emoji_icon: ^0.0.2
+  font_awesome_flutter: ^10.7.0
+  
+  # Animations & Visual Effects
+  lottie: ^3.3.1
   dotted_border: ^2.0.0
   percent_indicator: ^4.2.5
+  shimmer: ^3.0.0
+  slide_to_act: ^2.0.2
+  
+  # Charts & Data Visualization
   fl_chart: ^1.0.0
-  flutter_tex: ^5.1.7
-  custom_timer: ^0.2.3
-  webview_flutter_plus: ^0.4.19
   syncfusion_flutter_charts: ^29.2.11
+  
+  # State Management
+  provider: ^6.1.5
+  
+  # Document & Media Viewers
   syncfusion_flutter_pdfviewer: ^29.2.11
   better_player: ^0.0.84
-  fluentui_emoji_icon: ^0.0.2
-  provider: ^6.1.5
-  font_awesome_flutter: ^10.7.0
-  slide_to_act: ^2.0.2
-  image_picker: ^1.1.2
-  http: ^1.4.0
-  intl_phone_field: ^3.2.0
-  flutter_secure_storage: ^9.2.4
-  internet_connection_checker_plus: ^2.7.2
-  cached_network_image: ^3.4.1
-  shimmer: ^3.0.0
-  intl: ^0.20.2
-  youtube_player_flutter: 9.1.2
+  youtube_player_flutter: ^9.1.2
+  
+  # Web & Network
+  webview_flutter_plus: ^0.4.19
   flutter_inappwebview: ^6.0.0-beta.40
   url_launcher: ^6.3.2
+  http: ^1.4.0
+  internet_connection_checker_plus: ^2.7.2
+  cached_network_image: ^3.4.1
   flutter_html: ^3.0.0
+  
+  # Form Controls & Input
+  pinput: ^5.0.1
+  intl_phone_field: ^3.2.0
+  image_picker: ^1.1.2
+  dropdown_search: ^5.0.6
+  
+  # Storage
+  flutter_secure_storage: ^9.2.4
+  
+  # Utilities & Helpers
+  flutter_tex: ^5.1.7
+  custom_timer: ^0.2.3
+  intl: ^0.20.2
 
 
 dev_dependencies:

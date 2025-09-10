@@ -1,6 +1,8 @@
 import 'package:etutor/common/constants/app_constants.dart';
 import 'package:etutor/common/widgets/back_button.dart';
+import 'package:etutor/features/drawer/widgets/bookmark_vedio_player.dart';
 import 'package:etutor/features/subscribed_course/provider/bookmark_provider.dart';
+import 'package:etutor/features/subscribed_course/screens/pdf_viewer.dart';
 import 'package:etutor/features/subscribed_course/widgets/material_card.dart';
 import 'package:etutor/features/subscribed_course/widgets/video_card.dart';
 import 'package:flutter/material.dart';
@@ -76,11 +78,23 @@ class _BookMarksState extends State<BookMarks> {
             bookmarkProvider.bookmarkMaterial.length,
             (index) {
               final material = bookmarkProvider.bookmarkMaterial[index];
-              return MaterialCard(
-                materialName: material.name ??'', 
-                materialDescription:'', 
-                link: '', 
-                contentId:material.id ?? '',        
+               context.read<BookmarkProvider>().getMDetails(context, material.contentid ??"");
+              final details =  context.watch<BookmarkProvider>().materialDetails;
+              return GestureDetector(
+                onTap: () {
+                Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                                        builder: (_) => PdfViewer(link: details.link ?? "", title: details.name??"", contentId: material.contentid??"")
+                                           )
+                                           );  
+                },
+                child: MaterialCard(
+                  materialName: material.name ??'', 
+                  materialDescription:'', 
+                  link: '', 
+                  contentId:material.id ?? '',        
+                ),
               );
             },
           ),
@@ -101,11 +115,28 @@ class _BookMarksState extends State<BookMarks> {
             bookmarkProvider.bookmarkVedio.length,
             (index) {
               final vedio = bookmarkProvider.bookmarkVedio[index];
-              return VideoCard(
-              title: vedio.name ?? '',
-              img: vedio.thumbnail ?? '',
-              duration: '',
-            );
+              context.read<BookmarkProvider>().getVDetails(context, vedio.contentid ??"");
+              final details =  context.watch<BookmarkProvider>().vedioDetails;
+              return GestureDetector(
+                onTap: () {
+                   Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                                        builder: (_) => BookmarkVedioPlayer(
+                                          videolink: details.link ?? "", 
+                                          videoTitle: details.name ?? "", 
+                                          videoSource: details.source ?? "", 
+                                          videohls: details.hls ?? "", 
+                                          contentId: vedio.contentid ?? "",)
+                                           )
+                                           );
+                },
+                child: VideoCard(
+                title: vedio.name ?? '',
+                img: vedio.thumbnail ?? '',
+                duration: '',
+                            ),
+              );
             })
             ]
           ],
