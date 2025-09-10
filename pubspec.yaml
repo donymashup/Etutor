@@ -67,6 +67,7 @@ dependencies:
   http: ^1.4.0
   internet_connection_checker_plus: ^2.7.2
   cached_network_image: ^3.4.1
+  flutter_html: ^3.0.0
   
   # Form Controls & Input
   pinput: ^5.0.1
@@ -81,6 +82,7 @@ dependencies:
   flutter_tex: ^5.1.7
   custom_timer: ^0.2.3
   intl: ^0.20.2
+
 
 dev_dependencies:
   flutter_test:
