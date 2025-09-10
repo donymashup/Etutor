@@ -50,6 +50,7 @@ const attendedTestsUrl = "Newapi/getAttendedTests";
 const ongoingTestsUrl = "Newapi/getOngoingTests";
 const upcomingTestsUrl = "Newapi/getUpcomingTests";
 const examPerformance = "Newapi/examPerformance";
+const viewAnswerSheet = "Newapi/viewAnswerSheet";
 
 // Live Classes
 const liveClassesUrl = "Newapi/getLiveClasses";
@@ -65,6 +66,7 @@ const bookmarkedContent = "Newapi/getUserBookmarkedContents";
 //payment
 const orderId ='Newapi/createOrderId';
 const enroll = 'Newapi/entrollStudent';
+const freeEnrollStudent = 'Newapi/freeEnrollStudent';
 
 //promo code
 const promoCode = 'Newapi/getPromoCodeList';
