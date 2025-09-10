@@ -5,6 +5,7 @@ import 'package:etutor/features/home/model/user_details_model.dart';
 import 'package:etutor/features/home/provider/homepage_provider.dart';
 import 'package:etutor/features/home/widgets/carousel.dart';
 import 'package:etutor/features/home/widgets/course_grid.dart';
+import 'package:etutor/features/home/widgets/dropdown_search.dart';
 import 'package:etutor/features/home/widgets/horizondal_shimmer_loader.dart';
 import 'package:etutor/features/subscribed_course/provider/subcribed_course_provider.dart';
 import 'package:etutor/features/subscribed_course/screens/subscribed_course_classes.dart';
@@ -39,7 +40,7 @@ class _HomePageState extends State<HomePage> {
     _userDetails();
   }
 
-  Future<void> _userDetails() async { 
+  Future<void> _userDetails() async {
     final homepageProvider = context.read<HomepageProvider>();
     homepageProvider.makeLoadingTrue();
     final userDetailsProvider = context.read<UserDetailsProvider>();
@@ -54,6 +55,7 @@ class _HomePageState extends State<HomePage> {
     userProvider = Provider.of<UserDetailsProvider>(context, listen: true);
     homeProvider = Provider.of<HomepageProvider>(context, listen: true);
     final catIndex = homeProvider.selectedIndex;
+  //  String? selectedCourse;
 
     return Scaffold(
       key: _scaffoldKey,
@@ -203,15 +205,25 @@ class _HomePageState extends State<HomePage> {
                                 ),
                               ),
                             ),
-                            Container(
-                              width: 40,
-                              height: 40,
-                              decoration: const BoxDecoration(
-                                shape: BoxShape.circle,
-                                image: DecorationImage(
-                                  image:
-                                      AssetImage('assets/images/gpt (2).png'),
-                                  fit: BoxFit.cover,
+                            GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (_) => SearchableDropdownExample()
+                                           )
+                                           );
+                              },
+                              child: Container(
+                                width: 40,
+                                height: 40,
+                                decoration: const BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  image: DecorationImage(
+                                    image:
+                                        AssetImage('assets/images/gpt (2).png'),
+                                    fit: BoxFit.cover,
+                                  ),
                                 ),
                               ),
                             ),
@@ -254,8 +266,12 @@ class _HomePageState extends State<HomePage> {
                       ? "Active Courses (0)"
                       : "Active Courses (${(homeProvider.catogryDetails[catIndex].courses ?? []).length})",
                   () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (_) => SeeMoreCourses(catIndex:catIndex,)));
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (_) => SeeMoreCourses(
+                              catIndex: catIndex,
+                            )));
               }),
               // courseList(activeCourses),
               homeProvider.isCategoryHeader

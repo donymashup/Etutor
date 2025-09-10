@@ -2,7 +2,6 @@ import 'package:better_player/better_player.dart';
 import 'package:etutor/common/constants/app_constants.dart';
 import 'package:etutor/features/live/model/live_class_model.dart' as live_class_model;
 import 'package:etutor/features/live/provider/live_class_provider.dart';
-//import 'package:etutor/features/subscribed_course/provider/bookmark_provider.dart';
 import 'package:etutor/features/subscribed_course/widgets/playlist_card.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -46,8 +45,18 @@ class _LiveVideoPlayerState extends State<LiveVedioPlayer> {
     betterPlayerController?.dispose();
     youtubePlayerController?.dispose();
 
-    if (video.source == "3") {
-      // Use BetterPlayer with HLS
+    if (video.source == "1") {
+         // Use YouTube Player
+      final videoId = YoutubePlayer.convertUrlToId(video.hls ?? "");
+      youtubePlayerController = YoutubePlayerController(
+        initialVideoId: videoId ?? "",
+        flags: const YoutubePlayerFlags(
+          autoPlay: true,
+          mute: false,
+        ),
+      );
+    } else {
+        // Use BetterPlayer with HLS
       betterPlayerController = BetterPlayerController(
         const BetterPlayerConfiguration(
           autoPlay: true,
@@ -57,16 +66,6 @@ class _LiveVideoPlayerState extends State<LiveVedioPlayer> {
         betterPlayerDataSource: BetterPlayerDataSource(
           BetterPlayerDataSourceType.network,
           video.hls ?? '',
-        ),
-      );
-    } else {
-      // Use YouTube Player
-      final videoId = YoutubePlayer.convertUrlToId(video.hls ?? "");
-      youtubePlayerController = YoutubePlayerController(
-        initialVideoId: videoId ?? "",
-        flags: const YoutubePlayerFlags(
-          autoPlay: true,
-          mute: false,
         ),
       );
     }
@@ -102,16 +101,17 @@ class _LiveVideoPlayerState extends State<LiveVedioPlayer> {
                 // Video Player (Dynamic)
                 AspectRatio(
                   aspectRatio: 16 / 9,
-                  child: currentVideo.source == "3"
-                      ? betterPlayerController != null
-                          ? BetterPlayer(controller: betterPlayerController!)
-                          : const Center(child: CircularProgressIndicator())
-                      : youtubePlayerController != null
+                  child: currentVideo.source == "1"
+                      ? 
+                       youtubePlayerController != null
                           ? YoutubePlayer(
                               controller: youtubePlayerController!,
                               showVideoProgressIndicator: true,
                             )
-                          : const Center(child: CircularProgressIndicator()),
+                          : const Center(child: CircularProgressIndicator())
+                       : betterPlayerController != null
+                          ? BetterPlayer(controller: betterPlayerController!)
+                          : const Center(child: CircularProgressIndicator())
                 ),
 
                 // Video Title Bar
@@ -132,12 +132,6 @@ class _LiveVideoPlayerState extends State<LiveVedioPlayer> {
                           overflow: TextOverflow.ellipsis,
                         ),
                       ),
-                      // IconButton(
-                      //   onPressed: bookmarkProvider.isLoading ? null : () async{
-                      //     await context.read<BookmarkProvider>().makeBookMark(context: context, contentid:widget.contentid, type: 'videos');
-                      //   },
-                      //   icon: bookmarkProvider.isbookmarked ? Icon(Icons.bookmark_rounded,color: AppColor.videoIconColor,) : Icon(Icons.bookmark_outline),
-                      // )
                     ],
                   ),
                 ),

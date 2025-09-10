@@ -61,8 +61,18 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
     betterPlayerController?.dispose();
     youtubePlayerController?.dispose();
 
-    if (video.source == "2") {
-      // Use BetterPlayer with HLS
+    if (video.source == "1") {
+      // Use YouTube Player
+      final videoId = YoutubePlayer.convertUrlToId(video.link ?? "");
+      youtubePlayerController = YoutubePlayerController(
+        initialVideoId: videoId ?? "",
+        flags: const YoutubePlayerFlags(
+          autoPlay: true,
+          mute: false,
+        ),
+      );
+    } else {
+       // Use BetterPlayer with HLS
       betterPlayerController = BetterPlayerController(
         const BetterPlayerConfiguration(
           autoPlay: true,
@@ -72,16 +82,6 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
         betterPlayerDataSource: BetterPlayerDataSource(
           BetterPlayerDataSourceType.network,
           video.hls ?? '',
-        ),
-      );
-    } else {
-      // Use YouTube Player
-      final videoId = YoutubePlayer.convertUrlToId(video.link ?? "");
-      youtubePlayerController = YoutubePlayerController(
-        initialVideoId: videoId ?? "",
-        flags: const YoutubePlayerFlags(
-          autoPlay: true,
-          mute: false,
         ),
       );
     }
@@ -112,16 +112,16 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                 // Video Player (Dynamic)
                 AspectRatio(
                   aspectRatio: 16 / 9,
-                  child: currentVideo.source == "2"
-                      ? betterPlayerController != null
-                          ? BetterPlayer(controller: betterPlayerController!)
-                          : const Center(child: CircularProgressIndicator())
-                      : youtubePlayerController != null
+                  child: currentVideo.source == "1"
+                      ? youtubePlayerController != null
                           ? YoutubePlayer(
                               controller: youtubePlayerController!,
                               showVideoProgressIndicator: true,
                             )
-                          : const Center(child: CircularProgressIndicator()),
+                          : const Center(child: CircularProgressIndicator())
+                      : betterPlayerController != null
+                          ? BetterPlayer(controller: betterPlayerController!)
+                          : const Center(child: CircularProgressIndicator())
                 ),
 
                 // Video Title Bar

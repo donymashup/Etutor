@@ -25,10 +25,10 @@ class VideoPlayerProvider extends ChangeNotifier {
     }
   }
 
-  void setLoading(bool loading) {
-    _isLoading = loading;
-    notifyListeners();
-  }
+  // void setLoading(bool loading) {
+  //   _isLoading = loading;
+  //   notifyListeners();
+  // }
 
   void nextVideo() {
     if (_selectedIndex < _playlist.length - 1) {
