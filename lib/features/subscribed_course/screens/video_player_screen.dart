@@ -1,7 +1,6 @@
 import 'package:better_player/better_player.dart';
 import 'package:etutor/common/constants/app_constants.dart';
-import 'package:etutor/features/subscribed_course/model/videos_model.dart'
-    as videos_model;
+import 'package:etutor/features/subscribed_course/model/videos_model.dart'as videos_model;
 import 'package:etutor/features/subscribed_course/provider/bookmark_provider.dart';
 import 'package:etutor/features/subscribed_course/provider/subcribed_course_provider.dart';
 import 'package:etutor/features/subscribed_course/provider/vedio_playlist_provider.dart';
@@ -40,21 +39,24 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
       provider.setPlaylist(widget.playlist);
       provider.selectVideo(widget.initialIndex);
       initializePlayer(provider.currentVideo!);
-
-      // Bookmark check
+      checkBookMark(widget.contentid);
+     
+    });
+  }
+ void checkBookMark(String id){
+ // Bookmark check
       context.read<BookmarkProvider>().checkBookMark(
             context: context,
-            contentid: widget.contentid,
+            contentid: id,
             type: 'videos',
           );
       // Insert timeline API call
       context.read<SubcribedCourseProvider>().insertTimelines(
             context: context,
-            contentid: widget.contentid,
+            contentid:id,
             type: "videos",
           );
-    });
-  }
+ }
 
   void initializePlayer(videos_model.Data video) {
     // Dispose previous controllers
@@ -109,7 +111,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
 
             return Column(
               children: [
-                // Video Player (Dynamic)
+                // Video Player
                 AspectRatio(
                   aspectRatio: 16 / 9,
                   child: currentVideo.source == "1"
@@ -150,7 +152,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                                     .read<BookmarkProvider>()
                                     .makeBookMark(
                                         context: context,
-                                        contentid: widget.contentid,
+                                        contentid: currentVideo.videoid?? "",
                                         type: 'videos');
                               },
                         icon: bookmarkProvider.isbookmarked
@@ -230,6 +232,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                         onTap: () {
                           provider.selectVideo(index);
                           initializePlayer(video);
+                          checkBookMark(video.videoid ?? '');
                         },
                       );
                     },

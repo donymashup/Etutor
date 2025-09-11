@@ -39,11 +39,15 @@ class _BookmarkVedioPlayer extends State<BookmarkVedioPlayer> {
     super.initState();
     initializePlayer();
        // Bookmark check
+     WidgetsBinding.instance.addPostFrameCallback((_) {
+    if (mounted) {
       context.read<BookmarkProvider>().checkBookMark(
             context: context,
             contentid: widget.contentId,
             type: 'videos',
           );
+    }
+  });
   }
 
   void initializePlayer() {
@@ -124,24 +128,6 @@ class _BookmarkVedioPlayer extends State<BookmarkVedioPlayer> {
                             ),
                           ),
                         ),
-                        IconButton(
-                        onPressed: bookmarkProvider.isLoading
-                            ? null
-                            : () async {
-                                await context
-                                    .read<BookmarkProvider>()
-                                    .makeBookMark(
-                                        context: context,
-                                        contentid: widget.contentId,
-                                        type: 'videos');
-                              },
-                        icon: bookmarkProvider.isbookmarked
-                            ? Icon(
-                                Icons.bookmark_rounded,
-                                color: AppColor.videoIconColor,
-                              )
-                            : Icon(Icons.bookmark_outline),
-                      )
                       ],
                     ),
                   ),

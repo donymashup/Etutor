@@ -27,7 +27,6 @@ class LiveVedioPlayer extends StatefulWidget {
 class _LiveVideoPlayerState extends State<LiveVedioPlayer> {
   BetterPlayerController? betterPlayerController;
   YoutubePlayerController? youtubePlayerController;
-//  BookmarkProvider bookmarkProvider = BookmarkProvider();
 
   @override
   void initState() {
@@ -37,7 +36,6 @@ class _LiveVideoPlayerState extends State<LiveVedioPlayer> {
       provider.setPlaylist(widget.playlist);
       provider.selectVideo(widget.initialIndex);
       initializePlayer(provider.currentVideo!);
-    //  context.read<BookmarkProvider>().checkBookMark(context: context, contentid: widget.contentid, type: 'videos');
     });
   }
   void initializePlayer(live_class_model.Data video) {
@@ -85,7 +83,6 @@ class _LiveVideoPlayerState extends State<LiveVedioPlayer> {
 
   @override
   Widget build(BuildContext context) {
-   // bookmarkProvider =  context.watch<BookmarkProvider>();
     return SafeArea(
       child: Scaffold(
         body: Consumer<LiveClassProvider>(

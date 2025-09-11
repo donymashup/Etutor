@@ -63,7 +63,10 @@ class _PdfViewerState extends State<PdfViewer> {
           )
         ],
       ),
-      body: SfPdfViewer.network(widget.link),
+      
+      body: widget.link.isEmpty 
+      ? Center(child: Text("Something Wenk wrong .link not found"))
+      :SfPdfViewer.network(widget.link),
     );
   }
 }

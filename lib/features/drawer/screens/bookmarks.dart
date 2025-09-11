@@ -79,23 +79,45 @@ class _BookMarksState extends State<BookMarks> {
             (index) {
               final material = bookmarkProvider.bookmarkMaterial[index];
                context.read<BookmarkProvider>().getMDetails(context, material.contentid ??"");
-              final details =  context.watch<BookmarkProvider>().materialDetails;
-              return GestureDetector(
-                onTap: () {
-                Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                                        builder: (_) => PdfViewer(link: details.link ?? "", title: details.name??"", contentId: material.contentid??"")
-                                           )
-                                           );  
-                },
-                child: MaterialCard(
-                  materialName: material.name ??'', 
-                  materialDescription:'', 
-                  link: '', 
-                  contentId:material.id ?? '',        
-                ),
-              );
+              final details =  bookmarkProvider.materialDetails;
+             return Dismissible(
+                              key: Key(material.contentid ?? index.toString()),
+                              direction: DismissDirection.endToStart,
+                              background: Container(
+                                color: Colors.red,
+                                alignment: Alignment.centerRight,
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 20),
+                                child: const Icon(Icons.delete,
+                                    color: Colors.white),
+                              ),
+                              onDismissed: (_) {
+                                context
+                                    .read<BookmarkProvider>()
+                                    .makeBookMark(context: context, contentid:  material.contentid  ?? "", type: 'materials');
+                                    _load();
+                              },
+                              child: GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (_) => PdfViewer(
+                                        link: details.link ?? "",
+                                        title: details.name ?? "",
+                                        contentId: material.contentid ?? "",
+                                      ),
+                                    ),
+                                  );
+                                   },
+                                child: MaterialCard(
+                                  materialName: material.name ?? '',
+                                  materialDescription: '',
+                                  link: '',
+                                  contentId: material.contentid ?? '',
+                                ),
+                              ),
+                            );
             },
           ),
           const SizedBox(height: 16),
@@ -117,6 +139,48 @@ class _BookMarksState extends State<BookMarks> {
               final vedio = bookmarkProvider.bookmarkVedio[index];
               context.read<BookmarkProvider>().getVDetails(context, vedio.contentid ??"");
               final details =  context.watch<BookmarkProvider>().vedioDetails;
+              //  return Dismissible(
+              //                 key: Key(video.contentid ?? index.toString()),
+              //                 direction: DismissDirection.endToStart,
+              //                 background: Container(
+              //                   color: Colors.red,
+              //                   alignment: Alignment.centerRight,
+              //                   padding:
+              //                       const EdgeInsets.symmetric(horizontal: 20),
+              //                   child: const Icon(Icons.delete,
+              //                       color: Colors.white),
+              //                 ),
+              //                 onDismissed: (_) {
+              //                   context
+              //                       .read<BookmarkProvider>()
+              //                       .removeBookmark(
+              //                         context: context,
+              //                         contentid: video.contentid ?? "",
+              //                         type: "videos",
+              //                       );
+              //                 },
+              //                 child: GestureDetector(
+              //                   onTap: () {
+              //                     Navigator.push(
+              //                       context,
+              //                       MaterialPageRoute(
+              //                         builder: (_) => BookmarkVedioPlayer(
+              //                           videolink: video.link ?? "",
+              //                           videoTitle: video.name ?? "",
+              //                           videoSource: video.source ?? "",
+              //                           videohls: video.hls ?? "",
+              //                           contentId: video.contentid ?? "",
+              //                         ),
+              //                       ),
+              //                     );
+              //                   },
+              //                   child: VideoCard(
+              //                     title: video.name ?? '',
+              //                     img: video.thumbnail ?? '',
+              //                     duration: '',
+              //                   ),
+              //                 ),
+              //               );
               return GestureDetector(
                 onTap: () {
                    Navigator.push(
