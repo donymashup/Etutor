@@ -55,7 +55,7 @@ class _HomePageState extends State<HomePage> {
     userProvider = Provider.of<UserDetailsProvider>(context, listen: true);
     homeProvider = Provider.of<HomepageProvider>(context, listen: true);
     final catIndex = homeProvider.selectedIndex;
-  //  String? selectedCourse;
+    //  String? selectedCourse;
 
     return Scaffold(
       key: _scaffoldKey,
@@ -210,9 +210,8 @@ class _HomePageState extends State<HomePage> {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (_) => SearchableDropdownExample()
-                                           )
-                                           );
+                                        builder: (_) =>
+                                            SearchableDropdownExample()));
                               },
                               child: Container(
                                 width: 40,
