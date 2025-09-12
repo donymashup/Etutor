@@ -79,23 +79,45 @@ class _BookMarksState extends State<BookMarks> {
             (index) {
               final material = bookmarkProvider.bookmarkMaterial[index];
                context.read<BookmarkProvider>().getMDetails(context, material.contentid ??"");
-              final details =  context.watch<BookmarkProvider>().materialDetails;
-              return GestureDetector(
-                onTap: () {
-                Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                                        builder: (_) => PdfViewer(link: details.link ?? "", title: details.name??"", contentId: material.contentid??"")
-                                           )
-                                           );  
-                },
-                child: MaterialCard(
-                  materialName: material.name ??'', 
-                  materialDescription:'', 
-                  link: '', 
-                  contentId:material.id ?? '',        
-                ),
-              );
+              final details =  bookmarkProvider.materialDetails;
+             return Dismissible(
+                              key: Key(material.contentid ?? index.toString()),
+                              direction: DismissDirection.endToStart,
+                              background: Container(
+                                color: Colors.red,
+                                alignment: Alignment.centerRight,
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 20),
+                                child: const Icon(Icons.delete,
+                                    color: Colors.white),
+                              ),
+                              onDismissed: (_) {
+                                context
+                                    .read<BookmarkProvider>()
+                                    .makeBookMark(context: context, contentid:  material.contentid  ?? "", type: 'materials');
+                                    _load();
+                              },
+                              child: GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (_) => PdfViewer(
+                                        link: details.link ?? "",
+                                        title: details.name ?? "",
+                                        contentId: material.contentid ?? "",
+                                      ),
+                                    ),
+                                  );
+                                   },
+                                child: MaterialCard(
+                                  materialName: material.name ?? '',
+                                  materialDescription: '',
+                                  link: '',
+                                  contentId: material.contentid ?? '',
+                                ),
+                              ),
+                            );
             },
           ),
           const SizedBox(height: 16),
@@ -117,26 +139,64 @@ class _BookMarksState extends State<BookMarks> {
               final vedio = bookmarkProvider.bookmarkVedio[index];
               context.read<BookmarkProvider>().getVDetails(context, vedio.contentid ??"");
               final details =  context.watch<BookmarkProvider>().vedioDetails;
-              return GestureDetector(
-                onTap: () {
-                   Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                                        builder: (_) => BookmarkVedioPlayer(
-                                          videolink: details.link ?? "", 
-                                          videoTitle: details.name ?? "", 
-                                          videoSource: details.source ?? "", 
-                                          videohls: details.hls ?? "", 
-                                          contentId: vedio.contentid ?? "",)
-                                           )
-                                           );
-                },
-                child: VideoCard(
-                title: vedio.name ?? '',
-                img: vedio.thumbnail ?? '',
-                duration: '',
-                            ),
-              );
+               return Dismissible(
+                              key: Key(details.videoid ?? index.toString()),
+                              direction: DismissDirection.endToStart,
+                              background: Container(
+                                color: Colors.red,
+                                alignment: Alignment.centerRight,
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 20),
+                                child: const Icon(Icons.delete,
+                                    color: Colors.white),
+                              ),
+                              onDismissed: (_) {
+                                context
+                                    .read<BookmarkProvider>()
+                                    .makeBookMark(context: context, contentid: vedio.contentid ?? "videos", type: '');
+                              },
+                              child: GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (_) => BookmarkVedioPlayer(
+                                        videolink: details.link ?? "",
+                                        videoTitle: details.name ?? "",
+                                        videoSource: details.source ?? "",
+                                        videohls: details.hls ?? "",
+                                        contentId: details.videoid ?? "",
+                                      ),
+                                    ),
+                                  );
+                                },
+                                child: VideoCard(
+                                  title: vedio.name ?? '',
+                                  img: vedio.thumbnail ?? '',
+                                  duration: '',
+                                ),
+                              ),
+                            );
+              // return GestureDetector(
+              //   onTap: () {
+              //      Navigator.push(
+              //         context,
+              //         MaterialPageRoute(
+              //                           builder: (_) => BookmarkVedioPlayer(
+              //                             videolink: details.link ?? "", 
+              //                             videoTitle: details.name ?? "", 
+              //                             videoSource: details.source ?? "", 
+              //                             videohls: details.hls ?? "", 
+              //                             contentId: vedio.contentid ?? "",)
+              //                              )
+              //                              );
+              //   },
+              //   child: VideoCard(
+              //   title: vedio.name ?? '',
+              //   img: vedio.thumbnail ?? '',
+              //   duration: '',
+              //               ),
+              // );
             })
             ]
           ],
