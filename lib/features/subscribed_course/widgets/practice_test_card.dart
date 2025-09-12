@@ -37,7 +37,7 @@ class _CourseCardState extends State<PracticeTestCard> {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => QuizInstructionPage(duration: widget.testDuration, questions: widget.questions,),
+              builder: (context) => QuizInstructionPage(duration: widget.testDuration, questions: widget.questions,testid: widget.testId,testName: widget.testName,),
             ),
           );
         },

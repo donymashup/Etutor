@@ -123,7 +123,6 @@ class TestService {
     }
   }
 
-
   // fuction to fetch Test Performance
   Future<ExamPerformanceModel?> testReport({
     required BuildContext context,
@@ -141,7 +140,7 @@ class TestService {
         token: token,
         fields: {
           'type': type,
-          'testid' : testid,
+          'testid': testid,
         },
       );
       if (response.statusCode == 200) {
@@ -150,10 +149,10 @@ class TestService {
           showSnackbar(context, 'Invalid response from server');
           return null;
         } else {
-          final examPerformanceModel = ExamPerformanceModel.fromJson(jsonResponse);
+          final examPerformanceModel =
+              ExamPerformanceModel.fromJson(jsonResponse);
 
-            return examPerformanceModel;
-
+          return examPerformanceModel;
         }
       } else {
         debugPrint("Failed to fetch chapter list: ${response.statusCode}");
@@ -161,6 +160,43 @@ class TestService {
       }
     } catch (e) {
       showSnackbar(context, "Error : $e");
+      return null;
+    }
+  }
+
+  Future<String?> fetchSolution({
+    required BuildContext? context,
+    required String testId,
+    required String type,
+  }) async {
+    try {
+      final token = await storage.read(key: 'token');
+      if (token == null) {
+        if (context != null) {
+          showSnackbar(context, "Token not found. Please log in again.");
+        }
+        return null;
+      }
+
+      final response = await sendPostRequestWithToken(
+        url: "$baseUrl$viewAnswerSheet",
+        token: token,
+        fields: {
+          "testid": testId,
+          "type": type,
+        },
+      );
+
+      if (response.statusCode == 200) {
+        return await response.stream.bytesToString();
+      } else {
+        debugPrint("Failed to fetch solution: ${response.statusCode}");
+        return null;
+      }
+    } catch (e) {
+      if (context != null) {
+        showSnackbar(context, "Error : $e");
+      }
       return null;
     }
   }

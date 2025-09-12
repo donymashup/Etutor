@@ -1,207 +1,232 @@
 import 'package:etutor/common/constants/app_constants.dart';
 import 'package:etutor/common/widgets/back_button.dart';
-import 'package:etutor/features/quiz/screen/new_test_page.dart';
+import 'package:etutor/features/home/provider/user_details_provider.dart';
 import 'package:etutor/features/quiz/widgets/bullet_point.dart';
+import 'package:etutor/features/subscribed_course/screens/webview_tests_subcribed.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class QuizInstructionPage extends StatelessWidget {
   final String duration;
   final String questions;
-  const QuizInstructionPage({super.key,required this.duration, required this.questions});
+  final String testName;
+  final String testid;
 
+ QuizInstructionPage({
+    super.key,
+    required this.duration,
+    required this.questions,
+    required this.testName,
+    required this.testid,
+  });
+
+  UserDetailsProvider userDetailsProvider = UserDetailsProvider();
   @override
   Widget build(BuildContext context) {
+    userDetailsProvider=context.watch<UserDetailsProvider>();
     return Scaffold(
       backgroundColor: AppColor.whiteColor,
+      appBar: AppBar(
+        backgroundColor: AppColor.primaryColor,
+        elevation: 0,
+        leading: const Padding(
+          padding: EdgeInsets.only(left: 8.0),
+          child: CustomBackButton(),
+        ),
+        title: const Text(
+          "Quiz Instructions",
+          style: TextStyle(
+            fontWeight: FontWeight.w600,
+            fontSize: 20,
+            color: Colors.white,
+          ),
+        ),
+        centerTitle: true,
+      ),
+
       body: Column(
         children: [
           Container(
             width: double.infinity,
-            alignment: Alignment.center,
-            color: AppColor.primaryColor,
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+            padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 16),
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [AppColor.primaryColor, AppColor.primaryColor.withOpacity(0.8)],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              ),
+              borderRadius: const BorderRadius.only(
+                bottomLeft: Radius.circular(24),
+                bottomRight: Radius.circular(24),
+              ),
+            ),
             child: Column(
               children: [
-                SizedBox(height: 40),
-                Row(
-                  children: [
-                    const Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10),
-                      child: CustomBackButton(),
-                    ),
-                    Text(
-                      "Quiz Instructions",
-                      style: TextStyle(
-                          fontWeight: FontWeight.w500, fontSize: 20, color: AppColor.whiteColor),
-                    ),
-                  ],
-                ),
-                const Text(
-                  'IQQM EXAM [08-06-2025]',
-                  style: TextStyle(
-                    fontSize: 20,
-                    color: AppColor.whiteColor,
-                    fontWeight: FontWeight.w600,
+                Text(
+                  testName,
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(
+                    fontSize: 22,
+                    color: Colors.white,
+                    fontWeight: FontWeight.w700,
                   ),
                 ),
-                SizedBox(height: 30),
+                const SizedBox(height: 8),
+                Container(
+                  height: 4,
+                  width: 60,
+                  decoration: BoxDecoration(
+                    color: Colors.white70,
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                ),
               ],
             ),
           ),
-          Container(
-            color: AppColor.whiteColor,
-            child: const Padding(
-              padding: EdgeInsets.symmetric(vertical: 8.0),
-              child: Center(
-                child: SizedBox(
-                  width: 60,
-                  height: 4,
-                  child: DecoratedBox(
-                    decoration: BoxDecoration(
-                      color: AppColor.primaryColor,
-                      borderRadius: BorderRadius.all(Radius.circular(8)),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ),
+
+          /// Content
           Expanded(
             child: SingleChildScrollView(
-              child: Padding(
-                padding: const EdgeInsets.all(30),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text(
-                      'Brief explanation about this quiz',
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.w600,
+              padding: const EdgeInsets.all(20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Expanded(
+                        child: _infoCard(
+                          icon: Icons.help_outline,
+                          title: "$questions Questions",
+                          subtitle: "1 point for correct, -1 for wrong",
+                          color: Colors.blueGrey.shade800,
+                        ),
                       ),
-                    ),
-                    const SizedBox(height: 20),
-                    Row(
-                      children: [
-                        const CircleAvatar(
-                          radius: 22,
-                          backgroundColor: Colors.black87,
-                          child: Icon(Icons.help_outline, color: Colors.white),
+                      const SizedBox(width: 16),
+                      Expanded(
+                        child: _infoCard(
+                          icon: Icons.access_time,
+                          title: "$duration Minutes",
+                          subtitle: "Total duration of the quiz",
+                          color: Colors.teal.shade800,
                         ),
-                        const SizedBox(width: 12),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                '$questions Questions',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 15,
-                                ),
-                              ),
-                              Text(
-                                '1 point for a correct answer, -1 for a wrong answer',
-                                style: TextStyle(
-                                  fontSize: 13,
-                                  color: Colors.grey,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 16),
-                    Row(
-                      children: [
-                        const CircleAvatar(
-                          radius: 22,
-                          backgroundColor: Colors.black87,
-                          child: Icon(Icons.access_time, color: Colors.white),
-                        ),
-                        const SizedBox(width: 12),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              '$duration Minutes',
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 15,
-                              ),
-                            ),
-                            Text(
-                              'Total duration of the quiz',
-                              style: TextStyle(
-                                fontSize: 13,
-                                color: Colors.grey,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 24),
-                    const Text(
-                      'Please read the text below carefully so you can understand it',
-                      style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                        fontSize: 20,
                       ),
+                    ],
+                  ),
+                  const SizedBox(height: 28),
+
+                  const Text(
+                    "Please read carefully",
+                    style: TextStyle(
+                      fontWeight: FontWeight.w700,
+                      fontSize: 20,
                     ),
-                    const SizedBox(height: 12),
-                    const BulletPoint(
-                      text:
-                          'Correct and incorrect marks are shown for each and every questions',
-                    ),
-                    const BulletPoint(
-                      text: 'Tap on options to select the correct answer',
-                    ),
-                    const BulletPoint(
-                      text:
-                          'Save each exam answers before submitting (press save button)',
-                    ),
-                    const BulletPoint(
-                      text: 'Once saved cannot be changed',
-                    ),
-                    const BulletPoint(
-                      text:
-                          'Press submit after saving the answers to complete exam (Press submit and end button)',
-                    ),
-                  ],
-                ),
+                  ),
+                  const SizedBox(height: 12),
+
+                  const BulletPoint(
+                    text:
+                        'Correct and incorrect marks are shown for each and every question',
+                  ),
+                  const BulletPoint(
+                    text: 'Tap on options to select the correct answer',
+                  ),
+                  const BulletPoint(
+                    text: 'Save each answer before submitting',
+                  ),
+                  const BulletPoint(
+                    text: 'Once saved, answers cannot be changed',
+                  ),
+                  const BulletPoint(
+                    text:
+                        'Press submit after saving to complete the exam',
+                  ),
+                  const SizedBox(height: 80),
+                ],
               ),
             ),
           ),
-          Padding(
-            padding:
-                const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-            child: SizedBox(
-              width: double.infinity,
-              height: 50,
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFF0E6ECF),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
+        ],
+      ),
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.all(20),
+        child: SizedBox(
+          width: double.infinity,
+          height: 55,
+          child: ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              backgroundColor: AppColor.primaryColor,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(14),
+              ),
+              elevation: 4,
+              shadowColor: AppColor.primaryColor.withOpacity(0.4),
+            ),
+            onPressed: () {
+              Navigator.of(context).pushReplacement(
+                MaterialPageRoute(
+                  builder: (context) => ExamWebView(
+                    testid: testid,
+                    userid: userDetailsProvider.userDetails.data!.id ?? "", 
+                    title: testName,
                   ),
                 ),
-                onPressed: () => Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(
-                        builder: (context) => TexViewQuizScreen())),
-                child: const Text(
-                  'Start Quiz',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16,
-                  ),
-                ),
+              );
+            },
+            child: const Text(
+              'Start Quiz',
+              style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+                fontSize: 17,
               ),
             ),
           ),
-          SizedBox(height: 30)
+        ),
+      ),
+    );
+  }
+
+  Widget _infoCard({
+    required IconData icon,
+    required String title,
+    required String subtitle,
+    required Color color,
+  }) {
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: color,
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: [
+          BoxShadow(
+            color: color.withOpacity(0.3),
+            blurRadius: 6,
+            offset: const Offset(0, 4),
+          )
+        ],
+      ),
+      child: Column(
+        children: [
+          Icon(icon, color: Colors.white, size: 28),
+          const SizedBox(height: 8),
+          Text(
+            title,
+            textAlign: TextAlign.center,
+            style: const TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+              fontSize: 15,
+            ),
+          ),
+          const SizedBox(height: 4),
+          Text(
+            subtitle,
+            textAlign: TextAlign.center,
+            style: const TextStyle(
+              color: Colors.white70,
+              fontSize: 12,
+            ),
+          ),
         ],
       ),
     );

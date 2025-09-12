@@ -1,5 +1,5 @@
-import 'package:etutor/common/constants/config.dart';
-import 'package:etutor/common/constants/utils.dart';
+
+import 'package:etutor/features/payment/model/free_enroll_student_model.dart';
 import 'package:etutor/features/payment/model/verify_promo_model.dart';
 import 'package:etutor/features/payment/service/payment_srvice.dart';
 import 'package:flutter/material.dart';
@@ -25,6 +25,10 @@ class PaymentProvider extends ChangeNotifier {
   String get searchQuery => _searchQuery;
   String? get total => _total;
   VerifyPromoModel get verify => _verify;
+
+  bool isLoading = false;
+  FreeEnrollStudentModel? _freeEnrollData;
+  FreeEnrollStudentModel? get freeEnrollData => _freeEnrollData;
 
   //set payment method
   void setPaymentMethod(Map<String, dynamic> method) {
@@ -151,6 +155,49 @@ class PaymentProvider extends ChangeNotifier {
        _verify = VerifyPromoModel();
     }
     isVerifying = false;
+    notifyListeners();
+  }
+
+  // Free enroll method
+  Future<bool> freeEnrollStudent({
+    required BuildContext context,
+    required String courseid,
+    required String promo,
+    required String amount,
+  }) async {
+    isLoading = true;
+    notifyListeners();
+
+    try {
+      final response = await PaymentServices().freeenroll(
+        context: context,
+        courseid: courseid,
+        promo: promo,
+        amount: amount,
+      );
+
+      if (response != null && response.type == 'success') {
+        _freeEnrollData = response;
+        isLoading = false;
+        notifyListeners();
+        return true;
+      } else {
+        _freeEnrollData = null;
+        isLoading = false;
+        notifyListeners();
+        return false;
+      }
+    } catch (e) {
+      debugPrint('Error in freeEnrollStudent: $e');
+      _freeEnrollData = null;
+      isLoading = false;
+      notifyListeners();
+      return false;
+    }
+  }
+
+  void clear() {
+    _freeEnrollData = null;
     notifyListeners();
   }
 }

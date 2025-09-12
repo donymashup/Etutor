@@ -2,6 +2,7 @@ import 'package:etutor/common/constants/app_constants.dart' show AppColor;
 import 'package:etutor/common/widgets/back_button.dart';
 import 'package:etutor/features/test_series/model/test_performance_model.dart';
 import 'package:etutor/features/test_series/provider/test_series_provider.dart';
+import 'package:etutor/features/test_series/screens/view_solutions_tests.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
@@ -66,13 +67,11 @@ class _TestReportPageState extends State<TestReportPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            // 🔹 View Solution Button at the top
             ElevatedButton(
               onPressed: () {
-                // TODO: Navigate to Solution Page
-                // Navigator.push(context, MaterialPageRoute(
-                //   builder: (_) => SolutionPage(testId: widget.testid),
-                // ));
+                Navigator.push(context, MaterialPageRoute(
+                  builder: (_) => ViewSolutionsTests(testId: widget.testid),
+                ));
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.green,
@@ -363,11 +362,12 @@ class _TestReportPageState extends State<TestReportPage> {
   }
 
   //Subject Vs Time
+  /// Subject Vs Time (Horizontal Scroll)
   Widget _buildSubjectVsTimeChart(report) {
     final subjects = report.subjectAnalysis ?? [];
 
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const Text(
           "Subject Vs Time",
@@ -377,110 +377,124 @@ class _TestReportPageState extends State<TestReportPage> {
             color: Colors.black87,
           ),
         ),
-        const SizedBox(height: 20),
+        const SizedBox(height: 16),
+        SizedBox(
+          height: 330, // enough for chart + legend
+          child: ListView.builder(
+            scrollDirection: Axis.horizontal,
+            itemCount: subjects.length,
+            itemBuilder: (context, index) {
+              final s = subjects[index];
 
-        // Loop over each subject
-        ...subjects.map((s) {
-          return Container(
-            margin: const EdgeInsets.only(bottom: 20),
-            padding: const EdgeInsets.all(16),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(16),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.grey.shade200,
-                  blurRadius: 6,
-                  offset: const Offset(0, 3),
-                ),
-              ],
-            ),
-            child: Column(
-              children: [
-                Text(
-                  s.title,
-                  style: const TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.black87,
-                  ),
-                ),
-                const SizedBox(height: 16),
-                SizedBox(
-                  height: 250,
-                  child: BarChart(
-                    BarChartData(
-                      alignment: BarChartAlignment.center,
-                      maxY: 100, // Always 100% scale
-                      gridData: FlGridData(show: true),
-                      borderData: FlBorderData(show: false),
-                      titlesData: FlTitlesData(
-                        leftTitles: AxisTitles(
-                          sideTitles: SideTitles(
-                            showTitles: true,
-                            reservedSize: 35,
-                            getTitlesWidget: (value, meta) {
-                              return Text("${value.toInt()}%",
-                                  style: const TextStyle(fontSize: 10));
-                            },
-                          ),
-                        ),
-                        bottomTitles: AxisTitles(
-                          sideTitles: SideTitles(showTitles: false),
-                        ),
-                        rightTitles: AxisTitles(
-                            sideTitles: SideTitles(showTitles: false)),
-                        topTitles: AxisTitles(
-                            sideTitles: SideTitles(showTitles: false)),
-                      ),
-                      barGroups: [
-                        BarChartGroupData(x: 0, barRods: [
-                          BarChartRodData(
-                            toY: s.count.perCorrect,
-                            color: Colors.green,
-                            width: 18,
-                          ),
-                        ]),
-                        BarChartGroupData(x: 1, barRods: [
-                          BarChartRodData(
-                            toY: s.count.perIncorrect,
-                            color: Colors.red,
-                            width: 18,
-                          ),
-                        ]),
-                        BarChartGroupData(x: 2, barRods: [
-                          BarChartRodData(
-                            toY: s.count.perUnattempted,
-                            color: Colors.blue,
-                            width: 18,
-                          ),
-                        ]),
-                        BarChartGroupData(x: 3, barRods: [
-                          BarChartRodData(
-                            toY: s.count.perUnattended,
-                            color: Colors.grey,
-                            width: 18,
-                          ),
-                        ]),
-                      ],
+              return Container(
+                width: 260,
+                margin: const EdgeInsets.only(right: 16),
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(16),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.shade200,
+                      blurRadius: 6,
+                      offset: const Offset(0, 3),
                     ),
-                  ),
-                ),
-                const SizedBox(height: 16),
-                Wrap(
-                  alignment: WrapAlignment.center,
-                  spacing: 20,
-                  children: const [
-                    _LegendItem(color: Colors.green, text: "Correct"),
-                    _LegendItem(color: Colors.red, text: "Incorrect"),
-                    _LegendItem(color: Colors.blue, text: "Unattempted"),
-                    _LegendItem(color: Colors.grey, text: "Unattended"),
                   ],
                 ),
-              ],
-            ),
-          );
-        }).toList(),
+                child: Column(
+                  children: [
+                    /// Subject title
+                    Text(
+                      s.title ?? "Subject",
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.black87,
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+
+                    /// Chart
+                    SizedBox(
+                      height: 200,
+                      child: BarChart(
+                        BarChartData(
+                          alignment: BarChartAlignment.spaceAround,
+                          maxY: 100,
+                          gridData: FlGridData(show: true),
+                          borderData: FlBorderData(show: false),
+                          titlesData: FlTitlesData(
+                            leftTitles: AxisTitles(
+                              sideTitles: SideTitles(
+                                showTitles: true,
+                                reservedSize: 30,
+                                getTitlesWidget: (value, meta) => Text(
+                                  "${value.toInt()}%",
+                                  style: const TextStyle(fontSize: 10),
+                                ),
+                              ),
+                            ),
+                            bottomTitles: AxisTitles(
+                              sideTitles: SideTitles(showTitles: false),
+                            ),
+                            rightTitles: AxisTitles(
+                                sideTitles: SideTitles(showTitles: false)),
+                            topTitles: AxisTitles(
+                                sideTitles: SideTitles(showTitles: false)),
+                          ),
+                          barGroups: [
+                            BarChartGroupData(x: 0, barRods: [
+                              BarChartRodData(
+                                toY: s.count.perCorrect,
+                                color: Colors.green,
+                                width: 18,
+                              ),
+                            ]),
+                            BarChartGroupData(x: 1, barRods: [
+                              BarChartRodData(
+                                toY: s.count.perIncorrect,
+                                color: Colors.red,
+                                width: 18,
+                              ),
+                            ]),
+                            BarChartGroupData(x: 2, barRods: [
+                              BarChartRodData(
+                                toY: s.count.perUnattempted,
+                                color: Colors.blue,
+                                width: 18,
+                              ),
+                            ]),
+                            BarChartGroupData(x: 3, barRods: [
+                              BarChartRodData(
+                                toY: s.count.perUnattended,
+                                color: Colors.grey,
+                                width: 18,
+                              ),
+                            ]),
+                          ],
+                        ),
+                      ),
+                    ),
+
+                    const SizedBox(height: 12),
+
+                    /// Legend
+                    Wrap(
+                      alignment: WrapAlignment.center,
+                      spacing: 16,
+                      children: const [
+                        _LegendItem(color: Colors.green, text: "Correct"),
+                        _LegendItem(color: Colors.red, text: "Incorrect"),
+                        _LegendItem(color: Colors.blue, text: "Unattempted"),
+                        _LegendItem(color: Colors.grey, text: "Unattended"),
+                      ],
+                    ),
+                  ],
+                ),
+              );
+            },
+          ),
+        ),
       ],
     );
   }
@@ -787,6 +801,7 @@ class _TestReportPageState extends State<TestReportPage> {
   // Helper Widget for box
   Widget _summaryBox(List<String> items) {
     return Container(
+      width: double.infinity,
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
         border: Border.all(color: Colors.grey.shade300),
