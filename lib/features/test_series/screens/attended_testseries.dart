@@ -41,6 +41,7 @@ class _AttendedPageState extends State<AttendedPage> {
                 itemBuilder: (context, index) {
                   final test = testSeriesProvider.attendedTests[index];
                   return TestSeriesCard(
+                    id: test.testid ??"",
                     title: test.name ?? "Sample Test",
                     date: test.subTime ?? "...",
                     startTime: test.start ?? "...",
@@ -52,7 +53,7 @@ class _AttendedPageState extends State<AttendedPage> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => TestReportPage(testid:test.testid ?? " " )));
+                              builder: (context) => TestReportPage(testid:test.testid ?? " " ,title:test.name ?? "")));
                       // Handle review tap
                     },
                     isAttended: true,

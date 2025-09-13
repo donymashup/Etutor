@@ -1,8 +1,6 @@
 import 'package:etutor/common/constants/app_constants.dart';
 import 'package:etutor/common/widgets/back_button.dart';
-import 'package:etutor/features/quiz/screens/quiz_instruction_screen.dart';
 import 'package:etutor/features/subscribed_course/provider/chapter_card_overview_provider.dart';
-import 'package:etutor/features/subscribed_course/widgets/course_card.dart';
 import 'package:etutor/features/subscribed_course/widgets/listview_shimmer_loader.dart';
 import 'package:etutor/features/subscribed_course/widgets/practice_test_card.dart';
 import 'package:flutter/material.dart';
@@ -51,7 +49,7 @@ class _SubscribedCoursesTestsState extends State<SubscribedCoursesTests> {
         child: Padding(
           padding: const EdgeInsets.all(12.0),
           child: chapterProvider.practiceTest.isEmpty
-           ? Center(child: Text("No Practice Teat"),)
+           ? Center(child: Text("No Practice Tests"),)
            :Column(
             children: [
               Expanded(
@@ -66,6 +64,7 @@ class _SubscribedCoursesTestsState extends State<SubscribedCoursesTests> {
                     questions: practiceTest.questionsCount.toString(),
                     testDuration: practiceTest.duration.toString(),
                     packageClassId:widget.packageChapterId,
+                    isAttended: practiceTest.attended!,
                   );
                   }
                 ),

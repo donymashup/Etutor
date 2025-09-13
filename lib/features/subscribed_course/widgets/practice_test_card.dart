@@ -1,6 +1,6 @@
 import 'package:etutor/common/constants/app_constants.dart';
 import 'package:etutor/features/quiz/screens/quiz_instruction_screen.dart';
-import 'package:etutor/features/subscribed_course/screens/subscribed_course_all_subjects.dart';
+import 'package:etutor/features/subscribed_course/screens/soluction_webview_tests.dart';
 import 'package:flutter/material.dart';
 import 'package:iconify_flutter/iconify_flutter.dart';
 import 'package:iconify_flutter/icons/mdi.dart';
@@ -11,6 +11,7 @@ class PracticeTestCard extends StatefulWidget {
   final String packageClassId;
   final String questions;
   final String testId;
+  final bool isAttended;
 
   const PracticeTestCard({
     super.key,
@@ -19,6 +20,7 @@ class PracticeTestCard extends StatefulWidget {
     required this.packageClassId,
     required this.questions,
     required this.testId,
+    required this.isAttended
   });
 
   @override
@@ -34,17 +36,25 @@ class _CourseCardState extends State<PracticeTestCard> {
       child: GestureDetector(
         onTap: () {
           debugPrint(widget.packageClassId);
+          widget.isAttended ?
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => QuizInstructionPage(duration: widget.testDuration, questions: widget.questions,testid: widget.testId,testName: widget.testName,),
+              builder: (context) => SoluctionExamWebView(testid: widget.testId,isMain: false,title: widget.testName,),
+            ),
+          )     : Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => QuizInstructionPage(duration: widget.testDuration, questions: widget.questions,testid: widget.testId,testName: widget.testName,isMain: false,),
             ),
           );
         },
         child: Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
-            border: Border.all(color: AppColor.greyStroke),
+            border:widget.isAttended ?
+            Border.all(color: Colors.green)
+            :  Border.all(color: AppColor.greyStroke),
             color: Colors.white,
           ),
           width: MediaQuery.of(context).size.width,
@@ -82,7 +92,8 @@ class _CourseCardState extends State<PracticeTestCard> {
                     ),
                   ),
                 ),
-                Icon(Icons.arrow_forward_ios),
+                widget.isAttended ? Icon(Icons.bar_chart) 
+                : Icon(Icons.arrow_forward_ios),
               ],
             ),
           ),
