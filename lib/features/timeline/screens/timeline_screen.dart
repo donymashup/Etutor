@@ -27,13 +27,10 @@ class _TimelineScreenState extends State<TimelineScreen> {
   @override
   void initState() {
     super.initState();
-
-    // safe scroll after first frame
     WidgetsBinding.instance.addPostFrameCallback((_) {
       try {
         _scrollController.jumpTo(_scrollController.position.maxScrollExtent);
       } catch (_) {
-        // ignore if not scrollable yet
       }
       _fetchTimeline();
     });
@@ -47,31 +44,19 @@ class _TimelineScreenState extends State<TimelineScreen> {
   }
 
   /// Converts incoming server time (assumed UTC if no timezone present)
-  /// to IST and returns a formatted string like "02:30 PM".
   String formatToIST(String? timeString) {
     if (timeString == null || timeString.trim().isEmpty) return "";
 
     try {
       var s = timeString.trim();
-
-      // Normalize common variant with space between date and time -> use 'T' so parse works with appended 'Z'
       s = s.replaceAll(' ', 'T');
-
-      // Check if the string already has a timezone designator (Z or +/-HH:MM)
       final tzAware = RegExp(r'(Z|[+-]\d{2}:\d{2})$').hasMatch(s);
-
-      // If there's no timezone info, assume the incoming time is UTC and append 'Z'
       if (!tzAware) s = s + 'Z';
-
-      // Parse and convert to UTC, then add IST offset (+5:30)
       final parsedUtc = DateTime.parse(s).toUtc();
       final ist = parsedUtc.add(const Duration(hours: 5, minutes: 30));
-
-      // Format (you can change pattern if you want date + time)
       return DateFormat('hh:mm a').format(ist);
     } catch (e) {
       debugPrint('formatToIST parse error: $e');
-      // fallback to raw string if parsing fails
       return timeString;
     }
   }
@@ -142,9 +127,13 @@ class _TimelineScreenState extends State<TimelineScreen> {
                                 icon = Icons.play_circle_fill;
                                 color = Colors.blue;
                                 break;
-                              case "test":
+                              case "practice":
                                 icon = Icons.format_list_bulleted;
                                 color = Colors.green;
+                                break;
+                                case "main":
+                                icon = Icons.quiz_outlined;
+                                color = Colors.orange;
                                 break;
                               case "materials":
                                 icon = Icons.description;

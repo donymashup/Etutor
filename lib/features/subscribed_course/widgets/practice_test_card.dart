@@ -8,7 +8,6 @@ import 'package:iconify_flutter/icons/mdi.dart';
 class PracticeTestCard extends StatefulWidget {
   final String testName;
   final String testDuration;
-  final String packageClassId;
   final String questions;
   final String testId;
 
@@ -16,7 +15,6 @@ class PracticeTestCard extends StatefulWidget {
     super.key,
     required this.testName,
     required this.testDuration,
-    required this.packageClassId,
     required this.questions,
     required this.testId,
   });
@@ -33,7 +31,6 @@ class _CourseCardState extends State<PracticeTestCard> {
       padding: const EdgeInsets.all(6.0),
       child: GestureDetector(
         onTap: () {
-          debugPrint(widget.packageClassId);
           Navigator.push(
             context,
             MaterialPageRoute(
