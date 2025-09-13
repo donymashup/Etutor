@@ -1,10 +1,15 @@
+import 'package:etutor/common/constants/config.dart' as AppConstants;
+import 'package:etutor/features/home/provider/user_details_provider.dart';
+import 'package:etutor/features/quiz/screens/quiz_instruction_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:etutor/common/constants/app_constants.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 class TestSeriesCard extends StatelessWidget {
   final String title;
+  final String id;
   final String date;
   final String startTime;
   final String endTime;
@@ -19,6 +24,7 @@ class TestSeriesCard extends StatelessWidget {
   const TestSeriesCard({
     super.key,
     required this.title,
+    required this.id,
     required this.date,
     required this.startTime,
     required this.endTime,
@@ -30,6 +36,9 @@ class TestSeriesCard extends StatelessWidget {
     this.isUpcoming = false,
     this.isAttended = false,
   });
+
+ 
+
 
   // Function to convert date string to date and time separately
   Map<String, String>? splitDateTimeSafe(String input) {
@@ -129,22 +138,39 @@ class TestSeriesCard extends StatelessWidget {
                             )),
                         const SizedBox(height: 2),
                         isAttended
-                        ? Text(splitDateTimeSafe(date)?["date"] ?? "--/--/----",
-                            style: const TextStyle(
-                              fontSize: 13,
-                              color: Colors.black54,
-                            ))
-                        : Text(splitCustomDateTime(date)?["date"] ?? "--/--/----",
-                            style: const TextStyle(
-                              fontSize: 13,
-                              color: Colors.black54,
-                            )),
+                            ? Text(
+                                splitDateTimeSafe(date)?["date"] ??
+                                    "--/--/----",
+                                style: const TextStyle(
+                                  fontSize: 13,
+                                  color: Colors.black54,
+                                ))
+                            : Text(
+                                splitCustomDateTime(date)?["date"] ??
+                                    "--/--/----",
+                                style: const TextStyle(
+                                  fontSize: 13,
+                                  color: Colors.black54,
+                                )),
                       ],
                     ),
                   ),
                   if (!isUpcoming)
                     OutlinedButton(
-                      onPressed: onReview,
+                      onPressed: () {
+                        if (isOngoing) {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>  QuizInstructionPage(testid : id,testName: title,duration: duration,questions: questionCount,isMain: true,),
+                            ),
+                          );
+                        } else {
+                          if (onReview != null) {
+                            onReview!();
+                          }
+                        }
+                      },
                       style: OutlinedButton.styleFrom(
                         foregroundColor: AppColor.primaryColor,
                         side: BorderSide(color: AppColor.primaryColor),
@@ -180,8 +206,10 @@ class TestSeriesCard extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        _iconLabelValue(Icons.access_time, "Start", "${splitCustomDateTime(startTime)?['date']}\n${splitCustomDateTime(startTime)?['time']}"),
-                        _iconLabelValue(Icons.access_time, "End", "${splitCustomDateTime(endTime)?['date']}\n${splitCustomDateTime(endTime)?['time']}"),
+                        _iconLabelValue(Icons.access_time, "Start",
+                            "${splitCustomDateTime(startTime)?['date']}\n${splitCustomDateTime(startTime)?['time']}"),
+                        _iconLabelValue(Icons.access_time, "End",
+                            "${splitCustomDateTime(endTime)?['date']}\n${splitCustomDateTime(endTime)?['time']}"),
                       ],
                     ),
                     const SizedBox(height: 12),
