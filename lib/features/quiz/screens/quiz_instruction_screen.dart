@@ -4,11 +4,14 @@ import 'package:etutor/common/constants/app_constants.dart';
 import 'package:etutor/common/widgets/back_button.dart';
 import 'package:etutor/features/home/provider/user_details_provider.dart';
 import 'package:etutor/features/quiz/widgets/bullet_point.dart';
+import 'package:etutor/features/subscribed_course/provider/bookmark_provider.dart';
+import 'package:etutor/features/subscribed_course/provider/subcribed_course_provider.dart';
+import 'package:etutor/features/subscribed_course/screens/webview_tests_subcribed.dart';
 import 'package:etutor/features/subscribed_course/screens/exam_webview.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class QuizInstructionPage extends StatelessWidget {
+class QuizInstructionPage extends StatefulWidget {
   final String duration;
   final String questions;
   final String testName;
@@ -27,11 +30,26 @@ class QuizInstructionPage extends StatelessWidget {
     required this.isMain,
   });
 
+  @override
+  State<QuizInstructionPage> createState() => _QuizInstructionPageState();
+}
+
+class _QuizInstructionPageState extends State<QuizInstructionPage> {
   UserDetailsProvider userDetailsProvider = UserDetailsProvider();
+  BookmarkProvider bookmarkProvider = BookmarkProvider();
+
+  @override
+  void initState() {
+    super.initState();
+     context.read<BookmarkProvider>().checkBookMark(
+     context: context, contentid: widget.testid, type: 'practice');
+   
+  }
 
   @override
   Widget build(BuildContext context) {
     userDetailsProvider = context.watch<UserDetailsProvider>();
+   bookmarkProvider = context.watch<BookmarkProvider>();
     return Scaffold(
       backgroundColor: AppColor.whiteColor,
       appBar: AppBar(
@@ -50,6 +68,34 @@ class QuizInstructionPage extends StatelessWidget {
           ),
         ),
         centerTitle: true,
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 8.0),
+            child: IconButton(
+            onPressed: bookmarkProvider.isLoading
+                ? null
+                : () async {
+                    await context.read<BookmarkProvider>().makeBookMark(
+                      context: context,
+                      contentid: widget.testid,
+                      type: 'practice',
+                    );
+                  },
+            icon: bookmarkProvider.isbookmarked
+                ? const Icon(
+                    Icons.bookmark_rounded,
+                    color: Colors.white,
+                    size: 24,
+                  )
+                : const Icon(
+                    Icons.bookmark_border,
+                    color: Colors.white,
+                    size: 24,
+                  ),
+          ),
+
+          ),
+        ],
       ),
 
       body: Column(
@@ -71,7 +117,7 @@ class QuizInstructionPage extends StatelessWidget {
             child: Column(
               children: [
                 Text(
-                  testName,
+                  widget.testName,
                   textAlign: TextAlign.center,
                   style: const TextStyle(
                     fontSize: 22,
@@ -99,6 +145,7 @@ class QuizInstructionPage extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+
                   IntrinsicHeight( // 🔥 ensures equal height
                     child: Row(
                       children: [
@@ -177,7 +224,6 @@ class QuizInstructionPage extends StatelessWidget {
                     testid: testid,
                     userid: userDetailsProvider.userDetails.data!.id ?? "",
                     title: testName,
-                   // url: url,
                   ),
                 ),
               );

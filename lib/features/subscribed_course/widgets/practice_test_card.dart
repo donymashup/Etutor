@@ -8,7 +8,6 @@ import 'package:iconify_flutter/icons/mdi.dart';
 class PracticeTestCard extends StatefulWidget {
   final String testName;
   final String testDuration;
-  final String packageClassId;
   final String questions;
   final String testId;
   final bool isAttended;
@@ -17,7 +16,6 @@ class PracticeTestCard extends StatefulWidget {
     super.key,
     required this.testName,
     required this.testDuration,
-    required this.packageClassId,
     required this.questions,
     required this.testId,
     required this.isAttended

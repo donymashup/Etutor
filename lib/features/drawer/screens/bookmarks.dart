@@ -4,6 +4,7 @@ import 'package:etutor/features/drawer/widgets/bookmark_vedio_player.dart';
 import 'package:etutor/features/subscribed_course/provider/bookmark_provider.dart';
 import 'package:etutor/features/subscribed_course/screens/pdf_viewer.dart';
 import 'package:etutor/features/subscribed_course/widgets/material_card.dart';
+import 'package:etutor/features/subscribed_course/widgets/practice_test_card.dart';
 import 'package:etutor/features/subscribed_course/widgets/video_card.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -64,7 +65,7 @@ class _BookMarksState extends State<BookMarks> {
         :  Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-             if (bookmarkProvider.bookmarkVedio.isNotEmpty) ...[
+             if (bookmarkProvider.bookmarkMaterial.isNotEmpty) ...[
             Text(
               "Materials",
               style: TextStyle(
@@ -78,10 +79,9 @@ class _BookMarksState extends State<BookMarks> {
             bookmarkProvider.bookmarkMaterial.length,
             (index) {
               final material = bookmarkProvider.bookmarkMaterial[index];
-               context.read<BookmarkProvider>().getMDetails(context, material.contentid ??"");
-              final details =  bookmarkProvider.materialDetails;
+             
              return Dismissible(
-                              key: Key(material.contentid ?? index.toString()),
+                             key: ValueKey(material.contentid ?? index),
                               direction: DismissDirection.endToStart,
                               background: Container(
                                 color: Colors.red,
@@ -92,6 +92,7 @@ class _BookMarksState extends State<BookMarks> {
                                     color: Colors.white),
                               ),
                               onDismissed: (_) {
+                                
                                 context
                                     .read<BookmarkProvider>()
                                     .makeBookMark(context: context, contentid:  material.contentid  ?? "", type: 'materials');
@@ -99,6 +100,8 @@ class _BookMarksState extends State<BookMarks> {
                               },
                               child: GestureDetector(
                                 onTap: () {
+                                    context.read<BookmarkProvider>().getMDetails(context, material.contentid ??"");
+                                     final details =  bookmarkProvider.materialDetails;
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
@@ -137,10 +140,9 @@ class _BookMarksState extends State<BookMarks> {
             bookmarkProvider.bookmarkVedio.length,
             (index) {
               final vedio = bookmarkProvider.bookmarkVedio[index];
-              context.read<BookmarkProvider>().getVDetails(context, vedio.contentid ??"");
-              final details =  context.watch<BookmarkProvider>().vedioDetails;
+             
                return Dismissible(
-                              key: Key(details.videoid ?? index.toString()),
+                             key: ValueKey(vedio.contentid ?? index),
                               direction: DismissDirection.endToStart,
                               background: Container(
                                 color: Colors.red,
@@ -153,10 +155,13 @@ class _BookMarksState extends State<BookMarks> {
                               onDismissed: (_) {
                                 context
                                     .read<BookmarkProvider>()
-                                    .makeBookMark(context: context, contentid: vedio.contentid ?? "videos", type: '');
+                                    .makeBookMark(context: context, contentid: vedio.contentid ?? "videos", type: 'videos');
+                                     _load();
                               },
                               child: GestureDetector(
                                 onTap: () {
+                                   context.read<BookmarkProvider>().getVDetails(context, vedio.contentid ??"");
+                                   final details =  context.watch<BookmarkProvider>().vedioDetails;
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
@@ -177,28 +182,65 @@ class _BookMarksState extends State<BookMarks> {
                                 ),
                               ),
                             );
-              // return GestureDetector(
-              //   onTap: () {
-              //      Navigator.push(
-              //         context,
-              //         MaterialPageRoute(
-              //                           builder: (_) => BookmarkVedioPlayer(
-              //                             videolink: details.link ?? "", 
-              //                             videoTitle: details.name ?? "", 
-              //                             videoSource: details.source ?? "", 
-              //                             videohls: details.hls ?? "", 
-              //                             contentId: vedio.contentid ?? "",)
-              //                              )
-              //                              );
-              //   },
-              //   child: VideoCard(
-              //   title: vedio.name ?? '',
-              //   img: vedio.thumbnail ?? '',
-              //   duration: '',
-              //               ),
-              // );
             })
-            ]
+            ],
+             const SizedBox(height: 16),
+             if (bookmarkProvider.bookmarkTest.isNotEmpty) ...[
+              // pratice text section
+              Text(
+              "Practice Test",
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.w600,
+                color: AppColor.primaryColor,
+              ),
+            ),
+            const SizedBox(height: 8),
+           ...List.generate(
+            bookmarkProvider.bookmarkTest.length,
+            (index) {
+              final test = bookmarkProvider.bookmarkTest[index];
+             return Dismissible(
+                             key: ValueKey(test.contentid ?? index),
+                              direction: DismissDirection.endToStart,
+                              background: Container(
+                                color: Colors.red,
+                                alignment: Alignment.centerRight,
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 20),
+                                child: const Icon(Icons.delete,
+                                    color: Colors.white),
+                              ),
+                              onDismissed: (_) {
+                                context
+                                    .read<BookmarkProvider>()
+                                    .makeBookMark(context: context, contentid:  test.contentid  ?? "", type: 'practice');
+                                    _load();
+                              },
+                              child: GestureDetector(
+                                onTap: () {
+                                  // Navigator.push(
+                                  //   context,
+                                  //   MaterialPageRoute(
+                                  //     builder: (_) => QuizInstructionPage(
+                                  //       duration: '', 
+                                  //       questions: '', 
+                                  //       testName: test.name ?? '', 
+                                  //       testid: test.id ?? '')
+                                  //   ),
+                                  // );
+                                   },
+                                child:  PracticeTestCard(
+                                  testName: test.name ?? '', 
+                                  testDuration: '', 
+                                  questions: '', 
+                                  testId: test.id ?? '',
+                                ),
+                              ),
+                            );
+            },
+          ),
+           ]
           ],
         ),
       ),

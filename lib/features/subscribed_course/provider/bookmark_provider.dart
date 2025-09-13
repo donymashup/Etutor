@@ -13,6 +13,7 @@ bool isLoading =false;
 bool isCondentLoading = false;
 List <book_mark_models.Data> bookmarkVedio =[];
 List <book_mark_models.Data> bookmarkMaterial =[];
+List <book_mark_models.Data> bookmarkTest =[];
 VedioDetailsModel _vDetails = VedioDetailsModel();
 MaterialDetailsModel _mDetails = MaterialDetailsModel();
 
@@ -91,6 +92,7 @@ Future<void> getBookMarkedContents({
 
     bookmarkMaterial = [];
     bookmarkVedio = [];
+    bookmarkTest = [];
 
     if (response != null && response.data.isNotEmpty) {
       debugPrint("Bookmarks found: ${response.data.length}");
@@ -102,6 +104,8 @@ Future<void> getBookMarkedContents({
           bookmarkMaterial.add(item);
         } else if (item.type == 'videos') {
           bookmarkVedio.add(item);
+        }else if(item.type == 'practice'){
+          bookmarkTest.add(item);
         }
       }
     } else {
@@ -111,6 +115,7 @@ Future<void> getBookMarkedContents({
     debugPrint("Error fetching bookmarked content : $e");
     bookmarkMaterial = [];
     bookmarkVedio = [];
+    bookmarkTest = [];
   }
   isLoading = false;
   notifyListeners();

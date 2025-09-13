@@ -188,6 +188,7 @@ class _HomePageState extends State<HomePage> {
 
                       const SizedBox(height: 20),
                       //search field with ai assistant button
+                      // SearchableDropdown(),
                       Container(
                         padding: const EdgeInsets.symmetric(horizontal: 16),
                         decoration: BoxDecoration(
@@ -211,7 +212,7 @@ class _HomePageState extends State<HomePage> {
                                     context,
                                     MaterialPageRoute(
                                         builder: (_) =>
-                                            SearchableDropdownExample()));
+                                            SearchableDropdown()));
                               },
                               child: Container(
                                 width: 40,
