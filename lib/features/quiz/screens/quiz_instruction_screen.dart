@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:etutor/common/constants/app_constants.dart';
 import 'package:etutor/common/widgets/back_button.dart';
 import 'package:etutor/features/home/provider/user_details_provider.dart';
@@ -5,6 +7,7 @@ import 'package:etutor/features/quiz/widgets/bullet_point.dart';
 import 'package:etutor/features/subscribed_course/provider/bookmark_provider.dart';
 import 'package:etutor/features/subscribed_course/provider/subcribed_course_provider.dart';
 import 'package:etutor/features/subscribed_course/screens/webview_tests_subcribed.dart';
+import 'package:etutor/features/subscribed_course/screens/exam_webview.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -13,13 +16,18 @@ class QuizInstructionPage extends StatefulWidget {
   final String questions;
   final String testName;
   final String testid;
+// final String url;
+  final bool isMain;
 
- QuizInstructionPage({
+
+  QuizInstructionPage({
     super.key,
     required this.duration,
     required this.questions,
     required this.testName,
     required this.testid,
+ //   required this.url,
+    required this.isMain,
   });
 
   @override
@@ -40,8 +48,8 @@ class _QuizInstructionPageState extends State<QuizInstructionPage> {
 
   @override
   Widget build(BuildContext context) {
-    userDetailsProvider=context.watch<UserDetailsProvider>();
-    bookmarkProvider = context.watch<BookmarkProvider>();
+    userDetailsProvider = context.watch<UserDetailsProvider>();
+   bookmarkProvider = context.watch<BookmarkProvider>();
     return Scaffold(
       backgroundColor: AppColor.whiteColor,
       appBar: AppBar(
@@ -137,26 +145,29 @@ class _QuizInstructionPageState extends State<QuizInstructionPage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Row(
-                    children: [
-                      Expanded(
-                        child: _infoCard(
-                          icon: Icons.help_outline,
-                          title: "${widget.questions} Questions",
-                          subtitle: "1 point for correct, -1 for wrong",
-                          color: Colors.blueGrey.shade800,
+
+                  IntrinsicHeight( // 🔥 ensures equal height
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: _infoCard(
+                            icon: Icons.help_outline,
+                            title: "$questions Questions",
+                            subtitle: "1 point for correct, -1 for wrong",
+                            color: Colors.blueGrey.shade800,
+                          ),
                         ),
-                      ),
-                      const SizedBox(width: 16),
-                      Expanded(
-                        child: _infoCard(
-                          icon: Icons.access_time,
-                          title: "${widget.duration} Minutes",
-                          subtitle: "Total duration of the quiz",
-                          color: Colors.teal.shade800,
+                        const SizedBox(width: 16),
+                        Expanded(
+                          child: _infoCard(
+                            icon: Icons.access_time,
+                            title: "$duration Minutes",
+                            subtitle: "Total duration of the quiz",
+                            color: Colors.teal.shade800,
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                   const SizedBox(height: 28),
 
@@ -170,8 +181,7 @@ class _QuizInstructionPageState extends State<QuizInstructionPage> {
                   const SizedBox(height: 12),
 
                   const BulletPoint(
-                    text:
-                        'Correct and incorrect marks are shown for each and every question',
+                    text: 'Correct and incorrect marks are shown for each and every question',
                   ),
                   const BulletPoint(
                     text: 'Tap on options to select the correct answer',
@@ -183,8 +193,7 @@ class _QuizInstructionPageState extends State<QuizInstructionPage> {
                     text: 'Once saved, answers cannot be changed',
                   ),
                   const BulletPoint(
-                    text:
-                        'Press submit after saving to complete the exam',
+                    text: 'Press submit after saving to complete the exam',
                   ),
                   const SizedBox(height: 80),
                 ],
@@ -211,9 +220,10 @@ class _QuizInstructionPageState extends State<QuizInstructionPage> {
               Navigator.of(context).pushReplacement(
                 MaterialPageRoute(
                   builder: (context) => ExamWebView(
-                    testid: widget.testid,
-                    userid: userDetailsProvider.userDetails.data!.id ?? "", 
-                    title: widget.testName,
+                    isMain: isMain ,
+                    testid: testid,
+                    userid: userDetailsProvider.userDetails.data!.id ?? "",
+                    title: testName,
                   ),
                 ),
               );
@@ -252,6 +262,7 @@ class _QuizInstructionPageState extends State<QuizInstructionPage> {
         ],
       ),
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.center, // centers inside
         children: [
           Icon(icon, color: Colors.white, size: 28),
           const SizedBox(height: 8),

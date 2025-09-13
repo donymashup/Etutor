@@ -40,6 +40,7 @@ class _UpcomingPageState extends State<UpcomingPage> {
       itemBuilder: (context, index) {
         final test = testSeriesProvider.upcomingTests[index];
         return TestSeriesCard(
+          id: test.id ?? "",
           title: test.name ?? "",
           date: test.startTime ?? "",
           startTime: test.startTime ?? "",

@@ -44,6 +44,7 @@ class _OngoingPageState extends State<OngoingPage> {
                 itemBuilder: (context, index) {
                   final test = testSeriesProvider.ongoingTests[index];
                   return TestSeriesCard(
+                    id:test.id ?? "" ,
                     title: test.name ?? "",
                     date: test.startTime ?? "",
                     startTime: test.startTime ?? "",

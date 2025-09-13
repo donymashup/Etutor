@@ -1,8 +1,8 @@
 import 'package:etutor/common/constants/app_constants.dart' show AppColor;
 import 'package:etutor/common/widgets/back_button.dart';
+import 'package:etutor/features/subscribed_course/screens/soluction_webview_tests.dart';
 import 'package:etutor/features/test_series/model/test_performance_model.dart';
 import 'package:etutor/features/test_series/provider/test_series_provider.dart';
-import 'package:etutor/features/test_series/screens/view_solutions_tests.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
@@ -10,7 +10,8 @@ import 'package:fl_chart/fl_chart.dart';
 
 class TestReportPage extends StatefulWidget {
   final String testid;
-  const TestReportPage({super.key, required this.testid});
+  final String title;
+  const TestReportPage({super.key, required this.testid,required this.title});
 
   @override
   State<TestReportPage> createState() => _TestReportPageState();
@@ -70,7 +71,7 @@ class _TestReportPageState extends State<TestReportPage> {
             ElevatedButton(
               onPressed: () {
                 Navigator.push(context, MaterialPageRoute(
-                  builder: (_) => ViewSolutionsTests(testId: widget.testid),
+                  builder: (_) => SoluctionExamWebView(testid: widget.testid,title: widget.title,isMain: true,),
                 ));
               },
               style: ElevatedButton.styleFrom(
