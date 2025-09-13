@@ -33,7 +33,6 @@ class _CourseCardState extends State<PracticeTestCard> {
       padding: const EdgeInsets.all(6.0),
       child: GestureDetector(
         onTap: () {
-          debugPrint(widget.packageClassId);
           widget.isAttended ?
           Navigator.push(
             context,

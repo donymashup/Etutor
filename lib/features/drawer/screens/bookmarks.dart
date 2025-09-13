@@ -234,7 +234,8 @@ class _BookMarksState extends State<BookMarks> {
                                   testName: test.name ?? '', 
                                   testDuration: '', 
                                   questions: '', 
-                                  testId: test.id ?? '',
+                                  testId: test.id ?? '', 
+                                  isAttended: false,
                                 ),
                               ),
                             );

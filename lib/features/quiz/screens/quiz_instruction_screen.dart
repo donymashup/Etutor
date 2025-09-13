@@ -6,7 +6,6 @@ import 'package:etutor/features/home/provider/user_details_provider.dart';
 import 'package:etutor/features/quiz/widgets/bullet_point.dart';
 import 'package:etutor/features/subscribed_course/provider/bookmark_provider.dart';
 import 'package:etutor/features/subscribed_course/provider/subcribed_course_provider.dart';
-import 'package:etutor/features/subscribed_course/screens/webview_tests_subcribed.dart';
 import 'package:etutor/features/subscribed_course/screens/exam_webview.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -152,7 +151,7 @@ class _QuizInstructionPageState extends State<QuizInstructionPage> {
                         Expanded(
                           child: _infoCard(
                             icon: Icons.help_outline,
-                            title: "$questions Questions",
+                            title: "${widget.questions} Questions",
                             subtitle: "1 point for correct, -1 for wrong",
                             color: Colors.blueGrey.shade800,
                           ),
@@ -161,7 +160,7 @@ class _QuizInstructionPageState extends State<QuizInstructionPage> {
                         Expanded(
                           child: _infoCard(
                             icon: Icons.access_time,
-                            title: "$duration Minutes",
+                            title: "${widget.duration} Minutes",
                             subtitle: "Total duration of the quiz",
                             color: Colors.teal.shade800,
                           ),
@@ -220,10 +219,10 @@ class _QuizInstructionPageState extends State<QuizInstructionPage> {
               Navigator.of(context).pushReplacement(
                 MaterialPageRoute(
                   builder: (context) => ExamWebView(
-                    isMain: isMain ,
-                    testid: testid,
+                    isMain: widget.isMain ,
+                    testid: widget.testid,
                     userid: userDetailsProvider.userDetails.data!.id ?? "",
-                    title: testName,
+                    title: widget.testName,
                   ),
                 ),
               );
