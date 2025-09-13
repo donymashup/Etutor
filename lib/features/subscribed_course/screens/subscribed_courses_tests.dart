@@ -63,7 +63,6 @@ class _SubscribedCoursesTestsState extends State<SubscribedCoursesTests> {
                     testId: practiceTest.id ?? '',
                     questions: practiceTest.questionsCount.toString(),
                     testDuration: practiceTest.duration.toString(),
-                    packageClassId:widget.packageChapterId,
                     isAttended: practiceTest.attended!,
                   );
                   }
