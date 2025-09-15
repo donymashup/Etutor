@@ -1,6 +1,8 @@
 import 'package:etutor/common/constants/app_constants.dart';
 import 'package:etutor/common/widgets/back_button.dart';
+import 'package:etutor/features/quiz/screens/quiz_instruction_screen.dart';
 import 'package:etutor/features/subscribed_course/provider/chapter_card_overview_provider.dart';
+import 'package:etutor/features/subscribed_course/screens/soluction_webview_tests.dart';
 import 'package:etutor/features/subscribed_course/widgets/listview_shimmer_loader.dart';
 import 'package:etutor/features/subscribed_course/widgets/practice_test_card.dart';
 import 'package:flutter/material.dart';
@@ -8,14 +10,14 @@ import 'package:provider/provider.dart';
 
 class SubscribedCoursesTests extends StatefulWidget {
   final String packageChapterId;
-  const SubscribedCoursesTests({super.key ,required this.packageChapterId });
+  const SubscribedCoursesTests({super.key, required this.packageChapterId});
 
   @override
   State<SubscribedCoursesTests> createState() => _SubscribedCoursesTestsState();
 }
 
 class _SubscribedCoursesTestsState extends State<SubscribedCoursesTests> {
-  ChapterCardOverviewProvider chapterProvider =ChapterCardOverviewProvider();
+  ChapterCardOverviewProvider chapterProvider = ChapterCardOverviewProvider();
 
   @override
   void initState() {
@@ -23,8 +25,10 @@ class _SubscribedCoursesTestsState extends State<SubscribedCoursesTests> {
     _load();
   }
 
-  Future<void>_load()async{
-    await context.read<ChapterCardOverviewProvider>().fetchPracticeTest(context,widget.packageChapterId);
+  Future<void> _load() async {
+    await context
+        .read<ChapterCardOverviewProvider>()
+        .fetchPracticeTest(context, widget.packageChapterId);
   }
 
   @override
@@ -43,35 +47,80 @@ class _SubscribedCoursesTestsState extends State<SubscribedCoursesTests> {
           child: CustomBackButton(),
         ),
       ),
-      body:chapterProvider.isTestLoading 
-      ?ListviewShimmerLoader() 
-      : SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(12.0),
-          child: chapterProvider.practiceTest.isEmpty
-           ? Center(child: Text("No Practice Tests"),)
-           :Column(
-            children: [
-              Expanded(
-                child: ListView.builder(
-                  itemCount: chapterProvider.practiceTest.length,
-                  itemBuilder: (context, index)
-                  {
-                  final practiceTest = chapterProvider.practiceTest[index];
-                    return PracticeTestCard(
-                    testName: practiceTest.name ?? "",
-                    testId: practiceTest.id ?? '',
-                    questions: practiceTest.questionsCount.toString(),
-                    testDuration: practiceTest.duration.toString(),
-                    isAttended: practiceTest.attended!,
-                  );
-                  }
-                ),
-              )
-            ],
-          ),
-        ),
-      ),
+      body: chapterProvider.isTestLoading
+          ? ListviewShimmerLoader()
+          : SafeArea(
+              child: Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: chapterProvider.practiceTest.isEmpty
+                    ? Center(
+                        child: Text("No Practice Tests"),
+                      )
+                    : Column(
+                        children: [
+                          Expanded(
+                            child: ListView.builder(
+                                itemCount: chapterProvider.practiceTest.length,
+                                itemBuilder: (context, index) {
+                                  final practiceTest =
+                                      chapterProvider.practiceTest[index];
+                                  return GestureDetector(
+                                    onTap: () async {
+                                      if (practiceTest.attended!) {
+                                        await Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                SoluctionExamWebView(
+                                              testid: practiceTest.id ?? '',
+                                              isMain: false,
+                                              title: practiceTest.name ?? "",
+                                            ),
+                                          ),
+                                        );
+                                        await context
+                                            .read<ChapterCardOverviewProvider>()
+                                            .fetchPracticeTest(context,
+                                                widget.packageChapterId);
+                                      } else {
+                                        await Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                QuizInstructionPage(
+                                              duration: practiceTest.duration
+                                                  .toString(),
+                                              questions: practiceTest
+                                                  .questionsCount
+                                                  .toString(),
+                                              testid: practiceTest.id ?? '',
+                                              testName: practiceTest.name ?? "",
+                                              isMain: false,
+                                            ),
+                                          ),
+                                        );
+                                        await context
+                                            .read<ChapterCardOverviewProvider>()
+                                            .fetchPracticeTest(context,
+                                                widget.packageChapterId);
+                                      }
+                                    },
+                                    child: PracticeTestCard(
+                                      testName: practiceTest.name ?? "",
+                                      // testId: practiceTest.id ?? '',
+                                      // questions: practiceTest.questionsCount
+                                      //     .toString(),
+                                      testDuration:
+                                          practiceTest.duration.toString(),
+                                      isAttended: practiceTest.attended!,
+                                    ),
+                                  );
+                                }),
+                          )
+                        ],
+                      ),
+              ),
+            ),
     );
   }
 }

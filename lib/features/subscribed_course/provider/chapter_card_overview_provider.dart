@@ -79,6 +79,7 @@ class ChapterCardOverviewProvider extends ChangeNotifier{
       );
       if (response != null && response.type == "success") {
         _practiceTest = response.data ?? [];
+         notifyListeners();
       } else {
         _practiceTest = [];
       }
@@ -88,5 +89,18 @@ class ChapterCardOverviewProvider extends ChangeNotifier{
     }
     isTestLoading = false;
     notifyListeners();
+  }
+
+    // ---------------- Instant Local Update ----------------
+  void markTestAsAttended(String testId) {
+    try {
+      final index = _practiceTest.indexWhere((t) => t.id == testId);
+      if (index != -1) {
+        _practiceTest[index].attended = true;
+        notifyListeners();
+      }
+    } catch (e) {
+      debugPrint("Error marking test attended: $e");
+    }
   }
 }
