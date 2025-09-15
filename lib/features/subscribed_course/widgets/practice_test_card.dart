@@ -1,24 +1,18 @@
 import 'package:etutor/common/constants/app_constants.dart';
-import 'package:etutor/features/quiz/screens/quiz_instruction_screen.dart';
-import 'package:etutor/features/subscribed_course/screens/soluction_webview_tests.dart';
 import 'package:flutter/material.dart';
 import 'package:iconify_flutter/iconify_flutter.dart';
 import 'package:iconify_flutter/icons/mdi.dart';
 
 class PracticeTestCard extends StatefulWidget {
-  final String testName;
+ final String testName;
   final String testDuration;
-  final String questions;
-  final String testId;
   final bool isAttended;
 
   const PracticeTestCard({
     super.key,
-    required this.testName,
+   required this.testName,
     required this.testDuration,
-    required this.questions,
-    required this.testId,
-    required this.isAttended
+    required this.isAttended,
   });
 
   @override
@@ -32,20 +26,6 @@ class _CourseCardState extends State<PracticeTestCard> {
     return Padding(
       padding: const EdgeInsets.all(6.0),
       child: GestureDetector(
-        onTap: () {
-          widget.isAttended ?
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => SoluctionExamWebView(testid: widget.testId,isMain: false,title: widget.testName,),
-            ),
-          )     : Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => QuizInstructionPage(duration: widget.testDuration, questions: widget.questions,testid: widget.testId,testName: widget.testName,isMain: false,),
-            ),
-          );
-        },
         child: Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),

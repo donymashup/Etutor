@@ -11,7 +11,7 @@ import 'package:fl_chart/fl_chart.dart';
 class TestReportPage extends StatefulWidget {
   final String testid;
   final String title;
-  const TestReportPage({super.key, required this.testid,required this.title});
+  const TestReportPage({super.key, required this.testid, required this.title});
 
   @override
   State<TestReportPage> createState() => _TestReportPageState();
@@ -70,9 +70,15 @@ class _TestReportPageState extends State<TestReportPage> {
           children: [
             ElevatedButton(
               onPressed: () {
-                Navigator.push(context, MaterialPageRoute(
-                  builder: (_) => SoluctionExamWebView(testid: widget.testid,title: widget.title,isMain: true,),
-                ));
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => SoluctionExamWebView(
+                        testid: widget.testid,
+                        title: widget.title,
+                        isMain: true,
+                      ),
+                    ));
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.green,
@@ -388,7 +394,9 @@ class _TestReportPageState extends State<TestReportPage> {
               final s = subjects[index];
 
               return Container(
-                width: 260,
+                width: subjects.length == 1
+                    ? MediaQuery.of(context).size.width - 32
+                    : 260,
                 margin: const EdgeInsets.only(right: 16),
                 padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
@@ -564,7 +572,7 @@ class _TestReportPageState extends State<TestReportPage> {
         ),
         const SizedBox(height: 16),
         SizedBox(
-          height: 330, // ✅ Extra space for chart + legend
+          height: 330, 
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
             itemCount: subjects.length,
@@ -572,7 +580,10 @@ class _TestReportPageState extends State<TestReportPage> {
               final subject = subjects[index];
 
               return Container(
-                width: 240,
+                width: subjects.length == 1
+                    ? MediaQuery.of(context).size.width -
+                        32 
+                    : 240,
                 margin: const EdgeInsets.only(right: 16),
                 padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(

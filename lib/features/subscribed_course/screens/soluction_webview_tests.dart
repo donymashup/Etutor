@@ -74,8 +74,9 @@ class _SoluctionExamWebViewState extends State<SoluctionExamWebView> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppColor.whiteColor,
+    return 
+      Scaffold(
+      backgroundColor: AppColor.whiteColor, 
       appBar: AppBar(
         backgroundColor: AppColor.whiteColor,
         title: Text(

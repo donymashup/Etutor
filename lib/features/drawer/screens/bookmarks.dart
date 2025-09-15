@@ -233,8 +233,8 @@ class _BookMarksState extends State<BookMarks> {
                                 child:  PracticeTestCard(
                                   testName: test.name ?? '', 
                                   testDuration: '', 
-                                  questions: '', 
-                                  testId: test.id ?? '', 
+                                  // questions: '', 
+                                  // testId: test.id ?? '', 
                                   isAttended: false,
                                 ),
                               ),
