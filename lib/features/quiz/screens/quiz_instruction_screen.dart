@@ -1,11 +1,9 @@
 import 'dart:ffi';
-
 import 'package:etutor/common/constants/app_constants.dart';
 import 'package:etutor/common/widgets/back_button.dart';
 import 'package:etutor/features/home/provider/user_details_provider.dart';
 import 'package:etutor/features/quiz/widgets/bullet_point.dart';
 import 'package:etutor/features/subscribed_course/provider/bookmark_provider.dart';
-import 'package:etutor/features/subscribed_course/provider/subcribed_course_provider.dart';
 import 'package:etutor/features/subscribed_course/screens/exam_webview.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -15,7 +13,6 @@ class QuizInstructionPage extends StatefulWidget {
   final String questions;
   final String testName;
   final String testid;
-// final String url;
   final bool isMain;
 
 
@@ -67,10 +64,11 @@ class _QuizInstructionPageState extends State<QuizInstructionPage> {
           ),
         ),
         centerTitle: true,
-        actions: [
+         actions: [
           Padding(
             padding: const EdgeInsets.only(right: 8.0),
-            child: IconButton(
+            child:  widget.isMain  ? null
+           : IconButton(
             onPressed: bookmarkProvider.isLoading
                 ? null
                 : () async {
@@ -92,7 +90,6 @@ class _QuizInstructionPageState extends State<QuizInstructionPage> {
                     size: 24,
                   ),
           ),
-
           ),
         ],
       ),
@@ -144,8 +141,7 @@ class _QuizInstructionPageState extends State<QuizInstructionPage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-
-                  IntrinsicHeight( // 🔥 ensures equal height
+                  IntrinsicHeight( 
                     child: Row(
                       children: [
                         Expanded(

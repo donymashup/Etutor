@@ -1,4 +1,5 @@
 import 'package:etutor/common/constants/app_constants.dart';
+import 'package:etutor/common/provider/api_key_provider.dart';
 import 'package:etutor/common/widgets/bottom_navigation_bar.dart';
 import 'package:etutor/features/auth/screen/onboarding_screen.dart';
 import 'package:etutor/features/home/provider/user_details_provider.dart';
@@ -23,6 +24,7 @@ class _SplashScreenState extends State<SplashScreen> {
   Future<void> _navigateAfterDelay() async {
     final secureStorage = const FlutterSecureStorage();
     await Future.delayed(const Duration(seconds: 2));
+    await context.read<ApiKeyProvider>().fetchApiKey();
     String? token;
     String? isLogin;
     try {

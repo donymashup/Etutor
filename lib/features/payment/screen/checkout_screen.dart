@@ -4,6 +4,7 @@ import 'package:etutor/common/widgets/back_button.dart';
 import 'package:etutor/common/widgets/custom_button.dart';
 import 'package:etutor/features/my_course/screens/my_course.dart';
 import 'package:etutor/features/payment/controller/payment_provider.dart';
+import 'package:etutor/features/payment/screen/payment_method.dart';
 import 'package:etutor/features/payment/screen/voucher_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -444,16 +445,16 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                       );
                                     }
                                   } else {
-                                    // ✅ Normal payment flow
-                                    // Example: navigate to your payment method page
-                                    // Navigator.push(context, MaterialPageRoute(
-                                    //   builder: (context) => PaymentMethod(
-                                    //     price: paymentProvider.total!,
-                                    //     courseId: widget.courseId,
-                                    //     promo: paymentProvider.selectedVoucher ?? "",
-                                    //     courseName: widget.name,
-                                    //   ),
-                                    // ));
+                                   
+                                    
+                                    Navigator.push(context, MaterialPageRoute(
+                                      builder: (context) => PaymentMethod(
+                                        price: paymentProvider.total!,
+                                        courseId: widget.courseId,
+                                        promo: paymentProvider.selectedVoucher ?? "",
+                                        courseName: widget.name,
+                                      ),
+                                    ));
                                   }
                                 },
                                 text: (widget.price == "0" ||
