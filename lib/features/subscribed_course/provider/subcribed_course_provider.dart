@@ -1,4 +1,6 @@
-import 'package:etutor/features/subscribed_course/model/course_chapter_model.dart' as coursechapterModel;
+import 'package:etutor/features/subscribed_course/model/batch_folder_content_model.dart';
+import 'package:etutor/features/subscribed_course/model/course_chapter_model.dart'
+    as coursechapterModel;
 import 'package:etutor/features/subscribed_course/model/gettimeline_activity_model.dart';
 import 'package:etutor/features/subscribed_course/model/insert_timeline_model.dart';
 import 'package:etutor/features/subscribed_course/model/rating_model.dart';
@@ -9,10 +11,10 @@ import 'package:etutor/features/subscribed_course/service/subcribed_course_servi
 
 class SubcribedCourseProvider extends ChangeNotifier {
   bool _isLoading = false;
-  int? _expandedIndex ;
+  int? _expandedIndex;
   bool _isLoadingsubjects = false;
-  bool _isLoadingchapter = false; 
-  bool _isLoadingrating =false;
+  bool _isLoadingchapter = false;
+  bool _isLoadingrating = false;
   bool get isLoadingrating => _isLoadingrating;
 
   bool _isLoadingInsertTLine = false;
@@ -20,18 +22,15 @@ class SubcribedCourseProvider extends ChangeNotifier {
   bool _isLoadingGetTLine = false;
   bool get isLoadingGetTLine => _isLoadingGetTLine;
 
-
   CourseClassesModel? _courseClasses;
   List<coursechapterModel.Data?> _courseChapter = [];
 
-  int? get expandedIndex =>_expandedIndex;
+  int? get expandedIndex => _expandedIndex;
   bool get isLoading => _isLoading;
   bool get isLoadingsubjects => _isLoadingsubjects;
   bool get isLoadingchapter => _isLoadingchapter;
   CourseClassesModel? get courseClasses => _courseClasses;
   List<coursechapterModel.Data?> get courseChapter => _courseChapter;
-
-  
 
   // fetch class list
   SubjectsModel? _courseSubjects;
@@ -41,7 +40,7 @@ class SubcribedCourseProvider extends ChangeNotifier {
   RatingModel? _ratingCourses;
   RatingModel? get courseRating => _ratingCourses;
 
-   //INsert TimeLInes
+  //INsert TimeLInes
   InsertTimelineModel? _insertTLine;
   InsertTimelineModel? get insertTLine => _insertTLine;
 
@@ -49,6 +48,11 @@ class SubcribedCourseProvider extends ChangeNotifier {
   GetTimelineActivityModel? _getTLine;
   GetTimelineActivityModel? get getTLine => _getTLine;
 
+//GEt batchFolderContentModel
+  bool _isLoadingBatchFolder = false;
+  bool get isLoadingBatchFolder => _isLoadingBatchFolder;
+  BatchFolderContentModel? _batchFolderContent;
+  BatchFolderContentModel? get batchFolderContent => _batchFolderContent;
 
 //classes provider
   Future<void> fetchCourseClasses({
@@ -76,7 +80,8 @@ class SubcribedCourseProvider extends ChangeNotifier {
   }
 
   // fetch chapter list
-  Future fetchCourseChapter (BuildContext context,String packageSubjectId) async {
+  Future fetchCourseChapter(
+      BuildContext context, String packageSubjectId) async {
     _isLoadingchapter = true;
     _expandedIndex = null;
     notifyListeners();
@@ -99,10 +104,10 @@ class SubcribedCourseProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-   void toggleExpansion(int index) {
+  void toggleExpansion(int index) {
     _expandedIndex = _expandedIndex == index ? null : index;
     notifyListeners();
-   }
+  }
 
 //subjects provider
   Future<void> fetchClassSubjects({
@@ -133,12 +138,11 @@ class SubcribedCourseProvider extends ChangeNotifier {
   }
 
 //update course rating provider
-  Future<void> updateCourseRating({
-    required BuildContext context,
-    required String courseid,
-    required String rating,
-    required String comment
-  }) async {
+  Future<void> updateCourseRating(
+      {required BuildContext context,
+      required String courseid,
+      required String rating,
+      required String comment}) async {
     _isLoadingInsertTLine = true;
     notifyListeners();
 
@@ -164,13 +168,11 @@ class SubcribedCourseProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-
 //insert timeline provider
-   Future<void> insertTimelines({
-    required BuildContext context,
-    required String contentid,
-    required String type
-  }) async {
+  Future<void> insertTimelines(
+      {required BuildContext context,
+      required String contentid,
+      required String type}) async {
     _isLoadingrating = true;
     notifyListeners();
 
@@ -196,10 +198,8 @@ class SubcribedCourseProvider extends ChangeNotifier {
   }
 
   //insert GettimelineActivity provider
-   Future<void> getTimeline({
-    required BuildContext context,
-    required String date
-  }) async {
+  Future<void> getTimeline(
+      {required BuildContext context, required String date}) async {
     _isLoadingrating = true;
     notifyListeners();
 
@@ -222,6 +222,34 @@ class SubcribedCourseProvider extends ChangeNotifier {
     _isLoadingGetTLine = false;
     notifyListeners();
   }
+
+//insert getBatchFolderContent provider
+  Future<void> fetchBatchFolderContent({
+    required BuildContext context,
+    required String courseid,
+    required String parentid,
+  }) async {
+    _isLoadingBatchFolder = true;
+    notifyListeners();
+
+    try {
+      final response = await SubscribedCourseService().batchfoldercontent(
+        context: context,
+        courseid: courseid,
+        parentid: parentid,
+      );
+
+      if (response != null && response.folders != null) {
+        _batchFolderContent = response;
+      } else {
+        _batchFolderContent = null;
+      }
+    } catch (e) {
+      debugPrint("Error fetching batch folder content: $e");
+      _batchFolderContent = null;
+    }
+
+    _isLoadingBatchFolder = false;
+    notifyListeners();
+  }
 }
-
-

@@ -14,16 +14,18 @@ class SubscribedCourseClasses extends StatefulWidget {
   final String courseId;
   final String image;
   final String title;
-const  SubscribedCourseClasses(
-      {super.key,
-      required this.courseId,
-      required this.image,
-      required this.title});
+  const SubscribedCourseClasses({
+    super.key,
+    required this.courseId,
+    required this.image,
+    required this.title,
+  });
 
   @override
   State<SubscribedCourseClasses> createState() =>
       _SubscribedCourseOverviewState();
 }
+
 class _SubscribedCourseOverviewState extends State<SubscribedCourseClasses> {
   SubcribedCourseProvider subcribedCourseProvider = SubcribedCourseProvider();
 
@@ -42,7 +44,7 @@ class _SubscribedCourseOverviewState extends State<SubscribedCourseClasses> {
   @override
   Widget build(BuildContext context) {
     subcribedCourseProvider = context.watch<SubcribedCourseProvider>();
-   
+
     return Scaffold(
       backgroundColor: AppColor.whiteColor,
       body: SafeArea(
@@ -98,30 +100,35 @@ class _SubscribedCourseOverviewState extends State<SubscribedCourseClasses> {
             Expanded(
               child: Stack(
                 children: [
-                   subcribedCourseProvider.isLoading 
-                 ? ListviewShimmerLoader()
-                  :Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                    child:subcribedCourseProvider.courseClasses!.data!.isEmpty 
-                    ? Center(child: Text('No Classes'),)
-                    : ListView.builder(
-                        itemCount:
-                            subcribedCourseProvider.courseClasses!.data!.length,
-                        itemBuilder: (context, index) {
-                          final classlist = subcribedCourseProvider
-                              .courseClasses!.data![index];
-                          return Column(
-                            children: [
-                              CourseCard(
-                                packageClassId:classlist.packageClassId ?? '',  
-                                className: classlist.className ?? '',
-                                classDescription: classlist.classDescription ?? '',
-                              ),
-                              const ContentsCard()
-                            ],
-                          );
-                        }),
-                  ),
+                  subcribedCourseProvider.isLoading
+                      ? ListviewShimmerLoader()
+                      : Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                          child: subcribedCourseProvider
+                                  .courseClasses!.data!.isEmpty
+                              ? Center(
+                                  child: Text('No Classes'),
+                                )
+                              : ListView.builder(
+                                  itemCount: subcribedCourseProvider
+                                      .courseClasses!.data!.length,
+                                  itemBuilder: (context, index) {
+                                    final classlist = subcribedCourseProvider
+                                        .courseClasses!.data![index];
+                                    return Column(
+                                      children: [
+                                        CourseCard(
+                                          packageClassId:
+                                              classlist.packageClassId ?? '',
+                                          className: classlist.className ?? '',
+                                          classDescription:
+                                              classlist.classDescription ?? '',
+                                        ),
+                                         ContentsCard(courseid: widget.courseId,)
+                                      ],
+                                    );
+                                  }),
+                        ),
                   Align(
                     alignment: Alignment.bottomRight,
                     child: Padding(
@@ -129,7 +136,7 @@ class _SubscribedCourseOverviewState extends State<SubscribedCourseClasses> {
                       child: FloatingActionButton(
                         backgroundColor: AppColor.secondaryColor,
                         onPressed: () {
-                          showRatingDialog(context,widget.courseId);
+                          showRatingDialog(context, widget.courseId);
                         },
                         child: const Icon(Icons.star, color: Colors.white),
                       ),

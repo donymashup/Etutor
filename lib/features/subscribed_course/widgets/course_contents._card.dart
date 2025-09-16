@@ -1,12 +1,13 @@
 import 'package:etutor/common/constants/app_constants.dart';
-import 'package:etutor/features/subscribed_course/screens/subscribed_course_all_subjects.dart';
+import 'package:etutor/features/subscribed_course/provider/subcribed_course_provider.dart';
+import 'package:etutor/features/subscribed_course/screens/see_course_contents_screen.dart';
 import 'package:fluentui_emoji_icon/fluentui_emoji_icon.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class ContentsCard extends StatefulWidget {
-  const ContentsCard({
-    super.key,
-  });
+  final String courseid;
+  ContentsCard({super.key, required this.courseid});
 
   @override
   State<ContentsCard> createState() => _CourseCardState();
@@ -18,13 +19,31 @@ class _CourseCardState extends State<ContentsCard> {
     return Padding(
       padding: const EdgeInsets.all(6.0),
       child: GestureDetector(
-        onTap: () {
-          // Navigator.push(
-          //   context,
-          //   MaterialPageRoute(
-          //     builder: (context) => SubscribedCourseAllSubjects(packageClassId: widget.packageClassId!,className: widget.className!,classDescription: widget.classDescription!,),
-          //   ),
-          // );
+        onTap: () async {
+          await context.read<SubcribedCourseProvider>().fetchBatchFolderContent(
+                context: context,
+                parentid: "0",
+                courseid: widget.courseid,
+              );
+
+          final batchContent =
+              context.read<SubcribedCourseProvider>().batchFolderContent;
+
+          if (batchContent != null) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => SeeCourseContentsScreen(
+                 // batchFolderContent: batchContent,
+                  courseid: widget.courseid
+                ),
+              ),
+            );
+          } else {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text("No folders found")),
+            );
+          }
         },
         child: Container(
           decoration: BoxDecoration(

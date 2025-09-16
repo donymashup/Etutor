@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:etutor/common/constants/config.dart';
 import 'package:etutor/common/constants/utils.dart';
+import 'package:etutor/features/subscribed_course/model/batch_folder_content_model.dart';
 import 'package:etutor/features/subscribed_course/model/course_chapter_model.dart';
 import 'package:etutor/features/subscribed_course/model/course_classes_model.dart';
 import 'package:etutor/features/subscribed_course/model/gettimeline_activity_model.dart';
@@ -64,7 +65,7 @@ class SubscribedCourseService {
 // fuction to fetch Subjects
   Future<SubjectsModel?> courseSubjects({
     required BuildContext context,
-    required String packageClassId, 
+    required String packageClassId,
   }) async {
     try {
       final token = await storage.read(key: 'token');
@@ -295,8 +296,8 @@ class SubscribedCourseService {
         token: token,
         fields: {
           'courseid': courseid,
-          'comment' : comment,
-          'rating' : rating,
+          'comment': comment,
+          'rating': rating,
         },
       );
       if (response.statusCode == 200) {
@@ -324,8 +325,6 @@ class SubscribedCourseService {
     }
   }
 
-
-
   // fuction for insertTimeline
   Future<InsertTimelineModel?> insertTimeline({
     required BuildContext context,
@@ -343,7 +342,7 @@ class SubscribedCourseService {
         token: token,
         fields: {
           'contentid': contentid,
-          'type' : type,
+          'type': type,
         },
       );
       if (response.statusCode == 200) {
@@ -352,7 +351,8 @@ class SubscribedCourseService {
           showSnackbar(context, 'Invalid response from server');
           return null;
         } else {
-          final insertTimelineModel = InsertTimelineModel.fromJson(jsonResponse);
+          final insertTimelineModel =
+              InsertTimelineModel.fromJson(jsonResponse);
           if (insertTimelineModel.type == 'success') {
             return insertTimelineModel;
           } else {
@@ -370,7 +370,6 @@ class SubscribedCourseService {
     }
   }
 
-  
   // fuction for GETgetTimelineActivity
   Future<GetTimelineActivityModel?> getTimelineActivity({
     required BuildContext context,
@@ -395,11 +394,13 @@ class SubscribedCourseService {
           showSnackbar(context, 'Invalid response from server');
           return null;
         } else {
-          final getTimelineActivityModel = GetTimelineActivityModel.fromJson(jsonResponse);
+          final getTimelineActivityModel =
+              GetTimelineActivityModel.fromJson(jsonResponse);
           if (getTimelineActivityModel.type == 'success') {
             return getTimelineActivityModel;
           } else {
-            showSnackbar(context, getTimelineActivityModel.type ?? 'Unknown error');
+            showSnackbar(
+                context, getTimelineActivityModel.type ?? 'Unknown error');
             return null;
           }
         }
@@ -413,4 +414,50 @@ class SubscribedCourseService {
     }
   }
 
+  // fuction for BatchFolderContent
+  Future<BatchFolderContentModel?> batchfoldercontent({
+    required BuildContext context,
+    required String courseid,
+    required String parentid,
+  }) async {
+    try {
+      final token = await storage.read(key: 'token');
+      if (token == null) {
+        showSnackbar(context, "Token not found. Please log in again.");
+        return null;
+      }
+      final response = await sendPostRequestWithToken(
+        url: '$baseUrl$getBatchFolderContent',
+        token: token,
+        fields: {
+          'courseid': courseid,
+          'parentid': parentid,
+        },
+      );
+      if (response.statusCode == 200) {
+        final jsonResponse = json.decode(await response.stream.bytesToString());
+        if (jsonResponse == null || jsonResponse.isEmpty) {
+          showSnackbar(context, 'Invalid response from server');
+          return null;
+        } else {
+          final batchFolderContentModel =
+              BatchFolderContentModel.fromJson(jsonResponse);
+          if (batchFolderContentModel.folders != null &&
+              batchFolderContentModel.folders!.isNotEmpty) {
+            return batchFolderContentModel;
+          } else {
+            showSnackbar(context, 'No folders found');
+            return null;
+          }
+        }
+      } else {
+        debugPrint(
+            "Failed to GET batch Folder Content Model: ${response.statusCode}");
+        return null;
+      }
+    } catch (e) {
+      showSnackbar(context, "Error : $e");
+      return null;
+    }
+  }
 }

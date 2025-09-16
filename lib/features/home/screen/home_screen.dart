@@ -379,7 +379,8 @@ class _HomePageState extends State<HomePage> {
                           builder: (_) => SubscribedCourseClasses(
                               courseId: course["id"],
                               image: courseimage!,
-                              title: coursetitle!)),
+                              title: coursetitle!,
+                              )),
                     )
                   : Navigator.push(
                       context,

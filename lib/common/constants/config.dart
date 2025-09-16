@@ -40,6 +40,7 @@ const chapterVideoUrl = 'Newapi/chapterVideos';
 const studentChapterAnalysis = 'Newapi/studentChapterAnalysis';
 const chapterPracticeTest = 'Newapi/chapterPracticeTests';
 const updateCourseStars = 'Newapi/updateCourseStars';
+const getBatchFolderContent = 'Newapi/getBatchFolderContent';
 
 //TimeLine
 const insertTline = 'Newapi/insertTimeline';
