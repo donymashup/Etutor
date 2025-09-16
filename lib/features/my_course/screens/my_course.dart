@@ -54,8 +54,6 @@ class _MyCoursePageState extends State<MyCoursePage> {
   @override
   Widget build(BuildContext context) {
   courseProvider = context.watch<MyCourseProvider>();
-  
-
     return Scaffold(
       backgroundColor: AppColor.whiteColor,
       body: SafeArea(
@@ -111,7 +109,7 @@ class _MyCoursePageState extends State<MyCoursePage> {
                                       context,
                                       MaterialPageRoute(
                                         builder: (context) =>
-                                             SubscribedCourseClasses(courseId:course.courseId!,image: course.courseImage!,title: course.courseName!,)
+                                             SubscribedCourseClasses(courseId:course.courseId!,image: course.courseImage!,title: course.courseName!)
                                       ),
                                     );
                                   },
