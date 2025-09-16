@@ -84,7 +84,7 @@ class _HomePageState extends State<HomePage> {
                     children: [
                       // Profile and Notification Row
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Expanded(
                             child: Row(
@@ -188,48 +188,48 @@ class _HomePageState extends State<HomePage> {
 
                       const SizedBox(height: 20),
                       //search field with ai assistant button
-                      // SearchableDropdown(),
-                      Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 16),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(16),
-                        ),
-                        child: Row(
-                          children: [
-                            const Expanded(
-                              child: TextField(
-                                decoration: InputDecoration(
-                                  icon: Icon(Icons.search),
-                                  hintText: "Search Course here",
-                                  border: InputBorder.none,
-                                ),
-                              ),
-                            ),
-                            GestureDetector(
-                              onTap: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (_) =>
-                                            SearchableDropdown()));
-                              },
-                              child: Container(
-                                width: 40,
-                                height: 40,
-                                decoration: const BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  image: DecorationImage(
-                                    image:
-                                        AssetImage('assets/images/gpt (2).png'),
-                                    fit: BoxFit.cover,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
+                      SearchableDropdown(),                     
+                      // Container(
+                      //   padding: const EdgeInsets.symmetric(horizontal: 16),
+                      //   decoration: BoxDecoration(
+                      //     color: Colors.white,
+                      //     borderRadius: BorderRadius.circular(16),
+                      //   ),
+                      //   child: Row(
+                      //     children: [
+                      //       const Expanded(
+                      //         child: TextField(
+                      //           decoration: InputDecoration(
+                      //             icon: Icon(Icons.search),
+                      //             hintText: "Search Course here",
+                      //             border: InputBorder.none,
+                      //           ),
+                      //         ),
+                      //       ),
+                      //       GestureDetector(
+                      //         onTap: () {
+                      //           Navigator.push(
+                      //               context,
+                      //               MaterialPageRoute(
+                      //                   builder: (_) =>
+                      //                       SearchableDropdown()));
+                      //         },
+                      //         child: Container(
+                      //           width: 40,
+                      //           height: 40,
+                      //           decoration: const BoxDecoration(
+                      //             shape: BoxShape.circle,
+                      //             image: DecorationImage(
+                      //               image:
+                      //                   AssetImage('assets/images/gpt (2).png'),
+                      //               fit: BoxFit.cover,
+                      //             ),
+                      //           ),
+                      //         ),
+                      //       ),
+                      //     ],
+                      //   ),
+                      // ),
                     ],
                   ),
                 ),

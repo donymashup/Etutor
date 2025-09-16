@@ -2,6 +2,9 @@
 //const baseUrl = "https://olympiad.dreamthem.in/";
 const baseUrl = "https://dreamthemetutor.in/";
 
+// razor pay key
+const razorKey ='Newapi/getRazorPayKey';
+
 // auth 
 const loginUrl = "Authapi/login";
 const checkMobileNumberExixt = 'Authapi/checkMobileNumberExists';

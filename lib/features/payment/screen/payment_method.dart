@@ -1,12 +1,16 @@
 import 'package:etutor/common/constants/app_constants.dart';
 import 'package:etutor/common/constants/utils.dart';
+import 'package:etutor/common/provider/api_key_provider.dart';
 import 'package:etutor/common/widgets/back_button.dart';
 import 'package:etutor/common/widgets/custom_button.dart';
+import 'package:etutor/features/home/provider/user_details_provider.dart';
 import 'package:etutor/features/payment/controller/payment_provider.dart';
+import 'package:etutor/features/payment/screen/payment_failed.dart';
 import 'package:etutor/features/payment/screen/payment_succesfull.dart';
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
-//import 'package:razorpay_flutter/razorpay_flutter.dart';
+import 'package:razorpay_flutter/razorpay_flutter.dart';
 
 class PaymentMethod extends StatefulWidget {
  final  String price;
@@ -21,16 +25,23 @@ const  PaymentMethod({super.key,required this.price, required this.courseId,requ
 
 class _PaymentMethodState extends State<PaymentMethod> {
 Map<String, dynamic>? _selectedOption;
-//late Razorpay _razorpay;
+late Razorpay _razorpay;
 late String _orderid, _paymentid, _signature;
+ApiKeyProvider apiKeyProvider= ApiKeyProvider();
+PaymentProvider paymentProvider=PaymentProvider();
 
 @override
 void initState() {
   super.initState();
-  // _razorpay = Razorpay();
-  // _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
-  // _razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError);
-  // _razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);
+  _load();
+  _razorpay = Razorpay();
+  _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
+  _razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError);
+  _razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);
+}
+
+Future<void> _load() async{
+  await context.read<ApiKeyProvider>().fetchApiKey();
 }
 
 @override
@@ -53,37 +64,55 @@ void dispose() {
     },
   ];
 
-//   void _handlePaymentSuccess(PaymentSuccessResponse response) async {
-//   _paymentid = response.paymentId!;
-//   _signature = response.signature!;
-//   _orderid = response.orderId!;
+  void _handlePaymentSuccess(PaymentSuccessResponse response) async {
+  _paymentid = response.paymentId!;
+  _signature = response.signature!;
+  _orderid = response.orderId!;
 
-//   // Call enroll API
-//   // await context.read<PaymentProvider>().enrollStudent(
-//   //   context: context,
-//   //   courseId: "yourCourseId",
-//   //   paymentId: _paymentid,
-//   //   orderId: _orderid,
-//   //   signature: _signature,
-//   // );
+  debugPrint(response.paymentId!);
+  debugPrint( response.signature!);
+  debugPrint(response.orderId!);
 
-//   Navigator.pushReplacement(
-//     context,
-//     MaterialPageRoute(builder: (context) => PaymentSuccesfull()),
-//   );
-// }
+  // enroll API
+  // await context.read<PaymentProvider>().enrollStudent(
+  //   context: context,
+  //   courseId: widget.courseId,
+  //   paymentId: _paymentid,
+  //   orderId: _orderid,
+  //   signature: _signature,
+  // );
 
-// void _handlePaymentError(PaymentFailureResponse response) {
-//   showSnackbar(context,"Payment failed: ${response.message}");
-// }
+  Navigator.pushReplacement(
+    context,
+    MaterialPageRoute(builder: (context) => PaymentSuccesfull()),
+  );
+}
 
-// void _handleExternalWallet(ExternalWalletResponse response) {
-// showSnackbar(context, "External wallet: ${response.walletName}");
-// }
+void _handlePaymentError(PaymentFailureResponse response) {
+   Navigator.pushReplacement(
+    context,
+    MaterialPageRoute(builder: (context) => PaymentFailed()),
+  );
+  showSnackbar(context,"Payment failed: ${response.message}");
+}
+
+void _handleExternalWallet(ExternalWalletResponse response) {
+showSnackbar(context, "External wallet: ${response.walletName}");
+}
 
 
   @override
   Widget build(BuildContext context) {
+ apiKeyProvider = context.watch<ApiKeyProvider>();
+ paymentProvider = context.watch<PaymentProvider>();
+   if (paymentProvider.isProcessing) {
+      return Scaffold(
+        backgroundColor: AppColor.primaryColor,
+        body: Center(
+          child: Lottie.asset('assets/lottie/lottieloading1.json', height: 120),
+        ),
+      );
+    }
     return Scaffold(
           appBar: AppBar(
             centerTitle: true,
@@ -237,31 +266,31 @@ void dispose() {
                           : () async {
                               if (_selectedOption?['name'] == "Razor Pay") {
                                 final provider = context.read<PaymentProvider>();
-
+                                debugPrint(apiKeyProvider.apiKey);
                                 //  create orderId
                                 final orderId = await provider.createOrderId(
                                   context: context,
-                                  courseId: "yourCourseIdHere",
+                                  courseId: widget.courseId,
                                   amount: (int.parse(widget.price) * 100).toString(), 
-                                  promoCode: '',
+                                  promoCode: widget.promo,
                                 );
-
+                                final userContact =  context.read<UserDetailsProvider>().userDetails.data!;
                                 if (orderId != null) {
                                   //Open Razorpay checkout
                                   var options = {
-                                    'key': '',
+                                    'key': apiKeyProvider.apiKey ,
                                     'amount': int.parse(widget.price) * 100, 
                                     'name': 'Dream Theam',
                                     'description': widget.courseName ,
                                     'order_id': orderId,
                                     'prefill': {
-                                      'contact': '',
-                                      'email': ''
+                                      'contact': userContact.phone ,
+                                      'email': userContact.email,
                                     }
                                   };
 
                                   try {
-                                  //  _razorpay.open(options);
+                                   _razorpay.open(options);
                                   } catch (e) {
                                     debugPrint("Error: $e");
                                   }
@@ -269,7 +298,7 @@ void dispose() {
                                   showSnackbar(context, "Failed to create order");
                                 }
                               } else if (_selectedOption?['name'] == "In-App Purchase") {
-                                // handle in-app purchase
+                                // in-app purchase
                               }
                             },
 

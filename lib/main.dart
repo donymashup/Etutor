@@ -1,3 +1,4 @@
+import 'package:etutor/common/provider/api_key_provider.dart';
 import 'package:etutor/common/provider/network_provider.dart';
 import 'package:etutor/common/screens/network_dialog.dart';
 import 'package:etutor/common/screens/splash_screen.dart';
@@ -45,7 +46,8 @@ void main() async {
         ChangeNotifierProvider(create: (_) => VideoPlayerProvider()),
         ChangeNotifierProvider(create: (_) => BookmarkProvider()),
         ChangeNotifierProvider(create: (_) => ChangePasswordProvider()),
-        ChangeNotifierProvider(create: (_) => SolutionProvider())
+        ChangeNotifierProvider(create: (_) => SolutionProvider()),
+        ChangeNotifierProvider(create: (_) => ApiKeyProvider())
       ],
       child: MyApp(),
     ),
@@ -55,6 +57,7 @@ void main() async {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
