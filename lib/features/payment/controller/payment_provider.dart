@@ -1,9 +1,9 @@
-
 import 'package:etutor/features/payment/model/free_enroll_student_model.dart';
 import 'package:etutor/features/payment/model/verify_promo_model.dart';
 import 'package:etutor/features/payment/service/payment_srvice.dart';
 import 'package:flutter/material.dart';
 import 'package:etutor/features/payment/model/promo_code_model.dart' as promo_code_model;
+import 'package:in_app_purchase/in_app_purchase.dart';
 
 class PaymentProvider extends ChangeNotifier {
   Map<String, dynamic>? _selectedPayment;
@@ -17,6 +17,8 @@ class PaymentProvider extends ChangeNotifier {
   VerifyPromoModel _verify = VerifyPromoModel();
   List<promo_code_model.Data> _filteredPromocodes = [];
   String _searchQuery = '';
+  List<ProductDetails> _products = [];
+
 
   Map<String, dynamic>? get selectedPayment => _selectedPayment;
   String? get selectedVoucher => _selectedVoucher;
@@ -25,14 +27,19 @@ class PaymentProvider extends ChangeNotifier {
   String get searchQuery => _searchQuery;
   String? get total => _total;
   VerifyPromoModel get verify => _verify;
-
   bool isLoading = false;
   FreeEnrollStudentModel? _freeEnrollData;
   FreeEnrollStudentModel? get freeEnrollData => _freeEnrollData;
-
+  List<ProductDetails> get products => _products;
   //set payment method
   void setPaymentMethod(Map<String, dynamic> method) {
     _selectedPayment = method;
+    notifyListeners();
+  }
+
+  //set products details foe iap
+  void setProducts(List<ProductDetails> product) {
+    _products  = product;
     notifyListeners();
   }
 
