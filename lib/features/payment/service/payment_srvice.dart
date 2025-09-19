@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:etutor/common/constants/config.dart';
 import 'package:etutor/common/constants/utils.dart';
 import 'package:etutor/features/payment/model/create_orderid_model.dart';
+import 'package:etutor/features/payment/model/enroll_student_model.dart';
 import 'package:etutor/features/payment/model/free_enroll_student_model.dart';
 import 'package:etutor/features/payment/model/promo_code_model.dart';
 import 'package:etutor/features/payment/model/verify_promo_model.dart';
@@ -157,6 +158,90 @@ class PaymentServices {
         }
       } else {
         debugPrint("Failed to free enroll student : ${response.statusCode}");
+        return null;
+      }
+    } catch (e) {
+      showSnackbar(context, "Error : $e");
+      return null;
+    }
+  }
+
+  // Enroll Student
+  Future<EnrollStudentModel?> enrollStudent(
+      {required BuildContext context,
+      required String courseid,
+      required String paymentId ,
+      required String orderId,
+      required String signature,
+      required String amount,
+      required String promo,
+      }) async {
+    try {
+      final token = await storage.read(key: 'token');
+      if (token == null) {
+        showSnackbar(context, "Token not found. Please log in again.");
+        return null;
+      }
+      final response = await sendPostRequestWithToken(
+          url: '$baseUrl$enroll',
+          token: token,
+          fields: {
+            'courseid': courseid,
+            'promo':promo,
+            'amount':amount,
+            'paymentid':paymentId,
+            'orderid':orderId,
+            'signature':signature,
+          });
+      if (response.statusCode == 200) {
+        final jsonResponse = json.decode(await response.stream.bytesToString());
+        if (jsonResponse == null || jsonResponse.isEmpty) {
+          showSnackbar(context, 'Invalid response from server');
+          return null;
+        } else {
+          final enrollStudentModel =
+              EnrollStudentModel.fromJson(jsonResponse);
+          return enrollStudentModel;
+        }
+      } else {
+        debugPrint("Failed to enroll student : ${response.statusCode}");
+        return null;
+      }
+    } catch (e) {
+      showSnackbar(context, "Error : $e");
+      return null;
+    }
+  }
+
+  // confirm in app purchase
+  Future<EnrollStudentModel?> iapConfirm(
+      {required BuildContext context,
+      required String courseid,
+      }) async {
+    try {
+      final token = await storage.read(key: 'token');
+      if (token == null) {
+        showSnackbar(context, "Token not found. Please log in again.");
+        return null;
+      }
+      final response = await sendPostRequestWithToken(
+          url: '$baseUrl$enroll',
+          token: token,
+          fields: {
+            'courseid': courseid,
+          });
+      if (response.statusCode == 200) {
+        final jsonResponse = json.decode(await response.stream.bytesToString());
+        if (jsonResponse == null || jsonResponse.isEmpty) {
+          showSnackbar(context, 'Invalid response from server');
+          return null;
+        } else {
+          final enrollStudentModel =
+              EnrollStudentModel.fromJson(jsonResponse);
+          return enrollStudentModel;
+        }
+      } else {
+        debugPrint("Failed to confirm in app purchase : ${response.statusCode}");
         return null;
       }
     } catch (e) {

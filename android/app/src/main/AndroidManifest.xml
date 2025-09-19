@@ -8,7 +8,7 @@
     <application
         android:hardwareAccelerated="true"
         android:usesCleartextTraffic="true"
-        android:label="etutor"
+        android:label="Dream Them"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

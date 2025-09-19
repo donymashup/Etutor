@@ -73,6 +73,7 @@ const materialDetails ='Newapi/getMaterialDetails';
 const orderId ='Newapi/createOrderId';
 const enroll = 'Newapi/entrollStudent';
 const freeEnrollStudent = 'Newapi/freeEnrollStudent';
+const iapConfirm ='Newapi/inappPurchaseConfirm';
 
 //promo code
 const promoCode = 'Newapi/getPromoCodeList';

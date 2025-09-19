@@ -3,7 +3,6 @@ import 'package:etutor/features/payment/model/verify_promo_model.dart';
 import 'package:etutor/features/payment/service/payment_srvice.dart';
 import 'package:flutter/material.dart';
 import 'package:etutor/features/payment/model/promo_code_model.dart' as promo_code_model;
-import 'package:in_app_purchase/in_app_purchase.dart';
 
 class PaymentProvider extends ChangeNotifier {
   Map<String, dynamic>? _selectedPayment;
@@ -17,7 +16,6 @@ class PaymentProvider extends ChangeNotifier {
   VerifyPromoModel _verify = VerifyPromoModel();
   List<promo_code_model.Data> _filteredPromocodes = [];
   String _searchQuery = '';
-  List<ProductDetails> _products = [];
 
 
   Map<String, dynamic>? get selectedPayment => _selectedPayment;
@@ -30,18 +28,12 @@ class PaymentProvider extends ChangeNotifier {
   bool isLoading = false;
   FreeEnrollStudentModel? _freeEnrollData;
   FreeEnrollStudentModel? get freeEnrollData => _freeEnrollData;
-  List<ProductDetails> get products => _products;
   //set payment method
   void setPaymentMethod(Map<String, dynamic> method) {
     _selectedPayment = method;
     notifyListeners();
   }
 
-  //set products details foe iap
-  void setProducts(List<ProductDetails> product) {
-    _products  = product;
-    notifyListeners();
-  }
 
 // select voucher
   void setVoucher(String voucher) {
@@ -198,6 +190,78 @@ class PaymentProvider extends ChangeNotifier {
       debugPrint('Error in freeEnrollStudent: $e');
       _freeEnrollData = null;
       isLoading = false;
+      notifyListeners();
+      return false;
+    }
+  }
+
+// enroll student method
+  Future<bool> enrollStudent({
+   required BuildContext context,
+      required String courseid,
+      required String paymentId ,
+      required String orderId,
+      required String signature,
+      required String amount,
+      required String promo,
+  }) async {
+    isProcessing = true;
+    notifyListeners();
+
+    try {
+      final response = await PaymentServices().enrollStudent(
+        context: context,
+        courseid: courseid,
+        promo: promo,
+        amount: amount,
+         paymentId: paymentId, 
+         orderId: orderId, 
+         signature: signature,
+      );
+
+      if (response != null && response.type == 'success') {
+        isProcessing = false;
+        notifyListeners();
+        return true;
+      } else {
+        isProcessing = false;
+        notifyListeners();
+        return false;
+      }
+    } catch (e) {
+      debugPrint('Error in EnrollStudent: $e');
+      isProcessing = false;
+      notifyListeners();
+      return false;
+    }
+  }
+
+  // confirm in app purchase
+  Future<bool> iapConfirm({
+   required BuildContext context,
+      required String courseid,
+  }) async {
+    isProcessing = true;
+    notifyListeners();
+
+    try {
+      final response = await PaymentServices().iapConfirm(
+        context: context,
+        courseid: courseid,
+      );
+
+      if (response != null && response.type == 'success') {
+        isProcessing = false;
+        notifyListeners();
+        return true;
+      } else {
+        isProcessing = false;
+        notifyListeners();
+        return false;
+      }
+    } catch (e) {
+      debugPrint('Error in in app purchase confirm: $e');
+      isProcessing = false;
       notifyListeners();
       return false;
     }
