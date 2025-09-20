@@ -1,33 +1,60 @@
 import 'package:etutor/common/constants/app_constants.dart';
+import 'package:etutor/common/constants/utils.dart';
 import 'package:etutor/common/widgets/back_button.dart';
 import 'package:etutor/features/subscribed_course/model/batch_folder_content_model.dart';
 import 'package:etutor/features/subscribed_course/provider/subcribed_course_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class FolderDetailsScreen extends StatelessWidget {
+class FolderDetailsScreen extends StatefulWidget {
   final String folderName;
-  SubcribedCourseProvider contents = SubcribedCourseProvider();
- // final BatchFolderContentModel batchFolderContent;
+  final String parentId;
   final String courseid;
 
    FolderDetailsScreen({
     super.key,
     required this.folderName,
- //   required this.batchFolderContent,
+    required this.parentId,
     required this.courseid,
   });
 
   @override
+  State<FolderDetailsScreen> createState() => _FolderDetailsScreenState();
+}
+
+class _FolderDetailsScreenState extends State<FolderDetailsScreen> {
+  SubcribedCourseProvider contents = SubcribedCourseProvider();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _load();
+  }
+
+ Future <void> _load () async{
+      await context.read<SubcribedCourseProvider>().fetchBatchFolderContent(
+                context: context,
+                parentid: widget.parentId,
+                courseid: widget.courseid,
+              );
+  }
+
+  @override
   Widget build(BuildContext context) {
-   // final contents = batchFolderContent.folders ?? [];
    contents = context.watch<SubcribedCourseProvider>();
+   final batchContent = contents.batchFolderContent;
+   if(contents.isLoadingBatchFolder){
+       return Scaffold(body: Center(
+        child: CircularProgressIndicator(),
+       ),);
+     }
     return Scaffold(
       backgroundColor: AppColor.whiteColor,
       appBar: AppBar(
         backgroundColor: AppColor.whiteColor,
         title: Text(
-          folderName,
+          widget.folderName,
           style: const TextStyle(fontWeight: FontWeight.w500, fontSize: 18),
         ),
         leading: const Padding(
@@ -35,16 +62,17 @@ class FolderDetailsScreen extends StatelessWidget {
           child: CustomBackButton(),
         ),
       ),
-      body: contents.batchFolderContent!.folders!.isEmpty
+      body:batchContent!.folders!.isEmpty
           ? const Center(child: Text('No files found', style: TextStyle(fontSize: 16)))
           : ListView.builder(
               padding: const EdgeInsets.all(12.0),
-              itemCount: contents.batchFolderContent!.folders!.length,
+              itemCount: batchContent.folders!.length,
               itemBuilder: (context, index) {
-                final item = contents.batchFolderContent!.folders![index];
+                final item = batchContent.folders![index];
+                debugPrint(item.type);
                 return item.type == "folder"
                     ? folderCard(context, item.id ?? "0", item.name ?? "Folder")
-                    : fileCard(context, item.name ?? "File", item.type ?? "", item.link ?? "");
+                    : fileCard(context, item.name ?? "", item.type ?? "", item.link ?? "");
               },
             ),
     );
@@ -60,27 +88,28 @@ class FolderDetailsScreen extends StatelessWidget {
         title: Text(title, style: const TextStyle(fontWeight: FontWeight.w500)),
         trailing: const Icon(Icons.arrow_forward_ios, size: 18),
         onTap: () async {
-          await context.read<SubcribedCourseProvider>().fetchBatchFolderContent(
-                context: context,
-                parentid: folderId,
-                courseid: courseid,
-              );
+          // await context.read<SubcribedCourseProvider>().fetchBatchFolderContent(
+          //       context: context,
+          //       parentid: folderId,
+          //       courseid: widget.courseid,
+          //     );
 
-          final batchContent =
-              context.watch<SubcribedCourseProvider>().batchFolderContent;
+          // final batchContent =
+          //     context.watch<SubcribedCourseProvider>().batchFolderContent;
 
-          if (batchContent != null) {
-            Navigator.push(
+          // if (batchContent != null) {
+            Navigator.pushReplacement(
               context,
               MaterialPageRoute(
                 builder: (context) => FolderDetailsScreen(
                   folderName: title,
                 //  batchFolderContent: batchContent,
-                  courseid: courseid,
+                  courseid: widget.courseid,
+                   parentId: folderId,
                 ),
               ),
             );
-          }
+        //  }
         },
       ),
     );
@@ -120,10 +149,12 @@ class FolderDetailsScreen extends StatelessWidget {
         leading: Icon(icon, color: color),
         title: Text(fileName, style: const TextStyle(fontWeight: FontWeight.w500)),
         onTap: () {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text("Opening $type: $fileName ($link)")),
-          );
-          // TODO: open actual file viewer / video player
+          // if (link.isEmpty || link == "NA") {
+           showSnackbar(context, 'no contents found');
+          //   );
+          // }else{
+          //   null;
+          //   }
         },
       ),
     );

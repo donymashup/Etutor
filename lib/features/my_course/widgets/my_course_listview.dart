@@ -16,17 +16,19 @@ class MyCourseListView extends StatelessWidget {
       separatorBuilder: (_, __) => const SizedBox(height: 12),
       itemBuilder: (context, index) {
         final course = courses[index];
-        return GestureDetector(
+        return 
+        GestureDetector(
           onTap: () {
             Navigator.push(context,
               MaterialPageRoute(
-                builder: (context) =>  SubscribedCourseClasses(courseId:course['id'],image: course['image'],title: course['title'],
+                builder: (context) =>  SubscribedCourseClasses(courseId:course['id'],image: course['image'],title: course['name'],
 
                 ),
               ),
             );
           },
-          child: MyCourseCard(
+          child:
+           MyCourseCard(
             imgHeight: MediaQuery.of(context).size.width * 0.45,
             title: course['name'],
             imagePath: course['image'],
