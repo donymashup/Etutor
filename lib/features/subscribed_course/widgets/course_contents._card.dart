@@ -20,16 +20,16 @@ class _CourseCardState extends State<ContentsCard> {
       padding: const EdgeInsets.all(6.0),
       child: GestureDetector(
         onTap: () async {
-          await context.read<SubcribedCourseProvider>().fetchBatchFolderContent(
-                context: context,
-                parentid: "0",
-                courseid: widget.courseid,
-              );
+          // await context.read<SubcribedCourseProvider>().fetchBatchFolderContent(
+          //       context: context,
+          //       parentid: "0",
+          //       courseid: widget.courseid,
+          //     );
 
-          final batchContent =
-              context.read<SubcribedCourseProvider>().batchFolderContent;
+          // final batchContent =
+          //     context.read<SubcribedCourseProvider>().batchFolderContent;
 
-          if (batchContent != null) {
+          // if (batchContent != null) {
             Navigator.push(
               context,
               MaterialPageRoute(
@@ -39,11 +39,11 @@ class _CourseCardState extends State<ContentsCard> {
                 ),
               ),
             );
-          } else {
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text("No folders found")),
-            );
-          }
+          // } else {
+          //   ScaffoldMessenger.of(context).showSnackBar(
+          //     const SnackBar(content: Text("No folders found")),
+          //   );
+          // }
         },
         child: Container(
           decoration: BoxDecoration(
