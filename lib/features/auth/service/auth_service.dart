@@ -8,8 +8,11 @@ import 'package:etutor/features/auth/models/login_model.dart';
 import 'package:etutor/features/auth/models/register_model.dart';
 import 'package:etutor/features/auth/models/reset_password_model.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class AuthService {
+  final storage = const FlutterSecureStorage();
+  
 //future function to check wheather phone nmber exist or not
   Future<CheckMobileExistModel?> CheckMobileExist({
     required BuildContext context,
@@ -65,23 +68,28 @@ class AuthService {
         final jsonResponse = json.decode(await response.stream.bytesToString());
         if (jsonResponse == null || jsonResponse.isEmpty) {
           showSnackbar(context, 'Invalid response from server');
+           await storage.write(key: 'isLogin', value: 'false');
           return null;
         } else {
           final checkMobileExistModel = LoginModel.fromJson(jsonResponse);
           debugPrint(checkMobileExistModel.type);
           if (checkMobileExistModel.type == 'success') {
+             await storage.write(key: 'isLogin', value: 'true');
             return checkMobileExistModel;
           } else {
             showSnackbar(context, checkMobileExistModel.message!);
+             await storage.write(key: 'isLogin', value: 'false');
             return null;
           }
         }
       } else {
         debugPrint("Failed to login: ${response.statusCode}");
+         await storage.write(key: 'isLogin', value: 'false');
         showSnackbar(context, "Invalid cedential");
         return null;
       }
     } catch (e) {
+       await storage.write(key: 'isLogin', value: 'false');
       showSnackbar(context, "Error : $e");
       return null;
     }

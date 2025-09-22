@@ -29,7 +29,6 @@ class UserDetailsService {
       );
       if (response.statusCode == 200) {
         final jsonResponse = json.decode(response.body);
-
         if (jsonResponse == null || jsonResponse.isEmpty) {
           showSnackbar(context, 'Invalid response from server');
           return null;
@@ -38,13 +37,11 @@ class UserDetailsService {
         if (userDetailsModel.type == 'success') {
           return userDetailsModel;
         } else {
-         await storage.write(key: 'isLogin', value: 'false');
           showSnackbar(context,
               "Failed to fetch user details: ${userDetailsModel.type}");
           return null;
         }
       } else {
-        await storage.write(key: 'isLogin', value: 'false');
         return null;
       }
     } catch (e) {
