@@ -2,6 +2,7 @@ import 'package:etutor/common/constants/app_constants.dart';
 import 'package:etutor/common/provider/api_key_provider.dart';
 import 'package:etutor/common/widgets/bottom_navigation_bar.dart';
 import 'package:etutor/features/auth/screen/onboarding_screen.dart';
+import 'package:etutor/features/auth/screen/sample.dart';
 import 'package:etutor/features/home/provider/user_details_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -34,12 +35,10 @@ class _SplashScreenState extends State<SplashScreen> {
       token = null;
       isLogin = null;
     }
-
-    if (token == null ||
-        token.isEmpty ||
-        isLogin == null ||
-        isLogin == 'false') {
-      await secureStorage.write(key: 'token', value: '');
+    
+    if ( token == null || token.isEmpty){
+      if(isLogin != 'true') {
+        await secureStorage.write(key: 'token', value: '');
       await secureStorage.write(key: 'isLogin', value: '');
       if (!mounted) return;
       Navigator.pushReplacement(
@@ -47,15 +46,28 @@ class _SplashScreenState extends State<SplashScreen> {
         MaterialPageRoute(builder: (context) => const OnboardingScreen()),
       );
       return;
-    }
-
+      }else{
+          Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const PhoneNumberAuth()),
+      );
+      }
+    }else{
     try {
       await context.read<UserDetailsProvider>().loadUserDetails(context);
+      final data =context.watch<UserDetailsProvider>().userDetails;
       if (!mounted) return;
+        if(data.type == "success"){ 
         Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => const BottomNavBarScreen()),
+        );
+        }else{
+          Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const PhoneNumberAuth()),
       );
+        }
     } catch (e) {
       await secureStorage.write(key: 'token', value: '');
       await secureStorage.write(key: 'isLogin', value: '');
@@ -64,6 +76,7 @@ class _SplashScreenState extends State<SplashScreen> {
         context,
         MaterialPageRoute(builder: (context) => const OnboardingScreen()),
       );
+    }
     }
   }
 
