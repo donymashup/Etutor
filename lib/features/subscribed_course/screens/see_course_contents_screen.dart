@@ -7,20 +7,42 @@ import 'package:fluentui_emoji_icon/fluentui_emoji_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class SeeCourseContentsScreen extends StatelessWidget {
- // final BatchFolderContentModel batchFolderContent;
-  SubcribedCourseProvider subcribedCourseProvider = SubcribedCourseProvider();
+class SeeCourseContentsScreen extends StatefulWidget {
   final String courseid;
 
    SeeCourseContentsScreen({super.key, 
-   // required this.batchFolderContent,
    required this.courseid});
 
   @override
+  State<SeeCourseContentsScreen> createState() => _SeeCourseContentsScreenState();
+}
+
+class _SeeCourseContentsScreenState extends State<SeeCourseContentsScreen> {
+  SubcribedCourseProvider subcribedCourseProvider = SubcribedCourseProvider();
+
+@override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _load();
+  }
+
+  Future <void> _load () async{
+      await context.read<SubcribedCourseProvider>().fetchBatchFolderContent(
+                context: context,
+                parentid: "0",
+                courseid: widget.courseid,
+              );
+  }
+  @override
   Widget build(BuildContext context) {
     subcribedCourseProvider =context.watch<SubcribedCourseProvider>();
-   // final folders = batchFolderContent.folders ?? [];
-
+     final batchContent =subcribedCourseProvider.batchFolderContent;
+     if(subcribedCourseProvider.isLoadingBatchFolder){
+       return Scaffold(body: Center(
+        child: CircularProgressIndicator(),
+       ),);
+     }
     return Scaffold(
       backgroundColor: AppColor.whiteColor,
       appBar: AppBar(
@@ -34,14 +56,16 @@ class SeeCourseContentsScreen extends StatelessWidget {
           child: CustomBackButton(),
         ),
       ),
-      body: ListView.builder(
+      body: batchContent != null ?
+      ListView.builder(
         padding: const EdgeInsets.all(12.0),
         itemCount: subcribedCourseProvider.batchFolderContent!.folders!.length,
         itemBuilder: (context, index) {
           final folder = subcribedCourseProvider.batchFolderContent!.folders![index];
           return folderCard(context, folder.id ?? "0", folder.name ?? "Folder");
         },
-      ),
+      )
+      : Center(child: Text("No Contents Found"),)
     );
   }
 
@@ -74,15 +98,15 @@ class SeeCourseContentsScreen extends StatelessWidget {
         trailing: const Icon(Icons.arrow_forward_ios, size: 18),
         onTap: () async {
         
-          await context.read<SubcribedCourseProvider>().fetchBatchFolderContent(
-                context: context,
-                parentid: folderId ,
-                courseid: courseid,
-              );
-       final batchContent =
-              context.watch<SubcribedCourseProvider>().batchFolderContent;
+      //     await context.read<SubcribedCourseProvider>().fetchBatchFolderContent(
+      //           context: context,
+      //           parentid: folderId ,
+      //           courseid: widget.courseid,
+      //         );
+      //  final batchContent =
+      //         context.watch<SubcribedCourseProvider>().batchFolderContent;
 
-          if (batchContent != null) {
+       //   if (batchContent != null) {
             Navigator.push(
               context,
               MaterialPageRoute(
@@ -90,16 +114,17 @@ class SeeCourseContentsScreen extends StatelessWidget {
                      FolderDetailsScreen(
                       folderName: title,
                       //batchFolderContent: batchContent,
-                      courseid: courseid,
+                      courseid: widget.courseid,
+                       parentId:folderId ,
                      ),
               ),
             );
-          } else {
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text("No folders found")),
-            );
-          }
-        },
+          // } else {
+          //   ScaffoldMessenger.of(context).showSnackBar(
+          //     const SnackBar(content: Text("No folders found")),
+          //   );
+          // }
+       },
       ),
     );
   }
