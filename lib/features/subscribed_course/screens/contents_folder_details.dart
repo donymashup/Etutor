@@ -10,11 +10,11 @@ class FolderDetailsScreen extends StatelessWidget {
   SubcribedCourseProvider contents = SubcribedCourseProvider();
  // final BatchFolderContentModel batchFolderContent;
   final String courseid;
-
-   FolderDetailsScreen({
+ 
+    FolderDetailsScreen({
     super.key,
     required this.folderName,
- //   required this.batchFolderContent,
+ //   required this.batchFolderContent, 
     required this.courseid,
   });
 
@@ -42,9 +42,10 @@ class FolderDetailsScreen extends StatelessWidget {
               itemCount: contents.batchFolderContent!.folders!.length,
               itemBuilder: (context, index) {
                 final item = contents.batchFolderContent!.folders![index];
+                debugPrint(item.type);
                 return item.type == "folder"
                     ? folderCard(context, item.id ?? "0", item.name ?? "Folder")
-                    : fileCard(context, item.name ?? "File", item.type ?? "", item.link ?? "");
+                    : fileCard(context, item.name ?? "file", item.type ?? "", item.link ?? "");
               },
             ),
     );
