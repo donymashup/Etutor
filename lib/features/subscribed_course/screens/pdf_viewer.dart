@@ -28,7 +28,6 @@ class _PdfViewerState extends State<PdfViewer> {
     context.read<BookmarkProvider>().checkBookMark(
         context: context, contentid: widget.contentId, type: 'materials');
 
-    // Insert timeline API call
     context.read<SubcribedCourseProvider>().insertTimelines(
           context: context,
           contentid: widget.contentId,
