@@ -1,6 +1,5 @@
 import 'package:etutor/common/constants/app_constants.dart';
 import 'package:etutor/common/widgets/back_button.dart';
-import 'package:etutor/features/subscribed_course/model/batch_folder_content_model.dart';
 import 'package:etutor/features/subscribed_course/provider/subcribed_course_provider.dart';
 import 'package:etutor/features/subscribed_course/screens/contents_folder_details.dart';
 import 'package:fluentui_emoji_icon/fluentui_emoji_icon.dart';
@@ -10,39 +9,41 @@ import 'package:provider/provider.dart';
 class SeeCourseContentsScreen extends StatefulWidget {
   final String courseid;
 
-   SeeCourseContentsScreen({super.key, 
-   required this.courseid});
+  SeeCourseContentsScreen({super.key, required this.courseid});
 
   @override
-  State<SeeCourseContentsScreen> createState() => _SeeCourseContentsScreenState();
+  State<SeeCourseContentsScreen> createState() =>
+      _SeeCourseContentsScreenState();
 }
 
 class _SeeCourseContentsScreenState extends State<SeeCourseContentsScreen> {
   SubcribedCourseProvider subcribedCourseProvider = SubcribedCourseProvider();
 
-@override
+  @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _load();
   }
 
-  Future <void> _load () async{
-      await context.read<SubcribedCourseProvider>().fetchBatchFolderContent(
-                context: context,
-                parentid: "0",
-                courseid: widget.courseid,
-              );
+  Future<void> _load() async {
+    await context.read<SubcribedCourseProvider>().fetchBatchFolderContent(
+          context: context,
+          parentid: "0",
+          courseid: widget.courseid,
+        );
   }
+
   @override
   Widget build(BuildContext context) {
-    subcribedCourseProvider =context.watch<SubcribedCourseProvider>();
-     final batchContent =subcribedCourseProvider.batchFolderContent;
-     if(subcribedCourseProvider.isLoadingBatchFolder){
-       return Scaffold(body: Center(
-        child: CircularProgressIndicator(),
-       ),);
-     }
+    subcribedCourseProvider = context.watch<SubcribedCourseProvider>();
+    final batchContent = subcribedCourseProvider.batchFolderContent;
+    if (subcribedCourseProvider.isLoadingBatchFolder) {
+      return Scaffold(
+        body: Center(
+          child: CircularProgressIndicator(),
+        ),
+      );
+    }
     return Scaffold(
       backgroundColor: AppColor.whiteColor,
       appBar: AppBar(
@@ -56,16 +57,27 @@ class _SeeCourseContentsScreenState extends State<SeeCourseContentsScreen> {
           child: CustomBackButton(),
         ),
       ),
-      body: batchContent != null ?
-      ListView.builder(
-        padding: const EdgeInsets.all(12.0),
-        itemCount: subcribedCourseProvider.batchFolderContent!.folders!.length,
-        itemBuilder: (context, index) {
-          final folder = subcribedCourseProvider.batchFolderContent!.folders![index];
-          return folderCard(context, folder.id ?? "0", folder.name ?? "Folder");
-        },
-      )
-      : Center(child: Text("No Contents Found"),)
+      body: (batchContent == null ||
+              batchContent.folders == null ||
+              batchContent.folders!.isEmpty)
+          ? const Center(
+              child: Text(
+                "No Contents Found",
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+              ),
+            )
+          : ListView.builder(
+              padding: const EdgeInsets.all(12.0),
+              itemCount: batchContent.folders!.length,
+              itemBuilder: (context, index) {
+                final folder = batchContent.folders![index];
+                return folderCard(
+                  context,
+                  folder.id ?? "0",
+                  folder.name ?? "Folder",
+                );
+              },
+            ),
     );
   }
 
@@ -97,34 +109,17 @@ class _SeeCourseContentsScreenState extends State<SeeCourseContentsScreen> {
         ),
         trailing: const Icon(Icons.arrow_forward_ios, size: 18),
         onTap: () async {
-        
-      //     await context.read<SubcribedCourseProvider>().fetchBatchFolderContent(
-      //           context: context,
-      //           parentid: folderId ,
-      //           courseid: widget.courseid,
-      //         );
-      //  final batchContent =
-      //         context.watch<SubcribedCourseProvider>().batchFolderContent;
-
-       //   if (batchContent != null) {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) =>
-                     FolderDetailsScreen(
-                      folderName: title,
-                      //batchFolderContent: batchContent,
-                      courseid: widget.courseid,
-                       parentId:folderId ,
-                     ),
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) => FolderDetailsScreen(
+                folderName: title,
+                courseid: widget.courseid,
+                parentId: folderId,
               ),
-            );
-          // } else {
-          //   ScaffoldMessenger.of(context).showSnackBar(
-          //     const SnackBar(content: Text("No folders found")),
-          //   );
-          // }
-       },
+            ),
+          );
+        },
       ),
     );
   }
