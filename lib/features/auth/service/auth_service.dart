@@ -68,28 +68,24 @@ class AuthService {
         final jsonResponse = json.decode(await response.stream.bytesToString());
         if (jsonResponse == null || jsonResponse.isEmpty) {
           showSnackbar(context, 'Invalid response from server');
-           await storage.write(key: 'isLogin', value: 'false');
           return null;
         } else {
           final checkMobileExistModel = LoginModel.fromJson(jsonResponse);
           debugPrint(checkMobileExistModel.type);
           if (checkMobileExistModel.type == 'success') {
-             await storage.write(key: 'isLogin', value: 'true');
+              await storage.write(key: 'hasLoggedInBefore', value: 'true');
             return checkMobileExistModel;
           } else {
             showSnackbar(context, checkMobileExistModel.message!);
-             await storage.write(key: 'isLogin', value: 'false');
             return null;
           }
         }
       } else {
         debugPrint("Failed to login: ${response.statusCode}");
-         await storage.write(key: 'isLogin', value: 'false');
         showSnackbar(context, "Invalid cedential");
         return null;
       }
     } catch (e) {
-       await storage.write(key: 'isLogin', value: 'false');
       showSnackbar(context, "Error : $e");
       return null;
     }
