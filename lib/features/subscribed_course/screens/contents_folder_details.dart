@@ -1,6 +1,7 @@
 import 'package:etutor/common/constants/app_constants.dart';
 import 'package:etutor/common/constants/utils.dart';
 import 'package:etutor/common/widgets/back_button.dart';
+import 'package:etutor/features/quiz/screens/quiz_instruction_screen.dart';
 import 'package:etutor/features/subscribed_course/provider/subcribed_course_provider.dart';
 import 'package:etutor/features/subscribed_course/screens/cousecontents_videoplayer.dart';
 import 'package:etutor/features/subscribed_course/screens/pdf_viewer.dart';
@@ -88,13 +89,13 @@ class _FolderDetailsScreenState extends State<FolderDetailsScreen> {
                   );
                 } else {
                   return fileCard(
-                    context,
-                    item.name ?? "Unnamed File",
-                    item.type ?? "unknown",
-                    item.link ?? "",
-                    item.contentid ?? "",
-                    item.source ?? ""
-                  );
+                      context,
+                      item.name ?? "Unnamed File",
+                      item.type ?? "unknown",
+                      item.link ?? "",
+                      item.contentid ?? "",
+                      item.source ?? "",
+                      item.duration ?? "");
                 }
               },
             ),
@@ -128,7 +129,7 @@ class _FolderDetailsScreenState extends State<FolderDetailsScreen> {
   }
 
   Widget fileCard(BuildContext context, String fileName, String type,
-      String link, String contentId,String source) {
+      String link, String contentId, String source, String duration) {
     IconData icon;
     Color color;
 
@@ -163,7 +164,7 @@ class _FolderDetailsScreenState extends State<FolderDetailsScreen> {
         title:
             Text(fileName, style: const TextStyle(fontWeight: FontWeight.w500)),
         onTap: () {
-          if (link.isEmpty || link == "NA") {
+          if (contentId.isEmpty || contentId == "NA") {
             showSnackbar(context, 'No contents found');
           } else {
             if (type == "pdf") {
@@ -187,11 +188,18 @@ class _FolderDetailsScreenState extends State<FolderDetailsScreen> {
                             source: source,
                             name: fileName,
                           )));
+            } else if (type == "test") {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => QuizInstructionPage(duration: duration, questions: '', testName: fileName, testid:contentId, isMain: false,
+                            
+                          )));
             } else {
               debugPrint("Opening file: $link");
             }
           }
-        },
+       },
       ),
     );
   }
