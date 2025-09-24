@@ -17,9 +17,9 @@ class _TestSeriesPageState extends State<TestSeriesPage> {
   late final PageController _pageController;
 
   final List<Widget> tabs = const [
-    AttendedPage(),
     OngoingPage(),
     UpcomingPage(),
+    AttendedPage(),
   ];
 
   @override
@@ -72,17 +72,17 @@ class _TestSeriesPageState extends State<TestSeriesPage> {
                 child: Row(
                   children: [
                     TabButton(
-                      label: 'Attended',
+                      label: 'Ongoing',
                       selected: selectedIndex == 0,
                       onTap: () => _onTabSelected(0),
                     ),
-                    TabButton(
-                      label: 'Ongoing',
+                     TabButton(
+                      label: 'Upcoming',
                       selected: selectedIndex == 1,
                       onTap: () => _onTabSelected(1),
                     ),
                     TabButton(
-                      label: 'Upcoming',
+                      label: 'Attended',
                       selected: selectedIndex == 2,
                       onTap: () => _onTabSelected(2),
                     ),

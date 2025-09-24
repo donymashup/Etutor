@@ -314,7 +314,8 @@ class _PaymentMethodState extends State<PaymentMethod> {
                                     showSnackbar(
                                         context, "Failed to create order");
                                   }
-                                } else if (_selectedOption?['name'] ==
+                                }
+                                 else if (_selectedOption?['name'] ==
                                     "In-App Purchase") {
                                   // in-app purchase
                                   await Purchases.purchaseProduct(

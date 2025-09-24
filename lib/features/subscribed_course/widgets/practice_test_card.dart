@@ -25,54 +25,52 @@ class _CourseCardState extends State<PracticeTestCard> {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(6.0),
-      child: GestureDetector(
-        child: Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
-            border:widget.isAttended ?
-            Border.all(color: Colors.green)
-            :  Border.all(color: AppColor.greyStroke),
-            color: Colors.white,
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+          border:widget.isAttended ?
+          Border.all(color: Colors.green)
+          :  Border.all(color: AppColor.greyStroke),
+          color: Colors.white,
+        ),
+        width: MediaQuery.of(context).size.width,
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Row(
+            children: [
+            leadingIconCard(
+          Iconify(
+            Mdi.timer,
+            size: 30,
+            color: AppColor.testIconColour,
           ),
-          width: MediaQuery.of(context).size.width,
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              children: [
-              leadingIconCard(
-            Iconify(
-              Mdi.timer,
-              size: 30,
-              color: AppColor.testIconColour,
-            ),
-            AppColor.lightVioletCardBackground),
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.all(20.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          widget.testName,
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.w500,
-                          ),
+          AppColor.lightVioletCardBackground),
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        widget.testName,
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w500,
                         ),
-                        Text(
-                          "${widget.testDuration} mins",
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(fontSize: 14),
-                        ),
-                      ],
-                    ),
+                      ),
+                      Text(
+                        "${widget.testDuration} mins",
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(fontSize: 14),
+                      ),
+                    ],
                   ),
                 ),
-                widget.isAttended ? Icon(Icons.bar_chart) 
-                : Icon(Icons.arrow_forward_ios),
-              ],
-            ),
+              ),
+              widget.isAttended ? Icon(Icons.bar_chart) 
+              : Icon(Icons.arrow_forward_ios),
+            ],
           ),
         ),
       ),
