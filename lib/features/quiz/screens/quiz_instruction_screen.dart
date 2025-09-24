@@ -212,7 +212,7 @@ class _QuizInstructionPageState extends State<QuizInstructionPage> {
               shadowColor: AppColor.primaryColor.withOpacity(0.4),
             ),
             onPressed: () {
-              Navigator.of(context).pushReplacement(
+              Navigator.of(context).push(
                 MaterialPageRoute(
                   builder: (context) => ExamWebView(
                     isMain: widget.isMain ,
