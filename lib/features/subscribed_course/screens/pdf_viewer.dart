@@ -1,4 +1,5 @@
 import 'package:etutor/common/constants/app_constants.dart';
+import 'package:etutor/common/widgets/back_button.dart';
 import 'package:etutor/features/subscribed_course/provider/bookmark_provider.dart';
 import 'package:etutor/features/subscribed_course/provider/subcribed_course_provider.dart';
 import 'package:flutter/material.dart';
@@ -41,7 +42,10 @@ class _PdfViewerState extends State<PdfViewer> {
     bookmarkProvider = context.watch<BookmarkProvider>();
     return Scaffold(
       appBar: AppBar(
-        leading: const BackButton(),
+        leading: Padding(
+       padding: EdgeInsets.only(left: 20.0),
+          child: CustomBackButton(),
+        ),
         title: Text(widget.title),
         actions: [
           IconButton(
