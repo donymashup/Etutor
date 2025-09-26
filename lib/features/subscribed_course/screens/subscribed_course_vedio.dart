@@ -21,7 +21,9 @@ class _SubscribedCourseVideoState extends State<SubscribedCourseVedio> {
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
     load();
+  });
   }
 
   Future<void> load() async {

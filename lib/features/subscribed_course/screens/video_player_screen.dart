@@ -6,6 +6,7 @@ import 'package:etutor/features/subscribed_course/provider/subcribed_course_prov
 import 'package:etutor/features/subscribed_course/provider/vedio_playlist_provider.dart';
 import 'package:etutor/features/subscribed_course/widgets/playlist_card.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
@@ -80,6 +81,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
           autoPlay: true,
           looping: false,
           aspectRatio: 16 / 9,
+       //   autoDispose: false
         ),
         betterPlayerDataSource: BetterPlayerDataSource(
           BetterPlayerDataSourceType.network,
@@ -99,150 +101,181 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
   @override
   Widget build(BuildContext context) {
     bookmarkProvider = context.watch<BookmarkProvider>();
-    return SafeArea(
+    return 
+    WillPopScope(
+       onWillPop: () async {
+        // if device is in landscape, switch back to portrait instead of popping
+        if (MediaQuery.of(context).orientation == Orientation.landscape) {
+          await SystemChrome.setPreferredOrientations([
+            DeviceOrientation.portraitUp,
+            DeviceOrientation.portraitDown,
+          ]);
+          return false; // don't exit page yet
+        }
+        return true; // allow exit in portrait
+      },
+   
+
+
       child: Scaffold(
-        body: Consumer<VideoPlayerProvider>(
-          builder: (context, provider, child) {
-            if (provider.currentVideo == null) {
-              return const Center(child: CircularProgressIndicator());
-            }
+        body:
+            Consumer<VideoPlayerProvider>(
+            builder: (context, provider, child) {
+              if (provider.currentVideo == null) {
+                return const Center(child: CircularProgressIndicator());
+              }
+           
+              final currentVideo = provider.currentVideo!;
+           
+            return OrientationBuilder(
+            builder: (context, orientation) {
+              final isLandscape = orientation == Orientation.landscape;
 
-            final currentVideo = provider.currentVideo!;
-
-            return Column(
-              children: [
-                // Video Player
-                AspectRatio(
-                  aspectRatio: 16 / 9,
+              if (isLandscape) {
+                // LANDSCAPE → only video player fullscreen
+                return SizedBox.expand(
                   child: currentVideo.source == "1"
-                      ? youtubePlayerController != null
-                          ? YoutubePlayer(
-                              controller: youtubePlayerController!,
-                              showVideoProgressIndicator: true,
-                            )
-                          : const Center(child: CircularProgressIndicator())
-                      : betterPlayerController != null
-                          ? BetterPlayer(controller: betterPlayerController!)
-                          : const Center(child: CircularProgressIndicator())
-                ),
+                      ? YoutubePlayer(
+                          controller: youtubePlayerController!,
+                          showVideoProgressIndicator: true,
+                        )
+                      : BetterPlayer(controller: betterPlayerController!),
+                );
+              }
 
-                // Video Title Bar
-                Container(
-                  height: 60,
-                  padding: const EdgeInsets.symmetric(horizontal: 14),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Expanded(
-                        child: Text(
-                          currentVideo.name ?? '',
-                          style: const TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.w600,
-                          ),
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ),
-                      IconButton(
-                        onPressed: bookmarkProvider.isLoading
-                            ? null
-                            : () async {
-                                await context
-                                    .read<BookmarkProvider>()
-                                    .makeBookMark(
-                                        context: context,
-                                        contentid: currentVideo.videoid?? "",
-                                        type: 'videos');
-                              },
-                        icon: bookmarkProvider.isbookmarked
-                            ? Icon(
-                                Icons.bookmark_rounded,
-                                color: AppColor.videoIconColor,
-                              )
-                            : Icon(Icons.bookmark_outline),
-                      )
-                    ],
-                  ),
-                ),
-
-                const SizedBox(height: 12),
-
-                // Playlist Section Header
-                Container(
-                  width: MediaQuery.of(context).size.width,
-                  color: AppColor.greyCardBackground,
-                  child: Padding(
-                    padding: const EdgeInsets.all(12.0),
+              // PORTRAIT → full UI
+              return Column(
+                children: [
+                  // Video Player
+                  AspectRatio(
+                      aspectRatio: 16 / 9,
+                      child: currentVideo.source == "1"
+                          ? youtubePlayerController != null
+                              ? YoutubePlayer(
+                                  controller: youtubePlayerController!,
+                                  showVideoProgressIndicator: true,
+                                )
+                              : const Center(child: CircularProgressIndicator())
+                          : betterPlayerController != null
+                              ? BetterPlayer(controller: betterPlayerController!)
+                              : const Center(child: CircularProgressIndicator())),
+                  // Video Title Bar
+                  Container(
+                    height: 60,
+                    padding: const EdgeInsets.symmetric(horizontal: 14),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
-                          "Playlist (${provider.playlist.length} videos)",
-                          style: const TextStyle(
-                            fontWeight: FontWeight.w600,
-                            fontSize: 18,
+                        Expanded(
+                          child: Text(
+                            currentVideo.name ?? '',
+                            style: const TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w600,
+                            ),
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
                           ),
                         ),
-                        // Navigation buttons
-                        Row(
-                          children: [
-                            IconButton(
-                              onPressed: provider.selectedIndex > 0
-                                  ? () {
-                                      provider.previousVideo();
-                                      initializePlayer(provider.currentVideo!);
-                                    }
-                                  : null,
-                              icon: const Icon(Icons.skip_previous),
-                              iconSize: 20,
-                            ),
-                            IconButton(
-                              onPressed: provider.selectedIndex <
-                                      provider.playlist.length - 1
-                                  ? () {
-                                      provider.nextVideo();
-                                      initializePlayer(provider.currentVideo!);
-                                    }
-                                  : null,
-                              icon: const Icon(Icons.skip_next),
-                              iconSize: 20,
-                            ),
-                          ],
-                        ),
+                        IconButton(
+                          onPressed: bookmarkProvider.isLoading
+                              ? null
+                              : () async {
+                                  await context
+                                      .read<BookmarkProvider>()
+                                      .makeBookMark(
+                                          context: context,
+                                          contentid: currentVideo.videoid ?? "",
+                                          type: 'videos');
+                                },
+                          icon: bookmarkProvider.isbookmarked
+                              ? Icon(
+                                  Icons.bookmark_rounded,
+                                  color: AppColor.videoIconColor,
+                                )
+                              : Icon(Icons.bookmark_outline),
+                        )
                       ],
                     ),
                   ),
-                ),
-
-                // Playlist Videos List
-                Expanded(
-                  child: ListView.builder(
-                    itemCount: provider.playlist.length,
-                    itemBuilder: (context, index) {
-                      final video = provider.playlist[index];
-                      final isSelected = index == provider.selectedIndex;
-
-                      return PlaylistCardWidget(
-                        title: video.name ?? '',
-                        duration: video.duration ?? '',
-                        thumbnail: video.thumbnail ?? '',
-                        videoSource: video.source ?? '',
-                        isSelected: isSelected,
-                        onTap: () {
-                          provider.selectVideo(index);
-                          initializePlayer(video);
-                          checkBookMark(video.videoid ?? '');
-                        },
-                      );
-                    },
+                  const SizedBox(height: 12),
+                  // Playlist Section Header
+                  Container(
+                    width: MediaQuery.of(context).size.width,
+                    color: AppColor.greyCardBackground,
+                    child: Padding(
+                      padding: const EdgeInsets.all(12.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            "Playlist (${provider.playlist.length} videos)",
+                            style: const TextStyle(
+                              fontWeight: FontWeight.w600,
+                              fontSize: 18,
+                            ),
+                          ),
+                          // Navigation buttons
+                          Row(
+                            children: [
+                              IconButton(
+                                onPressed: provider.selectedIndex > 0
+                                    ? () {
+                                        provider.previousVideo();
+                                        initializePlayer(provider.currentVideo!);
+                                      }
+                                    : null,
+                                icon: const Icon(Icons.skip_previous),
+                                iconSize: 20,
+                              ),
+                              IconButton(
+                                onPressed: provider.selectedIndex <
+                                        provider.playlist.length - 1
+                                    ? () {
+                                        provider.nextVideo();
+                                        initializePlayer(provider.currentVideo!);
+                                      }
+                                    : null,
+                                icon: const Icon(Icons.skip_next),
+                                iconSize: 20,
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
-                ),
-              ],
-            );
-          },
-        ),
-      ),
-    );
+                  // Playlist Videos List
+                  Expanded(
+                    child: ListView.builder(
+                      itemCount: provider.playlist.length,
+                      itemBuilder: (context, index) {
+                        final video = provider.playlist[index];
+                        final isSelected = index == provider.selectedIndex;
+
+                        return PlaylistCardWidget(
+                          title: video.name ?? '',
+                          duration: video.duration ?? '',
+                          thumbnail: video.thumbnail ?? '',
+                          videoSource: video.source ?? '',
+                          isSelected: isSelected,
+                          onTap: () {
+                            provider.selectVideo(index);
+                            initializePlayer(video);
+                            checkBookMark(video.videoid ?? '');
+                          },
+                        );
+                      },
+                    ),
+                  ),
+                ],
+              );
+            });
+            },
+                   )
+                   
+         ),
+      );
+    
   }
 }
