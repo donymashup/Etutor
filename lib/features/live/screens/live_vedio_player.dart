@@ -1,8 +1,11 @@
 import 'package:better_player/better_player.dart';
 import 'package:etutor/common/constants/app_constants.dart';
-import 'package:etutor/features/live/model/live_class_model.dart' as live_class_model;
+import 'package:etutor/common/widgets/back_button.dart';
+import 'package:etutor/features/live/model/live_class_model.dart'
+    as live_class_model;
 import 'package:etutor/features/live/provider/live_class_provider.dart';
 import 'package:etutor/features/subscribed_course/widgets/playlist_card.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -38,13 +41,14 @@ class _LiveVideoPlayerState extends State<LiveVedioPlayer> {
       initializePlayer(provider.currentVideo!);
     });
   }
+
   void initializePlayer(live_class_model.Data video) {
     // Dispose previous controllers
     betterPlayerController?.dispose();
     youtubePlayerController?.dispose();
 
     if (video.source == "1") {
-         // Use YouTube Player
+      // Use YouTube Player
       final videoId = YoutubePlayer.convertUrlToId(video.hls ?? "");
       youtubePlayerController = YoutubePlayerController(
         initialVideoId: videoId ?? "",
@@ -54,7 +58,7 @@ class _LiveVideoPlayerState extends State<LiveVedioPlayer> {
         ),
       );
     } else {
-        // Use BetterPlayer with HLS
+      // Use BetterPlayer with HLS
       betterPlayerController = BetterPlayerController(
         const BetterPlayerConfiguration(
           autoPlay: true,
@@ -77,9 +81,23 @@ class _LiveVideoPlayerState extends State<LiveVedioPlayer> {
   }
 
   String formatDate(DateTime date) {
-        final formatter = DateFormat('dd-MM-yyyy');
-        return formatter.format(date);
+    final formatter = DateFormat('dd-MM-yyyy');
+    return formatter.format(date);
   }
+
+   String getTimeDuration(String startTime, String endTime) {
+  try {
+    DateTime start = DateTime.parse(startTime.replaceFirst(' ', 'T'));
+    DateTime end = DateTime.parse(endTime.replaceFirst(' ', 'T'));
+    Duration duration = end.difference(start);
+    int hours = duration.inHours;
+    int minutes = duration.inMinutes.remainder(60);
+
+    return "${hours}h ${minutes}m";
+  } catch (e) {
+    return "Invalid time";
+  }
+}
 
   @override
   Widget build(BuildContext context) {
@@ -92,37 +110,26 @@ class _LiveVideoPlayerState extends State<LiveVedioPlayer> {
             }
 
             final currentVideo = provider.currentVideo!;
-            
+
             return Column(
               children: [
-                // Video Player (Dynamic)
-                AspectRatio(
-                  aspectRatio: 16 / 9,
-                  child: currentVideo.source == "1"
-                      ? 
-                       youtubePlayerController != null
-                          ? YoutubePlayer(
-                              controller: youtubePlayerController!,
-                              showVideoProgressIndicator: true,
-                            )
-                          : const Center(child: CircularProgressIndicator())
-                       : betterPlayerController != null
-                          ? BetterPlayer(controller: betterPlayerController!)
-                          : const Center(child: CircularProgressIndicator())
-                ),
-
                 // Video Title Bar
                 Container(
-                  height: 60,
-                  padding: const EdgeInsets.symmetric(horizontal: 14),
+                  height: 56,
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
+                      Transform.scale(
+                        scale: 0.7, // reduce size to 70%
+                        child: const CupertinoNavigationBarBackButton(
+                          color: Colors.black,
+                        ),
+                      ),
+                      const SizedBox(width: 6),
                       Expanded(
                         child: Text(
                           currentVideo.title ?? '',
                           style: const TextStyle(
-                            fontSize: 18,
+                            fontSize: 16,
                             fontWeight: FontWeight.w600,
                           ),
                           maxLines: 2,
@@ -132,6 +139,44 @@ class _LiveVideoPlayerState extends State<LiveVedioPlayer> {
                     ],
                   ),
                 ),
+
+                // Video Player (Dynamic)
+                AspectRatio(
+                    aspectRatio: 16 / 9,
+                    child: currentVideo.source == "1"
+                        ? youtubePlayerController != null
+                            ? YoutubePlayer(
+                                controller: youtubePlayerController!,
+                                showVideoProgressIndicator: true,
+                              )
+                            : const Center(child: CircularProgressIndicator())
+                        : betterPlayerController != null
+                            ? BetterPlayer(controller: betterPlayerController!)
+                            : const Center(child: CircularProgressIndicator())),
+
+                // Video Title Bar
+                // Video Title Bar
+                // Container(
+                //   height: 60,
+                //   padding: const EdgeInsets.symmetric(horizontal: 14),
+                //   child: Row(
+                //     children: [
+                //       CustomBackButton(),
+                //       const SizedBox(width: 8),
+                //       Expanded(
+                //         child: Text(
+                //           currentVideo.title ?? '',
+                //           style: const TextStyle(
+                //             fontSize: 18,
+                //             fontWeight: FontWeight.w600,
+                //           ),
+                //           maxLines: 2,
+                //           overflow: TextOverflow.ellipsis,
+                //         ),
+                //       ),
+                //     ],
+                //   ),
+                // ),
 
                 const SizedBox(height: 12),
 
@@ -165,7 +210,8 @@ class _LiveVideoPlayerState extends State<LiveVedioPlayer> {
                               iconSize: 20,
                             ),
                             IconButton(
-                              onPressed: provider.selectedIndex < provider.playlist.length - 1
+                              onPressed: provider.selectedIndex <
+                                      provider.playlist.length - 1
                                   ? () {
                                       provider.nextVideo();
                                       initializePlayer(provider.currentVideo!);
@@ -188,10 +234,11 @@ class _LiveVideoPlayerState extends State<LiveVedioPlayer> {
                     itemBuilder: (context, index) {
                       final video = provider.playlist[index];
                       final isSelected = index == provider.selectedIndex;
-                      
+                     final duration = getTimeDuration(video.start ?? "",video.end ?? "");
+
                       return PlaylistCardWidget(
-                        title: video.title ??'',
-                        duration: video.start ??'',
+                        title: video.title ?? '',
+                        duration: duration,
                         thumbnail: video.avatar ?? '',
                         videoSource: video.start != null
                             ? formatDate(DateTime.parse(video.start!))

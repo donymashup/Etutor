@@ -25,6 +25,22 @@ class _UpcomingLiveScreenState extends State<UpcomingLiveScreen> {
     super.initState();
     getUpcomingLiveClasses();
   }
+  List<String> formatDateTime(String input) {
+    try {
+      if (input.trim().isEmpty) throw FormatException();
+      DateTime dt = DateTime.parse(input.replaceFirst(' ', 'T'));
+      String formattedDate = "${dt.day.toString().padLeft(2, '0')}-"
+          "${dt.month.toString().padLeft(2, '0')}-"
+          "${dt.year}";
+      String formattedTime = "${dt.hour.toString().padLeft(2, '0')}:"
+          "${dt.minute.toString().padLeft(2, '0')}";
+
+      return [formattedDate, formattedTime];
+    } catch (e) {
+      return ["Invalid Date", "Invalid Time"];
+    }
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +61,7 @@ class _UpcomingLiveScreenState extends State<UpcomingLiveScreen> {
                     return LiveCard(
                         date: live.start ?? "",
                         img: live.avatar ?? "",
-                        time: live.start ?? "",
+                        time:formatDateTime(live.start ?? "")[1],
                         title: live.title ?? "");
                   }),
     );
