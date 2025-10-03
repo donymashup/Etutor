@@ -101,7 +101,7 @@ class LiveCard extends StatelessWidget {
                             Text("Time",
                                 style: TextStyle(
                                     fontWeight: FontWeight.w500, fontSize: 12)),
-                            Text(formatDateTime(date)[1],
+                            Text(time,
                                 style: TextStyle(
                                     fontWeight: FontWeight.w500, fontSize: 12))
                           ],

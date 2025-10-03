@@ -260,7 +260,7 @@ class PlaylistCardWidget extends StatelessWidget {
                             ),
                             const SizedBox(width: 4),
                             Text(
-                              "$duration min",
+                              duration,
                               style: TextStyle(
                                 fontSize: 12,
                                 color: Colors.grey[600],

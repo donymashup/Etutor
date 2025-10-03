@@ -48,7 +48,7 @@ class _RecordedYearsScreenState extends State<RecordedYearsScreen> {
 
                         Navigator.of(context).push(
                           MaterialPageRoute(
-                            builder: (_) => RecordedMonthsScreen(),
+                            builder: (_) => RecordedMonthsScreen(year: year.name ?? ""),
                           ),
                         );
                       },
