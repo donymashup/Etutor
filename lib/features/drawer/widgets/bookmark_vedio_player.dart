@@ -90,54 +90,52 @@ class _BookmarkVedioPlayer extends State<BookmarkVedioPlayer> {
   @override
   Widget build(BuildContext context) {
     bookmarkProvider = context.watch<BookmarkProvider>();
-    return SafeArea(
-      child: Scaffold(
-        body: isLoading
-            ? const Center(child: CircularProgressIndicator())
-            : Column(
-                children: [
-                  //  Video Player (Dynamic)
-                  AspectRatio(
-                    aspectRatio: 16 / 9,
-                    child: widget.videoSource == "1"
-                        ? YoutubePlayer(
-                            controller: youtubePlayerController!,
-                            showVideoProgressIndicator: true,
-                          )
-                        :BetterPlayer(controller: betterPlayerController!)
-                        
-                  ),
-
-                  //  Video Title Bar
-                  Container(
-                    height: 60,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(14.0),
-                          child: SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.7,
-                            child: Text(
-                              widget.videoTitle,
-                              style: const TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.w600,
-                                overflow: TextOverflow.ellipsis,
-                              ),
+    return Scaffold(
+      body: isLoading
+          ? const Center(child: CircularProgressIndicator())
+          : Column(
+              children: [
+                //  Video Player (Dynamic)
+                AspectRatio(
+                  aspectRatio: 16 / 9,
+                  child: widget.videoSource == "1"
+                      ? YoutubePlayer(
+                          controller: youtubePlayerController!,
+                          showVideoProgressIndicator: true,
+                        )
+                      :BetterPlayer(controller: betterPlayerController!)
+                      
+                ),
+    
+                //  Video Title Bar
+                Container(
+                  height: 60,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(14.0),
+                        child: SizedBox(
+                          width: MediaQuery.of(context).size.width * 0.7,
+                          child: Text(
+                            widget.videoTitle,
+                            style: const TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w600,
+                              overflow: TextOverflow.ellipsis,
                             ),
                           ),
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
-
-                  const SizedBox(height: 12),
-
-                 
-                ],
-              ),
-      ),
+                ),
+    
+                const SizedBox(height: 12),
+    
+               
+              ],
+            ),
     );
   }
 }

@@ -48,6 +48,7 @@ class _RecordedLiveScreenState extends State<RecordedLiveScreen> {
                                 builder: (context) => LiveVedioPlayer(
                                  playlist: completedLiveClassProvider.completedLiveMonth.data!,
                                  contentid: live.id ?? '',
+                                 initialIndex: index,
                                 ),
                               ));
                     },
