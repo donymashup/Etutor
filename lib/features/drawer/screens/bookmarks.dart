@@ -159,9 +159,10 @@ class _BookMarksState extends State<BookMarks> {
                                      _load();
                               },
                               child: GestureDetector(
-                                onTap: () {
+                                onTap: (){
+                                  debugPrint("start");
                                    context.read<BookmarkProvider>().getVDetails(context, vedio.contentid ??"");
-                                   final details =  context.watch<BookmarkProvider>().vedioDetails;
+                                   final details =  context.read<BookmarkProvider>().vedioDetails;
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(

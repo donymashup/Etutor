@@ -98,6 +98,7 @@ class _SubscribedCourseVideoState extends State<SubscribedCourseVedio> {
                                 builder: (context) => VideoPlayerScreen(
                                  playlist: chapterCardOverviewProvider.chapterVideos!.data!,
                                  contentid: videolist.id ?? '',
+                                 initialIndex: index,
                                 ),
                               ),
                             ),

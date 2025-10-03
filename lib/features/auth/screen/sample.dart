@@ -10,14 +10,14 @@ import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 
-class PhoneNumberAuth extends StatefulWidget {
-  const PhoneNumberAuth({super.key});
+class PhoneNumberauth extends StatefulWidget {
+  const PhoneNumberauth({super.key});
 
   @override
-  State<PhoneNumberAuth> createState() => _PhoneNumberAuthState();
+  State<PhoneNumberauth> createState() => _PhoneNumberAuthState();
 }
 
-class _PhoneNumberAuthState extends State<PhoneNumberAuth> {
+class _PhoneNumberAuthState extends State<PhoneNumberauth> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController phoneNumberController = TextEditingController();
   String phoneNumber = '';
