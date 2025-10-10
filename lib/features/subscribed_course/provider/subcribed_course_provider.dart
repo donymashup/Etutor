@@ -11,12 +11,13 @@ import 'package:etutor/features/subscribed_course/service/subcribed_course_servi
 
 class SubcribedCourseProvider extends ChangeNotifier {
   bool _isLoading = false;
+  bool _isClassLoading = false;
   int? _expandedIndex;
   bool _isLoadingsubjects = false;
   bool _isLoadingchapter = false;
   bool _isLoadingrating = false;
-  bool get isLoadingrating => _isLoadingrating;
 
+  bool get isLoadingrating => _isLoadingrating;
   bool _isLoadingInsertTLine = false;
   bool get isLoadingInsertTLine => _isLoadingInsertTLine;
   bool _isLoadingGetTLine = false;
@@ -27,6 +28,7 @@ class SubcribedCourseProvider extends ChangeNotifier {
 
   int? get expandedIndex => _expandedIndex;
   bool get isLoading => _isLoading;
+  bool get isClassLoading => _isClassLoading;
   bool get isLoadingsubjects => _isLoadingsubjects;
   bool get isLoadingchapter => _isLoadingchapter;
   CourseClassesModel? get courseClasses => _courseClasses;
@@ -54,36 +56,35 @@ class SubcribedCourseProvider extends ChangeNotifier {
   BatchFolderContentModel? _batchFolderContent;
   BatchFolderContentModel? get batchFolderContent => _batchFolderContent;
 
-  int _selectedIndex = 0;  
-  int get selectedIndex => _selectedIndex;
-  List<Folders> _playlist = [];
-  List<Folders> get playlist => _playlist;
-  Folders? get currentVideo => _playlist.isNotEmpty? _playlist[_selectedIndex]:null;
-
 //classes provider
-  Future<void> fetchCourseClasses({
-    required BuildContext context,
-    required String courseid,
-  }) async {
-    _isLoading = true;
-    notifyListeners();
-    try {
-      final response = await SubscribedCourseService().coursesClasses(
-        context: context,
-        courseid: courseid,
-      );
-      if (response != null && response.type == "success") {
-        _courseClasses = response;
-      } else {
-        _courseClasses = null;
-      }
-    } catch (e) {
-      debugPrint("Error fetching course classes : $e");
+ Future<void> fetchCourseClasses({
+  required BuildContext context,
+  required String courseid,
+}) async {
+  _isClassLoading = true;
+  notifyListeners();
+
+  try {
+    final response = await SubscribedCourseService().coursesClasses(
+      context: context,
+      courseid: courseid,
+    );
+
+    if (response != null && response.type == "success") {
+      _courseClasses = response;
+      debugPrint(" Course classes fetched: ${_courseClasses?.data?.length}");
+    } else {
       _courseClasses = null;
+      debugPrint("Course classes API returned null or error");
     }
-    _isLoading = false;
+  } catch (e) {
+    debugPrint("Error fetching course classes: $e");
+    _courseClasses = null;
+  } finally {
+    _isClassLoading = false;
     notifyListeners();
   }
+}
 
   // fetch chapter list
   Future fetchCourseChapter(
@@ -105,9 +106,10 @@ class SubcribedCourseProvider extends ChangeNotifier {
       debugPrint("Error fetching course chapter: $e");
       _courseClasses = null;
       notifyListeners();
-    }
+    }finally{
     _isLoadingchapter = false;
     notifyListeners();
+    }
   }
 
   void toggleExpansion(int index) {
@@ -138,9 +140,10 @@ class SubcribedCourseProvider extends ChangeNotifier {
       debugPrint("Error fetching course classes : $e");
       _courseSubjects = null;
     }
-
+     finally{
     _isLoadingsubjects = false;
     notifyListeners();
+     }
   }
 
 //update course rating provider
@@ -261,34 +264,9 @@ class SubcribedCourseProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  // //VideoCourseContents Playlist
-  // void setPlaylist(List<Folders> videos) {
-  //   _playlist = videos;
-  //   notifyListeners();
-  // }
-
-  // void selectVideo(int index) {
-  //   if (index >= 0 && index < _playlist.length) {
-  //     _selectedIndex = index;
-  //     notifyListeners();
-  //   }
-  // }
-
-  // void nextVideo() {
-  //   if (_selectedIndex < _playlist.length - 1) {
-  //     _selectedIndex++;
-  //     notifyListeners();
-  //   }
-  // }
-
-  // void previousVideo() {
-  //   if (_selectedIndex > 0) {
-  //     _selectedIndex--;
-  //     notifyListeners();
-  //   }
-  // }
-
+ 
  void setLoading (bool load){
   _isLoading = load;
+  notifyListeners();
  }
 }

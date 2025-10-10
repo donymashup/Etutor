@@ -1,9 +1,7 @@
 import 'package:etutor/common/constants/app_constants.dart';
-import 'package:etutor/features/subscribed_course/provider/subcribed_course_provider.dart';
 import 'package:etutor/features/subscribed_course/screens/see_course_contents_screen.dart';
 import 'package:fluentui_emoji_icon/fluentui_emoji_icon.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class ContentsCard extends StatefulWidget {
   final String courseid;
@@ -20,16 +18,6 @@ class _CourseCardState extends State<ContentsCard> {
       padding: const EdgeInsets.all(6.0),
       child: GestureDetector(
         onTap: () async {
-          // await context.read<SubcribedCourseProvider>().fetchBatchFolderContent(
-          //       context: context,
-          //       parentid: "0",
-          //       courseid: widget.courseid,
-          //     );
-
-          // final batchContent =
-          //     context.read<SubcribedCourseProvider>().batchFolderContent;
-
-          // if (batchContent != null) {
             Navigator.push(
               context,
               MaterialPageRoute(
@@ -39,11 +27,6 @@ class _CourseCardState extends State<ContentsCard> {
                 ),
               ),
             );
-          // } else {
-          //   ScaffoldMessenger.of(context).showSnackBar(
-          //     const SnackBar(content: Text("No folders found")),
-          //   );
-          // }
         },
         child: Container(
           decoration: BoxDecoration(

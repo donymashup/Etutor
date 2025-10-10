@@ -5,7 +5,6 @@ import 'package:etutor/features/subscribed_course/screens/video_player_screen.da
 import 'package:etutor/features/subscribed_course/widgets/listview_shimmer_loader.dart';
 import 'package:etutor/features/subscribed_course/widgets/video_card.dart';
 import 'package:flutter/material.dart';
-import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 
 

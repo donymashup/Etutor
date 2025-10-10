@@ -34,8 +34,7 @@ class _SubscribedCourseAllSubjectsState
 
     Future<void> load() async {
     await context
-        .read<SubcribedCourseProvider>()
-        .fetchClassSubjects(context: context, packageClassId: widget.packageClassId);
+        .read<SubcribedCourseProvider>().fetchClassSubjects(context: context, packageClassId: widget.packageClassId);
   }
 
   @override

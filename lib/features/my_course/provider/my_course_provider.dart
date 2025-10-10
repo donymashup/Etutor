@@ -25,10 +25,12 @@ class MyCourseProvider extends ChangeNotifier {
         notifyListeners();
       } else {
         _subscribedCorse = [];
+        notifyListeners();
       }
     } catch (e) {
       debugPrint('Error loading banner images: $e');
       _subscribedCorse = [];
+      notifyListeners();
     }
     isLoading = false;
     notifyListeners();

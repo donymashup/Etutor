@@ -4,8 +4,6 @@ import 'package:etutor/features/home/model/category_based_courses_model.dart'
     as category_based_courses_model;
 import 'package:etutor/features/home/model/popular_course_model.dart'
     as popular_course_model;
-import 'package:etutor/features/home/model/syllabus_based_livecourse.dart'
-    as syllabus_live_corse;
 import 'package:etutor/features/home/service/home_service.dart';
 import 'package:flutter/material.dart';
 
@@ -39,7 +37,6 @@ class HomepageProvider extends ChangeNotifier {
 
   //make the loading bool true
   void makeLoadingTrue() {
-    isLoading = true;
     isPopularLoading = true;
     isCategoryHeader = true;
     notifyListeners();
@@ -137,9 +134,11 @@ class HomepageProvider extends ChangeNotifier {
     BuildContext context,
   ) async {
     isPopularLoading = true;
-    if (_mounted(context)) notifyListeners();
+   // if (_mounted(context)) 
+    notifyListeners();
     try {
       final response = await HomeService().getPopularCourse(context: context);
+      debugPrint("popular course type ${response?.type}");
       if (response != null && response.data != null) {
         _popularCourse = response.data!;
         if (_mounted(context)) notifyListeners();
@@ -151,7 +150,8 @@ class HomepageProvider extends ChangeNotifier {
       _popularCourse = [];
     }
     isPopularLoading = false;
-    if (_mounted(context)) notifyListeners();
+   // if (_mounted(context))
+     notifyListeners();
   }
 
   // check if the course is subscribed or not
@@ -187,6 +187,7 @@ class HomepageProvider extends ChangeNotifier {
       final response = await HomeService().getCategoryHeaders(
         context: context,
       );
+      debugPrint("catogory heder type : ${response?.type}");
       if (response != null && response.data != null) {
         _catogryDetails = response.data!;
 
