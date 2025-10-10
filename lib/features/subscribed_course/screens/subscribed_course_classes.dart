@@ -30,16 +30,16 @@ class _SubscribedCourseOverviewState extends State<SubscribedCourseClasses> {
   SubcribedCourseProvider subcribedCourseProvider = SubcribedCourseProvider();
 
   @override
-  void initState() {
-    super.initState();
-    load();
-  }
+void initState() {
+  super.initState();
+  WidgetsBinding.instance.addPostFrameCallback((_) {
+    context.read<SubcribedCourseProvider>().fetchCourseClasses(
+      context: context,
+      courseid: widget.courseId,
+    );
+  });
+}
 
-  Future<void> load() async {
-    await context
-        .read<SubcribedCourseProvider>()
-        .fetchCourseClasses(context: context, courseid: widget.courseId);
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -100,35 +100,32 @@ class _SubscribedCourseOverviewState extends State<SubscribedCourseClasses> {
             Expanded(
               child: Stack(
                 children: [
-                  subcribedCourseProvider.isLoading
-                      ? ListviewShimmerLoader()
-                      : Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                          child: subcribedCourseProvider
-                                  .courseClasses!.data!.isEmpty
-                              ? Center(
-                                  child: Text('No Classes'),
-                                )
-                              : ListView.builder(
-                                  itemCount: subcribedCourseProvider
-                                      .courseClasses!.data!.length,
-                                  itemBuilder: (context, index) {
-                                    final classlist = subcribedCourseProvider
-                                        .courseClasses!.data![index];
-                                    return Column(
-                                      children: [
-                                        CourseCard(
-                                          packageClassId:
-                                              classlist.packageClassId ?? '',
-                                          className: classlist.className ?? '',
-                                          classDescription:
-                                              classlist.classDescription ?? '',
-                                        ),
-                                         ContentsCard(courseid: widget.courseId,)
-                                      ],
-                                    );
-                                  }),
-                        ),
+                  subcribedCourseProvider.isClassLoading
+    ? const ListviewShimmerLoader()
+    : Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 15.0),
+        child: subcribedCourseProvider.courseClasses == null ||
+                subcribedCourseProvider.courseClasses!.data == null ||
+                subcribedCourseProvider.courseClasses!.data!.isEmpty
+            ? const Center(child: Text('No Classes'))
+            : ListView.builder(
+                itemCount: subcribedCourseProvider.courseClasses!.data!.length,
+                itemBuilder: (context, index) {
+                  final classlist = subcribedCourseProvider.courseClasses!.data![index];
+                  return Column(
+                    children: [
+                      CourseCard(
+                        packageClassId: classlist.packageClassId ?? '',
+                        className: classlist.className ?? '',
+                        classDescription: classlist.classDescription ?? '',
+                      ),
+                      ContentsCard(courseid: widget.courseId),
+                    ],
+                  );
+                },
+              ),
+      ),
+
                   Align(
                     alignment: Alignment.bottomRight,
                     child: Padding(

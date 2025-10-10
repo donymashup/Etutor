@@ -1,5 +1,6 @@
 import 'package:better_player/better_player.dart';
 import 'package:etutor/common/constants/app_constants.dart';
+import 'package:etutor/common/widgets/back_button.dart';
 import 'package:etutor/features/my_course/provider/course_details_provider.dart';
 import 'package:etutor/features/subscribed_course/provider/bookmark_provider.dart';
 import 'package:flutter/material.dart';
@@ -91,6 +92,19 @@ class _BookmarkVedioPlayer extends State<BookmarkVedioPlayer> {
   Widget build(BuildContext context) {
     bookmarkProvider = context.watch<BookmarkProvider>();
     return Scaffold(
+      appBar: AppBar(
+        title: Text(
+         widget.videoTitle,
+          style: TextStyle(fontWeight: FontWeight.w600, fontSize: 20),
+        ),
+        centerTitle: true,
+        elevation: 0,
+        backgroundColor: AppColor.whiteColor,
+        leading: const Padding(
+          padding: EdgeInsets.all(10.0),
+          child: CustomBackButton(),
+        ),
+      ),
       body: isLoading
           ? const Center(child: CircularProgressIndicator())
           : Column(

@@ -1,6 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:etutor/common/widgets/grid_shimmer_loader.dart';
-import 'package:etutor/features/auth/provider/login_provider.dart';
 import 'package:etutor/features/home/model/user_details_model.dart';
 import 'package:etutor/features/home/provider/homepage_provider.dart';
 import 'package:etutor/features/home/widgets/carousel.dart';
@@ -37,16 +36,18 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    _userDetails();
+   WidgetsBinding.instance.addPostFrameCallback((_) async {
+    final homepageProvider = context.read<HomepageProvider>();
+    homepageProvider.makeLoadingTrue();
+    await _userDetails();
+  });
   }
 
   Future<void> _userDetails() async {
     final homepageProvider = context.read<HomepageProvider>();
-    homepageProvider.makeLoadingTrue();
     final userDetailsProvider = context.read<UserDetailsProvider>();
     await userDetailsProvider.loadUserDetails(context);
     await homepageProvider.popularCourses(context);
-    await context.read<LoginProvider>().dropDownOptions(context);
     await homepageProvider.categoryHeader(context);
   }
 
@@ -55,7 +56,6 @@ class _HomePageState extends State<HomePage> {
     userProvider = Provider.of<UserDetailsProvider>(context, listen: true);
     homeProvider = Provider.of<HomepageProvider>(context, listen: true);
     final catIndex = homeProvider.selectedIndex;
-    //  String? selectedCourse;
 
     return Scaffold(
       key: _scaffoldKey,
