@@ -28,7 +28,9 @@ class _SubscribedCourseSubjectState extends State<SubscribedCourseChapters> {
   @override
   void initState() {
     super.initState();
-     _loadChapter();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+    _loadChapter();
+    });
   }   
 
   Future<void> _loadChapter()async{

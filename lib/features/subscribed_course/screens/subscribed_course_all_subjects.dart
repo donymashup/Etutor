@@ -29,7 +29,9 @@ class _SubscribedCourseAllSubjectsState
     @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
     load();
+    });
   }
 
     Future<void> load() async {
@@ -71,7 +73,7 @@ class _SubscribedCourseAllSubjectsState
                 subcribedCourseProvider.isLoadingsubjects 
                 ? SubjectShimmerLoader()
                : Center(
-                   child: subcribedCourseProvider.courseSubjects!.data!.isEmpty
+                   child: subcribedCourseProvider.courseSubjects!.data!.isEmpty || subcribedCourseProvider.courseSubjects == null || subcribedCourseProvider.courseSubjects!.data == null
                   ? Center(child:Text('No Subjects'))
                   :Align(
                     alignment: Alignment.topLeft,

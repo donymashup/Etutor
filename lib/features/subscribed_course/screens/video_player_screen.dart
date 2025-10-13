@@ -309,12 +309,12 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> with WidgetsBindi
                               return IconButton(
                                 onPressed: bookmarkProvider.isLoading
                                     ? null
-                                    : () async {
+                                     : () async {
                                         await context
                                             .read<BookmarkProvider>()
                                             .makeBookMark(
                                               context: context,
-                                              contentid: currentVideo.videoid ?? "",
+                                              contentid: currentVideo.id ?? "",
                                               type: 'videos',
                                             );
                                       },
