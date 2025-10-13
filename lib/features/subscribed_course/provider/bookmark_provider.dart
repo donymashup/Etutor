@@ -143,7 +143,7 @@ Future<void> getBookMarkedContents({
      debugPrint("Error fetching vedio details: $e");
      isbookmarked;
     }
-    isCondentLoading = true;
+    isCondentLoading = false;
     notifyListeners();
   }
 
@@ -169,7 +169,19 @@ Future<void> getBookMarkedContents({
      debugPrint("Error fetching vedio details: $e");
      isbookmarked;
     }
-    isCondentLoading = true;
+    isCondentLoading = false;
     notifyListeners();
   }
+
+  // remove locally
+void removeBookmarkLocally(String contentId, String type) {
+  if (type == 'materials') {
+    bookmarkMaterial.removeWhere((item) => item.contentid == contentId);
+  } else if (type == 'videos') {
+    bookmarkVedio.removeWhere((item) => item.contentid == contentId);
+  } else if (type == 'practice') {
+    bookmarkTest.removeWhere((item) => item.contentid == contentId);
+  }
+  notifyListeners();
+}
 }

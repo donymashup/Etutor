@@ -6,6 +6,7 @@
 
 
     <application
+        android:enableOnBackInvokedCallback="true"
         android:hardwareAccelerated="true"
         android:usesCleartextTraffic="true"
         android:label="Dream Them"
