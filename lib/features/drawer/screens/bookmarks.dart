@@ -30,7 +30,6 @@ class _BookMarksState extends State<BookMarks> {
         .read<BookmarkProvider>()
         .getBookMarkedContents(context: context);
   }
-
   @override
   Widget build(BuildContext context) {
     bookmarkProvider = context.watch<BookmarkProvider>();
